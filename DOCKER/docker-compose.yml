@@ -1,0 +1,211 @@
+services:
+  ############################
+  # Databases
+  ############################
+  homelab-mariadb:
+    image: mariadb:latest
+    container_name: homelab-mariadb
+    ports:
+      - ${MARIADB_PORT}:3306
+    environment:
+      TZ: ${TIMEZONE}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+    volumes:
+      - homelabMariadbVol:/var/lib/mysql
+      - "./images/mariadb/scripts:/docker-entrypoint-initdb.d"
+      - "./images/mariadb/conf.d:/etc/mysql/conf.d"
+      - "./dumps:/root/dumps"
+    networks:
+      - homelab-network
+
+
+  homelab-adminer:    
+    build:
+      context: ./images/adminer
+      dockerfile: Dockerfile
+    container_name: homelab-adminer
+    image: ${COMPOSE_PROJECT_NAME}:adminer
+    hostname: adminer-client
+    ports:
+      - 8080
+    links:
+      - homelab-mariadb
+    environment:
+      ADMINER_DEFAULT_SYSTEM: "mysql"
+      ADMINER_DEFAULT_SERVER: "homelab-mariadb"
+      ADMINER_DEFAULT_USERNAME: "root"
+      ADMINER_DEFAULT_PASSWORD: ${MARIADB_PASSWORD}
+      TZ: ${TIMEZONE}
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    networks:
+      - homelab-network
+
+  ############################
+  # Caches
+  ############################
+  homelab-redis:
+    image: redis:alpine
+    container_name: homelab-redis
+    ports:
+      - ${REDIS_PORT}:6379
+    environment:
+      TZ: ${TIMEZONE}
+    command: redis-server --save 20 1 --loglevel warning
+    volumes:
+      - homelabRedisVol:/data
+    networks:
+      - homelab-network
+
+  homelab-redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: homelab-redis-commander
+    environment:
+      - REDIS_HOSTS=local:homelab-redis:${REDIS_PORT}
+      - HTTP_USER=${REDIS_COMMANDER_USER}
+      - HTTP_PASSWORD=${REDIS_COMMANDER_PASSWORD}
+    ports:
+      - 9080:8081
+    networks:
+      - homelab-network
+    depends_on:
+      - homelab-redis
+
+  ############################
+  # Mailtramp
+  ############################
+  homelab-mailhog:
+    image: mailhog/mailhog
+    container_name: homelab-mailhog
+    ports:
+      - ${MAILHOG_SMTP_PORT}:1025 # smtp server
+      - ${MAILHOG_GUI_PORT}:8025 # web ui
+    networks:
+      - homelab-network
+
+  ############################
+  # Webserver
+  ############################
+  homelab-webserver:
+    build:
+      context: ./images/nginx
+      dockerfile: Dockerfile
+    container_name: homelab-webserver
+    image: ${COMPOSE_PROJECT_NAME}:webserver
+    tty: true
+    environment:
+      TZ: ${TIMEZONE}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ../logs/nginx:/var/log/nginx:rw
+      - ../www:/var/www:rw
+      - ./images/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./images/nginx/sites/:/etc/nginx/sites-available:rw
+      - ./certs:/certs
+    hostname: webserver-${COMPOSE_PROJECT_NAME}
+    depends_on:
+      - homelab-mariadb
+      - homelab-php7
+      - homelab-php8
+      - homelab-adminer
+      - homelab-redis-commander
+    extra_hosts:
+      - "docker.internal:host-gateway"
+    networks:
+      homelab-network:
+        aliases:
+          - homelab-php7
+          - homelab-php8
+          - homelab-adminer
+          - homelab-redis-commander
+
+  ############################
+  # Applications
+  ############################
+  homelab-php7:
+    build:
+      context: ./images/php/
+      dockerfile: Dockerfile
+      args:
+        user: ${USERNAME}
+        uid: ${USER_UID}
+        port: 9001
+        phpVersion: ${phpVersion7}
+    environment:
+      TZ: ${TIMEZONE}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+    container_name: homelab-php7
+    image: ${COMPOSE_PROJECT_NAME}:${phpVersion7}-custom
+    working_dir: /var/www
+    tty: true
+    hostname: php7-${COMPOSE_PROJECT_NAME}
+    volumes:
+      - ../logs/php7:/var/log/php:rw
+      - ../www:/var/www:rw
+      - ./images/php/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - ./images/php/ini/defaults.ini:/usr/local/etc/php/conf.d/defaults.ini
+      - ./certs/mkcert:/root/.local/share/mkcert
+    depends_on:
+      - homelab-mariadb
+      - homelab-redis
+      - homelab-mailhog
+    networks:
+      homelab-network:
+        aliases:
+          - homelab-webserver
+          - homelab-php8
+          - homelab-mailhog
+
+  homelab-php8:
+    build:
+      context: ./images/php/
+      dockerfile: Dockerfile
+      args:
+        user: ${USERNAME}
+        uid: ${USER_UID}
+        port: 9002
+        phpVersion: ${phpVersion8}
+    environment:
+      TZ: ${TIMEZONE}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+    container_name: homelab-php8
+    image: ${COMPOSE_PROJECT_NAME}:${phpVersion8}-custom
+    working_dir: /var/www
+    hostname: php8-${COMPOSE_PROJECT_NAME}
+    tty: true
+    volumes:
+      - ../logs/php8:/var/log/php:rw
+      - ../www:/var/www:rw
+      - ./images/php/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - ./images/php/ini/defaults.ini:/usr/local/etc/php/conf.d/defaults.ini
+      - ./certs/mkcert:/root/.local/share/mkcert
+    depends_on:
+      - homelab-mariadb
+      - homelab-redis
+      - homelab-mailhog
+    networks:
+      homelab-network:
+        aliases:
+          - homelab-webserver
+          - homelab-php7
+          - homelab-mailhog
+
+volumes:
+  homelabMariadbVol:
+  homelabRedisVol:
+
+networks:
+  homelab-network:
+    driver: bridge

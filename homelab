@@ -1,0 +1,60 @@
+#!/bin/bash
+
+source $(dirname $0)/scripts/help.sh
+source $(dirname $0)/scripts/utils.sh
+source $(dirname $0)/scripts/site.sh
+source $(dirname $0)/scripts/docker.sh
+
+cd $(dirname $0)
+
+MOW_APP_CONTAINER=mow-app
+MOW_REPORT_CONTAINER=mow-reports
+
+while getopts ":h" opt; do
+  case ${opt} in
+    h )
+      help
+      exit 0
+      ;;
+   \? )
+     colorize $RED "Invalid Option: "
+     colorize $YELLOW "\'-$OPTARG\'"
+     ln
+     exit 1
+     ;;
+  esac
+done
+
+shift $((OPTIND -1))
+
+subcommand=$1; shift
+
+case "$subcommand" in
+  up)
+    docker_up
+  ;;
+  ps)
+    docker_ps
+  ;;
+  logs)
+    docker_logs "$@"
+  ;;
+  bash)
+    docker_bash "$@"
+  ;;
+  php8)
+    docker_bash "homelab-php8"
+  ;;
+  php7)
+    docker_bash "homelab-php7"
+  ;;
+  down)
+    docker_down
+  ;;
+  *)
+    colorize $RED "Invalid command: "
+    colorize $YELLOW "\'$subcommand\'"
+    ln
+    exit 1
+  ;;
+esac
