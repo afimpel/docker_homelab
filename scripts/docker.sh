@@ -10,6 +10,7 @@ docker_up () {
   ln
   cd DOCKER/
   docker compose up -d
+  ln
 }
 
 docker_ps() {
@@ -18,6 +19,7 @@ docker_ps() {
   ln
   cd DOCKER/
   docker compose ps
+  ln
 }
 
 docker_logs() {
@@ -26,6 +28,7 @@ docker_logs() {
   ln
   cd DOCKER/
   docker compose logs "$@"
+  ln
 }
 
 docker_down() {
@@ -34,6 +37,7 @@ docker_down() {
   ln
   cd DOCKER/
   docker compose down --remove-orphans
+  ln
 }
 
 docker_bash() {
@@ -42,4 +46,5 @@ docker_bash() {
   ln
   C=$1
   docker exec -it $C bash
+  ln
 }

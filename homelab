@@ -2,13 +2,10 @@
 
 source $(dirname $0)/scripts/help.sh
 source $(dirname $0)/scripts/utils.sh
-source $(dirname $0)/scripts/site.sh
+source $(dirname $0)/scripts/sites.sh
 source $(dirname $0)/scripts/docker.sh
 
 cd $(dirname $0)
-
-MOW_APP_CONTAINER=mow-app
-MOW_REPORT_CONTAINER=mow-reports
 
 while getopts ":h" opt; do
   case ${opt} in
@@ -47,6 +44,9 @@ case "$subcommand" in
   ;;
   php7)
     docker_bash "homelab-php7"
+  ;;
+  newsite)
+    newsite $@
   ;;
   down)
     docker_down
