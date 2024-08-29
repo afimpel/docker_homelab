@@ -61,7 +61,7 @@ html>/**/body h1 {
     no-repeat 14px 7px;
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3) !important;
   font-size: 1.5rem;
-  padding: 6px 2.5rem;
+  padding: 0.5rem 2.5rem;
   position: fixed;
   width: 100%;
   height: 2rem;
@@ -81,14 +81,13 @@ html>/**/body input[name="logout"], #logout {
   right: 0px;
   text-indent: 0px;
   top: 4px;
-  width: 115px;
-  position: fixed;
   z-index: 10;
   border: 1px solid silver;
   margin-right: 10px;
   text-align: right;
   border-radius: 4px;
   background-color: white;
+  padding-left: 2rem;
 }
 
 html>/**/body input[name="logout"]:hover, #logout:hover {
@@ -189,6 +188,9 @@ html>/**/body #menu li a[href*="&select="]:link:hover {
 html>/**/body #menu li a[href*="&table="] {
   min-width: 220px;
   float: left;
+  width: 94%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 /* Hide "new version" link in the top bar */
 /*
@@ -466,14 +468,13 @@ h2 {
   background-color: #ccc;
   height: 27px;
   padding: 0.5em 1em;
-  margin-top: 6px;
 }
 #content {
   margin: 0 0 0 18vw;
-  padding: 2vh 0 0 18px;
+  padding: 3rem 0 2rem 18px;
   width: 81vw;
   border-left: 1px solid;
-  min-height: 98vh;
+  border-bottom: 1px solid;
 }
 
 .tabs {
@@ -581,14 +582,17 @@ fieldset {
 
 /*** Others ***/
 #lang {
-  top: 3px;
-  background: transparent;
+  background: #e8e8e8e6;
   font-size: 0.9em;
-  left: auto;
-  right: 120px;
+  left: 1rem;
   position: fixed;
   z-index: 10;
-  padding-top: 2px;
+  padding: 4px 1rem;
+  bottom: 1rem;
+  top: auto;
+  border: 1px solid;
+  box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.5) !important;
+  width: 14vw;
 }
 .active {
   color: darkblue;
@@ -603,7 +607,7 @@ p {
   padding-top: 3rem;
 }
 #menu form #dbs {
-  padding: 0.8em 0.5em;
+  padding: 0.9rem 0.5em;
 }
 
 #menu #logins {
