@@ -23,8 +23,13 @@ newsite()
          typefile="build";
          subdir="build";
       ;;
+      *)
+         typefile="build";
+         subdir="build";
+      ;;
    esac
-
+   colorize $YELLOW ">> ${typefile^^} :: https://${sites}.homelab.local"
+   ln
    mkdir -p www/sites/${sites}/${subdir}
    mkcert -install
 
@@ -36,15 +41,15 @@ newsite()
    cd DOCKER/certs
 
    mkcert ${sites}.homelab.local www.${sites}.homelab.local
-   mv -v ${sites}.homelab.local+1.pem certs_${sites}_homelab_local.pem 
-   mv -v ${sites}.homelab.local+1-key.pem certs_${sites}_homelab_local-key.pem 
+   mv -v ${sites}.homelab.local*.pem certs_${sites}_homelab_local.pem 
+   mv -v ${sites}.homelab.local*-key.pem certs_${sites}_homelab_local-key.pem 
 
    cd ../..
-   echo -e "done ... (${sites}.homelab.local) "
    more DOCKER/images/nginx/sites/${typefile}-${sites}_homelab_local.conf | grep server_name | head -1
    if [ ! -f "homelab.md" ]; then
       echo "# SITIOS " > homelab.md
    fi
-   echo -e "*  [${sites^^}](https://${sites}.homelab.local) :: ${typefile^^}" >> homelab.md
+   echo -e " *  [${sites^^}](https://${sites}.homelab.local) :: ${typefile^^}" >> homelab.md
    docker restart homelab-webserver
+   colorize $LIGTH_CYAN "   done ... (${sites}.homelab.local) "
 }
