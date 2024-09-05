@@ -52,7 +52,7 @@ case "$subcommand" in
     newsite $@
   ;;
   down)
-    docker_down
+    docker_down "$@"
   ;;
   *)
     colorize $RED "Invalid command: "

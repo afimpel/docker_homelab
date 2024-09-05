@@ -37,6 +37,12 @@ docker_down() {
   ln
   cd DOCKER/
   docker compose down --remove-orphans
+  if [ "$#" -gt 0 ] && [ "$1" == "clear" ]; then
+      ln
+      colorize $YELLOW ' > Clear Logs.'
+      ln
+      find ../ -type f -name "*.log"  -delete -exec echo removed "'{}'" \; 
+  fi
   ln
 }
 
