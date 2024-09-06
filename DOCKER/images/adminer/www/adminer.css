@@ -468,21 +468,25 @@ h2 {
   background-color: #ccc;
   height: 27px;
   padding: 0.5em 1em;
+  margin: 0 0 20px -1rem;
 }
 #content {
   margin: 0 0 0 18vw;
-  padding: 3rem 0 2rem 18px;
-  width: 81vw;
+  padding: 3rem 0 1rem 1rem;
+  min-width: 80vw;
   border-left: 1px solid;
   border-bottom: 1px solid;
+  border-right: 1px solid;
 }
 
 .tabs {
   margin: 12px auto 10px auto;
 }
 #form + p {
-  margin: 20px 0;
+  margin: 10px 2rem 0 0;
+  display: flex;
 }
+
 #content .jush-bac,
 .jush-php_bac,
 .jush-bra,
@@ -502,6 +506,7 @@ h2 {
 }
 .jush-sql {
   padding: 1px 2px;
+  margin-right: auto;
 }
 
 /*** Tables ***/
@@ -513,7 +518,9 @@ table {
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3) !important;
 }
 
-html>/**/body #content table.checkable{
+html>/**/body #content table.checkable,
+html>/**/body #content table.nowrap{
+  background-color: white;
   width: -webkit-fill-available;
 }
 
@@ -600,15 +607,17 @@ fieldset {
 #lang {
   background: #e8e8e8e6;
   font-size: 0.9em;
-  left: 1rem;
-  position: fixed;
   z-index: 10;
   padding: 4px 1rem;
-  bottom: 1rem;
-  top: auto;
   border: 1px solid;
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.5) !important;
-  width: 14vw;
+  min-width: 79vw;
+  left: 18vw;
+  margin-right: 1vw;
+  margin-top: 1rem;
+  top: auto;
+  margin-bottom: 1rem;
+  
 }
 .active {
   color: darkblue;
@@ -627,20 +636,34 @@ p {
 }
 
 #menu #logins {
-  padding-top: 50px;
+  padding: 3.5rem 1rem .25rem 1rem;
 }
 
 /*** Floating footer since v4.6.1 ***/
 .footer,
 form div:nth-of-type(3) {
-  width: 80vw;
-  background-color: #f8f8f8;
+  width: 78vw;
+  background-color: #ffffffe0;
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.5) !important;
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
+  padding: 0.5vw;
 }
 .footer > p {
   margin-left: 15px;
+}
+
+
+.footer {
+  border: none;
+  position: sticky;
+  bottom: 0;
+  margin-right: -20px;
+}
+
+.footer > div {
+  background: transparent;
+  padding: 0;
 }
 
 html>/**/body #content p.links a,
@@ -654,4 +677,12 @@ html>/**/body #content p.links a:hover,
 html>/**/body #menu p.links a:hover {
   border: 1px solid #888 !important;
   background-color: #cfcfcf !important;
+}
+
+.logout {
+  margin-top: .5em;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 1;
 }
