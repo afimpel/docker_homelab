@@ -41,6 +41,7 @@ docker_down() {
       ln
       colorize $YELLOW ' > Clear Logs.'
       ln
+      ln
       find ../ -type f -name "*.log"  -delete -exec echo removed "'{}'" \; 
   fi
   ln
