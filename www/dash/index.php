@@ -9,7 +9,7 @@ $files = scandir($directory);
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>LEMP STACK</title>
+    <title>LEMP STACK -- <?php echo explode('-',$_SERVER['HOSTNAME'])[1]; ?> </title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/spacelab/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-mfizz/2.4.1/font-mfizz.min.css" integrity="sha512-Cdvnk1SFWqcb3An6gMyqDRH40Js8qmsWcSK10I2gSifCe2LilaPMsHd6DldEvQ3uIlCb1qdRUrNeAFFleOu4xQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
@@ -51,7 +51,7 @@ foreach ($files as $file) {
                 </ul>
                 <ul class="navbar-nav ml-md-auto">
                     <li class="nav-item">
-                        <a target="_blank" rel="noopener" class="nav-link" href="https://github.com/afimpel"><i class="bi bi-github"></i> GitHub</a>
+                        <a target="_blank" rel="noopener" class="nav-link" href="https://github.com/afimpel/docker_homelab"><i class="bi bi-github"></i> GitHub</a>
                     </li>
                     <li class="nav-item">
                         <a target="_blank" rel="noopener" class="nav-link" href="https://twitter.com/afimpel"><i class="bi bi-twitter"></i> Twitter</a>
@@ -62,7 +62,7 @@ foreach ($files as $file) {
     </nav>
     <div class="container">
         <h1 class="title text-success">
-            <i class="icon-docker"></i> LEMP STACK (<em> www.homelab.local </em>)
+            <i class="icon-docker"></i> LEMP STACK (<em> <?php echo explode('-',$_SERVER['HOSTNAME'])[1]; ?> </em>)
         </h1>
         <small class="muted">PHP / Composer / Nginx / MariaDB / Adminer / Redis</small>
         <h2 class="subtitle">
@@ -87,7 +87,7 @@ foreach ($files as $file) {
                             <?= phpversion(); ?>
                         </small>
                     </a>
-                    <a href="//adminer.homelab.local/" target="_blank" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-1">
+                    <a href="//adminer.homelab.local/?server=homelab-mariadb&username=<?= getenv('MARIADB_USER'); ?>" target="_blank" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-1">
                         <span><i class="icon-mariadb mr-2"></i> mariaDB:</span>
                         <small class="badge text-light bg-info rounded-pill px-2">
                             <?php
@@ -105,7 +105,7 @@ foreach ($files as $file) {
                     </a>
                 </div>
                 <hr class="my-1">
-                <a href="//adminer.homelab.local/" target="_blank" class="w-100 btn btn-outline-info p-1">
+                <a href="//adminer.homelab.local/?server=homelab-mariadb&username=<?= getenv('MARIADB_USER'); ?>" target="_blank" class="w-100 btn btn-outline-info p-1">
                     <small class="d-flex justify-content-between align-items-center px-1">
                         <span><i class="icon-mysql-alt mr-2"></i> Server:</span>
                         <b class="px-0">
