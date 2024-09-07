@@ -27,7 +27,7 @@ services:
       context: ./images/adminer
       dockerfile: Dockerfile
     container_name: homelab-adminer
-    image: ${COMPOSE_PROJECT_NAME}:adminer
+    image: homelab:adminer
     hostname: adminer-client
     ports:
       - 8080
@@ -95,7 +95,7 @@ services:
       context: ./images/nginx
       dockerfile: Dockerfile
     container_name: homelab-webserver
-    image: ${COMPOSE_PROJECT_NAME}:webserver
+    image: homelab:webserver
     tty: true
     environment:
       TZ: ${TIMEZONE}
@@ -144,7 +144,7 @@ services:
       MARIADB_USER: ${MARIADB_USER}
       MARIADB_PASSWORD: ${MARIADB_PASSWORD}
     container_name: homelab-php7
-    image: ${COMPOSE_PROJECT_NAME}:${phpVersion7}-custom
+    image: homelab:${phpVersion7}-custom
     working_dir: /var/www
     tty: true
     hostname: php7-${COMPOSE_PROJECT_NAME}
@@ -181,7 +181,7 @@ services:
       MARIADB_USER: ${MARIADB_USER}
       MARIADB_PASSWORD: ${MARIADB_PASSWORD}
     container_name: homelab-php8
-    image: ${COMPOSE_PROJECT_NAME}:${phpVersion8}-custom
+    image: homelab:${phpVersion8}-custom
     working_dir: /var/www
     hostname: php8-${COMPOSE_PROJECT_NAME}
     tty: true
