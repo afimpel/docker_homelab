@@ -14,7 +14,7 @@ services:
       MARIADB_USER: ${MARIADB_USER}
       MARIADB_PASSWORD: ${MARIADB_PASSWORD}
     volumes:
-      - homelabMariadbVol:/var/lib/mysql
+      - MariadbVol:/var/lib/mysql
       - "./images/mariadb/scripts:/docker-entrypoint-initdb.d"
       - "./images/mariadb/conf.d:/etc/mysql/conf.d"
       - "./dumps:/root/dumps"
@@ -57,7 +57,7 @@ services:
       TZ: ${TIMEZONE}
     command: redis-server --save 20 1 --loglevel warning
     volumes:
-      - homelabRedisVol:/data
+      - RedisVol:/data
     networks:
       - homelab-network
 
@@ -203,8 +203,8 @@ services:
           - homelab-mailhog
 
 volumes:
-  homelabMariadbVol:
-  homelabRedisVol:
+  MariadbVol:
+  RedisVol:
 
 networks:
   homelab-network:

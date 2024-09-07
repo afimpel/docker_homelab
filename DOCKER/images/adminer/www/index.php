@@ -14,7 +14,7 @@ namespace docker {
 					$form = str_replace('name="auth[server]" value="" title="hostname[:port]"', 'name="auth[server]" value="'.($_ENV['ADMINER_DEFAULT_SERVER'] ?: 'homelab-mariadb').'" title="hostname[:port]"', $form);
 					$form = str_replace('name="auth[username]" id="username" value=""', 'name="auth[username]" id="username" value="'.($_ENV['ADMINER_DEFAULT_USERNAME'] ?: 'root').'" ', $form);
 					echo str_replace('name="auth[password]"', 'name="auth[password]" value="'.($_ENV['ADMINER_DEFAULT_PASSWORD'] ?: '').'"', $form);
-					echo '<br /><br /><br /><a class="links" href="/phpinfo.php">PHP '.phpversion().'</a>';
+					echo '<br /><br /><br /><hr /><a class="links" href="/phpinfo.php">PHP '.phpversion().'</a><hr />';
 					return $return;
 				}
 				return parent::_callParent($function, $args);
