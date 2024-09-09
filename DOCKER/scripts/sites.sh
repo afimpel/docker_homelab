@@ -41,8 +41,8 @@ newsite()
    cd DOCKER/certs
 
    mkcert ${sites}.homelab.local www.${sites}.homelab.local
-   mv -v ${sites}.homelab.local*.pem certs_${sites}_homelab_local.pem 
    mv -v ${sites}.homelab.local*-key.pem certs_${sites}_homelab_local-key.pem 
+   mv -v ${sites}.homelab.local*.pem certs_${sites}_homelab_local.pem 
 
    cd ../..
    more DOCKER/images/nginx/sites/${typefile}-${sites}_homelab_local.conf | grep server_name | head -1
@@ -52,4 +52,5 @@ newsite()
    echo -e " *  [${sites^^}](https://${sites}.homelab.local) :: ${typefile^^}" >> homelab.md
    docker restart homelab-webserver
    colorize $LIGTH_CYAN "   done ... (${sites}.homelab.local) "
+   ln
 }
