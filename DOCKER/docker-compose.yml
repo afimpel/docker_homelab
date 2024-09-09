@@ -15,9 +15,9 @@ services:
       MARIADB_PASSWORD: ${MARIADB_PASSWORD}
     volumes:
       - MariadbVol:/var/lib/mysql
-      - "./images/mariadb/scripts:/docker-entrypoint-initdb.d"
+      - "../DB/initdb:/docker-entrypoint-initdb.d"
       - "./images/mariadb/conf.d:/etc/mysql/conf.d"
-      - "./dumps:/root/dumps"
+      - "../DB/dumps:/root/dumps"
     networks:
       - homelab-network
 
