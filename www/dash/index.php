@@ -9,7 +9,7 @@ $files = scandir($directory);
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>LEMP STACK -- <?php echo explode('-',$_SERVER['HOSTNAME'])[1]; ?> </title>
+    <title>LEMP STACK -- <?php echo strtoupper(getenv('COMPOSE_PROJECT_NAME')); ?> </title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/spacelab/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-mfizz/2.4.1/font-mfizz.min.css" integrity="sha512-Cdvnk1SFWqcb3An6gMyqDRH40Js8qmsWcSK10I2gSifCe2LilaPMsHd6DldEvQ3uIlCb1qdRUrNeAFFleOu4xQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
@@ -25,16 +25,13 @@ $files = scandir($directory);
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" target="_blank" href="//php7.homelab.local/"><i class="icon-php"></i> PHP7</a>
+                        <a class="nav-link" target="_blank" href="//php7.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-php"></i> PHP7</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" target="_blank" href="//php8.homelab.local/"><i class="icon-php"></i> PHP8</a>
+                        <a class="nav-link" target="_blank" href="//php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-php"></i> PHP8</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" target="_blank" href="//adminer.homelab.local/"><i class="icon-database"></i> Adminer</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" target="_blank" href="//redis.homelab.local/"><i class="icon-redis"></i> Redis</a>
+                        <a class="nav-link" target="_blank" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-database"></i> Adminer</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="sites">Sites</a>
@@ -44,7 +41,7 @@ $files = scandir($directory);
 foreach ($files as $file) {
     if ($file !== '.' && $file !== '..') {
         if (is_dir($directory . $file)) { ?>
-                            <a target="_blank" class="dropdown-item" href="//<?= $file;?>.homelab.local"><i class="icon-nginx mr-2"></i> <?= $file; ?> </a>
+                            <a title="<?= $file.".".strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="dropdown-item" href="//<?= $file;?>.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local"><i class="icon-nginx mr-2"></i> <?= $file; ?> </a>
                             <?php }}} ?>
                         </div>
                     </li>
@@ -62,7 +59,7 @@ foreach ($files as $file) {
     </nav>
     <div class="container">
         <h1 class="title text-success">
-            <i class="icon-docker"></i> LEMP STACK (<em> <?php echo explode('-',$_SERVER['HOSTNAME'])[1]; ?> </em>)
+            <i class="icon-docker"></i> LEMP STACK (<em> <?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?> </em>)
         </h1>
         <small class="muted">PHP / Composer / Nginx / MariaDB / Adminer / Redis</small>
         <h2 class="subtitle">
@@ -81,13 +78,13 @@ foreach ($files as $file) {
                             <?= $_SERVER['SERVER_SOFTWARE']; ?>
                         </small>
                     </span>
-                    <a href="//php8.homelab.local/" target="_blank" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-1">
+                    <a href="//php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" target="_blank" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-1">
                         <span><i class="icon-php mr-2"></i> PHP8:</span>
                         <small class="badge text-light bg-info rounded-pill px-2">
                             <?= phpversion(); ?>
                         </small>
                     </a>
-                    <a href="//adminer.homelab.local/?server=homelab-mariadb&username=<?= getenv('MARIADB_USER'); ?>" target="_blank" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-1">
+                    <a href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?server=homelab-mariadb&username=<?= getenv('MARIADB_USER'); ?>" target="_blank" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-1">
                         <span><i class="icon-mariadb mr-2"></i> mariaDB:</span>
                         <small class="badge text-light bg-info rounded-pill px-2">
                             <?php
@@ -105,7 +102,7 @@ foreach ($files as $file) {
                     </a>
                 </div>
                 <hr class="my-1">
-                <a href="//adminer.homelab.local/?server=homelab-mariadb&username=<?= getenv('MARIADB_USER'); ?>" target="_blank" class="w-100 btn btn-outline-info p-1">
+                <a href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?server=homelab-mariadb&username=<?= getenv('MARIADB_USER'); ?>" target="_blank" class="w-100 btn btn-outline-info p-1">
                     <small class="d-flex justify-content-between align-items-center px-1">
                         <span><i class="icon-mysql-alt mr-2"></i> Server:</span>
                         <b class="px-0">
@@ -128,10 +125,11 @@ foreach ($files as $file) {
                 <h3 class="title my-2 has-text-centered"><i class="icon-google-developers"></i> Quick Links</h3>
                 <hr class="my-1">
                 <div class="list-group">
-                    <a target="_blank" class="list-group-item list-group-item-action p-0 px-2" href="//php7.homelab.local/" style="font-size: small;"><i class="icon-php mr-2"></i>php7 -> phpinfo()</a>
-                    <a target="_blank" class="list-group-item list-group-item-action p-0 px-2" href="//php8.homelab.local/" style="font-size: small;"><i class="icon-php mr-2"></i>php8 -> phpinfo()</a>
-                    <a target="_blank" class="list-group-item list-group-item-action p-0 px-2" href="//adminer.homelab.local/" style="font-size: small;"><i class="icon-database mr-2"></i> adminer</a>
-                    <a target="_blank" class="list-group-item list-group-item-action p-0 px-2" href="//redis.homelab.local/" style="font-size: small;"><i class="icon-redis mr-2"></i> redis</a>
+                    <a title="php7.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-action p-0 px-2" href="//php7.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" style="font-size: small;"><i class="icon-php mr-2"></i>php7 -> phpinfo()</a>
+                    <a title="php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-action p-0 px-2" href="//php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" style="font-size: small;"><i class="icon-php mr-2"></i>php8 -> phpinfo()</a>
+                    <a title="adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-action p-0 px-2" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" style="font-size: small;"><i class="icon-database mr-2"></i> adminer</a>
+                    <a title="redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-action p-0 px-2" href="//redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" style="font-size: small;"><i class="icon-redis mr-2"></i> redis</a>
+                    <a title="mailhog.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-action p-0 px-2" href="//mailhog.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" style="font-size: small;"><i class=" icon-bomb mr-2"></i> mailhog</a>
                 </div>
             </div>
             <div class="col-12 col-md-6">
@@ -148,7 +146,7 @@ foreach ($files as $file) {
                             throw new Exception("Error en la consulta: " . mysqli_error($link));
                         }
                         while ($db = mysqli_fetch_row($set)) { ?>
-                            <a target="_blank" class="list-group-item list-group-item-action py-1" href="//adminer.homelab.local/?server=homelab-mariadb&username=<?= getenv('MARIADB_USER'); ?>&db=<?= $db[0]; ?>"><i class="icon-database mr-2"></i> <?= $db[0]; ?> </a>
+                            <a target="_blank" class="list-group-item list-group-item-action py-1" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?server=homelab-mariadb&username=<?= getenv('MARIADB_USER'); ?>&db=<?= $db[0]; ?>"><i class="icon-database mr-2"></i> <?= $db[0]; ?> </a>
                         <?php }
                         mysqli_free_result($set);
                         mysqli_close($link);
@@ -164,7 +162,7 @@ foreach ($files as $file) {
 foreach ($files as $file) {
     if ($file !== '.' && $file !== '..') {
         if (is_dir($directory . $file)) { ?>
-                        <a target="_blank" class="list-group-item list-group-item-action py-1" href="//<?= $file;?>.homelab.local"><i class="icon-nginx-alt mr-2"></i> <?= $file; ?> </a>
+                        <a title="<?= $file.".".strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-action py-1" href="//<?= $file.".".strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local"><i class="icon-nginx-alt mr-2"></i> <?= $file; ?> </a>
                     <?php }}}
                 ?>
                 </div>

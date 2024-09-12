@@ -3,9 +3,12 @@
 source $(dirname $0)/DOCKER/scripts/help.sh
 source $(dirname $0)/DOCKER/scripts/utils.sh
 source $(dirname $0)/DOCKER/scripts/sites.sh
+source $(dirname $0)/DOCKER/scripts/installer.sh
 source $(dirname $0)/DOCKER/scripts/docker.sh
 
 cd $(dirname $0)
+set -a && source DOCKER/.env && set +a
+h1 $WHITE "Compose use: ${COMPOSE_PROJECT_NAME^^} ✔ " "|" "."
 
 while getopts ":h" opt; do
   case ${opt} in
@@ -36,6 +39,9 @@ case "$subcommand" in
   help)
     help
   ;;
+  install)
+    installer
+  ;;
   logs)
     docker_logs "$@"
   ;;
@@ -61,3 +67,6 @@ case "$subcommand" in
     exit 1
   ;;
 esac
+dockerV=$(docker -v)
+h1 $GREEN "${dockerV} " "|" "."
+ln

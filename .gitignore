@@ -1,1 +1,2 @@
-homelab.md
+*.md
+!Readme.md
