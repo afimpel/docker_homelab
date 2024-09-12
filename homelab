@@ -14,14 +14,10 @@ while getopts ":h" opt; do
   case ${opt} in
     h )
       help
-      exit 0
       ;;
    \? )
-     colorize $RED "Invalid Option: "
-     colorize $YELLOW "\'-$OPTARG\'"
-     ln
-     exit 1
-     ;;
+      help
+      ;;
   esac
 done
 
@@ -61,10 +57,7 @@ case "$subcommand" in
     docker_down "$@"
   ;;
   *)
-    colorize $RED "Invalid command: "
-    colorize $YELLOW "\'$subcommand\'"
-    ln
-    exit 1
+    help
   ;;
 esac
 dockerV=$(docker -v)
