@@ -10,6 +10,8 @@ installer()
    if [ -f "${COMPOSE_PROJECT_NAME,,}.md" ]; then
       exit
    fi
+   cp -v DOCKER/.env.dist DOCKER/.env
+   set -a && source DOCKER/.env && set +a
    mkcert -install
    cp $HOME/.local/share/mkcert/rootCA* DOCKER/certs/mkcert
    cp -v DOCKER/examples/installer-homelab-local.conf DOCKER/images/nginx/sites/main_${COMPOSE_PROJECT_NAME,,}_local.conf
@@ -31,5 +33,5 @@ installer()
    echo -e "\n\n# SITIOS " >> ${COMPOSE_PROJECT_NAME,,}.md
    h1 $YELLOW 'DONE ' '✔' "."
    ln
-   docker_up
+   help
 }
