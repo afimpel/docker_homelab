@@ -10,6 +10,8 @@ help()
    h1 $YELLOW 'Help ' '?' "." 
    echo -e "${LIGTH_CYAN}✔${NC} Syntax: ${LIGTH_GREEN}./homelab${NC} <cmd> <options>"
    echo -e ""
+   echo -e "${LIGTH_CYAN}✔${NC} WWW: ${LIGTH_GREEN}Https://www.${COMPOSE_PROJECT_NAME,,}.local/${NC}"
+   echo -e ""
    echo -e "${LIGTH_CYAN}✔${NC} options:"
    echo -e "\t${LIGTH_CYAN}-h${NC}\t\t\t\tPrint this help"
    echo -e ""
