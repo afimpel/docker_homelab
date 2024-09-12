@@ -83,7 +83,7 @@ services:
     container_name: homelab-mailhog
     ports:
       - ${MAILHOG_SMTP_PORT}:1025 # smtp server
-      - ${MAILHOG_GUI_PORT}:8025 # web ui
+      - 8025:8025 # web ui
     networks:
       - homelab-network
 
@@ -143,6 +143,7 @@ services:
       MARIADB_DATABASE: ${MARIADB_DATABASE}
       MARIADB_USER: ${MARIADB_USER}
       MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+      COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME}
     container_name: homelab-php7
     image: homelab:${phpVersion7}-custom
     working_dir: /var/www
@@ -180,6 +181,7 @@ services:
       MARIADB_DATABASE: ${MARIADB_DATABASE}
       MARIADB_USER: ${MARIADB_USER}
       MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+      COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME}
     container_name: homelab-php8
     image: homelab:${phpVersion8}-custom
     working_dir: /var/www

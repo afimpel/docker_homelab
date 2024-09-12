@@ -40,7 +40,7 @@ mkcert -install
 
 ```sh
 cd ./DOCKER/certs
-mkcert homelab.local www.homelab.local adminer.homelab.local redis.homelab.local php8.homelab.local php7.homelab.local localhost 127.0.0.1 ::1
+mkcert homelab.local www.homelab.local maildog.homelab.local adminer.homelab.local redis.homelab.local php8.homelab.local php7.homelab.local localhost 127.0.0.1 ::1
 ```
 
   8. Renombrar certificados
@@ -70,6 +70,8 @@ bash homelab -h # el help
 # HomeLAB Sitios
 *   https://www.homelab.local/
 *   https://adminer.homelab.local 
+*   https://maildog.homelab.local 
 *   https://redis.homelab.local
 *   https://php8.homelab.local
 *   https://php7.homelab.local
+

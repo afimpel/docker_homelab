@@ -7,12 +7,14 @@
 help()
 {
    # Display Help
-   echo -e "Syntax: ${YELLOW}homelab <cmd> <options>${NC}"
+   h1 $YELLOW 'Help ' '?' "." 
+   echo -e "${LIGTH_CYAN}✔${NC} Syntax: ${LIGTH_GREEN}./homelab${NC} <cmd> <options>"
    echo -e ""
-   echo -e "options:"
+   echo -e "${LIGTH_CYAN}✔${NC} options:"
    echo -e "\t${LIGTH_CYAN}-h${NC}\t\t\t\tPrint this help"
    echo -e ""
-   echo -e "commands (cmd):"
+   echo -e "${LIGTH_CYAN}✔${NC} commands (cmd):"
+   echo -e "\t${LIGTH_CYAN}install${NC}\t\t\t\tinstall project"
    echo -e "\t${LIGTH_CYAN}help${NC}\t\t\t\tPrint this help"
    echo -e "\t${LIGTH_CYAN}up${NC}\t\t\t\tStart containers."
    echo -e "\t${LIGTH_CYAN}ps${NC}\t\t\t\tPrint started containers"

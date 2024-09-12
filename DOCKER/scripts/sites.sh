@@ -28,29 +28,30 @@ newsite()
          subdir="build";
       ;;
    esac
-   colorize $YELLOW ">> ${typefile^^} :: https://${sites}.homelab.local"
-   ln
+   h1 $YELLOW "${typefile^^} :: https://${sites}.${COMPOSE_PROJECT_NAME,,}.local" '|' " "
+
    mkdir -p www/sites/${sites}/${subdir}
    mkcert -install
 
-   cp -v DOCKER/examples/examplesite-${typefile}-local.conf DOCKER/images/nginx/sites/${typefile}-${sites}_homelab_local.conf
-   sed -i "s/examplesite/${sites}/g" DOCKER/images/nginx/sites/${typefile}-${sites}_homelab_local.conf
+   cp -v DOCKER/examples/examplesite-${typefile}-local.conf DOCKER/images/nginx/sites/${typefile}-${sites}_${COMPOSE_PROJECT_NAME,,}_local.conf
+   sed -i "s/examplesite/${sites}/g" DOCKER/images/nginx/sites/${typefile}-${sites}_${COMPOSE_PROJECT_NAME,,}_local.conf
+   sed -i "s/COMPOSE_PROJECT_NAME/${COMPOSE_PROJECT_NAME,,}/g" DOCKER/images/nginx/sites/${typefile}-${sites}_${COMPOSE_PROJECT_NAME,,}_local.conf
 
-   echo -e "127.0.0.1\t\t${sites}.homelab.local www.${sites}.homelab.local" | sudo tee -a /etc/hosts
+   echo -e "127.0.0.1\t\t${sites}.${COMPOSE_PROJECT_NAME,,}.local www.${sites}.${COMPOSE_PROJECT_NAME,,}.local" | sudo tee -a /etc/hosts
 
    cd DOCKER/certs
 
-   mkcert ${sites}.homelab.local www.${sites}.homelab.local
-   mv -v ${sites}.homelab.local*-key.pem certs_${sites}_homelab_local-key.pem 
-   mv -v ${sites}.homelab.local*.pem certs_${sites}_homelab_local.pem 
+   mkcert ${sites}.${COMPOSE_PROJECT_NAME,,}.local www.${sites}.${COMPOSE_PROJECT_NAME,,}.local
+   mv -v ${sites}.${COMPOSE_PROJECT_NAME,,}.local*-key.pem certs_${sites}_${COMPOSE_PROJECT_NAME,,}_local-key.pem 
+   mv -v ${sites}.${COMPOSE_PROJECT_NAME,,}.local*.pem certs_${sites}_${COMPOSE_PROJECT_NAME,,}_local.pem 
 
    cd ../..
-   more DOCKER/images/nginx/sites/${typefile}-${sites}_homelab_local.conf | grep server_name | head -1
-   if [ ! -f "homelab.md" ]; then
-      echo "# SITIOS " > homelab.md
+   more DOCKER/images/nginx/sites/${typefile}-${sites}_${COMPOSE_PROJECT_NAME,,}_local.conf | grep server_name | head -1
+   if [ ! -f "${COMPOSE_PROJECT_NAME,,}.md" ]; then
+      echo "# SITIOS " > ${COMPOSE_PROJECT_NAME,,}.md
    fi
-   echo -e " *  [${sites^^}](https://${sites}.homelab.local) :: ${typefile^^}" >> homelab.md
+   echo -e " *  [${sites^^}](https://${sites}.${COMPOSE_PROJECT_NAME,,}.local) :: ${typefile^^}" >> ${COMPOSE_PROJECT_NAME,,}.md
    docker restart homelab-webserver
-   colorize $LIGTH_CYAN "   done ... (${sites}.homelab.local) "
+   h1  $LIGTH_CYAN "  done ... (${sites}.${COMPOSE_PROJECT_NAME,,}.local) " "" "."
    ln
 }
