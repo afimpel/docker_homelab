@@ -8,19 +8,7 @@ source $(dirname $0)/DOCKER/scripts/docker.sh
 
 cd $(dirname $0)
 set -a && source DOCKER/.env && set +a
-h1 $WHITE "Compose use: ${COMPOSE_PROJECT_NAME^^} ✔ " "|" "."
-
-while getopts ":h" opt; do
-  case ${opt} in
-    h )
-      help
-      ;;
-   \? )
-      help
-      ;;
-  esac
-done
-
+R1 $WHITE "Compose use: ${COMPOSE_PROJECT_NAME^^} ✔" $LIGTH_GREEN "☑" "."
 shift $((OPTIND -1))
 
 subcommand=$1; shift
@@ -28,6 +16,7 @@ subcommand=$1; shift
 case "$subcommand" in
   up)
     docker_up
+    echo -e " ${LIGTH_GREEN}✔${NC} WWW\t\t\t\t      ${GREEN}Https://www.${COMPOSE_PROJECT_NAME,,}.local/${NC}\n"
   ;;
   ps)
     docker_ps
@@ -50,6 +39,12 @@ case "$subcommand" in
   php7)
     docker_bash "homelab-php7"
   ;;
+  php8-usr)
+    docker_bash "homelab-php8" "${USERNAME}"
+  ;;
+  php7-usr)
+    docker_bash "homelab-php7" "${USERNAME}"
+  ;;
   newsite)
     newsite $@
   ;;
@@ -57,9 +52,11 @@ case "$subcommand" in
     docker_down "$@"
   ;;
   *)
+    R1 $RED "Invalid command" $LIGTH_RED "✘" "."
+    colorize $LIGTH_RED "   \'$subcommand\'   "
+    ln
     help
   ;;
 esac
 dockerV=$(docker -v)
-h1 $GREEN "${dockerV} " "|" "."
-ln
+L1 $GREEN "${dockerV}" $WHITE "☑" "."

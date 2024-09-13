@@ -5,9 +5,10 @@
 ############################################################
 installer()
 {
-   h1 $YELLOW 'Install project ' '✔' "."
+   R1 $YELLOW 'Install project ' $WHITE '✔' "."
    ln
    if [ -f "${COMPOSE_PROJECT_NAME,,}.md" ]; then
+      L1 $LIGTH_CYAN 'The project is already installed.' $WHITE '✔' "."
       exit
    fi
    cp -v DOCKER/.env.dist DOCKER/.env
@@ -31,7 +32,7 @@ installer()
    echo -e " *  [PHP7](https://php7.${COMPOSE_PROJECT_NAME,,}.local) :: PHP7 info" >> ${COMPOSE_PROJECT_NAME,,}.md
    echo -e " *  [PHP8](https://php8.${COMPOSE_PROJECT_NAME,,}.local) :: PHP8 info" >> ${COMPOSE_PROJECT_NAME,,}.md
    echo -e "\n\n# SITIOS " >> ${COMPOSE_PROJECT_NAME,,}.md
-   h1 $YELLOW 'DONE ' '✔' "."
+   L1 $LIGTH_GREEN 'DONE' $WHITE '✔' "."
    ln
    help
 }

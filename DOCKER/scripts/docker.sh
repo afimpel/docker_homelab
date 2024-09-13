@@ -5,7 +5,7 @@
 ############################################################
 
 docker_up () {
-  h1 $YELLOW 'Startup containers ' '✔' "."
+  R1 $YELLOW 'Startup containers' $WHITE '✔' "."
   ln
   cd DOCKER/
   docker compose up -d
@@ -13,7 +13,7 @@ docker_up () {
 }
 
 docker_ps() {
-  h1 $YELLOW 'List all containers ' '✔' "."
+  R1 $YELLOW 'List all containers' $WHITE '✔' "."
   ln
   cd DOCKER/
   docker compose ps -a
@@ -21,7 +21,7 @@ docker_ps() {
 }
 
 docker_logs() {
-  h1 $YELLOW "Show containers logs : $1 " '✔' "."
+  R1 $YELLOW "Show containers logs : $1" $WHITE '✔' "."
   ln
   cd DOCKER/
   docker compose logs "$@"
@@ -29,13 +29,13 @@ docker_logs() {
 }
 
 docker_down() {
-  h1 $YELLOW 'Stop & down all containers ' '✔' "."
+  R1 $YELLOW 'Stop & down all containers' $WHITE '■' "."
   ln
   cd DOCKER/
   docker compose down --remove-orphans
   if [ "$#" -gt 0 ] && [ "$1" == "clear" ]; then
       ln
-      h1 $YELLOW 'Clear Logs ' '✔' "."
+      R1 $YELLOW 'Clear Logs' $WHITE '■' "."
       ln
       find ../ -type f -name "*.log"  -delete -exec echo removed "'{}'" \; 
   fi
@@ -43,9 +43,14 @@ docker_down() {
 }
 
 docker_bash() {
-  h1 $YELLOW 'Containers bash' '✔' "."
+  R1 $YELLOW 'Containers bash' $WHITE '✔' "."
   ln
-  C=$1
-  docker exec -it $C bash
+  Container=$1
+  Usr=$2
+  if [ ${#Usr} -gt 0 ]; then
+     docker exec -it -u $Usr $Container bash
+  else
+     docker exec -it $Container bash
+  fi
   ln
 }

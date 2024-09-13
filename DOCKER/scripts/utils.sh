@@ -11,6 +11,7 @@ GREEN="\033[38;5;48m"
 WHITE="\033[1;97m"
 NC='\033[0m' # No Color
 RED='\033[0;91m'
+LIGTH_RED='\033[1;91m'
 
 
 colorize () {
@@ -20,15 +21,20 @@ colorize () {
 ln () {
     printf "\n"
 }
-h1 () {
-    data=$(completar_con_puntos "$3 $2" "$4");
-    printf "$1$data $3\n${NC}"
+R1 () {
+    data=$(completar_con_puntos "$2" "$5" 0);
+    printf " ${3}$4${NC}$1$data ${3}$4${NC}\n${NC}"
+}
+
+L1 () {
+    data=$(completar_con_puntos "$2" "$5" 1);
+    printf " ${3}$4${NC}$1$data ${3}$4${NC}\n${NC}"
 }
 
 
 function completar_con_puntos {
     local input_string="$1"
-    local total_length=$(tput cols)-3
+    local total_length=$(tput cols)-7
     local input_length=${#input_string}
     local num_dots=$((total_length - input_length))
 
@@ -36,10 +42,13 @@ function completar_con_puntos {
         num_dots=1
     fi
 
-    local output_string="$input_string"
+    local output_string=""
     for ((i=0; i<num_dots; i++)); do
         output_string+="$2"
     done
-
-    echo "$output_string"
+    if [ "$3" == '0' ]; then
+        echo " $input_string $output_string"
+    else
+        echo " $output_string $input_string"
+    fi
 }

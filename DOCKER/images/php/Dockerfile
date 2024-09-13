@@ -23,7 +23,8 @@ RUN apt-get update && apt-get install -y \
     ffmpeg \
     mc \
     nano \
-    htop
+    htop \
+    sendmail
 
 RUN docker-php-ext-install mbstring mysqli pdo_mysql gd zip calendar exif gettext \
     pcntl shmop soap sockets sysvmsg sysvsem sysvshm xsl opcache bcmath
@@ -49,6 +50,9 @@ RUN mkdir -p /home/$user/.composer && \
     chown -R $user:www-data /var/www
 
 COPY ./php/* /usr/local/etc/php-fpm.d/
+
+COPY ./bash.bashrc /etc/bash.bashrc
+RUN apt-get install net-tools iputils-ping bash-completion -y
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 ARG port=9000
