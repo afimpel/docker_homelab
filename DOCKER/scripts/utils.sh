@@ -30,6 +30,13 @@ L1 () {
     data=$(completar_con_puntos "$2" "$5" 1);
     printf " ${3}$4${NC}$1$data ${3}$4${NC}\n${NC}"
 }
+header() {
+    R1 $WHITE "Compose use: ${COMPOSE_PROJECT_NAME^^} ✔" $LIGTH_GREEN "☑" "."
+}
+footer() {
+    dockerV=$(docker -v)
+    L1 $GREEN "${dockerV}" $WHITE "☑" "."
+}
 
 
 function completar_con_puntos {

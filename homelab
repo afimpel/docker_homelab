@@ -8,55 +8,73 @@ source $(dirname $0)/DOCKER/scripts/docker.sh
 
 cd $(dirname $0)
 set -a && source DOCKER/.env && set +a
-R1 $WHITE "Compose use: ${COMPOSE_PROJECT_NAME^^} ✔" $LIGTH_GREEN "☑" "."
 shift $((OPTIND -1))
 
 subcommand=$1; shift
 
 case "$subcommand" in
   up)
+    header
     docker_up
-    echo -e " ${LIGTH_GREEN}✔${NC} WWW\t\t\t\t      ${GREEN}Https://www.${COMPOSE_PROJECT_NAME,,}.local/${NC}\n"
+    footer
   ;;
   ps)
+    header
     docker_ps
+    footer
   ;;
   help)
+    header
     help
+    footer
   ;;
   install)
+    header
     installer
+    footer
   ;;
   logs)
+    header
     docker_logs "$@"
+    footer
   ;;
   bash)
-    docker_bash "$@"
+    docker_bash "$@" "bash"
   ;;
   php8)
-    docker_bash "homelab-php8"
+    docker_bash "homelab-php8" "bash"
   ;;
   php7)
-    docker_bash "homelab-php7"
+    docker_bash "homelab-php7" "bash"
+  ;;
+  php8-cli)
+    docker_bash "homelab-php8" "php" "$@"
+  ;;
+  php7-cli)
+    docker_bash "homelab-php7" "php" "$@"
   ;;
   php8-usr)
-    docker_bash "homelab-php8" "${USERNAME}"
+    docker_bash "homelab-php8" "bash" "${USERNAME}"
   ;;
   php7-usr)
-    docker_bash "homelab-php7" "${USERNAME}"
+    docker_bash "homelab-php7" "bash" "${USERNAME}"
   ;;
   newsite)
+    header
     newsite $@
+    footer
   ;;
   down)
+    header
     docker_down "$@"
+    footer
   ;;
   *)
+    header
     R1 $RED "Invalid command" $LIGTH_RED "✘" "."
     colorize $LIGTH_RED "   \'$subcommand\'   "
     ln
     help
+    footer
   ;;
 esac
-dockerV=$(docker -v)
-L1 $GREEN "${dockerV}" $WHITE "☑" "."

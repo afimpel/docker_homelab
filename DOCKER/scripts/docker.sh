@@ -10,6 +10,7 @@ docker_up () {
   cd DOCKER/
   docker compose up -d
   ln
+  echo -e " ${LIGTH_GREEN}✔${NC} WWW\t\t\t\t      ${GREEN}Https://www.${COMPOSE_PROJECT_NAME,,}.local/${NC}\n"
 }
 
 docker_ps() {
@@ -43,14 +44,23 @@ docker_down() {
 }
 
 docker_bash() {
-  R1 $YELLOW 'Containers bash' $WHITE '✔' "."
-  ln
-  Container=$1
-  Usr=$2
-  if [ ${#Usr} -gt 0 ]; then
-     docker exec -it -u $Usr $Container bash
+  if [ "$2" == "bash" ]; then
+    header
+    R1 $YELLOW "Container: $1 $2" $WHITE '✔' "."
+    ln
+    Usr=$3
   else
-     docker exec -it $Container bash
+    parm3=$3
   fi
-  ln
+  Usr=""
+  Container=$1
+  if [ ${#Usr} -gt 0 ]; then
+     docker exec -it -u $Usr $Container $2
+  else
+     docker exec -it $Container $2 $parm3
+  fi
+  if [ "$2" == "bash" ]; then
+    ln
+    footer
+  fi
 }
