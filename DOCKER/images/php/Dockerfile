@@ -56,7 +56,6 @@ RUN apt-get install net-tools iputils-ping bash-completion -y
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 ARG port=9000
-RUN echo ${port}
 RUN sed -i "s/9000/${port}/g" /usr/local/etc/php-fpm.d/www.conf
 RUN sed -i "s/9000/${port}/g" /usr/local/etc/php-fpm.d/zz-docker.conf
 

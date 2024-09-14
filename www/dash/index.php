@@ -67,8 +67,8 @@ foreach ($files as $file) {
         </h2>
     </div>
     <div class="container-fluid py-2">
-        <div class="rounded row border border-info m-2 p-2 pb-4">
-            <div class="col-12 col-md-6">
+        <div class="rounded row border border-info m-2 p-2 py-4">
+            <div class="col-12 col-md-4">
                 <h3 class="title is-3 has-text-centered"><i class="icon-docker"></i> Environment</h3>
                 <hr class="my-1">
                 <div class="list-group">
@@ -132,7 +132,7 @@ foreach ($files as $file) {
                     <a title="mailhog.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-action p-0 px-2" href="//mailhog.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" style="font-size: small;"><i class=" icon-bomb mr-2"></i> mailhog</a>
                 </div>
             </div>
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-4">
                 <h3 class="title is-3 has-text-centered"><i class="icon-mysql"></i> Database List</h3>
                 <hr class="my-1">
                 <div class="list-group">
@@ -153,8 +153,10 @@ foreach ($files as $file) {
                     } catch (\Exception $e) {
                         echo $e->getMessage();
                     } ?>
-                </div>
-                <h3 class="title my-2 has-text-centered"><i class="icon-nginx"></i> Sites List</h3>
+                </div>          
+            </div>
+            <div class="col-12 col-md-4">
+                <h3 class="title is-2 has-text-centered"><i class="icon-nginx"></i> Sites List</h3>
                 <hr class="my-1">
                 <div class="list-group">
                 <?php
@@ -183,7 +185,6 @@ foreach ($files as $file) {
             </ol>
 
         </div>
-        <hr class="my-3">
 
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

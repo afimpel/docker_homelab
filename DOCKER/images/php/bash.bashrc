@@ -1,24 +1,9 @@
-# System-wide .bashrc file for interactive bash(1) shells.
-[ -z "$PS1" ] && return
-shopt -s checkwinsize
-if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
-fi
-if ! [ -n "${SUDO_USER}" -a -n "${SUDO_PS1}" ]; then
-  PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-fi
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
+PROMPT_DIRTRIM=3
 
-# Commented out, don't overwrite xterm -T "title" -n "icontitle" by default.
-# If this is an xterm set the title to user@host:dir
-#case "$TERM" in
-#xterm*|rxvt*)
-#    PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"'
-#    ;;
-#*)
-#    ;;
-#esac
-
-PS1='${debian_chroot:+($debian_chroot)}\[\033[01;36m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+PS1=' ➤ ${debian_chroot:+($debian_chroot)}\[\033[01;36m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\] \$ '
 
 export LS_OPTIONS='--color=auto';
 export GREP_COLORS='ms=01;33'
@@ -26,7 +11,7 @@ export GREP_COLORS='ms=01;33'
 alias tailf='tail --follow'
 alias ls='ls $LS_OPTIONS'
 alias ll='ls $LS_OPTIONS -lh'
-alias la='ls $LS_OPTIONS -lhA'
+alias la='ls $LS_OPTIONS -lha'
 
 # enable bash completion in interactive shells
 if ! shopt -oq posix; then
