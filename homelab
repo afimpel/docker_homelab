@@ -41,6 +41,14 @@ case "$subcommand" in
   bash)
     docker_bash "$@" "bash"
   ;;
+  dumps)
+    header
+    R1 $YELLOW "Dumping database: " $WHITE '✔' "."
+    docker_bash "homelab-mariadb" "mariadb --version"
+    R1 $GREEN "DUMPS: $(dirname $0)/dumpSQL" $WHITE '✔' "."
+    docker_bash "homelab-mariadb" "dump_databases"
+    footer
+  ;;
   php8)
     docker_bash "homelab-php8" "bash"
   ;;

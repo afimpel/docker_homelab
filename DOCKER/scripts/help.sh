@@ -14,6 +14,7 @@ help()
    echo -e "\t${LIGTH_CYAN}install${NC}\t\t\t\tinstall project"
    echo -e "\t${LIGTH_CYAN}help${NC}\t\t\t\tPrint this help"
    echo -e "\t${LIGTH_CYAN}up${NC}\t\t\t\tStart containers."
+   echo -e "\t${LIGTH_CYAN}dumps${NC}\t\t\t\tbackup of all databases of all mariadb complete (excluding system db)"
    echo -e "\t${LIGTH_CYAN}ps${NC}\t\t\t\tPrint started containers"
    echo -e "\t${LIGTH_CYAN}logs <container_name>${NC}\t\tDocker logs."
    echo -e "\t${LIGTH_CYAN}bash <container_name>${NC}\t\tDocker bash in container."

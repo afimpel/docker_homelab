@@ -31,14 +31,14 @@ newsite()
 
    R1 $YELLOW "${typefile^^} :: https://${sites}.${COMPOSE_PROJECT_NAME,,}.local" $WHITE "⛁" "."
    ln
-   if [ ! -f "DOCKER/images/nginx/sites/${typefile}-${sites}_${COMPOSE_PROJECT_NAME,,}_local.conf" ]; then
+   if [ ! -f "config/nginx-sites/${typefile}-${sites}_${COMPOSE_PROJECT_NAME,,}_local.conf" ]; then
 
       mkdir -p www/sites/${sites}/${subdir}
       mkcert -install
 
-      cp -v DOCKER/examples/examplesite-${typefile}-local.conf DOCKER/images/nginx/sites/${typefile}-${sites}_${COMPOSE_PROJECT_NAME,,}_local.conf
-      sed -i "s/examplesite/${sites}/g" DOCKER/images/nginx/sites/${typefile}-${sites}_${COMPOSE_PROJECT_NAME,,}_local.conf
-      sed -i "s/COMPOSE_PROJECT_NAME/${COMPOSE_PROJECT_NAME,,}/g" DOCKER/images/nginx/sites/${typefile}-${sites}_${COMPOSE_PROJECT_NAME,,}_local.conf
+      cp -v DOCKER/examples/examplesite-${typefile}-local.conf config/nginx-sites/${typefile}-${sites}_${COMPOSE_PROJECT_NAME,,}_local.conf
+      sed -i "s/examplesite/${sites}/g" config/nginx-sites/${typefile}-${sites}_${COMPOSE_PROJECT_NAME,,}_local.conf
+      sed -i "s/COMPOSE_PROJECT_NAME/${COMPOSE_PROJECT_NAME,,}/g" config/nginx-sites/${typefile}-${sites}_${COMPOSE_PROJECT_NAME,,}_local.conf
 
       echo -e "127.0.0.1\t\t${sites}.${COMPOSE_PROJECT_NAME,,}.local www.${sites}.${COMPOSE_PROJECT_NAME,,}.local" | sudo tee -a /etc/hosts
 
@@ -49,7 +49,7 @@ newsite()
       mv -v ${sites}.${COMPOSE_PROJECT_NAME,,}.local*.pem certs_${sites}_${COMPOSE_PROJECT_NAME,,}_local.pem 
 
       cd ../..
-      more DOCKER/images/nginx/sites/${typefile}-${sites}_${COMPOSE_PROJECT_NAME,,}_local.conf | grep server_name | head -1
+      more config/nginx-sites/${typefile}-${sites}_${COMPOSE_PROJECT_NAME,,}_local.conf | grep server_name | head -1
       if [ ! -f "${COMPOSE_PROJECT_NAME,,}.md" ]; then
          echo "# SITIOS " > ${COMPOSE_PROJECT_NAME,,}.md
       fi
