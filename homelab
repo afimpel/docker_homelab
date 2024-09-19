@@ -56,10 +56,10 @@ case "$subcommand" in
     docker_bash "homelab-php7" "bash"
   ;;
   php8-cli)
-    docker_bash "homelab-php8" "php" "$@"
+    docker_bash "homelab-php8" "php" $@
   ;;
   php7-cli)
-    docker_bash "homelab-php7" "php" "$@"
+    docker_bash "homelab-php7" "php" $@
   ;;
   php8-usr)
     docker_bash "homelab-php8" "bash" "${USERNAME}"

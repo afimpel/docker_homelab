@@ -27,7 +27,7 @@ RUN apt-get update && apt-get install -y \
     sendmail
 
 RUN docker-php-ext-install mbstring mysqli pdo_mysql gd zip calendar exif gettext \
-    pcntl shmop soap sockets sysvmsg sysvsem sysvshm xsl opcache bcmath
+    pcntl shmop soap sockets sysvmsg sysvsem sysvshm xsl opcache bcmath intl
 
 RUN pecl install apcu igbinary redis \
     && docker-php-ext-enable apcu --ini-name 10-docker-php-ext-apcu.ini igbinary redis

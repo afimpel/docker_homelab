@@ -44,16 +44,17 @@ docker_down() {
 }
 
 docker_bash() {
+  Usr=""
+  Container=$1
+  parm3=""
   if [ "$2" == "bash" ]; then
     header
     R1 $YELLOW "Container: $1 $2" $WHITE '✔' "."
     ln
     Usr=$3
   else
-    parm3=$3
+    parm3="${@: 3}"
   fi
-  Usr=""
-  Container=$1
   if [ ${#Usr} -gt 0 ]; then
      docker exec -it -u $Usr $Container $2
   else
