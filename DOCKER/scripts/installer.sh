@@ -11,7 +11,9 @@ installer()
       L1 $LIGTH_CYAN 'The project is already installed.' $WHITE '✔' "."
       exit
    fi
-   cp -v DOCKER/.env.dist DOCKER/.env
+   if [ -f "DOCKER/.env" ]; then
+      cp -v DOCKER/.env.dist DOCKER/.env
+   fi
    set -a && source DOCKER/.env && set +a
    mkcert -install
    cp $HOME/.local/share/mkcert/rootCA* DOCKER/certs/mkcert
