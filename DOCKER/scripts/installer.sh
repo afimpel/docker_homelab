@@ -26,7 +26,7 @@ installer()
    mv ${COMPOSE_PROJECT_NAME,,}.local*.pem certs_default.pem
    echo -e "127.0.0.1\t\t${COMPOSE_PROJECT_NAME,,}.local www.${COMPOSE_PROJECT_NAME,,}.local adminer.${COMPOSE_PROJECT_NAME,,}.local mailhog.${COMPOSE_PROJECT_NAME,,}.local redis.${COMPOSE_PROJECT_NAME,,}.local php8.${COMPOSE_PROJECT_NAME,,}.local php7.${COMPOSE_PROJECT_NAME,,}.local" | sudo tee -a /etc/hosts
    cd ../..
-   echo -e "# HomeLAB: " > ${COMPOSE_PROJECT_NAME,,}.md
+   echo -e "# HomeLAB " > ${COMPOSE_PROJECT_NAME,,}.md
    echo -e " *  [WWW](https://www.${COMPOSE_PROJECT_NAME,,}.local) :: WELCOME" >> ${COMPOSE_PROJECT_NAME,,}.md
    echo -e " *  [Adminer](https://adminer.${COMPOSE_PROJECT_NAME,,}.local) :: Adminer" >> ${COMPOSE_PROJECT_NAME,,}.md
    echo -e " *  [Redis Commander](https://redis.${COMPOSE_PROJECT_NAME,,}.local) :: Redis Commander" >> ${COMPOSE_PROJECT_NAME,,}.md
