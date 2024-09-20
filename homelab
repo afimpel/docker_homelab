@@ -23,6 +23,17 @@ case "$subcommand" in
     docker_ps
     footer
   ;;
+  restart)
+    header
+    docker_restart
+    footer
+  ;;
+  clear)  
+    header
+    clear
+    docker_restart
+    footer
+  ;;
   help)
     header
     help

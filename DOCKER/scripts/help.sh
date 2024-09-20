@@ -14,13 +14,14 @@ help()
    echo -e ""
    R1 $WHITE 'Commands (cmd) : ' $LIGTH_GREEN '✔' " " 
    echo -e "\t➤ ${LIGTH_CYAN}install${NC}\t\t\t\tInstall this project"
-   echo -e "\t➤ ${LIGTH_CYAN}help${NC}\t\t\t\t\tPrint this help"
+   echo -e "\t➤ ${LIGTH_CYAN}help${NC}\t\t\t\t\tDisplay usage information (this message)"
    echo -e "\t➤ ${LIGTH_CYAN}up${NC}\t\t\t\t\tStart containers"
    if [ "$(docker ps -q -f name=$container_name)" ]; then
       php7=$(docker_bash "homelab-php7" "php" -v | head -1 | cut -d " " -f 2)
       php8=$(docker_bash "homelab-php8" "php" -v | head -1 | cut -d " " -f 2)
       echo -e "\t➤ ${LIGTH_CYAN}dumps${NC}\t\t\t\t\tbackup of all databases of all mariadb complete (excluding system db)"
       echo -e "\t➤ ${LIGTH_CYAN}ps${NC}\t\t\t\t\tPrint started containers"
+      echo -e "\t➤ ${LIGTH_CYAN}restart${NC}\t\t\t\tRestart containers"
       echo -e "\t➤ ${LIGTH_CYAN}down${NC}\t\t\t\t\tStop & down containers"
       echo -e "\t➤ ${LIGTH_CYAN}logs <container_name>${NC}\t\t\tDocker logs"
       echo -e ""

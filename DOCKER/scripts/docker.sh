@@ -11,6 +11,12 @@ docker_up () {
   www
   ln
 }
+docker_restart () {
+  R1 $YELLOW 'Restart containers' $WHITE '✔' "."
+  cd DOCKER/
+  docker compose restart
+  ln
+}
 
 docker_ps() {
   R1 $YELLOW 'List all containers' $WHITE '✔' "."
@@ -32,8 +38,7 @@ docker_down() {
   docker compose down --remove-orphans
   if [ "$#" -gt 0 ] && [ "$1" == "clear" ]; then
       ln
-      R1 $YELLOW 'Clear Logs' $WHITE '■' "."
-      find ../ -type f -name "*.log"  -delete -exec echo removed "'{}'" \; 
+      clear
   fi
   ln
 }
