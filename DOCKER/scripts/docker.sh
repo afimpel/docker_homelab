@@ -36,8 +36,8 @@ docker_down() {
   R1 $YELLOW 'Stop & down all containers' $WHITE '■' "."
   cd DOCKER/
   docker compose down --remove-orphans
+  ln
   if [ "$#" -gt 0 ] && [ "$1" == "clear" ]; then
-      ln
       clear
   fi
 }
