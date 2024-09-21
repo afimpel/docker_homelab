@@ -40,7 +40,6 @@ docker_down() {
       ln
       clear
   fi
-  ln
 }
 
 docker_bash() {
