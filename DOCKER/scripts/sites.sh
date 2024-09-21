@@ -76,7 +76,7 @@ www()
          fi
          lnline=1
          title="${BASH_REMATCH[1]}"
-         echo -e "  ${LIGTH_GREEN}☐${NC} ${title}:"
+         R1 $NC "${title}:" $LIGTH_GREEN '☐' " "
       elif [[ ! -z  $line ]]; then
          url=$(echo "$line" |grep -Eo 'https://[^ )]+'|head -1)
          echo -e "\t➤ ${LIGTH_CYAN}$url${NC}"
