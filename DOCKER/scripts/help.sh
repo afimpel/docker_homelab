@@ -32,6 +32,7 @@ help()
       echo -e "\t➤ ${LIGTH_CYAN}php8${NC}\t\t\t\t\tDocker bash in PHP $php8 ( ${RED}♚ root${NC} )"
       echo -e "\t➤ ${LIGTH_CYAN}php8-cli${NC}\t\t\t\tDocker CLI in PHP $php8 ( ${RED}♚ root${NC} )"
       echo -e "\t➤ ${LIGTH_CYAN}php8-usr${NC}\t\t\t\tDocker bash in PHP $php8 ( ${CYAN}♟ ${USERNAME}${NC} )"
+      echo -e ""
       echo -e "\t➤ ${LIGTH_CYAN}listsite ${NC}\t\t\t\tList all Sites"
       echo -e "\t➤ ${LIGTH_CYAN}newsite <site> <type>${NC}\t\t\tCreate the New SubDomain ( ${GREEN}<site>.${COMPOSE_PROJECT_NAME,,}.local${NC} )"
       echo -e "\t\t\t\t\t\t${GREEN}<type>${NC} ( php7, php8 y build )"
