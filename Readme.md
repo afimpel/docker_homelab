@@ -15,14 +15,15 @@ Los servicios que levanta son los siguientes:
 ## Configuración e instalación
 
   1. Clon del Repo y `cd docker_homelab`
-  2. Hacer una copia del archivo `DOCKER/.env.dist` a `DOCKER/.env`
-  3. Modificar el valor de la variable `CUSTOMUSER` con el usuario del host
-  4. Modificar los valores de las otras variables del archivo `./DOCKER/.env`
-
-  5. Descargar e instalar [mkcert](https://github.com/FiloSottile/mkcert)
+  2.  *Configuraciones Opcionales*
+      1. Hacer una copia del archivo `DOCKER/.env.dist` a `DOCKER/.env`
+      2. Modificar el valor de la variable `USERNAME` con el usuario del host
+      3. Modificar los valores de las otras variables del archivo `./DOCKER/.env`
+      
+  3. Descargar e instalar [mkcert](https://github.com/FiloSottile/mkcert)
 
 ```sh
-# apt-get
+# apt-get (Debian / Ubuntu y derivadas)
 sudo apt install mkcert -y
 ```
   6. para instalar el Proyecto 
@@ -31,14 +32,3 @@ sudo apt install mkcert -y
 # HomeLAB
 bash homelab install
 ```
-
----
-
-# HomeLAB Sitios
-*   https://www.homelab.local/
-*   https://adminer.homelab.local 
-*   https://maildog.homelab.local 
-*   https://redis.homelab.local
-*   https://php8.homelab.local
-*   https://php7.homelab.local
-

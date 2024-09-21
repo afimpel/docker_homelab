@@ -28,7 +28,7 @@ newsite()
          subdir="build";
       ;;
    esac
-
+   exist 'mkcert'
    R1 $YELLOW "${typefile^^} :: https://${sites}.${COMPOSE_PROJECT_NAME,,}.local" $WHITE "⛁" "."
    ln
    if [ ! -f "config/nginx-sites/${typefile}-${sites}_${COMPOSE_PROJECT_NAME,,}_local.conf" ]; then

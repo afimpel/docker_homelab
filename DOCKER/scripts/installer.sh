@@ -5,14 +5,17 @@
 ############################################################
 installer()
 {
-   R1 $YELLOW 'Install project ' $WHITE '✔' "."
+   USERNAME=$(whoami)
+   R1 $YELLOW 'Install project' $WHITE '▶' "."
+   exist 'mkcert'
    ln
    if [ -f "${COMPOSE_PROJECT_NAME,,}.md" ]; then
-      L1 $LIGTH_CYAN 'The project is already installed.' $WHITE '✔' "."
+      L1 $LIGTH_CYAN 'The project is already installed.' $WHITE '🖥' "."
       exit
    fi
    if [ -f "DOCKER/.env" ]; then
       cp -v DOCKER/.env.dist DOCKER/.env
+      sed -i "s/CUSTOMUSER/${USERNAME,,}/g" DOCKER/.env
    fi
    set -a && source DOCKER/.env && set +a
    mkcert -install
@@ -36,5 +39,7 @@ installer()
    echo -e "\n\n# SITIOS " >> ${COMPOSE_PROJECT_NAME,,}.md
    L1 $LIGTH_GREEN 'DONE' $WHITE '✔' "."
    ln
+   docker_up
    help
+   www
 }

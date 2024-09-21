@@ -9,7 +9,6 @@ docker_up () {
   cd DOCKER/
   docker compose up -d
   ln
-  www
 }
 docker_restart () {
   R1 $YELLOW 'Restart containers' $WHITE '✔' "."

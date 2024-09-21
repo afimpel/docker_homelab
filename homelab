@@ -16,6 +16,7 @@ case "$subcommand" in
   up)
     header
     docker_up
+    www
     footer
   ;;
   ps)

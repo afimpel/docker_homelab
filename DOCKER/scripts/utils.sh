@@ -67,3 +67,11 @@ clear () {
     find . -type f -name "*.log"  -delete -exec echo removed "'{}'" \; 
     ln
 }
+
+exist (){ 
+    if ! [ -x "$(command -v $1)" ]; then
+        R1 $RED "NOT installed" $LIGTH_RED "✘" "."
+        colorize $LIGTH_RED " ⮡ Require: \'$1\'   "
+        exit
+    fi
+}
