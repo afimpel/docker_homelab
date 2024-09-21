@@ -41,7 +41,7 @@ $files = scandir($directory);
 foreach ($files as $file) {
     if ($file !== '.' && $file !== '..') {
         if (is_dir($directory . $file)) { ?>
-                            <a title="<?= $file.".".strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="dropdown-item" href="//<?= $file;?>.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local"><i class="icon-nginx mr-2"></i> <?= $file; ?> </a>
+                            <a title="<?= $file.".".strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="dropdown-item" style="min-width: 15vw;" href="//<?= $file;?>.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local"><i class="icon-nginx mr-2"></i> <?= $file; ?> </a>
                             <?php }}} ?>
                         </div>
                     </li>
