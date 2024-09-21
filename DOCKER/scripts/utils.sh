@@ -23,12 +23,12 @@ ln () {
     printf "\n"
 }
 R1 () {
-    data=$(completar_con_puntos "$2" "$5" 0);
+    data=$(completeLine "$2" "$5" 0);
     printf " ${3}$4${NC}$1$data ${3}$4${NC}\n${NC}"
 }
 
 L1 () {
-    data=$(completar_con_puntos "$2" "$5" 1);
+    data=$(completeLine "$2" "$5" 1);
     printf " ${3}$4${NC}$1$data ${3}$4${NC}\n${NC}"
 }
 header() {
@@ -40,7 +40,7 @@ footer() {
 }
 
 
-function completar_con_puntos {
+completeLine() {
     local input_string="$1"
     local total_length=$(tput cols)-7
     local input_length=${#input_string}

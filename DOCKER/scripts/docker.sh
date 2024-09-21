@@ -8,8 +8,8 @@ docker_up () {
   R1 $YELLOW 'Startup containers' $WHITE '✔' "."
   cd DOCKER/
   docker compose up -d
-  www
   ln
+  www
 }
 docker_restart () {
   R1 $YELLOW 'Restart containers' $WHITE '✔' "."

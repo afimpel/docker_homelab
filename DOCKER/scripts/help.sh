@@ -32,30 +32,9 @@ help()
       echo -e "\t➤ ${LIGTH_CYAN}php8${NC}\t\t\t\t\tDocker bash in PHP $php8 ( ${RED}♚ root${NC} )"
       echo -e "\t➤ ${LIGTH_CYAN}php8-cli${NC}\t\t\t\tDocker CLI in PHP $php8 ( ${RED}♚ root${NC} )"
       echo -e "\t➤ ${LIGTH_CYAN}php8-usr${NC}\t\t\t\tDocker bash in PHP $php8 ( ${CYAN}♟ ${USERNAME}${NC} )"
+      echo -e "\t➤ ${LIGTH_CYAN}listsite ${NC}\t\t\t\tList all Sites"
       echo -e "\t➤ ${LIGTH_CYAN}newsite <site> <type>${NC}\t\t\tCreate the New SubDomain ( ${GREEN}<site>.${COMPOSE_PROJECT_NAME,,}.local${NC} )"
       echo -e "\t\t\t\t\t\t${GREEN}<type>${NC} ( php7, php8 y build )"
-      www
    fi
    echo -e ""
-}
-www()
-{
-   echo -e ""
-   R1 $WHITE "WWW ( ${COMPOSE_PROJECT_NAME,,}.md ): " $LIGTH_GREEN '✔' " " 
-   input_file="$(dirname $0)/${COMPOSE_PROJECT_NAME,,}.md"
-   # Replace 'input_file.txt' with the name of your file
-
-   # Read each line from the file
-   # Read each line from the file
-   while IFS= read -r line; do
-      # Check for section titles
-      if [[ $line =~ ^#\ (.*) ]]; then
-         title="${BASH_REMATCH[1]}"
-         echo -e "  ${LIGTH_GREEN}☐${NC} ${title}:"
-      # Check for links with any format before the URL
-      elif [[ ! -z  $line ]]; then
-         url=$(echo "$line" |grep -Eo 'https://[^ )]+'|head -1)
-         echo -e "\t➤ ${LIGTH_CYAN}$url${NC}"
-      fi
-   done < "$input_file"
 }

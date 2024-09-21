@@ -61,3 +61,21 @@ newsite()
       L1 $LIGTH_CYAN " The website already exists ... (${sites}.${COMPOSE_PROJECT_NAME,,}.local)" $WHITE "⛁" "."
    fi
 }
+
+www()
+{
+   R1 $YELLOW "WWW ( ${COMPOSE_PROJECT_NAME,,}.md )" $LIGTH_GREEN '✔' "." 
+   input_file="$(dirname $0)/${COMPOSE_PROJECT_NAME,,}.md"
+
+   while IFS= read -r line; do
+      # Check for section titles
+      if [[ $line =~ ^#\ (.*) ]]; then
+         title="${BASH_REMATCH[1]}"
+         echo -e "  ${LIGTH_GREEN}☐${NC} ${title}:"
+      elif [[ ! -z  $line ]]; then
+         url=$(echo "$line" |grep -Eo 'https://[^ )]+'|head -1)
+         echo -e "\t➤ ${LIGTH_CYAN}$url${NC}"
+      fi
+   done < "$input_file"
+   ln
+}
