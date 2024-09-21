@@ -67,9 +67,14 @@ www()
    R1 $YELLOW "WWW ( ${COMPOSE_PROJECT_NAME,,}.md )" $LIGTH_GREEN '✔' "." 
    input_file="$(dirname $0)/${COMPOSE_PROJECT_NAME,,}.md"
 
+   lnline=0
    while IFS= read -r line; do
       # Check for section titles
       if [[ $line =~ ^#\ (.*) ]]; then
+         if [[ $lnline == 1 ]]; then
+            ln
+         fi
+         lnline=1
          title="${BASH_REMATCH[1]}"
          echo -e "  ${LIGTH_GREEN}☐${NC} ${title}:"
       elif [[ ! -z  $line ]]; then
