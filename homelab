@@ -96,9 +96,12 @@ case "$subcommand" in
   ;;
   *)
     header
-    R1 $RED "Invalid command" $LIGTH_RED "✘" "."
-    colorize $LIGTH_RED " ⮡ \'$subcommand\'   "
-    ln
+    container_name="homelab-php7"
+    if [ "$(docker ps -q -f name=$container_name)" ]; then
+      R1 $RED "Invalid command" $LIGTH_RED "✘" "."
+      colorize $LIGTH_RED " ⮡ \'$subcommand\'   "
+      ln
+    fi
     help
     footer
   ;;

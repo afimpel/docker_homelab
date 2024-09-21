@@ -7,15 +7,19 @@
 help()
 {
    # Display Help
+   cd $(dirname $0)
    container_name="homelab-php7"
    R1 $YELLOW 'Help ' $WHITE '☐' "." 
    R1 $WHITE 'Syntax : ' $LIGTH_GREEN '✔' " " 
    echo -e "\t➤ ${LIGTH_GREEN}./homelab${NC} <cmd> <options>"
    echo -e ""
    R1 $WHITE 'Commands (cmd) : ' $LIGTH_GREEN '✔' " " 
-   echo -e "\t➤ ${LIGTH_CYAN}install${NC}\t\t\t\tInstall this project"
    echo -e "\t➤ ${LIGTH_CYAN}help${NC}\t\t\t\t\tDisplay usage information (this message)"
-   echo -e "\t➤ ${LIGTH_CYAN}up${NC}\t\t\t\t\tStart containers"
+   if [ -f "${COMPOSE_PROJECT_NAME,,}.md" ]; then
+      echo -e "\t➤ ${LIGTH_CYAN}up${NC}\t\t\t\t\tStart containers"
+   else
+      echo -e "\t➤ ${LIGTH_CYAN}install${NC}\t\t\t\tInstall this project"
+   fi
    if [ "$(docker ps -q -f name=$container_name)" ]; then
       php7=$(docker_bash "homelab-php7" "php" -v | head -1 | cut -d " " -f 2)
       php8=$(docker_bash "homelab-php8" "php" -v | head -1 | cut -d " " -f 2)
