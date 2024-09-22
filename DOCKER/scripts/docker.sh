@@ -37,7 +37,8 @@ docker_down() {
       R1 $YELLOW 'Stop & down all containers' $WHITE '■' "."
       cd DOCKER/
       docker compose down --remove-orphans
-      colorize $LIGTH_GREEN "✔ $RED$(rm -v $(dirname $0)/logs/startup.log)"
+      cd $(dirname $0)/logs
+      colorize $LIGTH_GREEN "✔ $RED$(rm -v startup.log)"
       if [ "$#" -gt 0 ] && [ "$1" == "clear" ]; then
           ln
           clear
