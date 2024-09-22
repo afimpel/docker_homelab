@@ -17,7 +17,7 @@ help()
    if ! [ -f "${COMPOSE_PROJECT_NAME,,}.md" ]; then
       echo -e "\t➤ ${LIGTH_CYAN}install${NC}\t\t\t\tInstall this project"
    else
-      if [ -f "logs/startup.log" ]; then
+      if [ -f "logs/startup.pid" ]; then
          php7=$(docker_bash "homelab-php7" "php" -v | head -1 | cut -d " " -f 2)
          php8=$(docker_bash "homelab-php8" "php" -v | head -1 | cut -d " " -f 2)
          echo -e "\t➤ ${LIGTH_CYAN}dumps${NC}\t\t\t\t\tbackup of all databases of all mariadb complete (excluding system db)"

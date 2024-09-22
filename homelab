@@ -33,8 +33,11 @@ case "$subcommand" in
   clear)  
     header
     clear
-    ln
-    docker_restart
+    cd $(dirname $0)
+    if [ -f "logs/startup.pid" ]; then
+      ln
+      docker_restart
+    fi
     footer
   ;;
   help)
@@ -58,14 +61,15 @@ case "$subcommand" in
   dumps)
     header
     cd $(dirname $0)
-    if [ -f "logs/startup.log" ]; then
+    if [ -f "logs/startup.pid" ]; then
       R1 $YELLOW "Dumping database: " $WHITE '▾' "."
       docker_bash "homelab-mariadb" "mariadb --version"
       R1 $GREEN "DUMPS: $(dirname $0)/dumpSQL" $WHITE '✔' "."
       docker_bash "homelab-mariadb" "dump_databases"
     else
-      R1 $RED "Docker OFF" $LIGTH_RED "✘" "."
-      colorize $CYAN "./homelab up"
+      CUSTOM $NC 'Dumping database' $LIGTH_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
+      ln
+      help
     fi
     footer
   ;;
@@ -105,7 +109,7 @@ case "$subcommand" in
   *)
     header
     cd $(dirname $0)
-    if [ -f "logs/startup.log" ]; then
+    if [ -f "logs/startup.pid" ]; then
       R1 $RED "Invalid command" $LIGTH_RED "✘" "."
       colorize $LIGTH_RED "⮡ \'$subcommand\'   "
       ln

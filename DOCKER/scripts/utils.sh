@@ -41,8 +41,8 @@ header() {
 }
 startup() {
     cd $(dirname $0)
-    if [ -f "logs/startup.log" ]; then
-        startup=$(cat logs/startup.log)
+    if [ -f "logs/startup.pid" ]; then
+        startup=$(cat logs/startup.pid)
         CUSTOM $LIGTH_CYAN "Startup" $NC "$startup" $LIGTH_GREEN "⏲" ":" "⏲" 0
     fi
 }
