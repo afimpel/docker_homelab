@@ -9,12 +9,15 @@ date > $DUMP_DIR/dumps.md
 unix=$(date '+%s')
 echo -e "# Dumping database:\n" >> $DUMP_DIR/dumps.md
 # Realizar el dump de cada base de datos
-for db in $DBS; do
-    echo "  ⛁ $db"
-    echo -e " *  ⛁ $db :: $DUMP_DIR/$db.sql" >> $DUMP_DIR/dumps.md
-    mariadb-dump -u root -p$MARIADB_ROOT_PASSWORD --databases $db > $DUMP_DIR/$db.sql
-done
 cd $DUMP_DIR
+for db in $DBS; do
+    mariadb-dump -u root -p$MARIADB_ROOT_PASSWORD --databases $db > $db.sql
+    size=$(stat -c %s $db.sql)
+    echo "  ⛁ $db ($size bytes)"
+    echo -e " *  ⛁ $db :: $db.sql ($size bytes)" >> dumps.md
+done
 echo "  "
-echo "  ✔ $unix-SQL_backup.tgz"
-tar -cvzf $unix-SQL_backup.tgz *.sql
+tar -czf $unix-SQL_backup.tgz *.sql
+size=$(stat -c %s $unix-SQL_backup.tgz)
+echo "  🗃 $unix-SQL_backup.tgz ($size bytes)"
+echo -e "\n 🗃 Compressed :: $unix-SQL_backup.tgz ($size bytes)" >> dumps.md

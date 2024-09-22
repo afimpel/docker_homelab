@@ -82,5 +82,4 @@ www()
          echo -e "\t➤ ${LIGTH_CYAN}$url${NC}"
       fi
    done < "$input_file"
-   ln
 }

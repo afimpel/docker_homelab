@@ -16,6 +16,7 @@ case "$subcommand" in
   up)
     header
     docker_up
+    ln
     www
     footer
   ;;
@@ -32,6 +33,7 @@ case "$subcommand" in
   clear)  
     header
     clear
+    ln
     docker_restart
     footer
   ;;
@@ -55,10 +57,16 @@ case "$subcommand" in
   ;;
   dumps)
     header
-    R1 $YELLOW "Dumping database: " $WHITE '✔' "."
-    docker_bash "homelab-mariadb" "mariadb --version"
-    R1 $GREEN "DUMPS: $(dirname $0)/dumpSQL" $WHITE '✔' "."
-    docker_bash "homelab-mariadb" "dump_databases"
+    cd $(dirname $0)
+    if [ -f "logs/startup.log" ]; then
+      R1 $YELLOW "Dumping database: " $WHITE '🔩' "."
+      docker_bash "homelab-mariadb" "mariadb --version"
+      R1 $GREEN "DUMPS: $(dirname $0)/dumpSQL" $WHITE '✔' "."
+      docker_bash "homelab-mariadb" "dump_databases"
+    else
+      R1 $RED "Docker OFF" $LIGTH_RED "✘" "."
+      colorize $CYAN "./homelab up"
+    fi
     footer
   ;;
   php8)
@@ -96,10 +104,10 @@ case "$subcommand" in
   ;;
   *)
     header
-    container_name="homelab-php7"
-    if [ "$(docker ps -q -f name=$container_name)" ]; then
+    cd $(dirname $0)
+    if [ -f "logs/startup.log" ]; then
       R1 $RED "Invalid command" $LIGTH_RED "✘" "."
-      colorize $LIGTH_RED " ⮡ \'$subcommand\'   "
+      colorize $LIGTH_RED "⮡ \'$subcommand\'   "
       ln
     fi
     help

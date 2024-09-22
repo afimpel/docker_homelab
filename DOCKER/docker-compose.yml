@@ -5,6 +5,7 @@ services:
   homelab-mariadb:
     image: mariadb:latest
     container_name: homelab-mariadb
+    hostname: mariadb-${COMPOSE_PROJECT_NAME}
     ports:
       - ${MARIADB_PORT}:3306
     environment:

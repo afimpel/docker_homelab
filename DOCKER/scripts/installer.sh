@@ -6,6 +6,7 @@
 installer()
 {
    USERNAME=$(whoami)
+   cd $(dirname $0)
    R1 $YELLOW 'Install project' $WHITE '▶' "."
    exist 'mkcert'
    ln
