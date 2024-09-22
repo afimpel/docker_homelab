@@ -59,7 +59,7 @@ case "$subcommand" in
     header
     cd $(dirname $0)
     if [ -f "logs/startup.log" ]; then
-      R1 $YELLOW "Dumping database: " $WHITE '🔩' "."
+      R1 $YELLOW "Dumping database: " $WHITE '▾' "."
       docker_bash "homelab-mariadb" "mariadb --version"
       R1 $GREEN "DUMPS: $(dirname $0)/dumpSQL" $WHITE '✔' "."
       docker_bash "homelab-mariadb" "dump_databases"
