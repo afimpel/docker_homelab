@@ -11,6 +11,7 @@ docker_up () {
   docker compose up -d
 }
 docker_restart () {
+  cd $(dirname $0)
   R1 $YELLOW 'Restart containers' $WHITE '⟳' "."
   date +'%A, %d/%B/%Y | %H:%M:%S ( 00%u )' > logs/startup.log
   cd DOCKER/
