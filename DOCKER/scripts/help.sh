@@ -25,6 +25,7 @@ help()
          echo -e "\t➤ ${LIGTH_CYAN}restart${NC}\t\t\t\tRestart containers"
          echo -e "\t➤ ${LIGTH_CYAN}down${NC}\t\t\t\t\tStop & down containers"
          echo -e "\t➤ ${LIGTH_CYAN}logs <container_name>${NC}\t\t\tDocker logs"
+         echo -e "\t➤ ${LIGTH_CYAN}clear ${NC}\t\t\t\tClear all logs & restart containers"
          echo -e ""
          echo -e "\t➤ ${LIGTH_CYAN}bash <container_name>${NC}\t\t\tDocker bash in container"
          echo -e "\t➤ ${LIGTH_CYAN}php7${NC}\t\t\t\t\tDocker bash in ${YELLOW}PHP $php7${NC} ( ${RED}♚ root${NC} )"
