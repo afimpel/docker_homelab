@@ -89,7 +89,7 @@ completeLine() {
 
 clear () {
     R1 $YELLOW 'Clear Logs' $WHITE '🗑' "."
-    cd $(dirname $0)/logs
+    cd $(dirname $0)/
     find . -type f -name "*.log"  -delete -exec echo " 🗑 removed '{}'" \; 
 }
 
