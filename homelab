@@ -85,6 +85,12 @@ case "$subcommand" in
   php7-cli)
     docker_bash "homelab-php7" "php" $@
   ;;
+  php8-composer)
+    docker_bash "homelab-php8" "composer" $@
+  ;;
+  php7-composer)
+    docker_bash "homelab-php7" "composer" $@
+  ;;
   php8-usr)
     docker_bash "homelab-php8" "bash" "${USERNAME}"
   ;;
