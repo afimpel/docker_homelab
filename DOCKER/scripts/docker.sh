@@ -69,10 +69,14 @@ docker_bash() {
     else
       parm3="${@: 3}"
     fi
+    workdir=""
+    if [[ $OLDPWD == *"/www/site"* ]]; then
+      workdir=" -w ${OLDPWD/$PWD/\/var}"
+    fi
     if [ ${#Usr} -gt 0 ]; then
-      docker exec -it -u $Usr $Container $2
+      docker exec$workdir -it -u $Usr $Container $2
     else
-      docker exec -it $Container $2 $parm3
+      docker exec$workdir -it $Container $2 $parm3
     fi
   else
     if [ "$2" == "bash" ]; then
