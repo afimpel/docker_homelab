@@ -11,7 +11,7 @@ installer()
    exist 'mkcert'
    ln
    if [ -f "${COMPOSE_PROJECT_NAME,,}.md" ]; then
-      L1 $LIGTH_CYAN 'The project is already installed.' $WHITE '🖥' "."
+      L1 $LIGHT_CYAN 'The project is already installed.' $WHITE '🖥' "."
       exit
    fi
    if [ -f "DOCKER/.env" ]; then
@@ -38,7 +38,7 @@ installer()
    echo -e " *  [PHP7](https://php7.${COMPOSE_PROJECT_NAME,,}.local) :: PHP7 info" >> ${COMPOSE_PROJECT_NAME,,}.md
    echo -e " *  [PHP8](https://php8.${COMPOSE_PROJECT_NAME,,}.local) :: PHP8 info" >> ${COMPOSE_PROJECT_NAME,,}.md
    echo -e "\n\n# SITIOS " >> ${COMPOSE_PROJECT_NAME,,}.md
-   L1 $LIGTH_GREEN 'DONE' $WHITE '✔' "."
+   L1 $LIGHT_GREEN 'DONE' $WHITE '✔' "."
    ln
    docker_up
    help

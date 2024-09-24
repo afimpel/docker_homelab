@@ -18,7 +18,7 @@ docker_restart () {
     cd DOCKER/
     docker compose restart
   else
-      CUSTOM $NC 'Restart containers' $LIGTH_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
+      CUSTOM $NC 'Restart containers' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
       ln
       help
   fi  
@@ -45,13 +45,13 @@ docker_down() {
       cd DOCKER/
       docker compose down --remove-orphans
       cd $(dirname $0)/logs
-      colorize $LIGTH_GREEN "✔ $RED$(rm -v startup.pid)"
+      colorize $LIGHT_GREEN "✔ $RED$(rm -v startup.pid)"
       if [ "$#" -gt 0 ] && [ "$1" == "clear" ]; then
           ln
           clear
       fi
   else
-      CUSTOM $NC 'Stop & down all containers' $LIGTH_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
+      CUSTOM $NC 'Stop & down all containers' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
       ln
       help
   fi
@@ -81,7 +81,7 @@ docker_bash() {
   else
     if [ "$2" == "bash" ]; then
       header
-      R1 $RED "Docker OFF" $LIGTH_RED "✘" "."
+      R1 $RED "Docker OFF" $LIGHT_RED "✘" "."
     fi
     colorize $CYAN "./homelab up"
   fi

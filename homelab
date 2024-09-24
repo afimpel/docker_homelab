@@ -67,7 +67,7 @@ case "$subcommand" in
       R1 $GREEN "DUMPS: $(dirname $0)/dumpSQL" $WHITE '✔' "."
       docker_bash "homelab-mariadb" "dump_databases $@"
     else
-      CUSTOM $NC 'Dumping database' $LIGTH_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
+      CUSTOM $NC 'Dumping database' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
       ln
       help
     fi
@@ -116,8 +116,7 @@ case "$subcommand" in
     header
     cd $(dirname $0)
     if [ -f "logs/startup.pid" ]; then
-      R1 $RED "Invalid command" $LIGTH_RED "✘" "."
-      colorize $LIGTH_RED "⮡ \'$subcommand\'   "
+      CUSTOM $LIGHT_RED 'Invalid command' $LIGHT_RED "'$subcommand'" $WHITE "⮡" "." "✘" 0
       ln
     fi
     help

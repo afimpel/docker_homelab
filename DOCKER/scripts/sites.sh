@@ -56,15 +56,15 @@ newsite()
       echo -e " *  [${sites^^}](https://${sites}.${COMPOSE_PROJECT_NAME,,}.local) :: ${typefile^^}" >> ${COMPOSE_PROJECT_NAME,,}.md
       docker restart homelab-webserver
       ln
-      L1 $LIGTH_CYAN " done ... (${sites}.${COMPOSE_PROJECT_NAME,,}.local)" $WHITE "⛁" "."
+      L1 $LIGHT_CYAN " done ... (${sites}.${COMPOSE_PROJECT_NAME,,}.local)" $WHITE "⛁" "."
    else
-      L1 $LIGTH_CYAN " The website already exists ... (${sites}.${COMPOSE_PROJECT_NAME,,}.local)" $WHITE "⛁" "."
+      L1 $LIGHT_CYAN " The website already exists ... (${sites}.${COMPOSE_PROJECT_NAME,,}.local)" $WHITE "⛁" "."
    fi
 }
 
 www()
 {
-   R1 $YELLOW "WWW ( ${COMPOSE_PROJECT_NAME,,}.md )" $LIGTH_GREEN '✔' "." 
+   R1 $YELLOW "WWW ( ${COMPOSE_PROJECT_NAME,,}.md )" $LIGHT_GREEN '✔' "." 
    input_file="$(dirname $0)/${COMPOSE_PROJECT_NAME,,}.md"
 
    lnline=0
@@ -76,10 +76,10 @@ www()
          fi
          lnline=1
          title="${BASH_REMATCH[1]}"
-         R1 $NC "${title}:" $LIGTH_GREEN '☐' " "
+         R1 $NC "${title}:" $LIGHT_GREEN '☐' " "
       elif [[ ! -z  $line ]]; then
          url=$(echo "$line" |grep -Eo 'https://[^ )]+'|head -1)
-         echo -e "\t➤ ${LIGTH_CYAN}$url${NC}"
+         echo -e "\t➤ ${LIGHT_CYAN}$url${NC}"
       fi
    done < "$input_file"
 }

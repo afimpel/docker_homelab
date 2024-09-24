@@ -4,15 +4,26 @@
 # Utils                                                    #
 ############################################################
 
-LIGTH_GREEN='\033[1;32m'
-LIGTH_CYAN='\033[1;36m'
-CYAN='\033[0;36m'
-YELLOW='\033[38;5;220m'
-GREEN="\033[38;5;48m" 
-WHITE="\033[1;97m"
 NC='\033[0m' # No Color
-RED='\033[0;91m'
-LIGTH_RED='\033[1;91m'
+NOCOLOR='\033[0m'
+BLACK='\033[0;30m'
+BLUE='\033[0;34m'
+ORANGE='\033[0;33m'
+CYAN='\033[0;36m'
+DARK_GRAY='\033[1;30m'
+GREEN='\033[0;32m'
+LIGHT_BLUE='\033[1;34m'
+LIGHT_CYAN='\033[1;36m'
+LIGHT_GRAY='\033[0;37m'
+LIGHT_GREEN='\033[1;32m'
+LIGHT_PURPLE='\033[1;35m'
+LIGHT_ORANGE='\033[3;33m'
+LIGHT_RED='\033[1;31m'
+PURPLE='\033[0;35m'
+RED='\033[0;31m'
+WHITE='\033[1;37m'
+YELLOW='\033[1;33m'
+
 
 
 colorize () {
@@ -37,13 +48,13 @@ L1 () {
     printf " ${3}$4${NC}$1 $data ${3}$4${NC}\n${NC}"
 }
 header() {
-    R1 $WHITE "Compose use: ${COMPOSE_PROJECT_NAME^^} ✔" $LIGTH_GREEN "☑" "."
+    R1 $WHITE "Compose use: ${COMPOSE_PROJECT_NAME^^} ✔" $LIGHT_GREEN "☑" "."
 }
 startup() {
     cd $(dirname $0)
     if [ -f "logs/startup.pid" ]; then
         startup=$(cat logs/startup.pid)
-        CUSTOM $LIGTH_CYAN "Startup" $NC "$startup" $LIGTH_GREEN "⏲" ":" "⏲" 0
+        CUSTOM $LIGHT_CYAN "Startup" $NC "$startup" $LIGHT_GREEN "⏲" ":" "⏲" 0
     fi
 }
 footer() {
@@ -51,7 +62,7 @@ footer() {
     startup
     dockerV=$(docker -v)
     dockerCompose=$(docker compose version)
-    CUSTOM $LIGTH_CYAN "$dockerCompose" $LIGTH_GREEN "$dockerV" $WHITE "☑" "." "☑" 0
+    CUSTOM $LIGHT_CYAN "$dockerCompose" $LIGHT_GREEN "$dockerV" $WHITE "☑" "." "☑" 0
 }
 
 
@@ -95,8 +106,8 @@ clear () {
 
 exist (){ 
     if ! [ -x "$(command -v $1)" ]; then
-        R1 $RED "NOT installed" $LIGTH_RED "✘" "."
-        colorize $LIGTH_RED " ⮡ Require: \'$1\'   "
+        R1 $RED "NOT installed" $LIGHT_RED "✘" "."
+        colorize $LIGHT_RED " ⮡ Require: \'$1\'   "
         exit
     fi
 }
