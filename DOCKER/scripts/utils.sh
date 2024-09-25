@@ -24,7 +24,23 @@ RED='\033[0;31m'
 WHITE='\033[1;37m'
 YELLOW='\033[1;33m'
 
-
+diffTime () {
+    segundos1=$(date --date="@$1" +%s)
+    segundos2=$(date +%s)
+    diferencia=$((segundos2 - segundos1))
+    horas=$((diferencia / 3600))
+    minutos=$(( (diferencia % 3600) / 60 ))
+    segundos=$((diferencia % 60))
+    formatDate=$(date --date="@$1" +'%x | %X')
+    echoData="$segundos seg"
+    if [ $minutos -gt 0 ]; then
+        echoData="$minutos min, $echoData"
+    fi
+    if [ $horas -gt 0 ]; then
+        echoData="$horas hs, $echoData"
+    fi
+    echo "$echoData | $formatDate"
+}
 
 colorize () {
     printf "$1 $2\n${NC}"
@@ -54,7 +70,8 @@ startup() {
     cd $(dirname $0)
     if [ -f "logs/startup.pid" ]; then
         startup=$(cat logs/startup.pid)
-        CUSTOM $LIGHT_CYAN "Startup" $NC "$startup" $LIGHT_GREEN "⏲" ":" "⏲" 0
+        startupDate=$(diffTime "$startup")
+        CUSTOM $LIGHT_CYAN "Startup" $NC "$startupDate" $LIGHT_GREEN "⏲" ":" "⏲" 0
     fi
 }
 footer() {
@@ -101,7 +118,7 @@ completeLine() {
 clear () {
     R1 $YELLOW 'Clear Logs' $WHITE '🗑' "."
     cd $(dirname $0)/
-    find . -type f -name "*.log"  -delete -exec echo " 🗑 removed '{}'" \; 
+    find . -type f -name "*.log" -delete -printf ' 🗑 REMOVED:\t \0%p \n' | sort
 }
 
 exist (){ 

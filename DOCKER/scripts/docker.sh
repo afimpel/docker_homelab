@@ -6,7 +6,7 @@
 
 docker_up () {
   R1 $YELLOW 'Startup containers' $WHITE '✔' "."
-  date +'%A, %d/%B/%Y | %H:%M:%S ( 00%u )' > logs/startup.pid
+  date +'%s' > logs/startup.pid
   cd DOCKER/
   docker compose up -d
 }
@@ -14,7 +14,7 @@ docker_restart () {
   cd $(dirname $0)
   if [ -f "logs/startup.pid" ]; then
     R1 $YELLOW 'Restart containers' $WHITE '⟳' "."
-    date +'%A, %d/%B/%Y | %H:%M:%S ( 00%u )' > logs/startup.pid
+    date +'%s' > logs/startup.pid
     cd DOCKER/
     docker compose restart
   else
