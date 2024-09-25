@@ -31,15 +31,14 @@ diffTime () {
     horas=$((diferencia / 3600))
     minutos=$(( (diferencia % 3600) / 60 ))
     segundos=$((diferencia % 60))
-    formatDate=$(date --date="@$1" +'%x | %X')
-    echoData="$segundos seg"
+    echoData="${segundos}s"
     if [ $minutos -gt 0 ]; then
-        echoData="$minutos min, $echoData"
+        echoData="${minutos}m, $echoData"
     fi
     if [ $horas -gt 0 ]; then
-        echoData="$horas hs, $echoData"
+        echoData="${horas}h, $echoData"
     fi
-    echo "$echoData | $formatDate"
+    echo "$echoData"
 }
 
 colorize () {
