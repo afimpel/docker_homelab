@@ -97,7 +97,7 @@ services:
       context: ./images/nginx
       dockerfile: Dockerfile
     container_name: homelab-webserver
-    image: homelab:webserver
+    image: nginx:alpine
     tty: true
     environment:
       TZ: ${TIMEZONE}
@@ -107,6 +107,7 @@ services:
     volumes:
       - ../logs/nginx:/var/log/nginx:rw
       - ../www:/var/www:rw
+      - ../logs/nginx:/docker-entrypoint.d
       - ./images/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ../config/nginx-sites:/etc/nginx/sites-available:rw
       - ./certs:/certs
