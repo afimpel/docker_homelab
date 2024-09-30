@@ -93,9 +93,6 @@ services:
   # Webserver
   ############################
   homelab-webserver:
-    build:
-      context: ./images/nginx
-      dockerfile: Dockerfile
     container_name: homelab-webserver
     image: nginx:alpine
     tty: true
