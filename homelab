@@ -27,11 +27,13 @@ case "$subcommand" in
   ;;
   restart)
     header
+    startup
     docker_restart
     footer
   ;;
   clear)  
     header
+    startup
     clear
     cd $(dirname $0)
     if [ -f "logs/startup.pid" ]; then
