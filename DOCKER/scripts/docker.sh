@@ -70,7 +70,7 @@ docker_bash() {
       parm3="${@: 3}"
     fi
     workdir=""
-    if [[ $OLDPWD == *"/www/site"* ]]; then
+    if [[ $OLDPWD == *"/www"* ]]; then
       workdir=" -w ${OLDPWD/$PWD/\/var}"
     fi
     if [ ${#Usr} -gt 0 ]; then
