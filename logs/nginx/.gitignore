@@ -1,4 +1,5 @@
 *
-!sites
+!subdomains
 !homelab
+!domains
 !.gitignore

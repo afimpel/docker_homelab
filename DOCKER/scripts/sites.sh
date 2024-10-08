@@ -6,9 +6,16 @@
 
 newsite()
 {
-   sites=${1,,}
+   sites=${2,,}
+   if [ "$1" == "0" ]; then
+      sites_url="${sites}.${COMPOSE_PROJECT_NAME,,}";
+      sites_name="${sites}_${COMPOSE_PROJECT_NAME,,}";
+   else
+      sites_url="${sites}";
+      sites_name="${sites}";
+   fi
 
-   subcommand=${2,,}
+   subcommand=${3,,}
 
    case "$subcommand" in
       php8)
@@ -29,36 +36,48 @@ newsite()
       ;;
    esac
    exist 'mkcert'
-   R1 $YELLOW "${typefile^^} :: https://${sites}.${COMPOSE_PROJECT_NAME,,}.local" $WHITE "⛁" "."
+   R1 $YELLOW "${typefile^^} :: https://${sites_url}.local" $WHITE "⛁" "."
    ln
-   if [ ! -f "config/nginx-sites/${typefile}-${sites}_${COMPOSE_PROJECT_NAME,,}_local.conf" ]; then
+   if [ ! -f "config/nginx-sites/${typefile}-${sites_name}_local.conf" ]; then
 
-      mkdir -p www/sites/${sites}/${subdir}
       mkcert -install
-
-      cp -v DOCKER/examples/examplesite-${typefile}-local.conf config/nginx-sites/${typefile}-${sites}_${COMPOSE_PROJECT_NAME,,}_local.conf
-      sed -i "s/examplesite/${sites}/g" config/nginx-sites/${typefile}-${sites}_${COMPOSE_PROJECT_NAME,,}_local.conf
-      sed -i "s/COMPOSE_PROJECT_NAME/${COMPOSE_PROJECT_NAME,,}/g" config/nginx-sites/${typefile}-${sites}_${COMPOSE_PROJECT_NAME,,}_local.conf
-
-      echo -e "127.0.0.1\t\t${sites}.${COMPOSE_PROJECT_NAME,,}.local www.${sites}.${COMPOSE_PROJECT_NAME,,}.local" | sudo tee -a /etc/hosts
+      filename="_subdomains"
+      cp -v DOCKER/examples/examplesite-${typefile}-local.conf config/nginx-sites/${typefile}-${sites_name}_local.conf
+      if [ "$1" == "0" ]; then
+         siteFile="SubDomains"
+         mkdir -p www/subdomains/${sites}/${subdir}
+         sed -i "s/examplesite/${sites}/g" config/nginx-sites/${typefile}-${sites_name}_local.conf
+         sed -i "s/COMPOSE_PROJECT_NAME/${COMPOSE_PROJECT_NAME,,}/g" config/nginx-sites/${typefile}-${sites_name}_local.conf
+      else
+         filename="_domains"
+         siteFile="Domains"
+         mkdir -p www/domains/${sites}/${subdir}
+         sed -i "s/subdomains/domains/g" config/nginx-sites/${typefile}-${sites_name}_local.conf
+         sed -i "s/examplesite_COMPOSE_PROJECT_NAME/${sites_name}/g" config/nginx-sites/${typefile}-${sites_name}_local.conf
+         sed -i "s/examplesite.COMPOSE_PROJECT_NAME/${sites_url}/g" config/nginx-sites/${typefile}-${sites_name}_local.conf
+         sed -i "s/COMPOSE_PROJECT_NAME./gkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkggkgk/g" config/nginx-sites/${typefile}-${sites_name}_local.conf
+         sed -i "s/.gkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkggkgk././g" config/nginx-sites/${typefile}-${sites_name}_local.conf
+         sed -i "s/examplesite/${sites_url}/g" config/nginx-sites/${typefile}-${sites_name}_local.conf
+      fi
+      echo -e "127.0.0.1\t\t${sites_url}.local www.${sites_url}.local" | sudo tee -a /etc/hosts
 
       cd DOCKER/certs
 
-      mkcert ${sites}.${COMPOSE_PROJECT_NAME,,}.local www.${sites}.${COMPOSE_PROJECT_NAME,,}.local
-      mv -v ${sites}.${COMPOSE_PROJECT_NAME,,}.local*-key.pem certs_${sites}_${COMPOSE_PROJECT_NAME,,}_local-key.pem 
-      mv -v ${sites}.${COMPOSE_PROJECT_NAME,,}.local*.pem certs_${sites}_${COMPOSE_PROJECT_NAME,,}_local.pem 
+      mkcert ${sites_url}.local www.${sites_url}.local
+      mv -v ${sites_url}.local*-key.pem certs_${sites_name}_local-key.pem 
+      mv -v ${sites_url}.local*.pem certs_${sites_name}_local.pem 
 
       cd ../..
-      more config/nginx-sites/${typefile}-${sites}_${COMPOSE_PROJECT_NAME,,}_local.conf | grep server_name | head -1
-      if [ ! -f "${COMPOSE_PROJECT_NAME,,}.md" ]; then
-         echo "# SITIOS " > ${COMPOSE_PROJECT_NAME,,}.md
+      more config/nginx-sites/${typefile}-${sites_name}_local.conf | grep server_name | head -1
+      if [ ! -f "${COMPOSE_PROJECT_NAME,,}${filename}.md" ]; then
+         echo -e "# ${siteFile} " > "${COMPOSE_PROJECT_NAME,,}${filename}.md"
       fi
-      echo -e " *  [${sites^^}](https://${sites}.${COMPOSE_PROJECT_NAME,,}.local) :: ${typefile^^}" >> ${COMPOSE_PROJECT_NAME,,}.md
+      echo -e " *  [${sites^^}](https://${sites_url}.local) :: ${typefile^^}" >> "${COMPOSE_PROJECT_NAME,,}${filename}.md"
       docker restart homelab-webserver
       ln
-      L1 $LIGHT_CYAN " done ... (${sites}.${COMPOSE_PROJECT_NAME,,}.local)" $WHITE "⛁" "."
+      L1 $LIGHT_CYAN " done ... (${sites_url}.local)" $WHITE "⛁" "."
    else
-      L1 $LIGHT_CYAN " The website already exists ... (${sites}.${COMPOSE_PROJECT_NAME,,}.local)" $WHITE "⛁" "."
+      L1 $LIGHT_CYAN " The website already exists ... (${sites_url}.local)" $WHITE "⛁" "."
    fi
 }
 
@@ -82,4 +101,46 @@ www()
          echo -e "\t➤ ${LIGHT_CYAN}$url${NC}"
       fi
    done < "$input_file"
+
+   input_file0="$(dirname $0)/${COMPOSE_PROJECT_NAME,,}_domains.md"
+   if [ -f "${input_file0}" ]; then
+      ln
+      R1 $YELLOW "Domains ( ${COMPOSE_PROJECT_NAME,,}_domains.md )" $LIGHT_GREEN '✔' "." 
+      lnline=0
+      while IFS= read -r line; do
+         # Check for section titles
+         if [[ $line =~ ^#\ (.*) ]]; then
+            if [[ $lnline == 1 ]]; then
+               ln
+            fi
+            lnline=1
+            title="${BASH_REMATCH[1]}"
+            R1 $NC "${title}:" $LIGHT_GREEN '☐' " "
+         elif [[ ! -z  $line ]]; then
+            url=$(echo "$line" |grep -Eo 'https://[^ )]+'|head -1)
+            echo -e "\t➤ ${LIGHT_CYAN}$url${NC}"
+         fi
+      done < "$input_file0"
+   fi
+
+   input_file0="$(dirname $0)/${COMPOSE_PROJECT_NAME,,}_subdomains.md"
+   if [ -f "${input_file0}" ]; then
+      ln
+      R1 $YELLOW "SubDomains ( ${COMPOSE_PROJECT_NAME,,}_subdomains.md )" $LIGHT_GREEN '✔' "." 
+      lnline=0
+      while IFS= read -r line; do
+         # Check for section titles
+         if [[ $line =~ ^#\ (.*) ]]; then
+            if [[ $lnline == 1 ]]; then
+               ln
+            fi
+            lnline=1
+            title="${BASH_REMATCH[1]}"
+            R1 $NC "${title}:" $LIGHT_GREEN '☐' " "
+         elif [[ ! -z  $line ]]; then
+            url=$(echo "$line" |grep -Eo 'https://[^ )]+'|head -1)
+            echo -e "\t➤ ${LIGHT_CYAN}$url${NC}"
+         fi
+      done < "$input_file0"
+   fi
 }

@@ -99,9 +99,14 @@ case "$subcommand" in
   php7-usr)
     docker_bash "homelab-php7" "bash" "${USERNAME}"
   ;;
-  newsite)
+  newsudomain)
     header
-    newsite $@
+    newsite 0 $@
+    footer
+  ;;
+  newdomain)
+    header
+    newsite 1 $@
     footer
   ;;
   listsite)
