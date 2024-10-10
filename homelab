@@ -5,6 +5,7 @@ source $(dirname $0)/DOCKER/scripts/utils.sh
 source $(dirname $0)/DOCKER/scripts/sites.sh
 source $(dirname $0)/DOCKER/scripts/installer.sh
 source $(dirname $0)/DOCKER/scripts/docker.sh
+source $(dirname $0)/DOCKER/scripts/backup.sh
 
 cd $(dirname $0)
 set -a && source DOCKER/.env && set +a
@@ -129,6 +130,11 @@ case "$subcommand" in
   down)
     header
     docker_down "$@"
+    footer
+  ;;
+  backup)
+    header
+    backup
     footer
   ;;
   *)

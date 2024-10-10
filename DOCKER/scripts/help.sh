@@ -50,5 +50,6 @@ help()
       else
          echo -e "\t➤ ${LIGHT_CYAN}up${NC}\t\t\t\t\tStart containers."
       fi
+      echo -e "\t➤ ${LIGHT_CYAN}backup ${NC}\t\t\t\tbackup of files (www/DB/Configs)."
    fi
 }
