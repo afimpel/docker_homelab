@@ -64,6 +64,7 @@ L1 () {
 }
 header() {
     R1 $WHITE "Compose use: ${COMPOSE_PROJECT_NAME^^} ✔" $LIGHT_GREEN "☑" "."
+    ln
 }
 startup() {
     cd $(dirname $0)

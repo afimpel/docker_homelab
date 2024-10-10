@@ -1,0 +1,3 @@
+#!/bin/bash
+source $(dirname $0)/DOCKER/scripts/docker.sh
+docker_bash "homelab-php7" "php" $@
