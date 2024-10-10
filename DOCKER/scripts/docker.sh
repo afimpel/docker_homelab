@@ -45,7 +45,7 @@ docker_down() {
       cd DOCKER/
       docker compose down --remove-orphans
       cd $(dirname $0)/logs
-      colorize $LIGHT_GREEN "✔ $RED$(rm -v startup.pid)"
+      colorize $LIGHT_GREEN "✔ $LIGHT_RED$(rm -v startup.pid)"
       if [ "$#" -gt 0 ] && [ "$1" == "clear" ]; then
           ln
           clear

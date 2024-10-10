@@ -50,21 +50,20 @@ ln () {
 }
 R1 () {
     data=$(completeLine "$2" "$5" 1);
-    printf " ${3}$4${NC}$1 $data ${3}$4${NC}\n${NC}"
+    printf " ${3}$4${NC}$1  $data ${3}$4${NC}\n${NC}"
 }
 
 CUSTOM () {
     data=$(completeLine "$2" "$7" 3 "$4" $9);
-    printf " ${5}$6${NC}$1 $2$3 $data ${5}$8${NC}\n${NC}"
+    printf " ${5}$6${NC}$1  $2$3 $data ${5}$8${NC}\n${NC}"
 }
 
 L1 () {
     data=$(completeLine "$2" "$5" 2);
-    printf " ${3}$4${NC}$1 $data ${3}$4${NC}\n${NC}"
+    printf " ${3}$4${NC}$1  $data ${3}$4${NC}\n${NC}"
 }
 header() {
-    R1 $WHITE "Compose use: ${COMPOSE_PROJECT_NAME^^} ✔" $LIGHT_GREEN "☑" "."
-    ln
+    CUSTOM $WHITE "Compose use: ${COMPOSE_PROJECT_NAME^^} ✔" $LIGHT_GRAY "${USERNAME^^}" $WHITE "☑" "." "☑" 0
 }
 startup() {
     cd $(dirname $0)
@@ -85,9 +84,9 @@ footer() {
 
 completeLine() {
     if [ "$3" == '3' ]; then
-        menos=$(( 8 + $5 ))
+        menos=$(( 9 + $5 ))
     else
-        menos=7
+        menos=8
     fi
     local input_string="$1$4"
     local input_string0="$1"
@@ -118,7 +117,7 @@ completeLine() {
 clear () {
     R1 $YELLOW 'Clear Logs' $WHITE '🗑' "."
     cd $(dirname $0)/
-    find . -type f -name "*.log" -delete -printf ' 🗑 REMOVED:\t \0%p \n' | sort
+    find . -type f -name "*.log" -delete -printf " 🗑  REMOVED:\t $LIGHT_RED \0%p $NC\n" | sort
 }
 
 exist (){ 
