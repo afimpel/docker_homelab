@@ -25,12 +25,14 @@ docker_restart () {
 }
 
 docker_ps() {
+  cd $(dirname $0)
   R1 $YELLOW 'List all containers' $WHITE '✔' "."
   cd DOCKER/
   docker compose ps -a
 }
 
 docker_logs() {
+  cd $(dirname $0)
   R1 $YELLOW "Show containers logs : $1" $WHITE '✔' "."
   cd DOCKER/
   docker compose logs "$@"
@@ -58,6 +60,7 @@ docker_down() {
 }
 
 docker_bash() {
+  cd $(dirname $0)
   Usr=""
   Container=$1
   parm3=""

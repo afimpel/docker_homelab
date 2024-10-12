@@ -7,18 +7,21 @@ installer()
 {
    USERNAME=$(whoami)
    cd $(dirname $0)
-   R1 $YELLOW 'Install project' $WHITE '▶' "."
+   CUSTOM $YELLOW "Install project" $LIGHT_GREEN "$USERNAME" $WHITE "▶" "." "▶" 0
    exist 'mkcert'
    ln
    if [ -f "${COMPOSE_PROJECT_NAME,,}.md" ]; then
       L1 $LIGHT_CYAN 'The project is already installed.' $WHITE '🖥' "."
       exit
    fi
-   if [ -f "DOCKER/.env" ]; then
+
+   if [ ! -f "DOCKER/.env" ]; then
       cp -v DOCKER/.env.dist DOCKER/.env
       sed -i "s/CUSTOMUSER/${USERNAME,,}/g" DOCKER/.env
    fi
+
    set -a && source DOCKER/.env && set +a
+   mkdir DOCKER/certs/mkcert
    mkcert -install
    cp $HOME/.local/share/mkcert/rootCA* DOCKER/certs/mkcert
    cp -v DOCKER/examples/installer-homelab-local.conf config/nginx-sites/main_${COMPOSE_PROJECT_NAME,,}_local.conf
@@ -28,8 +31,9 @@ installer()
    mkcert ${COMPOSE_PROJECT_NAME,,}.local www.${COMPOSE_PROJECT_NAME,,}.local adminer.${COMPOSE_PROJECT_NAME,,}.local mailhog.${COMPOSE_PROJECT_NAME,,}.local redis.${COMPOSE_PROJECT_NAME,,}.local php8.${COMPOSE_PROJECT_NAME,,}.local php7.${COMPOSE_PROJECT_NAME,,}.local localhost 127.0.0.1 ::1
    mv ${COMPOSE_PROJECT_NAME,,}.local*-key.pem certs_default-key.pem
    mv ${COMPOSE_PROJECT_NAME,,}.local*.pem certs_default.pem
-   echo -e "127.0.0.1\t\t${COMPOSE_PROJECT_NAME,,}.local www.${COMPOSE_PROJECT_NAME,,}.local adminer.${COMPOSE_PROJECT_NAME,,}.local mailhog.${COMPOSE_PROJECT_NAME,,}.local redis.${COMPOSE_PROJECT_NAME,,}.local php8.${COMPOSE_PROJECT_NAME,,}.local php7.${COMPOSE_PROJECT_NAME,,}.local" | sudo tee -a /etc/hosts
-   cd ../..
+   sudo echo -e "127.0.0.1\t\t${COMPOSE_PROJECT_NAME,,}.local www.${COMPOSE_PROJECT_NAME,,}.local adminer.${COMPOSE_PROJECT_NAME,,}.local mailhog.${COMPOSE_PROJECT_NAME,,}.local redis.${COMPOSE_PROJECT_NAME,,}.local php8.${COMPOSE_PROJECT_NAME,,}.local php7.${COMPOSE_PROJECT_NAME,,}.local" >> /etc/hosts
+
+   cd $(dirname $0)
    echo -e "# HomeLAB " > ${COMPOSE_PROJECT_NAME,,}.md
    echo -e " *  [WWW](https://www.${COMPOSE_PROJECT_NAME,,}.local) :: WELCOME" >> ${COMPOSE_PROJECT_NAME,,}.md
    echo -e " *  [Adminer](https://adminer.${COMPOSE_PROJECT_NAME,,}.local) :: Adminer" >> ${COMPOSE_PROJECT_NAME,,}.md
@@ -39,6 +43,7 @@ installer()
    echo -e " *  [PHP8](https://php8.${COMPOSE_PROJECT_NAME,,}.local) :: PHP8 info" >> ${COMPOSE_PROJECT_NAME,,}.md
    L1 $LIGHT_GREEN 'DONE' $WHITE '✔' "."
    ln
+
    docker_up
    help
    www

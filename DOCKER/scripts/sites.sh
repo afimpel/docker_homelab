@@ -85,6 +85,7 @@ www()
 {
    R1 $YELLOW "WWW ( ${COMPOSE_PROJECT_NAME,,}.md )" $LIGHT_GREEN '✔' "." 
    input_file="$(dirname $0)/${COMPOSE_PROJECT_NAME,,}.md"
+   cd $(dirname $0)
 
    lnline=0
    while IFS= read -r line; do
