@@ -38,8 +38,8 @@ newsite()
    exist 'mkcert'
    R1 $YELLOW "${typefile^^} :: https://${sites_url}.local" $WHITE "⛁" "."
    ln
+   openCD $0
    if [ ! -f "config/nginx-sites/${typefile}-${sites_name}_local.conf" ]; then
-
       mkcert -install
       filename="_subdomains"
       cp -v DOCKER/examples/examplesite-${typefile}-local.conf config/nginx-sites/${typefile}-${sites_name}_local.conf
@@ -59,7 +59,7 @@ newsite()
          sed -i "s/.gkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkggkgk././g" config/nginx-sites/${typefile}-${sites_name}_local.conf
          sed -i "s/examplesite/${sites_url}/g" config/nginx-sites/${typefile}-${sites_name}_local.conf
       fi
-      echo -e "127.0.0.1\t\t${sites_url}.local www.${sites_url}.local" | sudo tee -a /etc/hosts
+      sudo echo -e "127.0.0.1\t\t${sites_url}.local www.${sites_url}.local" > /etc/hosts
 
       cd DOCKER/certs
 
@@ -67,7 +67,7 @@ newsite()
       mv -v ${sites_url}.local*-key.pem certs_${sites_name}_local-key.pem 
       mv -v ${sites_url}.local*.pem certs_${sites_name}_local.pem 
 
-      cd ../..
+      openCD $0
       more config/nginx-sites/${typefile}-${sites_name}_local.conf | grep server_name | head -1
       if [ ! -f "${COMPOSE_PROJECT_NAME,,}${filename}.md" ]; then
          echo -e "# ${siteFile} " > "${COMPOSE_PROJECT_NAME,,}${filename}.md"
@@ -83,10 +83,9 @@ newsite()
 
 www()
 {
+   openCD $0
    R1 $YELLOW "WWW ( ${COMPOSE_PROJECT_NAME,,}.md )" $LIGHT_GREEN '✔' "." 
-   input_file="$(dirname $0)/${COMPOSE_PROJECT_NAME,,}.md"
-   cd $(dirname $0)
-
+   input_file="${COMPOSE_PROJECT_NAME,,}.md"
    lnline=0
    while IFS= read -r line; do
       # Check for section titles
@@ -103,7 +102,7 @@ www()
       fi
    done < "$input_file"
 
-   input_file0="$(dirname $0)/${COMPOSE_PROJECT_NAME,,}_domains.md"
+   input_file0="${COMPOSE_PROJECT_NAME,,}_domains.md"
    if [ -f "${input_file0}" ]; then
       ln
       R1 $YELLOW "Domains ( ${COMPOSE_PROJECT_NAME,,}_domains.md )" $LIGHT_GREEN '✔' "." 

@@ -5,13 +5,14 @@
 ############################################################
 
 docker_up () {
+  openCD $0
   R1 $YELLOW 'Startup containers' $WHITE '✔' "."
   date +'%s' > logs/startup.pid
   cd DOCKER/
   docker compose up -d
 }
 docker_restart () {
-  cd $(dirname $0)
+  openCD $0
   if [ -f "logs/startup.pid" ]; then
     R1 $YELLOW 'Restart containers' $WHITE '⟳' "."
     date +'%s' > logs/startup.pid
@@ -25,28 +26,29 @@ docker_restart () {
 }
 
 docker_ps() {
-  cd $(dirname $0)
+  openCD $0
   R1 $YELLOW 'List all containers' $WHITE '✔' "."
   cd DOCKER/
   docker compose ps -a
 }
 
 docker_logs() {
-  cd $(dirname $0)
+  openCD $0
   R1 $YELLOW "Show containers logs : $1" $WHITE '✔' "."
   cd DOCKER/
   docker compose logs "$@"
 }
 
 docker_down() {
-  cd $(dirname $0)
+  openCD $0
   if [ -f "logs/startup.pid" ]; then
       startup
       ln
       R1 $YELLOW 'Stop & down all containers' $WHITE "☐" "."
       cd DOCKER/
       docker compose down --remove-orphans
-      cd $(dirname $0)/logs
+      openCD $0
+      cd logs
       colorize $LIGHT_GREEN "✔ $LIGHT_RED$(rm -v startup.pid)"
       if [ "$#" -gt 0 ] && [ "$1" == "clear" ]; then
           ln
@@ -60,7 +62,7 @@ docker_down() {
 }
 
 docker_bash() {
-  cd $(dirname $0)
+  openCD $0
   Usr=""
   Container=$1
   parm3=""

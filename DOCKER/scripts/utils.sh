@@ -66,7 +66,7 @@ header() {
     CUSTOM $WHITE "Compose use: ${COMPOSE_PROJECT_NAME^^} ✔" $LIGHT_GRAY "${USERNAME^^}" $WHITE "☑" "." "☑" 0
 }
 startup() {
-    cd $(dirname $0)
+    openCD $0
     if [ -f "logs/startup.pid" ]; then
         startup=$(cat logs/startup.pid)
         startupDate=$(diffTime "$startup")
@@ -116,7 +116,7 @@ completeLine() {
 
 clear () {
     R1 $YELLOW 'Clear Logs' $WHITE '🗑' "."
-    cd $(dirname $0)
+    openCD $0
     find . -type f -name "*.log" -delete -printf " 🗑  REMOVED:\t $LIGHT_RED \0%p $NC\n" | sort
 }
 
@@ -125,5 +125,12 @@ exist (){
         R1 $RED "NOT installed" $LIGHT_RED "✘" "."
         colorize $LIGHT_RED " ⮡ Require: \'$1\'   "
         exit
+    fi
+}
+openCD (){ 
+    if [ "$(dirname $1)" == "." ]; then
+        cd $OLDPWD
+    else
+        cd $(dirname $1)
     fi
 }

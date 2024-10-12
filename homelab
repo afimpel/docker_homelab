@@ -71,12 +71,12 @@ case "$subcommand" in
   dumps)
     header
     ln
-    cd $(dirname $0)
+    cd $OLDPWD
     if [ -f "logs/startup.pid" ]; then
       R1 $YELLOW "Dumping database: " $WHITE '▾' "."
       docker_bash "homelab-mariadb" "mariadb --version"
       ln
-      R1 $GREEN "DUMPS: $(dirname $0)/dumpSQL" $WHITE '✔' "."
+      R1 $GREEN "DUMPS: dumpSQL" $WHITE '✔' "."
       docker_bash "homelab-mariadb" "dump_databases $@"
     else
       CUSTOM $NC 'Dumping database' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0

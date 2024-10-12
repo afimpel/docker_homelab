@@ -7,7 +7,7 @@
 help()
 {
    # Display Help
-   cd $(dirname $0)
+   openCD $0
    R1 $YELLOW 'Help ' $WHITE '☐' "." 
    R1 $WHITE 'Syntax : ' $LIGHT_GREEN '✔' " " 
    echo -e "\t➤ ${LIGHT_GREEN}./homelab${NC} <cmd> <options>"
@@ -43,9 +43,9 @@ help()
          echo -e "\t➤ ${LIGHT_CYAN}php8-usr${NC}\t\t\t\tDocker bash in\t ${YELLOW}PHP $php8${NC}\t\t\t( ${LIGHT_ORANGE}♟ ${USERNAME}${NC} )"
          echo -e ""
          echo -e "\t➤ ${LIGHT_CYAN}listsite ${NC}\t\t\t\tList all Sites."
-         echo -e "\t➤ ${LIGHT_CYAN}newsudomain <site> <type>${NC}\tCreate the New SubDomain. ( ${GREEN}<site>.${COMPOSE_PROJECT_NAME,,}.local${NC} )"
-         echo -e "\t\t\t\t\t\t${GREEN}<type>${NC} ( ${CYAN}build${NC}, ${CYAN}php7${NC} & ${CYAN}php8${NC} )"
          echo -e "\t➤ ${LIGHT_CYAN}newdomain <site> <type>${NC}\t\tCreate the New Domain. ( ${GREEN}<site>.local${NC} )"
+         echo -e "\t\t\t\t\t\t${GREEN}<type>${NC} ( ${CYAN}build${NC}, ${CYAN}php7${NC} & ${CYAN}php8${NC} )"
+         echo -e "\t➤ ${LIGHT_CYAN}newsudomain <site> <type>${NC}\t\tCreate the New SubDomain. ( ${GREEN}<site>.${COMPOSE_PROJECT_NAME,,}.local${NC} )"
          echo -e "\t\t\t\t\t\t${GREEN}<type>${NC} ( ${CYAN}build${NC}, ${CYAN}php7${NC} & ${CYAN}php8${NC} )"
       else
          echo -e "\t➤ ${LIGHT_CYAN}up${NC}\t\t\t\t\tStart containers."
