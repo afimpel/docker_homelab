@@ -20,6 +20,7 @@ services:
       - "./images/mariadb/conf.d:/etc/mysql/conf.d"
       - "../dumpSQL:/root/dumps:rw"
       - "./images/mariadb/dump_databases.sh:/usr/bin/dump_databases"
+      - "./images/mariadb/import_databases.sh:/usr/bin/import_databases"
     networks:
       - homelab-network
 

@@ -7,7 +7,8 @@ source $(dirname $0)/DOCKER/scripts/installer.sh
 source $(dirname $0)/DOCKER/scripts/docker.sh
 source $(dirname $0)/DOCKER/scripts/backup.sh
 
-cd $(dirname $0)
+openCD $0
+
 set -a && source DOCKER/.env && set +a
 shift $((OPTIND -1))
 
@@ -40,7 +41,7 @@ case "$subcommand" in
     startup
     ln
     clear
-    cd $(dirname $0)
+    openCD $0 
     if [ -f "logs/startup.pid" ]; then
       ln
       docker_restart
@@ -71,13 +72,30 @@ case "$subcommand" in
   dumps)
     header
     ln
-    cd $OLDPWD
+    openCD $0 
+    if [ -f "logs/startup.pid" ]; then
+      R1 $YELLOW "Dumping database: " $WHITE '▾' "."
+      docker_bash "homelab-mariadb" "mariadb --version"
+      ln
+      CUSTOM $GREEN 'DUMPS:' $LIGHT_CYAN "$(pwd)/dumpSQL" $WHITE "✔" "." "✔" 0
+      docker_bash "homelab-mariadb" "dump_databases $@"
+    else
+      CUSTOM $GREEN 'Dumping database' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
+      ln
+      help
+    fi
+    footer
+  ;;
+  import)
+    header
+    ln
+    openCD $0 
     if [ -f "logs/startup.pid" ]; then
       R1 $YELLOW "Dumping database: " $WHITE '▾' "."
       docker_bash "homelab-mariadb" "mariadb --version"
       ln
       R1 $GREEN "DUMPS: dumpSQL" $WHITE '✔' "."
-      docker_bash "homelab-mariadb" "dump_databases $@"
+      docker_bash "homelab-mariadb" "import_databases $@"
     else
       CUSTOM $NC 'Dumping database' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
       ln
@@ -140,7 +158,7 @@ case "$subcommand" in
   *)
     header
     ln
-    cd $(dirname $0)
+    openCD $0 
     if [ -f "logs/startup.pid" ]; then
       CUSTOM $LIGHT_RED 'Invalid command' $LIGHT_RED "'$subcommand'" $WHITE "⮡" "." "✘" 0
       ln
