@@ -62,6 +62,7 @@ docker_down() {
 }
 
 docker_bash() {
+  OLDOLDPWD=$OLDPWD
   openCD $0
   Usr=""
   Container=$1
@@ -75,8 +76,8 @@ docker_bash() {
       parm3="${@: 3}"
     fi
     workdir=""
-    if [[ $OLDPWD == *"/www"* ]]; then
-      workdir=" -w ${OLDPWD/$PWD/\/var}"
+    if [[ $OLDOLDPWD == *"/www"* ]]; then
+      workdir=" -w ${OLDOLDPWD/$PWD/\/var}"
     fi
     if [ ${#Usr} -gt 0 ]; then
       docker exec$workdir -it -u $Usr $Container $2
