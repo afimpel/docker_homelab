@@ -52,7 +52,7 @@ docker_down() {
       colorize $LIGHT_GREEN "✔ $LIGHT_RED$(rm -v startup.pid)"
       if [ "$#" -gt 0 ] && [ "$1" == "clear" ]; then
           ln
-          clear
+          clearLogs
       fi
   else
       CUSTOM_RIGHT $NC 'Stop & down all containers' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0

@@ -40,7 +40,7 @@ case "$subcommand" in
     header
     startup
     ln
-    clear
+    clearLogs
     openCD $0 
     if [ -f "logs/startup.pid" ]; then
       ln

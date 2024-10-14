@@ -124,7 +124,7 @@ completeLine() {
     fi
 }
 
-clear () {
+clearLogs () {
     R1 $YELLOW 'Clear Logs' $WHITE '🗑' "."
     openCD $0
     find . -type f -name "*.log" -delete -printf " 🗑  REMOVED:\t $LIGHT_RED \0%p $NC\n" | sort
