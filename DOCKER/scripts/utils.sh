@@ -53,9 +53,19 @@ R1 () {
     printf " ${3}$4${NC}$1  $data ${3}$4${NC}\n${NC}"
 }
 
-CUSTOM () {
+CUSTOM_RIGHT () {
     data=$(completeLine "$2" "$7" 3 "$4" $9);
     printf " ${5}$6${NC}$1  $2$3 $data ${5}$8${NC}\n${NC}"
+}
+
+CUSTOM_LEFT () {
+    data=$(completeLine "$2" "$7" 3 "$4" $9);
+    ant_string=""
+    ants=$9
+    for ((i=0; i<ants; i++)); do
+        ant_string+=" "
+    done
+    printf "$ant_string ${5}$6${NC}$1  $2$3 $data ${5}$8${NC}\n${NC}"
 }
 
 L1 () {
@@ -63,14 +73,14 @@ L1 () {
     printf " ${3}$4${NC}$1  $data ${3}$4${NC}\n${NC}"
 }
 header() {
-    CUSTOM $WHITE "Compose use: ${COMPOSE_PROJECT_NAME^^} ✔" $LIGHT_GRAY "${USERNAME^^}" $WHITE "☑" "." "☑" 0
+    CUSTOM_RIGHT $WHITE "Compose use: ${COMPOSE_PROJECT_NAME^^} ✔" $LIGHT_GRAY "${USERNAME^^}" $WHITE "☑" "." "☑" 0
 }
 startup() {
     openCD $0
     if [ -f "logs/startup.pid" ]; then
         startup=$(cat logs/startup.pid)
         startupDate=$(diffTime "$startup")
-        CUSTOM $LIGHT_CYAN "Startup" $NC "$startupDate" $LIGHT_GREEN "⏲" ":" "⏲" 0
+        CUSTOM_RIGHT $LIGHT_CYAN "Startup" $NC "$startupDate" $LIGHT_GREEN "⏲" ":" "⏲" 0
     fi
 }
 footer() {
@@ -78,7 +88,7 @@ footer() {
     startup
     dockerV=$(docker -v)
     dockerCompose=$(docker compose version)
-    CUSTOM $LIGHT_CYAN "$dockerCompose" $LIGHT_GREEN "$dockerV" $WHITE "☑" "." "☑" 0
+    CUSTOM_RIGHT $LIGHT_CYAN "$dockerCompose" $LIGHT_GREEN "$dockerV" $WHITE "☑" "." "☑" 0
 }
 
 
@@ -129,7 +139,11 @@ exist (){
 }
 openCD (){ 
     if [ "$(dirname $1)" == "." ]; then
-        cd $OLDPWD
+        if [ -f "$PWD/homelab" ]; then
+            cd $PWD
+        else
+            cd $OLDPWD
+        fi
     else
         cd $(dirname $1)
     fi

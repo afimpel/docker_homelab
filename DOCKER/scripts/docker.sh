@@ -19,7 +19,7 @@ docker_restart () {
     cd DOCKER/
     docker compose restart
   else
-      CUSTOM $NC 'Restart containers' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
+      CUSTOM_RIGHT $NC 'Restart containers' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
       ln
       help
   fi  
@@ -55,7 +55,7 @@ docker_down() {
           clear
       fi
   else
-      CUSTOM $NC 'Stop & down all containers' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
+      CUSTOM_RIGHT $NC 'Stop & down all containers' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
       ln
       help
   fi

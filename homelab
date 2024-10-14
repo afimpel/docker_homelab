@@ -74,13 +74,13 @@ case "$subcommand" in
     ln
     openCD $0 
     if [ -f "logs/startup.pid" ]; then
-      R1 $YELLOW "Dumping database: " $WHITE '▾' "."
+      R1 $YELLOW "Dump to file from Database" $WHITE '▾' "."
       docker_bash "homelab-mariadb" "mariadb --version"
       ln
-      CUSTOM $GREEN 'DUMPS:' $LIGHT_CYAN "$(pwd)/dumpSQL" $WHITE "✔" "." "✔" 0
+      CUSTOM $GREEN 'DUMPS in' $LIGHT_CYAN "/dumpSQL" $WHITE "✔" "." "✔" 0
       docker_bash "homelab-mariadb" "dump_databases $@"
     else
-      CUSTOM $GREEN 'Dumping database' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
+      CUSTOM $GREEN 'Dumps ...' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
       ln
       help
     fi
@@ -91,13 +91,13 @@ case "$subcommand" in
     ln
     openCD $0 
     if [ -f "logs/startup.pid" ]; then
-      R1 $YELLOW "Dumping database: " $WHITE '▾' "."
+      R1 $YELLOW "Imported from file to database" $WHITE '▾' "."
       docker_bash "homelab-mariadb" "mariadb --version"
       ln
       R1 $GREEN "DUMPS: dumpSQL" $WHITE '✔' "."
       docker_bash "homelab-mariadb" "import_databases $@"
     else
-      CUSTOM $NC 'Dumping database' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
+      CUSTOM $NC 'Imported ...' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
       ln
       help
     fi

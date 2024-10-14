@@ -17,6 +17,6 @@ backup () {
     ls DOCKER/certs >> ${COMPOSE_PROJECT_NAME,,}_cert.md
     tar --exclude='*/node_modules/*' --exclude='*/vendor/*' --exclude='*.log' --exclude='*.tgz' -cvzf backup/${unix}-${COMPOSE_PROJECT_NAME,,}_backup.tgz www/domains www/subdomains dumpSQL/database config DOCKER/.env ${COMPOSE_PROJECT_NAME,,}*.md /etc/hosts
     size=$(du -sh backup/${unix}-${COMPOSE_PROJECT_NAME,,}_backup.tgz | awk '{print $1}')
-    CUSTOM $WHITE "backup Done:" $LIGHT_GRAY "${unix}-${COMPOSE_PROJECT_NAME,,}_backup.tgz ($size)" $WHITE "✔" "." "✔" 0
+    CUSTOM_RIGHT $WHITE "backup Done:" $LIGHT_GRAY "${unix}-${COMPOSE_PROJECT_NAME,,}_backup.tgz ($size)" $WHITE "✔" "." "✔" 0
 }
 

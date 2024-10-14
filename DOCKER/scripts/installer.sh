@@ -7,7 +7,7 @@ installer()
 {
    USERNAME=$(whoami)
    openCD $0
-   CUSTOM $YELLOW "Install project" $LIGHT_GREEN "$USERNAME" $WHITE "▶" "." "▶" 0
+   CUSTOM_RIGHT $YELLOW "Install project" $LIGHT_GREEN "$USERNAME" $WHITE "▶" "." "▶" 0
    exist 'mkcert'
    ln
    if [ -f "${COMPOSE_PROJECT_NAME,,}.md" ]; then
