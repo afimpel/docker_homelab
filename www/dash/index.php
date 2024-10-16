@@ -15,10 +15,11 @@ $filesDomain = scandir($directoryDomain);
     <title>LEMP STACK -- <?php echo strtoupper(getenv('COMPOSE_PROJECT_NAME')); ?> </title>
     <link rel="stylesheet" href="https://bootswatch.com/5/spacelab/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-mfizz/2.4.1/font-mfizz.min.css" integrity="sha512-Cdvnk1SFWqcb3An6gMyqDRH40Js8qmsWcSK10I2gSifCe2LilaPMsHd6DldEvQ3uIlCb1qdRUrNeAFFleOu4xQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
 <body style="padding-top: 96px;">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" data-bs-theme="dark">
 
         <div class="container">
             <a href="./" class="navbar-brand"><i class="me-2 icon-docker"></i> LEMP</a>
@@ -64,52 +65,65 @@ $filesDomain = scandir($directoryDomain);
             </div>
         </div>
     </nav>
+    <?php
+        $mariaDBversion = "error";
+        try {
+            $link = mysqli_connect("homelab-mariadb", getenv('MARIADB_USER'), getenv('MARIADB_PASSWORD'), null);
+            if (mysqli_connect_errno()) {
+                throw new Exception(mysqli_connect_error());
+            } else {
+                $mariaDBversion = mysqli_get_server_info($link);
+                $result = mysqli_query($link, "select TIME_FORMAT(SEC_TO_TIME(VARIABLE_VALUE ),'%Hh %im')  as uptime from information_schema.GLOBAL_STATUS where VARIABLE_NAME='Uptime';");
+                if (!$result) {
+                    throw new Exception("Error en la consulta: " . mysqli_error($link));
+                }
+                $rows = mysqli_fetch_assoc($result);
+           }       
+        } catch (\Exception $e) {
+    ?>
+    <div class="alert alert-danger m-2 p-1">
+        <?php echo $e->getMessage(); ?>
+    </div>
+    <?php } ?>
+
     <div class="container">
-        <h1 class="title text-success">
-            <i class="icon-docker"></i> LEMP STACK (<em> <?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?> </em>)
+        <h1 class="title text-success px-3">
+            <i class="icon-docker pe-3"></i> LEMP STACK (<em class="px-3"> <?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?> </em>)
         </h1>
-        <small class="muted">PHP / Composer / Nginx / MariaDB / Adminer / Redis</small>
-        <h2 class="subtitle">
+        <small class="muted border d-block px-3 rounded-pill">PHP / Composer / Nginx / MariaDB / Adminer / Redis</small>
+        <h2 class="subtitle px-3">
             Your local development environment in Docker
         </h2>
     </div>
+
     <div class="container-fluid py-2">
-        <div class="rounded row border border-info m-2 p-2 py-4">
+        <div class="rounded row border border-primary m-2 p-2 py-3">
             <div class="col-12 col-md">
-                <h3 class="title is-3 has-text-centered"><i class="icon-docker"></i> Environment</h3>
-                <hr class="my-1">
+                <h3 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1">
+                    <i class="icon-docker me-2"></i> Environment
+                    <small style="font-size: small;" class="badge text-light bg-info rounded ms-auto my-auto"><?php echo $rows['uptime'];?></small>
+                </h3>
                 <div class="list-group">
                     <span class="list-group-item d-flex justify-content-between align-items-center py-1">
                         <span><i class="icon-nginx me-2"></i> Server:</span>
-                        <small class="badge text-light bg-info rounded-pill px-2">
+                        <small class="badge text-light bg-primary rounded-pill px-2">
                             <?= $_SERVER['SERVER_SOFTWARE']; ?>
                         </small>
                     </span>
-                    <a href="//php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" target="_blank" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-1">
+                    <a href="//php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" target="_blank" class="list-group-item list-group-item-info list-group-item-action d-flex justify-content-between align-items-center py-1">
                         <span><i class="icon-php me-2"></i> PHP8:</span>
-                        <small class="badge text-light bg-info rounded-pill px-2">
+                        <small class="badge text-light bg-primary rounded-pill px-2">
                             <?= phpversion(); ?>
                         </small>
                     </a>
                     <a href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?server=homelab-mariadb&username=<?= getenv('MARIADB_USER'); ?>" target="_blank" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-1">
                         <span><i class="icon-mariadb me-2"></i> mariaDB:</span>
-                        <small class="badge text-light bg-info rounded-pill px-2">
-                            <?php
-                            try {
-                                $link = mysqli_connect("homelab-mariadb", getenv('MARIADB_USER'), getenv('MARIADB_PASSWORD'), null);
-                                if (mysqli_connect_errno()) {
-                                    printf("%s", mysqli_connect_error());
-                                } else {
-                                    echo mysqli_get_server_info($link);
-                                }                               
-                            } catch (\Throwable $th) {
-                                //throw $th;
-                            } ?>
+                        <small class="badge text-light bg-primary rounded-pill px-2">
+                            <?php echo $mariaDBversion; ?>
                         </small>
                     </a>
                 </div>
-                <hr class="my-1">
-                <a href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?server=homelab-mariadb&username=<?= getenv('MARIADB_USER'); ?>" target="_blank" class="w-100 btn btn-outline-info p-1">
+                <a href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?server=homelab-mariadb&username=<?= getenv('MARIADB_USER'); ?>" target="_blank" class="w-100 mt-2 btn btn-outline-primary p-1">
                     <small class="d-flex justify-content-between align-items-center px-1">
                         <span><i class="icon-mysql-alt me-2"></i> Server:</span>
                         <b class="px-0">
@@ -131,45 +145,61 @@ $filesDomain = scandir($directoryDomain);
                 </a>
             </div>
             <div class="col-12 col-md-4">
-                <h3 class="title has-text-centered"><i class="icon-google-developers"></i> Quick Links</h3>
-                <hr class="my-1">
+                <h3 class="title has-text-centered border-bottom border-primary d-flex py-1">
+                    <i class="icon-google-developers me-2"></i> Quick Links
+                </h3>
                 <div class="list-group">
-                    <a title="php7.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-action p-0 px-2" href="//php7.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-php-alt mx-2"></i>php7 -> phpinfo()</a>
-                    <a title="php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-action p-0 px-2" href="//php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-php-alt mx-2"></i>php8 -> phpinfo()</a>
-                    <a title="adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-action p-0 px-2" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-database mx-2"></i> adminer</a>
-                    <a title="redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-action p-0 px-2" href="//redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-redis mx-2"></i> redis</a>
-                    <a translate="no" title="mailhog.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-action p-0 px-2" href="//mailhog.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class=" icon-bomb mx-2"></i> mailhog</a>
+                    <a title="php7.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-info list-group-item-action p-0 px-2" href="//php7.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-php-alt mx-2"></i>php7 -> phpinfo()</a>
+                    <a title="php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-info list-group-item-action p-0 px-2" href="//php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-php-alt mx-2"></i>php8 -> phpinfo()</a>
+                    <a title="adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-warning list-group-item-action p-0 px-2" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-database mx-2"></i> adminer</a>
+                    <a title="redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-danger list-group-item-action p-0 px-2" href="//redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-redis mx-2"></i> redis</a>
+                    <a translate="no" title="mailhog.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-danger list-group-item-action p-0 px-2" href="//mailhog.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class=" icon-bomb mx-2"></i> mailhog</a>
                 </div>
             </div>
         </div>
-        <div class="rounded row border border-success m-2 p-2 py-4">
+        <div class="rounded row border border-success m-2 p-2 py-3">
+        <?php
+            try {
+                if (!$link) {
+                    throw new Exception("Fatal Error");
+                }
+                $result = mysqli_query($link, 'SHOW DATABASES;');
+                if (!$result) {
+                    throw new Exception("Error en la consulta: " . mysqli_error($link));
+                }
+                $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        ?>
             <div class="col-12 col-md">
-                <h3 class="title is-3 has-text-centered"><i class="icon-mysql me-2"></i> Database List</h3>
-                <hr class="my-1">
+                <h3 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1">
+                    <i class="icon-mysql me-2"></i> Database List
+                    <small class="badge text-light bg-primary ms-auto"><?php echo count($rows);?></small>
+                </h3>
                 <div class="list-group">
-                    <?php
-                    try {
-                        if (!$link) {
-                            throw new Exception("Fatal Error");
-                        }
-                        $set = mysqli_query($link, 'SHOW DATABASES;');
-                        if (!$set) {
-                            throw new Exception("Error en la consulta: " . mysqli_error($link));
-                        }
-                        while ($db = mysqli_fetch_row($set)) { ?>
-                            <a target="_blank" translate="no" class="list-group-item list-group-item-action py-1" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?server=homelab-mariadb&username=<?= getenv('MARIADB_USER'); ?>&db=<?= $db[0]; ?>"><i class="icon-database me-2"></i> <?= $db[0]; ?> </a>
-                        <?php }
-                        mysqli_free_result($set);
-                        mysqli_close($link);
-                    } catch (\Exception $e) {
-                        echo $e->getMessage();
-                    } ?>
+                <?php
+                foreach ($rows as $row) { ?>
+                    <a target="_blank" translate="no" class="list-group-item list-group-item-action py-1" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?server=homelab-mariadb&username=<?= getenv('MARIADB_USER'); ?>&db=<?= $row["Database"]; ?>">
+                        <i class="bi bi-database-fill me-2"></i>
+                        <?= $row["Database"]; ?>
+                    </a>
+                <?php }
+                ?>
                 </div>          
             </div>
-            <?php if (count($filesDomain) > 3){?>
+        <?php
+            mysqli_free_result($result);
+            mysqli_close($link);
+        } catch (\Exception $e) {
+        ?>
+        <div class="alert alert-danger">
+            <?php echo $e->getMessage(); ?>
+        </div>
+        <?php }
+        if (count($filesDomain) > 3){?>
             <div class="col-12 col-md">
-                <h3 class="title is-2 has-text-centered d-flex"><i class="icon-nginx me-2"></i> Domain Sites List (<em> .local </em>) <small class="badge text-light bg-info rounded-pill ms-auto"><?php echo count($filesDomain)-3;?></small></h3>
-                <hr class="my-1">
+                <h3 class="title is-2 has-text-centered border-bottom border-info d-flex py-1">
+                    <i class="icon-nginx me-2"></i> Domain Sites List (<em> .local </em>)
+                    <small class="badge text-light bg-info rounded ms-auto"><?php echo count($filesDomain)-3;?></small>
+                </h3>
                 <div class="list-group">
                     <?php echo listSites($filesDomain, $directoryDomain, "list-group-item list-group-item-action py-1");?>
                 </div>
@@ -177,8 +207,10 @@ $filesDomain = scandir($directoryDomain);
             <?php }
             if (count($filesSubdomin) > 3){?>
             <div class="col-12 col-md">
-                <h3 class="title is-2 has-text-centered d-flex"><i class="icon-nginx me-2"></i> SubDomain Sites List (<em> .<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local </em>) <small class="badge text-light bg-info rounded-pill ms-auto"><?php echo count($filesSubdomin)-3;?></small></h3>
-                <hr class="my-1">
+                <h3 class="title is-2 has-text-centered border-bottom border-info d-flex py-1">
+                    <i class="icon-nginx me-2"></i> SubDomain Sites List (<em> .<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local </em>)
+                    <small class="badge text-light bg-info rounded ms-auto"><?php echo count($filesSubdomin)-3;?></small>
+                </h3>
                 <div class="list-group">
                     <?php echo listSites($filesSubdomin, $directorySubdomin, "list-group-item list-group-item-action py-1",".".strtolower(getenv('COMPOSE_PROJECT_NAME')));?>
                 </div>
@@ -187,7 +219,7 @@ $filesDomain = scandir($directoryDomain);
         </div>
         <hr class="my-3">
         <div class="container border border-dark rounded p-2">
-            <h3 class="text-center"><i class="icon-shell"></i> access to php composer:</h3>
+            <h3 class="text-center py-1 border-bottom"><i class="icon-shell"></i> access to php composer:</h3>
             <ol>
                 <li>Open terminal (ej: xterm, gnome-terminal)</li>
                 <li>

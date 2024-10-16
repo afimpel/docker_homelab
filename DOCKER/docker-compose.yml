@@ -153,8 +153,8 @@ services:
     volumes:
       - ../logs/php7:/var/log/php:rw
       - ../www:/var/www:rw
-      - ../config/composer/root:/root/.config/composer:rw
-      - ../config/composer/${USERNAME}:/home/${USERNAME}/.config/composer:rw
+      - ../config/composer/php7/root:/root/.config/composer:rw
+      - ../config/composer/php7/${USERNAME}:/home/${USERNAME}/.config/composer:rw
       - ./images/php/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
       - ./images/php/ini/defaults.ini:/usr/local/etc/php/conf.d/defaults.ini
       - ./certs/mkcert:/root/.local/share/mkcert
@@ -193,8 +193,8 @@ services:
     volumes:
       - ../logs/php8:/var/log/php:rw
       - ../www:/var/www:rw
-      - ../config/composer/root:/root/.config/composer:rw
-      - ../config/composer/${USERNAME}:/home/${USERNAME}/.config/composer:rw
+      - ../config/composer/php8/root:/root/.config/composer:rw
+      - ../config/composer/php8/${USERNAME}:/home/${USERNAME}/.config/composer:rw
       - ./images/php/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
       - ./images/php/ini/defaults.ini:/usr/local/etc/php/conf.d/defaults.ini
       - ./certs/mkcert:/root/.local/share/mkcert
