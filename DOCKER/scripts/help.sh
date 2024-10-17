@@ -63,7 +63,7 @@ help()
       else
          echo -e ""
          CUSTOM_LEFT $NC "Docker :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
-         echo -e "\t➤ ${LIGHT_CYAN}up${NC}\t\t\t\t\tStart containers."
+         CUSTOM_CENTER $LIGHT_CYAN "up" $NC "Start all containers." $NC "➤" " " " " "7+152"
       fi
    fi
 }
