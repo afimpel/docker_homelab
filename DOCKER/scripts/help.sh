@@ -49,7 +49,7 @@ help()
          CUSTOM_CENTER $LIGHT_CYAN "php8-usr" $NC "Docker bash in\t ${YELLOW}PHP $php8${NC}\t\t\t( ${LIGHT_ORANGE}♟ ${USERNAME}${NC} )" $NC "➤" " " " " "7+152"
          CUSTOM_CENTER $LIGHT_CYAN "php8" $NC "Docker bash in\t ${YELLOW}PHP $php8${NC}\t\t\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+152"
          CUSTOM_CENTER $LIGHT_CYAN "php8-cli <command>" $NC "Docker CLI in\t ${YELLOW}PHP $php8${NC}\t\t\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+152"
-         CUSTOM_CENTER $LIGHT_CYAN "php8-composer <command>" $NC "Docker CLI in\t ${YELLOW}PHP $php8${NC} ➤ ${YELLOW}Composer $composer7${NC}\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+152"
+         CUSTOM_CENTER $LIGHT_CYAN "php8-composer <command>" $NC "Docker CLI in\t ${YELLOW}PHP $php8${NC} ➤ ${YELLOW}Composer $composer8${NC}\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+152"
          
          echo -e ""
          CUSTOM_LEFT $NC "Sites :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
