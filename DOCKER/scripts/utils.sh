@@ -68,6 +68,16 @@ CUSTOM_LEFT () {
     printf "$ant_string ${5}$6${NC}$1  $2$3 $data ${5}$8${NC}\n${NC}"
 }
 
+CUSTOM_CENTER () {
+    data=$(completeLine "$2" "$7" 4 "$4" $(( $9 )));
+    ant_string=""
+    ants=7
+    for ((i=0; i<ants; i++)); do
+        ant_string+=" "
+    done
+    printf "$ant_string ${5}$6${NC}$1  $2$3 $data$4 ${5}$8${NC}\n${NC}"
+}
+
 L1 () {
     data=$(completeLine "$2" "$5" 2);
     printf " ${3}$4${NC}$1  $data ${3}$4${NC}\n${NC}"
@@ -93,12 +103,15 @@ footer() {
 
 
 completeLine() {
+    local input_string="$1$4"
     if [ "$3" == '3' ]; then
+        menos=$(( 9 + $5 ))
+    elif [ "$3" == '4' ]; then
+        input_string="$1"
         menos=$(( 9 + $5 ))
     else
         menos=8
     fi
-    local input_string="$1$4"
     local input_string0="$1"
     local input_string1="$4"
     local total_length=$(tput cols)-$menos
@@ -119,8 +132,8 @@ completeLine() {
         echo "$input_string0 $output_string $input_string1"
     elif [ "$3" == '1' ]; then
         echo "$input_string $output_string"
-    else
-        echo "$output_string $input_string"
+    elif [ "$3" == '4' ]; then
+        echo "$output_string"
     fi
 }
 
