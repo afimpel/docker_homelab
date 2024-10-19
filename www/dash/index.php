@@ -201,7 +201,7 @@ $filesDomain = scandir($directoryDomain);
                     <small class="badge text-light bg-info rounded ms-auto"><?php echo count($filesDomain)-3;?></small>
                 </h3>
                 <div class="list-group">
-                    <?php echo listSites($filesDomain, $directoryDomain, "list-group-item list-group-item-action py-1");?>
+                    <?php echo listSites($filesDomain, $directoryDomain, "list-group-item list-group-item-action py-1",'','www.');?>
                 </div>
             </div>
             <?php }
@@ -238,16 +238,19 @@ $filesDomain = scandir($directoryDomain);
 </body>
 
 <?php
-function listSites($files, $directory, $class, $domain = ""){ 
+function listSites($files, $directory, $class, $domain = "", $prefix=""){ 
     $sitesLinks = array();
     foreach ($files as $file) {
         if ($file !== '.' && $file !== '..') {
             if (is_dir($directory . $file)) { 
-                $type = "php";
+                $type = "nginx-alt";
                 if (is_dir($directory . $file.'/build')) { 
                     $type="html";
                 }
-                $url=$file."".$domain;
+                if (is_dir($directory . $file.'/public')) { 
+                    $type="php";
+                }
+                $url=$prefix.$file."".$domain;
                 $sitesLinks[]="<a translate='no' title='$url.local' target='_blank' class='$class' href='//$url.local' style='min-width: 15vw;'><i class='icon-$type me-2'></i> $file</a>";
             }
         }
