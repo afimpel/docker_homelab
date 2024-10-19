@@ -139,6 +139,12 @@ case "$subcommand" in
     newsite 1 $@
     footer
   ;;
+  legacydomain)
+    header
+    ln
+    newsite 2 $@
+    footer
+  ;;
   listsite)
     header
     ln

@@ -6,15 +6,6 @@
 
 newsite()
 {
-   sites=${2,,}
-   if [ "$1" == "0" ]; then
-      sites_url="${sites}.${COMPOSE_PROJECT_NAME,,}";
-      sites_name="${sites}_${COMPOSE_PROJECT_NAME,,}";
-   else
-      sites_url="${sites}";
-      sites_name="${sites}";
-   fi
-
    subcommand=${3,,}
 
    case "$subcommand" in
@@ -35,6 +26,21 @@ newsite()
          subdir="build";
       ;;
    esac
+
+   sites=${2,,}
+   if [ "$1" == "0" ]; then
+      sites_url="${sites}.${COMPOSE_PROJECT_NAME,,}";
+      sites_name="${sites}_${COMPOSE_PROJECT_NAME,,}";
+   elif [ "$1" == "2" ]; then
+      sites_url="${sites}";
+      sites_name="${sites}";
+      typefile="legacy-${typefile}";
+      subdir="";
+   else
+      sites_url="${sites}";
+      sites_name="${sites}";
+   fi
+
    exist 'mkcert'
    R1 $YELLOW "${typefile^^} :: https://${sites_url}.local" $WHITE "⛁" "."
    ln
@@ -59,7 +65,7 @@ newsite()
          sed -i "s/.gkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkggkgk././g" config/nginx-sites/${typefile}-${sites_name}_local.conf
          sed -i "s/examplesite/${sites_url}/g" config/nginx-sites/${typefile}-${sites_name}_local.conf
       fi
-      sudo echo -e "127.0.0.1\t\t${sites_url}.local www.${sites_url}.local" > /etc/hosts
+      sudo bash -c "echo -e '127.0.0.1\t\t${sites_url}.local www.${sites_url}.local' >> /etc/hosts"
 
       cd DOCKER/certs
 
