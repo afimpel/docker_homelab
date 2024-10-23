@@ -48,7 +48,7 @@ colorize () {
 ln () {
     printf "\n"
 }
-R1 () {
+rightH1 () {
     data=$(completeLine "$2" "$5" 1);
     printf " ${3}$4${NC}$1  $data ${3}$4${NC}\n${NC}"
 }
@@ -78,7 +78,7 @@ CUSTOM_CENTER () {
     printf "$ant_string ${5}$6${NC}$1  $2$3 $data$4 ${5}$8${NC}\n${NC}"
 }
 
-L1 () {
+leftH1 () {
     data=$(completeLine "$2" "$5" 2);
     printf " ${3}$4${NC}$1  $data ${3}$4${NC}\n${NC}"
 }
@@ -132,20 +132,22 @@ completeLine() {
         echo "$input_string0 $output_string $input_string1"
     elif [ "$3" == '1' ]; then
         echo "$input_string $output_string"
+    elif [ "$3" == '2' ]; then
+        echo "$output_string $input_string"
     elif [ "$3" == '4' ]; then
         echo "$output_string"
     fi
 }
 
 clearLogs () {
-    R1 $YELLOW 'Clear Logs' $WHITE '🗑' "."
+    rightH1 $YELLOW 'Clear Logs' $WHITE '🗑' "."
     openCD $0
     find . -type f -name "*.log" -delete -printf " 🗑  REMOVED:\t $LIGHT_RED \0%p $NC\n" | sort
 }
 
 exist (){ 
     if ! [ -x "$(command -v $1)" ]; then
-        R1 $RED "NOT installed" $LIGHT_RED "✘" "."
+        rightH1 $RED "NOT installed" $LIGHT_RED "✘" "."
         colorize $LIGHT_RED " ⮡ Require: \'$1\'   "
         exit
     fi

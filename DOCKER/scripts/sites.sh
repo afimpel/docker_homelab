@@ -42,11 +42,10 @@ newsite()
    fi
 
    exist 'mkcert'
-   R1 $YELLOW "${typefile^^} :: https://${sites_url}.local" $WHITE "⛁" "."
+   rightH1 $YELLOW "${typefile^^} :: https://${sites_url}.local" $WHITE "⛁" "."
    ln
    openCD $0
    if [ ! -f "config/nginx-sites/${typefile}-${sites_name}_local.conf" ]; then
-      mkcert -install
       filename="_subdomains"
       cp -v DOCKER/examples/examplesite-${typefile}-local.conf config/nginx-sites/${typefile}-${sites_name}_local.conf
       if [ "$1" == "0" ]; then
@@ -67,6 +66,8 @@ newsite()
       fi
       sudo bash -c "echo -e '127.0.0.1\t\t${sites_url}.local www.${sites_url}.local' >> /etc/hosts"
 
+      dateTime=$(date '+%Y_%m_%d-%s')
+      echo -e "${sites_url}.local www.${sites_url}.local;${sites_name}_local;${sites_url};${dateTime};new" >> mkcert.csv
       cd DOCKER/certs
 
       mkcert ${sites_url}.local www.${sites_url}.local
@@ -81,16 +82,17 @@ newsite()
       echo -e " *  [${sites^^}](https://${sites_url}.local) :: ${typefile^^}" >> "${COMPOSE_PROJECT_NAME,,}${filename}.md"
       docker restart homelab-webserver
       ln
-      L1 $LIGHT_CYAN " done ... (${sites_url}.local)" $WHITE "⛁" "."
+      mkcert -install
+      leftH1 $LIGHT_CYAN " done ... (${sites_url}.local)" $WHITE "⛁" "."
    else
-      L1 $LIGHT_CYAN " The website already exists ... (${sites_url}.local)" $WHITE "⛁" "."
+      leftH1 $LIGHT_CYAN " The website already exists ... (${sites_url}.local)" $WHITE "⛁" "."
    fi
 }
 
 www()
 {
    openCD $0
-   R1 $YELLOW "WWW ( ${COMPOSE_PROJECT_NAME,,}.md )" $LIGHT_GREEN '✔' "." 
+   rightH1 $YELLOW "WWW ( ${COMPOSE_PROJECT_NAME,,}.md )" $LIGHT_GREEN '✔' "." 
    input_file="${COMPOSE_PROJECT_NAME,,}.md"
    lnline=0
    while IFS= read -r line; do
@@ -101,7 +103,7 @@ www()
          fi
          lnline=1
          title="${BASH_REMATCH[1]}"
-         R1 $NC "${title}:" $LIGHT_GREEN '☐' " "
+         rightH1 $NC "${title}:" $LIGHT_GREEN '☐' " "
       elif [[ ! -z  $line ]]; then
          url=$(echo "$line" |grep -Eo 'https://[^ )]+'|head -1)
          echo -e "\t➤ ${LIGHT_CYAN}$url${NC}"
@@ -111,7 +113,7 @@ www()
    input_file0="${COMPOSE_PROJECT_NAME,,}_domains.md"
    if [ -f "${input_file0}" ]; then
       ln
-      R1 $YELLOW "Domains ( ${COMPOSE_PROJECT_NAME,,}_domains.md )" $LIGHT_GREEN '✔' "." 
+      rightH1 $YELLOW "Domains ( ${COMPOSE_PROJECT_NAME,,}_domains.md )" $LIGHT_GREEN '✔' "." 
       lnline=0
       while IFS= read -r line; do
          # Check for section titles
@@ -121,7 +123,7 @@ www()
             fi
             lnline=1
             title="${BASH_REMATCH[1]}"
-            R1 $NC "${title}:" $LIGHT_GREEN '☐' " "
+            rightH1 $NC "${title}:" $LIGHT_GREEN '☐' " "
          elif [[ ! -z  $line ]]; then
             url=$(echo "$line" |grep -Eo 'https://[^ )]+'|head -1)
             echo -e "\t➤ ${LIGHT_CYAN}$url${NC}"
@@ -132,7 +134,7 @@ www()
    input_file0="$(dirname $0)/${COMPOSE_PROJECT_NAME,,}_subdomains.md"
    if [ -f "${input_file0}" ]; then
       ln
-      R1 $YELLOW "SubDomains ( ${COMPOSE_PROJECT_NAME,,}_subdomains.md )" $LIGHT_GREEN '✔' "." 
+      rightH1 $YELLOW "SubDomains ( ${COMPOSE_PROJECT_NAME,,}_subdomains.md )" $LIGHT_GREEN '✔' "." 
       lnline=0
       while IFS= read -r line; do
          # Check for section titles
@@ -142,7 +144,7 @@ www()
             fi
             lnline=1
             title="${BASH_REMATCH[1]}"
-            R1 $NC "${title}:" $LIGHT_GREEN '☐' " "
+            rightH1 $NC "${title}:" $LIGHT_GREEN '☐' " "
          elif [[ ! -z  $line ]]; then
             url=$(echo "$line" |grep -Eo 'https://[^ )]+'|head -1)
             echo -e "\t➤ ${LIGHT_CYAN}$url${NC}"

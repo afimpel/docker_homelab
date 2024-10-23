@@ -11,7 +11,7 @@ installer()
    exist 'mkcert'
    ln
    if [ -f "${COMPOSE_PROJECT_NAME,,}.md" ]; then
-      L1 $LIGHT_CYAN 'The project is already installed.' $WHITE '🖥' "."
+      leftH1 $LIGHT_CYAN 'The project is already installed.' $WHITE '🖥' "."
       exit
    fi
 
@@ -27,6 +27,8 @@ installer()
    cp -v DOCKER/examples/installer-homelab-local.conf config/nginx-sites/main_${COMPOSE_PROJECT_NAME,,}_local.conf
    sed -i "s/COMPOSE_PROJECT_NAME/${COMPOSE_PROJECT_NAME,,}/g" config/nginx-sites/main_${COMPOSE_PROJECT_NAME,,}_local.conf
 
+   dateTime=$(date '+%Y_%m_%d-%s')
+   echo -e "${COMPOSE_PROJECT_NAME,,}.local www.${COMPOSE_PROJECT_NAME,,}.local adminer.${COMPOSE_PROJECT_NAME,,}.local mailhog.${COMPOSE_PROJECT_NAME,,}.local redis.${COMPOSE_PROJECT_NAME,,}.local php8.${COMPOSE_PROJECT_NAME,,}.local php7.${COMPOSE_PROJECT_NAME,,}.local localhost 127.0.0.1 ::1;default;${COMPOSE_PROJECT_NAME,,};${dateTime};new\n" > mkcert.csv
    cd DOCKER/certs
    mkcert ${COMPOSE_PROJECT_NAME,,}.local www.${COMPOSE_PROJECT_NAME,,}.local adminer.${COMPOSE_PROJECT_NAME,,}.local mailhog.${COMPOSE_PROJECT_NAME,,}.local redis.${COMPOSE_PROJECT_NAME,,}.local php8.${COMPOSE_PROJECT_NAME,,}.local php7.${COMPOSE_PROJECT_NAME,,}.local localhost 127.0.0.1 ::1
    mv ${COMPOSE_PROJECT_NAME,,}.local*-key.pem certs_default-key.pem
@@ -41,7 +43,7 @@ installer()
    echo -e " *  [MailHOG](https://mailhog.${COMPOSE_PROJECT_NAME,,}.local) :: MailHOG" >> ${COMPOSE_PROJECT_NAME,,}.md
    echo -e " *  [PHP7](https://php7.${COMPOSE_PROJECT_NAME,,}.local) :: PHP7 info" >> ${COMPOSE_PROJECT_NAME,,}.md
    echo -e " *  [PHP8](https://php8.${COMPOSE_PROJECT_NAME,,}.local) :: PHP8 info" >> ${COMPOSE_PROJECT_NAME,,}.md
-   L1 $LIGHT_GREEN 'DONE' $WHITE '✔' "."
+   leftH1 $LIGHT_GREEN 'DONE' $WHITE '✔' "."
    ln
 
    docker_up

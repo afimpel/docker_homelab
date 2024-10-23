@@ -6,7 +6,7 @@
 
 docker_up () {
   openCD $0
-  R1 $YELLOW 'Startup containers' $WHITE '✔' "."
+  rightH1 $YELLOW 'Startup containers' $WHITE '✔' "."
   date +'%s' > logs/startup.pid
   cd DOCKER/
   docker compose up -d
@@ -14,7 +14,7 @@ docker_up () {
 docker_restart () {
   openCD $0
   if [ -f "logs/startup.pid" ]; then
-    R1 $YELLOW 'Restart containers' $WHITE '⟳' "."
+    rightH1 $YELLOW 'Restart containers' $WHITE '⟳' "."
     date +'%s' > logs/startup.pid
     cd DOCKER/
     docker compose restart
@@ -27,14 +27,14 @@ docker_restart () {
 
 docker_ps() {
   openCD $0
-  R1 $YELLOW 'List all containers' $WHITE '✔' "."
+  rightH1 $YELLOW 'List all containers' $WHITE '✔' "."
   cd DOCKER/
   docker compose ps -a
 }
 
 docker_logs() {
   openCD $0
-  R1 $YELLOW "Show containers logs : $1" $WHITE '✔' "."
+  rightH1 $YELLOW "Show containers logs : $1" $WHITE '✔' "."
   cd DOCKER/
   docker compose logs "$@"
 }
@@ -44,7 +44,7 @@ docker_down() {
   if [ -f "logs/startup.pid" ]; then
       startup
       ln
-      R1 $YELLOW 'Stop & down all containers' $WHITE "☐" "."
+      rightH1 $YELLOW 'Stop & down all containers' $WHITE "☐" "."
       cd DOCKER/
       docker compose down --remove-orphans
       openCD $0
@@ -70,7 +70,7 @@ docker_bash() {
   if [ -f "logs/startup.pid" ]; then
     if [ "$2" == "bash" ]; then
       header
-      R1 $YELLOW "Container: $1 $2" $WHITE '✔' "."
+      rightH1 $YELLOW "Container: $1 $2" $WHITE '✔' "."
       Usr=$3
     else
       parm3="${@: 3}"
@@ -87,7 +87,7 @@ docker_bash() {
   else
     if [ "$2" == "bash" ]; then
       header
-      R1 $RED "Docker OFF" $LIGHT_RED "✘" "."
+      rightH1 $RED "Docker OFF" $LIGHT_RED "✘" "."
     fi
     colorize $CYAN "./homelab up"
   fi

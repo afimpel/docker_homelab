@@ -8,11 +8,11 @@ help()
 {
    # Display Help
    openCD $0
-   R1 $YELLOW 'Help ' $WHITE '☐' "." 
-   R1 $WHITE 'Syntax : ' $LIGHT_GREEN '✔' " " 
+   rightH1 $YELLOW 'Help ' $WHITE '☐' "." 
+   rightH1 $WHITE 'Syntax : ' $LIGHT_GREEN '✔' " " 
    echo -e "\t➤ ${LIGHT_GREEN}./homelab${NC} <cmd> <options>"
    echo -e ""
-   R1 $WHITE 'Commands (cmd) : ' $LIGHT_GREEN '✔' " " 
+   rightH1 $WHITE 'Commands (cmd) : ' $LIGHT_GREEN '✔' " " 
    CUSTOM_CENTER $LIGHT_CYAN "help" $NC "Display usage information. (this message)" $NC "➤" " " " " "7+152"
    if ! [ -f "${COMPOSE_PROJECT_NAME,,}.md" ]; then
       CUSTOM_CENTER $LIGHT_CYAN "install" $NC "Install this project." $NC "➤" " " " " "7+152"
@@ -54,6 +54,8 @@ help()
          echo -e ""
          CUSTOM_LEFT $NC "Sites :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
          CUSTOM_CENTER $LIGHT_CYAN "listsite" $NC "List all Sites." $NC "➤" " " " " "7+152"
+
+         CUSTOM_CENTER $LIGHT_CYAN "recreate-ssl" $NC "Recreating SSL Certificates." $NC "➤" " " " " "7+152"
 
          CUSTOM_CENTER $LIGHT_CYAN "legacydomain <site> <type>" $NC "Create the New Domain. (Legacy Code) ( ${GREEN}<site>.local${NC} )" $NC "➤" " " " " "7+152"
          CUSTOM_CENTER $LIGHT_CYAN " " $NC "${GREEN}<type>${NC} ( ${CYAN}build${NC}, ${CYAN}php7${NC} & ${CYAN}php8${NC} )" $NC " " " " " " "7+152"
