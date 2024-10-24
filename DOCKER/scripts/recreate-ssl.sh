@@ -52,5 +52,4 @@ recreate-ssl()
    mkcert -install
    mv -v mkcert_recreate.csv mkcert.csv
    leftH1 $LIGHT_GREEN 'DONE' $WHITE '✔' "."
-   echo -e "${COMPOSE_PROJECT_NAME,,}.local www.${COMPOSE_PROJECT_NAME,,}.local adminer.${COMPOSE_PROJECT_NAME,,}.local mailhog.${COMPOSE_PROJECT_NAME,,}.local redis.${COMPOSE_PROJECT_NAME,,}.local php8.${COMPOSE_PROJECT_NAME,,}.local php7.${COMPOSE_PROJECT_NAME,,}.local localhost 127.0.0.1 ::1;default;${COMPOSE_PROJECT_NAME,,};main_${COMPOSE_PROJECT_NAME,,}_local;certs_default;${dateTime};new" > ssl-mkcert.csv
 }
