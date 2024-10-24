@@ -67,7 +67,7 @@ newsite()
       sudo bash -c "echo -e '127.0.0.1\t\t${sites_url}.local www.${sites_url}.local' >> /etc/hosts"
 
       dateTime=$(date '+%Y_%m_%d-%s')
-      echo -e "${sites_url}.local www.${sites_url}.local;${sites_name}_local;${sites_url};${dateTime};new" >> mkcert.csv
+      echo -e "${sites_url}.local www.${sites_url}.local;${sites_name}_local;${sites_url};${typefile}-${sites_name}_local;certs_${sites_name,,}_local;${dateTime};new" >> mkcert.csv
       cd DOCKER/certs
 
       mkcert ${sites_url}.local www.${sites_url}.local
