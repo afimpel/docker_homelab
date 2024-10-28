@@ -2,4 +2,5 @@
 !nginx
 !php7
 !php8
+!mariadb
 !.gitignore

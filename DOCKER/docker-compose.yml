@@ -16,6 +16,7 @@ services:
       MARIADB_PASSWORD: ${MARIADB_PASSWORD}
     volumes:
       - MariadbVol:/var/lib/mysql
+      - "../logs/mariadb:/var/log/mysql:rw"
       - "../config/mariadb-initdb:/docker-entrypoint-initdb.d:rw"
       - "./images/mariadb/conf.d:/etc/mysql/conf.d"
       - "../dumpSQL:/root/dumps:rw"
@@ -105,7 +106,7 @@ services:
     volumes:
       - ../logs/nginx:/var/log/nginx:rw
       - ../www:/var/www:rw
-      - ../logs/nginx:/docker-entrypoint.d
+      - ./images/nginx/entrypoint:/docker-entrypoint.d:rw
       - ./images/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ../config/nginx-sites:/etc/nginx/sites-available:rw
       - ./certs:/certs
