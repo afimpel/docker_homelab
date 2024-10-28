@@ -154,6 +154,7 @@ services:
     hostname: php7-${COMPOSE_PROJECT_NAME}
     volumes:
       - ../logs/php7:/var/log/php:rw
+      - ../logs/sites-logs:/var/log/sites-logs:rw
       - ../www:/var/www:rw
       - ../config/composer/php7/root:/root/.config/composer:rw
       - ../config/composer/php7/${USERNAME}:/home/${USERNAME}/.config/composer:rw
@@ -194,6 +195,7 @@ services:
     tty: true
     volumes:
       - ../logs/php8:/var/log/php:rw
+      - ../logs/sites-logs:/var/log/sites-logs:rw
       - ../www:/var/www:rw
       - ../config/composer/php8/root:/root/.config/composer:rw
       - ../config/composer/php8/${USERNAME}:/home/${USERNAME}/.config/composer:rw

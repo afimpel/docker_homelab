@@ -3,4 +3,5 @@
 !php7
 !php8
 !mariadb
+!sites-logs
 !.gitignore
