@@ -77,9 +77,9 @@ newsite()
       openCD $0
       more config/nginx-sites/${typefile}-${sites_name}_local.conf | grep server_name | head -1
       if [ ! -f "${COMPOSE_PROJECT_NAME,,}${filename}.md" ]; then
-         echo -e "# ${siteFile} " > "${COMPOSE_PROJECT_NAME,,}${filename}.md"
+         echo -e "# ${siteFile}\n" > "${COMPOSE_PROJECT_NAME,,}${filename}.md"
       fi
-      echo -e " *  [${sites^^}](https://${sites_url}.local) :: ${typefile^^}" >> "${COMPOSE_PROJECT_NAME,,}${filename}.md"
+      echo -e "* [${sites^^}](https://${sites_url}.local) :: ${typefile^^}" >> "${COMPOSE_PROJECT_NAME,,}${filename}.md"
       docker restart homelab-webserver
       ln
       mkcert -install
