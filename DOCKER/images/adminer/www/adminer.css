@@ -54,6 +54,7 @@ html>/**/body .message, html>/**/body #menu p.message {
 
 html, body {
   height: 100%;
+  width: 100%;
 }
 
 /* Adminer logo */
@@ -130,8 +131,13 @@ html>/**/body #content p.links {
 
 html>/**/body #menu .links {
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto;
   gap: 5px;
+}  
+@media (min-width: 1800px){
+  html>/**/body #menu .links {
+    grid-template-columns: auto auto;
+  }  
 }
 
 /*
@@ -171,6 +177,9 @@ html>/**/body #content table a[id|="Rows"] {
 }
 html>/**/body #menu ul li {
   height: 19px;
+  display: grid;
+  grid-template-columns: 21px auto;
+  margin: 0px 0px 1px 0px;
 }
 html>/**/body #menu li a[href*="&select="] {
   float: left;
@@ -188,11 +197,10 @@ html>/**/body #menu li a[href*="&select="]:link:hover {
 
 /* Menu - Show structure */
 html>/**/body #menu li a[href*="&table="] {
-  min-width: 220px;
   float: left;
-  width: 94%;
   overflow: hidden;
   text-overflow: ellipsis;
+  padding-left: 12px;
 }
 /* Hide "new version" link in the top bar */
 /*
@@ -468,14 +476,13 @@ html>/**/body #content p a[href*="&edit="] {
 }
 h2 {
   background-color: #ccc;
-  height: 27px;
+  height: 30px;
   padding: 0.5em 1em;
   margin: 0 0 20px -1rem;
 }
 #content {
-  margin: 0 0 0 18vw;
+  margin: 0 5px 0 20vw;
   padding: 3rem 0 1rem 1rem;
-  min-width: 80vw;
   border-left: 1px solid;
   border-bottom: 1px solid;
   border-right: 1px solid;
@@ -584,7 +591,7 @@ a:visited:hover {
 #menu {
   /*  background-color: #f8f8f8;
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.5) !important;*/
-  width: 18vw;
+  width: 20vw;
   margin: 0;
   top: 0;
   padding-bottom: 0;
@@ -613,9 +620,8 @@ fieldset {
   padding: 4px 1rem;
   border: 1px solid;
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.5) !important;
-  min-width: 79vw;
-  left: 18vw;
-  margin-right: 1vw;
+  left: 20vw;
+  right: 5px;
   margin-top: 1rem;
   top: auto;
   margin-bottom: 1rem;

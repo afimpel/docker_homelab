@@ -32,6 +32,6 @@ else
     cd ..
     tar -czf $unix-SQL_backup.tgz import_done/*.sql database/*.sql
     size=$(du -sh $unix-SQL_backup.tgz | awk '{print $1}')
-    echo "  🗃 $unix-SQL_backup.tgz ($size)"
+    echo " 🗃 $unix-SQL_backup.tgz ($size)"
     echo -e "\n 🗃 Compressed :: $unix-SQL_backup.tgz ($size)" >> dumps.md
 fi
