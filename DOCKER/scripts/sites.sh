@@ -64,7 +64,7 @@ newsite()
          sed -i "s/.gkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkggkgk././g" config/nginx-sites/${typefile}-${sites_name}_local.conf
          sed -i "s/examplesite/${sites_url}/g" config/nginx-sites/${typefile}-${sites_name}_local.conf
       fi
-      sudo bash -c "echo -e '127.0.0.1\t\t${sites_url}.local www.${sites_url}.local w3-${sites}-${COMPOSE_PROJECT_NAME,,}.local' >> /etc/hosts"
+      sudo bash -c "echo -e '127.0.0.1\t\t${sites_url}.local www.${sites_url}.local nginx-${sites}-${COMPOSE_PROJECT_NAME,,}.local' >> /etc/hosts"
 
       dateTime=$(date '+%Y_%m_%d-%s')
       echo -e "${sites_url}.local www.${sites_url}.local;${sites_name}_local;${sites_url};${typefile}-${sites_name}_local;certs_${sites_name,,}_local;${dateTime};new" >> mkcert.csv

@@ -6,6 +6,7 @@ source $(dirname $0)/DOCKER/scripts/sites.sh
 source $(dirname $0)/DOCKER/scripts/installer.sh
 source $(dirname $0)/DOCKER/scripts/docker.sh
 source $(dirname $0)/DOCKER/scripts/backup.sh
+source $(dirname $0)/DOCKER/scripts/generate-override.sh
 source $(dirname $0)/DOCKER/scripts/recreate-ssl.sh
 
 openCD $0
@@ -19,6 +20,10 @@ case "$subcommand" in
   up)
     header
     ln
+    rm -v DOCKER/docker-compose.override.yml
+    docker_up
+    generate-override
+    clear
     docker_up
     docker_bash "homelab-mariadb" "logs-chmod"
     ln
