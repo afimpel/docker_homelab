@@ -17,8 +17,8 @@ recreate-ssl()
    exist 'mkcert'
    input_file="mkcert.csv"
    lnline=0
+   dateTimeFormat=$(date '+%s')
    while IFS= read -r line; do
-      dateTimeFormat=$(date '+%s')
       dateTime=$(date '+%Y-%m-%d')
       URLS=$(echo "$line" | cut -d ";" -f 1)
       file=$(echo "$line" | cut -d ";" -f 2 | sed 's/\./_/g')
