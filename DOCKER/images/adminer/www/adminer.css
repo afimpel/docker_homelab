@@ -61,15 +61,15 @@ html, body {
 html>/**/body h1 {
   background: #eeee
     url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAMFBMVEXAwMD/////AAAATmEAAAAA%0AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB5w%2BL8AAAAAXRSTlMAQObYZgAAAAlwSFlz%0AAAALEgAACxIB0t1%2B/AAAAEVJREFUCJljYEAGjIKCAmCGoKKSIFhASFBQEcgFkoJCggyMwsaGQiA1%0AjIaCwoKKQkCGsbGxIEwErJcoBtAcqEWCgiguAADa1AZzThzIfQAAAABJRU5ErkJggg%3D%3D%0A")
-    no-repeat 14px 7px;
+    no-repeat 8px 7px;
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.3) !important;
   font-size: 1.5rem;
-  padding: 0.5rem 2.5rem;
+  padding: 0.5rem 3rem;
   position: fixed;
   width: 100%;
   height: 2rem;
   line-height: 2rem;
-  background-size: 20px;
+  background-size: 32px;
 }
 /* Logout */
 html>/**/body input[name="logout"], #logout {
@@ -125,7 +125,7 @@ html>/**/body #content p.links a[href$="&create="] {
 /* Fix size */
 html>/**/body #content p.links {
   display: grid;
-  grid-template-columns: auto auto auto auto auto 1rem;
+  grid-template-columns: auto auto auto auto 1rem;
   gap: 5px;
 }
 
@@ -488,7 +488,7 @@ h2 {
   margin: 0 0 20px -1rem;
 }
 #content {
-  margin: 0 5px 0 20vw;
+  margin: 0 10px 0 20vw;
   padding: 3rem 0 1rem 1rem;
   border-left: 1px solid;
   border-bottom: 1px solid;
@@ -628,7 +628,7 @@ fieldset {
   border: 1px solid;
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.5) !important;
   left: 20vw;
-  right: 5px;
+  right: 10px;
   margin-top: 1rem;
   top: auto;
   margin-bottom: 1rem;
@@ -663,12 +663,12 @@ p {
 /*** Floating footer since v4.6.1 ***/
 .footer,
 form div:nth-of-type(3) {
-  width: 78vw;
   background-color: #ffffffe0;
   box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.5) !important;
   margin-top: 1.5rem;
   margin-bottom: 0.5rem;
   padding: 0.5vw;
+  margin-right: 1rem;
 }
 .footer > p {
   margin-left: 15px;
@@ -679,7 +679,8 @@ form div:nth-of-type(3) {
   border: none;
   position: sticky;
   bottom: 0;
-  margin-right: -20px;
+  margin-right: 1rem;
+  width: auto !important;
 }
 
 .footer > div {
