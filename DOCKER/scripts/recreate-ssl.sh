@@ -21,10 +21,10 @@ recreate-ssl()
       dateTimeFormat=$(date '+%s')
       dateTime=$(date '+%Y-%m-%d')
       URLS=$(echo "$line" | cut -d ";" -f 1)
-      file=$(echo "$line" | cut -d ";" -f 2)
+      file=$(echo "$line" | cut -d ";" -f 2 | sed 's/\./_/g')
       domain=$(echo "$line" | cut -d ";" -f 3)
-      fileConf=$(echo "$line" | cut -d ";" -f 4)
-      fileSSL=$(echo "$line" | cut -d ";" -f 5)
+      fileConf=$(echo "$line" | cut -d ";" -f 4 | sed 's/\./_/g')
+      fileSSL=$(echo "$line" | cut -d ";" -f 5 | sed 's/\./_/g')
       fileSSLcert="certs_${file}_${dateTimeFormat}"
       echo -e "\t --- https://${domain}.local --- " >> logs/mkcert.log
       echo -e "✔ URLS: \t\t\t $URLS" >> logs/mkcert.log

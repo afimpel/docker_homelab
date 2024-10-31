@@ -38,7 +38,7 @@ newsite()
       subdir="";
    else
       sites_url="${sites}";
-      sites_name="${sites}";
+      sites_name="${sites//./_}";
    fi
 
    exist 'mkcert'
