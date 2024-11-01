@@ -63,8 +63,14 @@ help()
          CUSTOM_CENTER $LIGHT_CYAN "newdomain <site> <type>" $NC "Create the New Domain. (Framework Code) ( ${GREEN}<site>.local${NC} )" $NC "➤" " " " " "7+152"
          CUSTOM_CENTER $LIGHT_CYAN " " $NC "${GREEN}<type>${NC} ( ${CYAN}build${NC}, ${CYAN}php7${NC} & ${CYAN}php8${NC} )" $NC " " " " " " "7+152"
 
-         CUSTOM_CENTER $LIGHT_CYAN "newsudomain <site> <type>" $NC "Create the New SubDomain. (Framework Code) ( ${GREEN}<site>.${COMPOSE_PROJECT_NAME,,}.local${NC} )" $NC "➤" " " " " "7+152"
+         CUSTOM_CENTER $LIGHT_CYAN "newsubdomain <site> <type>" $NC "Create the New SubDomain. (Framework Code) ( ${GREEN}<site>.${COMPOSE_PROJECT_NAME,,}.local${NC} )" $NC "➤" " " " " "7+152"
          CUSTOM_CENTER $LIGHT_CYAN " " $NC "${GREEN}<type>${NC} ( ${CYAN}build${NC}, ${CYAN}php7${NC} & ${CYAN}php8${NC} )" $NC " " " " " " "7+152"
+
+         CUSTOM_CENTER $LIGHT_CYAN "deldomain <site>" $NC "Delete the Domain extist. ( ${GREEN}<site>.local${NC} )" $NC "➤" " " " " "7+152"
+         CUSTOM_CENTER $LIGHT_CYAN "deldomain <site> yes" $NC "Delete the Domain extist and directory ( ${GREEN}<site>.local${NC} )" $NC "➤" " " " " "7+152"
+
+         CUSTOM_CENTER $LIGHT_CYAN "delsubdomain <site>" $NC "Delete the SubDomain extist. ( ${GREEN}<site>.${COMPOSE_PROJECT_NAME,,}.local${NC} )" $NC "➤" " " " " "7+152"
+         CUSTOM_CENTER $LIGHT_CYAN "delsubdomain <site> yes" $NC "Delete the SubDomain extist and directory ( ${GREEN}<site>.${COMPOSE_PROJECT_NAME,,}.local${NC} )" $NC "➤" " " " " "7+152"
       else
          echo -e ""
          CUSTOM_LEFT $NC "Docker :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4

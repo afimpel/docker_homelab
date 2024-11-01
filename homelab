@@ -140,7 +140,7 @@ case "$subcommand" in
     recreate-ssl
     footer
   ;;
-  newsudomain)
+  newsubdomain)
     header
     ln
     newsite 0 $@
@@ -156,6 +156,18 @@ case "$subcommand" in
     header
     ln
     newsite 2 $@
+    footer
+  ;;
+  delsubdomain)
+    header
+    ln
+    delsite 0 $@
+    footer
+  ;;
+  deldomain)
+    header
+    ln
+    delsite 1 $@
     footer
   ;;
   listsite)

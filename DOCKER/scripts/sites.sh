@@ -33,7 +33,7 @@ newsite()
       sites_name="${sites}_${COMPOSE_PROJECT_NAME,,}";
    elif [ "$1" == "2" ]; then
       sites_url="${sites}";
-      sites_name="${sites}";
+      sites_name="${sites//./_}";
       typefile="legacy-${typefile}";
       subdir="";
    else
@@ -88,6 +88,48 @@ newsite()
       leftH1 $LIGHT_CYAN " The website already exists ... (${sites_url}.local)" $WHITE "⛁" "."
    fi
 }
+
+delsite()
+{
+   filename="_domains"
+   sites=${2,,}
+   if [ "$1" == "0" ]; then
+      filename="_subdomains"
+      sites_url="${sites}.${COMPOSE_PROJECT_NAME,,}";
+      sites_name="${sites}_${COMPOSE_PROJECT_NAME,,}";
+   elif [ "$1" == "2" ]; then
+      sites_url="${sites}";
+      sites_name="${sites//./_}";
+      subdir="";
+   else
+      sites_url="${sites}";
+      sites_name="${sites//./_}";
+   fi
+   deleteDir=${3,,}
+   if [ -f "config/nginx-sites/*-${sites_name}_local.conf" ]; then
+      rightH1 $LIGHT_RED "DELETE :: https://${sites_url}.local" $WHITE "⛁" "."  
+      mv -v ${COMPOSE_PROJECT_NAME,,}${filename}.md ${COMPOSE_PROJECT_NAME,,}${filename}_bk.md
+      cp -v mkcert.csv mkcert_preDelete.csv
+      grep -v "${sites_url}.local" ${COMPOSE_PROJECT_NAME,,}${filename}_bk.md > ${COMPOSE_PROJECT_NAME,,}${filename}.md
+      grep -v "certs_${sites_name}_local" mkcert_preDelete.csv > mkcert.csv
+      rm ${COMPOSE_PROJECT_NAME,,}${filename}_bk.md 
+      rm -v config/nginx-sites/*-${sites_name}_local.conf
+      rm -v DOCKER/certs/certs_${sites_name}_local*
+      if [ "$deleteDir" == "yes" ]; then
+         ln
+         if [ "$1" == "0" ]; then
+            rm -vrf www/subdomains/${sites}
+         else
+            rm -vrf www/domains/${sites}
+         fi
+      fi
+      docker restart homelab-webserver
+   else
+      leftH1 $LIGHT_CYAN " The website not exists ... (${sites_url}.local)" $WHITE "⛁" "."
+   fi
+}
+
+
 
 www()
 {
