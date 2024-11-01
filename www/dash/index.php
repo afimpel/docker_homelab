@@ -61,7 +61,7 @@ $filesDomain = scandir($directoryDomain);
                     <li class="nav-item">
                         <a target="_blank" rel="noopener" class="nav-link" href="https://twitter.com/afimpel"><i class="bi bi-twitter"></i> Twitter</a>
                     </li>
-                    <li class="nav-item dropdown" data-bs-theme="light">
+                    <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="theme-menu" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme">
                           <i class="bi bi-sun-fill"></i>
                           <span class="d-lg-none ms-2">Toggle theme</span>
