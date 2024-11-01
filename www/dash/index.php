@@ -19,7 +19,7 @@ $filesDomain = scandir($directoryDomain);
 </head>
 
 <body style="padding-top: 96px;">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" data-bs-theme="dark">
+    <nav class="navbar navbar-expand-xl navbar-dark bg-dark fixed-top" data-bs-theme="dark">
 
         <div class="container">
             <a href="./" class="navbar-brand"><i class="me-2 icon-docker"></i> LEMP</a>
@@ -54,13 +54,31 @@ $filesDomain = scandir($directoryDomain);
                     </li>
                 <?php } ?>
                 </ul>
-                <ul class="navbar-nav ms-md-auto">
+                <ul class="navbar-nav ms-xl-auto">
                     <li class="nav-item">
                         <a target="_blank" rel="noopener" class="nav-link" href="https://github.com/afimpel/docker_homelab"><i class="bi bi-github"></i> GitHub</a>
                     </li>
                     <li class="nav-item">
                         <a target="_blank" rel="noopener" class="nav-link" href="https://twitter.com/afimpel"><i class="bi bi-twitter"></i> Twitter</a>
                     </li>
+                    <li class="nav-item dropdown" data-bs-theme="light">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="theme-menu" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme">
+                          <i class="bi bi-sun-fill"></i>
+                          <span class="d-lg-none ms-2">Toggle theme</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                          <li>
+                            <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-style="bi-sun-fill" data-bs-theme-value="light" aria-pressed="false">
+                              <i class="bi bi-sun-fill"></i><span class="ms-2">Light</span>
+                            </button>
+                          </li>
+                          <li>
+                            <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-style="bi-moon-stars-fill" data-bs-theme-value="dark" aria-pressed="true">
+                              <i class="bi bi-moon-stars-fill"></i><span class="ms-2">Dark</span>
+                            </button>
+                          </li>
+                        </ul>
+                      </li>
                 </ul>
             </div>
         </div>
@@ -98,7 +116,7 @@ $filesDomain = scandir($directoryDomain);
 
     <div class="container-fluid py-2">
         <div class="rounded row border border-primary m-2 p-2 py-3">
-            <div class="col-12 col-md">
+            <div class="col-12 col-xl">
                 <h3 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1">
                     <i class="icon-docker me-2"></i> Environment
                     <small style="font-size: small;" class="badge text-light bg-info rounded ms-auto my-auto"><?php echo $rows['uptime'];?></small>
@@ -144,7 +162,7 @@ $filesDomain = scandir($directoryDomain);
                     </small>
                 </a>
             </div>
-            <div class="col-12 col-md-4">
+            <div class="col-12 col-xl-4">
                 <h3 class="title has-text-centered border-bottom border-primary d-flex py-1">
                     <i class="icon-google-developers me-2"></i> Quick Links
                 </h3>
@@ -169,11 +187,11 @@ $filesDomain = scandir($directoryDomain);
                 }
                 $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
         ?>
-            <div class="col-12 col-md">
-                <h3 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1">
+            <div class="col-12 col-xxl">
+                <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1">
                     <i class="icon-mysql me-2"></i> Database List
                     <small class="badge text-light bg-primary ms-auto"><?php echo count($rows);?></small>
-                </h3>
+                </h5>
                 <div class="list-group">
                 <?php
                 foreach ($rows as $row) { ?>
@@ -195,22 +213,22 @@ $filesDomain = scandir($directoryDomain);
         </div>
         <?php }
         if (count($filesDomain) > 3){?>
-            <div class="col-12 col-md">
-                <h3 class="title is-2 has-text-centered border-bottom border-info d-flex py-1">
+            <div class="col-12 col-xxl">
+                <h5 class="title is-2 has-text-centered border-bottom border-info d-flex py-1">
                     <i class="icon-nginx me-2"></i> Domain Sites List (<em> .local </em>)
                     <small class="badge text-light bg-info rounded ms-auto"><?php echo count($filesDomain)-3;?></small>
-                </h3>
+                </h5>
                 <div class="list-group">
                     <?php echo listSites($filesDomain, $directoryDomain, "list-group-item list-group-item-action py-1",'','www.');?>
                 </div>
             </div>
             <?php }
             if (count($filesSubdomin) > 3){?>
-            <div class="col-12 col-md">
-                <h3 class="title is-2 has-text-centered border-bottom border-info d-flex py-1">
+            <div class="col-12 col-xxl">
+                <h5 class="title is-2 has-text-centered border-bottom border-info d-flex py-1">
                     <i class="icon-nginx me-2"></i> SubDomain Sites List (<em> .<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local </em>)
                     <small class="badge text-light bg-info rounded ms-auto"><?php echo count($filesSubdomin)-3;?></small>
-                </h3>
+                </h5>
                 <div class="list-group">
                     <?php echo listSites($filesSubdomin, $directorySubdomin, "list-group-item list-group-item-action py-1",".".strtolower(getenv('COMPOSE_PROJECT_NAME')));?>
                 </div>
@@ -235,8 +253,27 @@ $filesDomain = scandir($directoryDomain);
         <hr class="my-3">
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-</body>
+    <script>
+    function toggleThemeMenu() {
+        let themeMenu = document.querySelector('#theme-menu');
+        let prevCss = "bi-sun-fill";
+        if (!themeMenu) return;
 
+        document.querySelectorAll('[data-bs-theme-value]').forEach(value => {
+        value.addEventListener('click', () => {
+            const themeCss = value.getAttribute('data-bs-theme-style');
+            themeMenu.children[0].classList.replace(prevCss,themeCss);
+            prevCss = themeCss;
+            const theme = value.getAttribute('data-bs-theme-value');
+            document.documentElement.setAttribute('data-bs-theme', theme);
+        });
+        });
+    }
+    toggleThemeMenu();
+    </script>
+
+</body>
+</html>
 <?php
 function listSites($files, $directory, $class, $domain = "", $prefix=""){ 
     $sitesLinks = array();
@@ -258,4 +295,3 @@ function listSites($files, $directory, $class, $domain = "", $prefix=""){
     return implode("\n",$sitesLinks);
 }
 ?>
-</html>
