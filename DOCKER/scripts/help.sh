@@ -60,6 +60,9 @@ help()
          CUSTOM_CENTER $LIGHT_CYAN "legacydomain <site> <type>" $NC "Create the New Domain. (Legacy Code) ( ${GREEN}<site>.local${NC} )" $NC "➤" " " " " "7+152"
          CUSTOM_CENTER $LIGHT_CYAN " " $NC "${GREEN}<type>${NC} ( ${CYAN}build${NC}, ${CYAN}php7${NC} & ${CYAN}php8${NC} )" $NC " " " " " " "7+152"
 
+         CUSTOM_CENTER $LIGHT_CYAN "legacysubdomain <site> <type>" $NC "Create the New SubDomain. (Legacy Code) ( ${GREEN}<site>.${COMPOSE_PROJECT_NAME,,}.local${NC} )" $NC "➤" " " " " "7+152"
+         CUSTOM_CENTER $LIGHT_CYAN " " $NC "${GREEN}<type>${NC} ( ${CYAN}build${NC}, ${CYAN}php7${NC} & ${CYAN}php8${NC} )" $NC " " " " " " "7+152"
+
          CUSTOM_CENTER $LIGHT_CYAN "newdomain <site> <type>" $NC "Create the New Domain. (Framework Code) ( ${GREEN}<site>.local${NC} )" $NC "➤" " " " " "7+152"
          CUSTOM_CENTER $LIGHT_CYAN " " $NC "${GREEN}<type>${NC} ( ${CYAN}build${NC}, ${CYAN}php7${NC} & ${CYAN}php8${NC} )" $NC " " " " " " "7+152"
 

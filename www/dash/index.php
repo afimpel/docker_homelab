@@ -106,10 +106,10 @@ $filesDomain = scandir($directoryDomain);
 
     <div class="container">
         <h1 class="title text-success px-3">
-            <i class="icon-docker pe-3"></i> LEMP STACK (<em class="px-3"> <?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?> </em>)
+            <i class="icon-docker pe-1"></i> LEMP STACK (<em class="px-3"> <?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?> </em>)
         </h1>
-        <small class="muted border d-block px-3 rounded-pill">PHP / Composer / Nginx / MariaDB / Adminer / Redis</small>
-        <h2 class="subtitle px-3">
+        <small class="muted border border-secondary d-block px-3 rounded-pill">PHP / Composer / Nginx / MariaDB / Adminer / Redis</small>
+        <h2 class="subtitle p-3">
             Your local development environment in Docker
         </h2>
     </div>
@@ -195,7 +195,7 @@ $filesDomain = scandir($directoryDomain);
                 <div class="list-group">
                 <?php
                 foreach ($rows as $row) { ?>
-                    <a target="_blank" translate="no" class="list-group-item list-group-item-action py-1" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?server=homelab-mariadb&username=<?= getenv('MARIADB_USER'); ?>&db=<?= $row["Database"]; ?>">
+                    <a target="_blank" translate="no" class="list-group-item list-group-item-action list-group-item-info py-1" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?server=homelab-mariadb&username=<?= getenv('MARIADB_USER'); ?>&db=<?= $row["Database"]; ?>">
                         <i class="bi bi-database-fill me-2"></i>
                         <?= $row["Database"]; ?>
                     </a>
@@ -219,7 +219,7 @@ $filesDomain = scandir($directoryDomain);
                     <small class="badge text-light bg-info rounded ms-auto"><?php echo count($filesDomain)-3;?></small>
                 </h5>
                 <div class="list-group">
-                    <?php echo listSites($filesDomain, $directoryDomain, "list-group-item list-group-item-action py-1",'','www.');?>
+                    <?php echo listSites($filesDomain, $directoryDomain, "list-group-item list-group-item-action list-group-item-secondary py-1",'','www.');?>
                 </div>
             </div>
             <?php }
@@ -230,13 +230,13 @@ $filesDomain = scandir($directoryDomain);
                     <small class="badge text-light bg-info rounded ms-auto"><?php echo count($filesSubdomin)-3;?></small>
                 </h5>
                 <div class="list-group">
-                    <?php echo listSites($filesSubdomin, $directorySubdomin, "list-group-item list-group-item-action py-1",".".strtolower(getenv('COMPOSE_PROJECT_NAME')));?>
+                    <?php echo listSites($filesSubdomin, $directorySubdomin, "list-group-item list-group-item-action list-group-item-secondary py-1",".".strtolower(getenv('COMPOSE_PROJECT_NAME')));?>
                 </div>
             </div>
             <?php }?>
         </div>
         <hr class="my-3">
-        <div class="container border border-dark rounded p-2">
+        <div class="container border border-secondary rounded p-2">
             <h3 class="text-center py-1 border-bottom"><i class="icon-shell"></i> access to php composer:</h3>
             <ol>
                 <li>Open terminal (ej: xterm, gnome-terminal)</li>
@@ -281,10 +281,10 @@ function listSites($files, $directory, $class, $domain = "", $prefix=""){
         if ($file !== '.' && $file !== '..') {
             if (is_dir($directory . $file)) { 
                 $type = "nginx-alt";
-                if (is_dir($directory . $file.'/build')) { 
+                if (is_dir($directory . $file.'/node_modules')) { 
                     $type="html";
                 }
-                if (is_dir($directory . $file.'/public')) { 
+                if (is_dir($directory . $file.'/public') && is_dir($directory . $file.'/vendor')) { 
                     $type="php";
                 }
                 $url=$prefix.$file."".$domain;

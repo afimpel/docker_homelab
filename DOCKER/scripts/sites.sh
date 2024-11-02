@@ -28,12 +28,20 @@ newsite()
    esac
 
    sites=${2,,}
+   subdomainsTrue=1;
    if [ "$1" == "0" ]; then
+      subdomainsTrue=0;
       sites_url="${sites}.${COMPOSE_PROJECT_NAME,,}";
       sites_name="${sites}_${COMPOSE_PROJECT_NAME,,}";
    elif [ "$1" == "2" ]; then
       sites_url="${sites}";
       sites_name="${sites//./_}";
+      typefile="legacy-${typefile}";
+      subdir="";
+   elif [ "$1" == "3" ]; then
+      subdomainsTrue=0;
+      sites_url="${sites}.${COMPOSE_PROJECT_NAME,,}";
+      sites_name="${sites}_${COMPOSE_PROJECT_NAME,,}";
       typefile="legacy-${typefile}";
       subdir="";
    else
@@ -48,7 +56,7 @@ newsite()
    if [ ! -f "config/nginx-sites/${typefile}-${sites_name}_local.conf" ]; then
       filename="_subdomains"
       cp -v DOCKER/examples/examplesite-${typefile}-local.conf config/nginx-sites/${typefile}-${sites_name}_local.conf
-      if [ "$1" == "0" ]; then
+      if [ "$subdomainsTrue" == "0" ]; then
          siteFile="SubDomains"
          mkdir -p www/subdomains/${sites}/${subdir}
          sed -i "s/examplesite/${sites}/g" config/nginx-sites/${typefile}-${sites_name}_local.conf
