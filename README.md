@@ -21,14 +21,15 @@ Los servicios que levanta son los siguientes:
     1. Hacer una copia del archivo `DOCKER/.env.dist` a `DOCKER/.env`
     2. Modificar el valor de la variable `USERNAME` con el usuario del host
     3. Modificar los valores de las otras variables del archivo `./DOCKER/.env`
-    4. Descargar e instalar [mkcert](https://github.com/FiloSottile/mkcert)
+
+3. Descargar e instalar [mkcert](https://github.com/FiloSottile/mkcert)
 
 ```sh
 # apt-get (Debian / Ubuntu y derivadas)
 sudo apt install mkcert -y
 ```
 
-3. para instalar el Proyecto
+4. para instalar el Proyecto
 
 ```sh
 # HomeLAB
