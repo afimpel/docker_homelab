@@ -114,9 +114,12 @@ delsite()
       sites_name="${sites//./_}";
    fi
    deleteDir=${3,,}
-   if [ -f "config/nginx-sites/*-${sites_name}_local.conf" ]; then
+
+   if [ -f config/nginx-sites/*-${sites_name}_local.conf ]; then
       rightH1 $LIGHT_RED "DELETE :: https://${sites_url}.local" $WHITE "⛁" "."  
       mv -v ${COMPOSE_PROJECT_NAME,,}${filename}.md ${COMPOSE_PROJECT_NAME,,}${filename}_bk.md
+      grep -v "${sites_url}.local" /etc/hosts > logs/hostsfile.log 
+      sudo mv -v logs/hostsfile.log /etc/hosts
       cp -v mkcert.csv mkcert_preDelete.csv
       grep -v "${sites_url}.local" ${COMPOSE_PROJECT_NAME,,}${filename}_bk.md > ${COMPOSE_PROJECT_NAME,,}${filename}.md
       grep -v "certs_${sites_name}_local" mkcert_preDelete.csv > mkcert.csv
