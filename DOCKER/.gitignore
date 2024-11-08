@@ -1,2 +1,6 @@
 .env
 docker-compose.override.yml
+!certs
+!examples
+!images
+!scripts

@@ -1,25 +1,28 @@
 <?php
+errorLogger(["COMPOSE" => strtoupper(getenv('COMPOSE_PROJECT_NAME')),"SERVER" => $_SERVER['SERVER_SOFTWARE'], 'PHP' => phpversion()], true);
 // Ruta del directorio a listar
-$directorySubdomin = '../subdomains/';
+$directorySubdomain = '../subdomains/';
 $directoryDomain = '../domains/';
-$filesSubdomin = scandir($directorySubdomin);
+$filesSubdomain = scandir($directorySubdomain);
 $filesDomain = scandir($directoryDomain);
+$sitesSubdomain = [];
+$sitesDomain = [];
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
-    <link rel="icon" href="https://afimpel.github.io/favicon.ico" />
+    <link rel="icon" href="./favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>LEMP STACK -- <?php echo strtoupper(getenv('COMPOSE_PROJECT_NAME')); ?> </title>
+    <title>LEMP STACK -- <?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local </title>
     <link rel="stylesheet" href="https://bootswatch.com/5/spacelab/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-mfizz/2.4.1/font-mfizz.min.css" integrity="sha512-Cdvnk1SFWqcb3An6gMyqDRH40Js8qmsWcSK10I2gSifCe2LilaPMsHd6DldEvQ3uIlCb1qdRUrNeAFFleOu4xQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
 <body style="padding-top: 96px;">
-    <nav class="navbar navbar-expand-xl navbar-dark bg-dark fixed-top" data-bs-theme="dark">
+    <nav class="navbar navbar-expand-xl navbar-dark bg-dark fixed-top">
 
         <div class="container">
             <a href="./" class="navbar-brand"><i class="me-2 icon-docker"></i> LEMP</a>
@@ -41,15 +44,19 @@ $filesDomain = scandir($directoryDomain);
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="domains"><i class="me-2 icon-ghost"></i> Domain (<?php echo count($filesDomain)-3;?>)</a>
                         <div class="dropdown-menu" aria-labelledby="domains">
-                            <?php echo listSites($filesDomain, $directoryDomain, "dropdown-item");?>
+                            <?php
+                            $sitesDomain = listSites($filesDomain, $directoryDomain, ["dropdown-item", "list-group-item list-group-item-action list-group-item-secondary py-1"], '', 'www.');
+                            echo $sitesDomain[0]; ?>
                         </div>
                     </li>
                     <?php }
-                    if (count($filesSubdomin) > 3){?>
+                    if (count($filesSubdomain) > 3){?>
                      <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="sites"><i class="me-2 icon-ghost"></i> SubDomain (<?php echo count($filesSubdomin)-3;?>)</a>
-                        <div class="dropdown-menu" aria-labelledby="sites">
-                            <?php echo listSites($filesSubdomin, $directorySubdomin, "dropdown-item",".".strtolower(getenv('COMPOSE_PROJECT_NAME')));?>
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="subdomains"><i class="me-2 icon-ghost"></i> SubDomain (<?php echo count($filesSubdomain)-3;?>)</a>
+                        <div class="dropdown-menu" aria-labelledby="subdomains">
+                            <?php
+                            $sitesSubdomain = listSites($filesSubdomain, $directorySubdomain, ["dropdown-item", "list-group-item list-group-item-action list-group-item-secondary py-1"],".".strtolower(getenv('COMPOSE_PROJECT_NAME')));
+                            echo $sitesSubdomain[0]; ?>
                         </div>
                     </li>
                 <?php } ?>
@@ -64,7 +71,6 @@ $filesDomain = scandir($directoryDomain);
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="theme-menu" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme">
                           <i class="bi bi-sun-fill"></i>
-                          <span class="d-lg-none ms-2">Toggle theme</span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                           <li>
@@ -95,7 +101,7 @@ $filesDomain = scandir($directoryDomain);
                 if (!$result) {
                     throw new Exception("Error en la consulta: " . mysqli_error($link));
                 }
-                $rows = mysqli_fetch_assoc($result);
+                $rows_uptime = mysqli_fetch_assoc($result);
            }       
         } catch (\Exception $e) {
     ?>
@@ -105,10 +111,10 @@ $filesDomain = scandir($directoryDomain);
     <?php } ?>
 
     <div class="container">
-        <h1 class="title text-success px-3">
-            <i class="icon-docker pe-1"></i> LEMP STACK (<em class="px-3"> <?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?> </em>)
+        <h1 class="title text-success px-3 d-flex">
+            <i class="icon-docker pe-1"></i> <b>LEMP STACK</b> <small class="ms-auto">( Compose: <em class="px-3"> <?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?> </em>)</small>
         </h1>
-        <small class="muted border border-secondary d-block px-3 rounded-pill">PHP / Composer / Nginx / MariaDB / Adminer / Redis</small>
+        <small class="muted border border-secondary d-block px-3 rounded-pill">PHP / Nginx / MariaDB / Adminer / Redis / Composer / Supervisor</small>
         <h2 class="subtitle p-3">
             Your local development environment in Docker
         </h2>
@@ -119,7 +125,7 @@ $filesDomain = scandir($directoryDomain);
             <div class="col-12 col-xl">
                 <h3 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1">
                     <i class="icon-docker me-2"></i> Environment
-                    <small style="font-size: small;" class="badge text-light bg-info rounded ms-auto my-auto"><?php echo $rows['uptime'];?></small>
+                    <small style="font-size: small;" class="badge text-light bg-info rounded ms-auto my-auto"><?php echo $rows_uptime['uptime'];?></small>
                 </h3>
                 <div class="list-group">
                     <span class="list-group-item d-flex justify-content-between align-items-center py-1">
@@ -194,6 +200,7 @@ $filesDomain = scandir($directoryDomain);
                 </h5>
                 <div class="list-group">
                 <?php
+                errorLogger(["mariaDB" => $mariaDBversion, "Database" => count($rows), "rows" => $rows, "uptime" => $rows_uptime['uptime']]);
                 foreach ($rows as $row) { ?>
                     <a target="_blank" translate="no" class="list-group-item list-group-item-action list-group-item-info py-1" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?server=homelab-mariadb&username=<?= getenv('MARIADB_USER'); ?>&db=<?= $row["Database"]; ?>">
                         <i class="bi bi-database-fill me-2"></i>
@@ -201,7 +208,7 @@ $filesDomain = scandir($directoryDomain);
                     </a>
                 <?php }
                 ?>
-                </div>          
+                </div>
             </div>
         <?php
             mysqli_free_result($result);
@@ -219,18 +226,18 @@ $filesDomain = scandir($directoryDomain);
                     <small class="badge text-light bg-info rounded ms-auto"><?php echo count($filesDomain)-3;?></small>
                 </h5>
                 <div class="list-group">
-                    <?php echo listSites($filesDomain, $directoryDomain, "list-group-item list-group-item-action list-group-item-secondary py-1",'','www.');?>
+                    <?php echo $sitesDomain[1];?>
                 </div>
             </div>
             <?php }
-            if (count($filesSubdomin) > 3){?>
+            if (count($filesSubdomain) > 3){?>
             <div class="col-12 col-xxl">
                 <h5 class="title is-2 has-text-centered border-bottom border-info d-flex py-1">
                     <i class="icon-nginx me-2"></i> SubDomain Sites List (<em> .<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local </em>)
-                    <small class="badge text-light bg-info rounded ms-auto"><?php echo count($filesSubdomin)-3;?></small>
+                    <small class="badge text-light bg-info rounded ms-auto"><?php echo count($filesSubdomain)-3;?></small>
                 </h5>
                 <div class="list-group">
-                    <?php echo listSites($filesSubdomin, $directorySubdomin, "list-group-item list-group-item-action list-group-item-secondary py-1",".".strtolower(getenv('COMPOSE_PROJECT_NAME')));?>
+                    <?php echo $sitesSubdomain[1];?>
                 </div>
             </div>
             <?php }?>
@@ -256,17 +263,25 @@ $filesDomain = scandir($directoryDomain);
     <script>
     function toggleThemeMenu() {
         let themeMenu = document.querySelector('#theme-menu');
+        var bsTheme = localStorage.getItem("bsTheme");
         let prevCss = "bi-sun-fill";
+        if (bsTheme){
+            document.documentElement.setAttribute('data-bs-theme', bsTheme);
+            if(bsTheme == "dark"){
+                themeMenu.children[0].classList.replace(prevCss,'bi-moon-stars-fill');
+            }
+        }
         if (!themeMenu) return;
 
         document.querySelectorAll('[data-bs-theme-value]').forEach(value => {
-        value.addEventListener('click', () => {
-            const themeCss = value.getAttribute('data-bs-theme-style');
-            themeMenu.children[0].classList.replace(prevCss,themeCss);
-            prevCss = themeCss;
-            const theme = value.getAttribute('data-bs-theme-value');
-            document.documentElement.setAttribute('data-bs-theme', theme);
-        });
+            value.addEventListener('click', () => {
+                const theme = value.getAttribute('data-bs-theme-value');
+                const themeCss = value.getAttribute('data-bs-theme-style');
+                themeMenu.children[0].classList.replace(prevCss,themeCss);
+                localStorage.setItem("bsTheme", theme);
+                prevCss = themeCss;
+                document.documentElement.setAttribute('data-bs-theme', theme);
+            });
         });
     }
     toggleThemeMenu();
@@ -275,7 +290,13 @@ $filesDomain = scandir($directoryDomain);
 </body>
 </html>
 <?php
-function listSites($files, $directory, $class, $domain = "", $prefix=""){ 
+function errorLogger($data, $hr = false, $file="dash.log"){
+    $filename = date('Y-m-d').'_'.str_replace(".",'-',$_ENV['HTTP_HOST'])."_".$file;
+    error_log(($hr ? "---\t".$_ENV['HTTP_HOST']."\t---\n" : "").date('H:i:s')." > ".json_encode($data)."\n",3,'/var/log/sites-logs/'.$filename);
+}
+
+function listSites($files, $directory, $classA, $domain = "", $prefix=""){ 
+    $sites=[];
     $sitesLinks = array();
     foreach ($files as $file) {
         if ($file !== '.' && $file !== '..') {
@@ -288,10 +309,18 @@ function listSites($files, $directory, $class, $domain = "", $prefix=""){
                     $type="php";
                 }
                 $url=$prefix.$file."".$domain;
-                $sitesLinks[]="<a translate='no' title='$url.local' target='_blank' class='$class' href='//$url.local' style='min-width: 15vw;'><i class='icon-$type me-2'></i> $file</a>";
+                $sites[$type][]=["type" => $type, "url" => "$url.local", "directory" => $directory.$file];
+                foreach ($classA as $key => $class) {
+                    $sitesLinks[$key][]="<a translate='no' title='$url.local' target='_blank' class='$class' href='//$url.local' style='min-width: 15vw;'><i class='icon-$type me-2'></i> $file</a>";
+                }
             }
         }
     }
-    return implode("\n",$sitesLinks);
+    errorLogger(["sites" => $sites, "sitesLinks" => count($sitesLinks, 1), "directory" => $directory]);
+    $output = [];
+    foreach ($sitesLinks as $key => $class) {
+        $output[$key] = implode("\n",$class);
+    }
+    return $output;
 }
 ?>

@@ -138,7 +138,7 @@ services:
       args:
         user: ${USERNAME}
         uid: ${USER_UID}
-        port: 9001
+        port: 9007
         phpVersion: ${phpVersion7}
     environment:
       TZ: ${TIMEZONE}
@@ -156,6 +156,8 @@ services:
       - ../logs/php7:/var/log/php:rw
       - ../logs/sites-logs:/var/log/sites-logs:rw
       - ../www:/var/www:rw
+      - ../logs/supervisor:/var/log/supervisor:rw
+      - ../config/supervisor/php7:/etc/supervisor/conf.d:rw
       - ../config/composer/php7/root:/root/.config/composer:rw
       - ../config/composer/php7/${USERNAME}:/home/${USERNAME}/.config/composer:rw
       - ./images/php/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
@@ -179,7 +181,7 @@ services:
       args:
         user: ${USERNAME}
         uid: ${USER_UID}
-        port: 9002
+        port: 9008
         phpVersion: ${phpVersion8}
     environment:
       TZ: ${TIMEZONE}
@@ -196,7 +198,9 @@ services:
     volumes:
       - ../logs/php8:/var/log/php:rw
       - ../logs/sites-logs:/var/log/sites-logs:rw
+      - ../logs/supervisor:/var/log/supervisor:rw
       - ../www:/var/www:rw
+      - ../config/supervisor/php8:/etc/supervisor/conf.d:rw
       - ../config/composer/php8/root:/root/.config/composer:rw
       - ../config/composer/php8/${USERNAME}:/home/${USERNAME}/.config/composer:rw
       - ./images/php/php/www.conf:/usr/local/etc/php-fpm.d/www.conf

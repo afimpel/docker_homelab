@@ -1,0 +1,6 @@
+*
+!composer
+!mariadb-initdb
+!nginx-sites
+!supervisor
+!.gitignore

@@ -5,3 +5,4 @@
 !mariadb
 !sites-logs
 !.gitignore
+!supervisor

@@ -1,5 +1,6 @@
 *.md
-*.conf
+/*.conf
 *.csv
 !README.md
 .vscode
+*.out

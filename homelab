@@ -3,6 +3,7 @@
 source $(dirname $0)/DOCKER/scripts/help.sh
 source $(dirname $0)/DOCKER/scripts/utils.sh
 source $(dirname $0)/DOCKER/scripts/sites.sh
+source $(dirname $0)/DOCKER/scripts/supervisor.sh
 source $(dirname $0)/DOCKER/scripts/installer.sh
 source $(dirname $0)/DOCKER/scripts/docker.sh
 source $(dirname $0)/DOCKER/scripts/backup.sh
@@ -27,6 +28,7 @@ case "$subcommand" in
     docker_up
     docker_bash "homelab-mariadb" "logs-chmod"
     ln
+    startedSupervisor
     www
     footer
   ;;
@@ -41,6 +43,8 @@ case "$subcommand" in
     startup
     ln
     docker_restart
+    ln
+    startedSupervisor
     footer
   ;;
   clear)  
@@ -52,6 +56,8 @@ case "$subcommand" in
     if [ -f "logs/startup.pid" ]; then
       ln
       docker_restart
+      ln
+      startedSupervisor
     fi
     footer
   ;;
@@ -180,6 +186,24 @@ case "$subcommand" in
     header
     ln
     www
+    footer
+  ;;
+  newsupervisor)
+    header
+    ln
+    newSupervisor $@
+    footer
+  ;;
+  delsupervisor)
+    header
+    ln
+    delSupervisor $@
+    footer
+  ;;
+  listsupervisor)
+    header
+    ln
+    listSupervisor $@
     footer
   ;;
   down)

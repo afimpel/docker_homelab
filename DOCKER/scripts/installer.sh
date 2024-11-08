@@ -48,6 +48,8 @@ installer()
    ln
 
    docker_up
+   ln
+   startedSupervisor
    help
    www
 }

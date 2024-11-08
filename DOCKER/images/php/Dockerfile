@@ -24,7 +24,8 @@ RUN apt-get update && apt-get install -y \
     mc \
     nano \
     htop \
-    sendmail
+    sendmail \
+    supervisor
 
 RUN docker-php-ext-install mbstring mysqli pdo_mysql gd zip calendar exif gettext \
     pcntl shmop soap sockets sysvmsg sysvsem sysvshm xsl opcache bcmath intl
@@ -55,7 +56,9 @@ COPY ./bash.bashrc /etc/bash.bashrc
 RUN apt-get install net-tools iputils-ping bash-completion -y
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+COPY ./supervisord.conf /etc/supervisor/supervisord.conf
 ARG port=9000
+RUN sed -i "s/9000/${port}/g" /etc/supervisor/supervisord.conf
 RUN sed -i "s/9000/${port}/g" /usr/local/etc/php-fpm.d/www.conf
 RUN sed -i "s/9000/${port}/g" /usr/local/etc/php-fpm.d/zz-docker.conf
 
