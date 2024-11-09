@@ -82,7 +82,7 @@ case "$subcommand" in
   bash)
     docker_bash "$@" "bash"
   ;;
-  dumps)
+  dumpsdb)
     header
     ln
     openCD $0 
@@ -99,7 +99,7 @@ case "$subcommand" in
     fi
     footer
   ;;
-  import)
+  importdb)
     header
     ln
     openCD $0 

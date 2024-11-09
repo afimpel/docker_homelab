@@ -22,35 +22,43 @@ help()
          php8=$(docker_bash "homelab-php8" "php" -v | head -1 | cut -d " " -f 2)
          composer7=$(docker_bash "homelab-php7" "composer" -V | head -1 | cut -d " " -f 3)
          composer8=$(docker_bash "homelab-php8" "composer" -V | head -1 | cut -d " " -f 3)
+
          ln
          CUSTOM_LEFT $NC "Docker :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
          CUSTOM_CENTER $LIGHT_CYAN "ps" $NC "Print started containers." $NC "➤" " " " " "7+132"
+
          CUSTOM_CENTER $LIGHT_CYAN "restart" $NC "Restart containers." $NC "➤" " " " " "7+132"
+
          CUSTOM_CENTER $LIGHT_CYAN "clear" $NC "Clear all logs & Restart containers." $NC "➤" " " " " "7+132"
+
          CUSTOM_CENTER $LIGHT_CYAN "logs" $NC "Docker All logs." $NC "➤" " " " " "7+132"
+
          CUSTOM_CENTER $LIGHT_CYAN "logs <container_name>" $NC "Docker logs in container." $NC "➤" " " " " "7+132"
+
          CUSTOM_CENTER $LIGHT_CYAN "down" $NC "Stop & Down containers." $NC "➤" " " " " "7+132"
+
          CUSTOM_CENTER $LIGHT_CYAN "down clear" $NC "Stop, Down containers & Clear all logs." $NC "➤" " " " " "7+132"
-         ln
-         CUSTOM_LEFT $NC "BackUP :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
-         CUSTOM_CENTER $LIGHT_CYAN "backup" $NC "backup of files (www/DB/Configs)" $NC "➤" " " " " "7+132"
-         CUSTOM_CENTER $LIGHT_CYAN "dumps" $NC "Perform a full backup of all mariadb databases. (excluding system db)" $NC "➤" " " " " "7+132"
-         CUSTOM_CENTER $LIGHT_CYAN "dumps <database_name>" $NC "Perform a backup of a specified entire mariadb database." $NC "➤" " " " " "7+132"
-         CUSTOM_CENTER $LIGHT_CYAN "import <database_name> <file>" $NC "Perform a file import of a specific full mariadb database." $NC "➤" " " " " "7+132"
+
          ln
          CUSTOM_LEFT $NC "Docker Container :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
          CUSTOM_CENTER $LIGHT_CYAN "bash <container_name>" $NC "Docker bash in container." $NC "➤" " " " " "7+132"
 
          CUSTOM_CENTER $LIGHT_CYAN "php7-usr" $NC "Docker bash in\t ${YELLOW}PHP $php7${NC}\t\t\t( ${LIGHT_ORANGE}♟ ${USERNAME}${NC} )" $NC "➤" " " " " "7+132"
+
          CUSTOM_CENTER $LIGHT_CYAN "php7" $NC "Docker bash in\t ${YELLOW}PHP $php7${NC}\t\t\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+132"
+
          CUSTOM_CENTER $LIGHT_CYAN "php7-cli <command>" $NC "Docker CLI in\t ${YELLOW}PHP $php7${NC}\t\t\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+132"
+
          CUSTOM_CENTER $LIGHT_CYAN "php7-composer <command>" $NC "Docker CLI in\t ${YELLOW}PHP $php7${NC} ➤ ${YELLOW}Composer $composer7${NC}\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+132"
          
          CUSTOM_CENTER $LIGHT_CYAN "php8-usr" $NC "Docker bash in\t ${YELLOW}PHP $php8${NC}\t\t\t( ${LIGHT_ORANGE}♟ ${USERNAME}${NC} )" $NC "➤" " " " " "7+132"
+
          CUSTOM_CENTER $LIGHT_CYAN "php8" $NC "Docker bash in\t ${YELLOW}PHP $php8${NC}\t\t\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+132"
+
          CUSTOM_CENTER $LIGHT_CYAN "php8-cli <command>" $NC "Docker CLI in\t ${YELLOW}PHP $php8${NC}\t\t\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+132"
+
          CUSTOM_CENTER $LIGHT_CYAN "php8-composer <command>" $NC "Docker CLI in\t ${YELLOW}PHP $php8${NC} ➤ ${YELLOW}Composer $composer8${NC}\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+132"
-         
+
          ln
          CUSTOM_LEFT $NC "Sites :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
          CUSTOM_CENTER $LIGHT_CYAN "listsite" $NC "List all Sites." $NC "➤" " " " " "7+132"
@@ -74,6 +82,18 @@ help()
 
          CUSTOM_CENTER $LIGHT_CYAN "delsubdomain <site>" $NC "Delete the SubDomain extist. ( ${GREEN}<site>.${COMPOSE_PROJECT_NAME,,}.local${NC} )" $NC "➤" " " " " "7+132"
          CUSTOM_CENTER $LIGHT_CYAN "delsubdomain <site> yes" $NC "Delete the SubDomain extist and directory ( ${GREEN}<site>.${COMPOSE_PROJECT_NAME,,}.local${NC} )" $NC "➤" " " " " "7+132"
+         
+         ln
+         CUSTOM_LEFT $NC "BackUP :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
+         CUSTOM_CENTER $LIGHT_CYAN "backup" $NC "backup of files (www/DB/Configs)" $NC "➤" " " " " "7+132"
+
+         ln
+         CUSTOM_LEFT $NC "Database :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
+         CUSTOM_CENTER $LIGHT_CYAN "dumpsdb" $NC "Perform a full backup of all mariadb databases. (excluding system db)" $NC "➤" " " " " "7+132"
+
+         CUSTOM_CENTER $LIGHT_CYAN "dumpsdb <database_name>" $NC "Perform a backup of a specified entire mariadb database." $NC "➤" " " " " "7+132"
+
+         CUSTOM_CENTER $LIGHT_CYAN "importdb <database_name> <file>" $NC "Perform a file import of a specific full mariadb database." $NC "➤" " " " " "7+132"
 
          ln
          CUSTOM_LEFT $NC "Supervisor :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4

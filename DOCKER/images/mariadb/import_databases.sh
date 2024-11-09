@@ -4,7 +4,7 @@ db="$1"
 files="$2"
 cd $DUMP_DIR
 if [ -f "$files" ]; then
-    echo -e "$(date)\n---\n" > ../import.md  
+    echo -e "---\n$(date)\n---\n" > ../import.md  
     echo -e " ⛁  $db > backup: backup/${db}_beforeImport.sql"
     echo -e "# Backup database\n" >> ../import.md
     mariadb-dump -u root -p$MARIADB_ROOT_PASSWORD --databases "$db" --opt --disable-keys --dump-history --triggers > ../backup/${db}_beforeImport.sql
@@ -19,4 +19,5 @@ if [ -f "$files" ]; then
     size=$(du -sh ../import_done/$unix-$files | awk '{print $1}')
     echo " ⛁  $db ($size)"
     echo -e "* ⛁ $db << import_done/$unix-$files ($size)" >> ../import.md
+    echo -e "\n---\n$(date)" >> ../import.md  
 fi
