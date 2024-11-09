@@ -88,7 +88,6 @@ this_color() {
    fi
 }
 
-# Función para mostrar ayuda de Docker
 show_docker_help() {
          php7=$(docker_bash "homelab-php7" "php" -v | head -1 | cut -d " " -f 2)
          php8=$(docker_bash "homelab-php8" "php" -v | head -1 | cut -d " " -f 2)
@@ -131,7 +130,6 @@ show_docker_help() {
          CUSTOM_CENTER $LIGHT_CYAN "php8-composer <command>" $NC "Docker CLI in\t ${YELLOW}PHP $php8${NC} ➤ ${YELLOW}Composer $composer8${NC}\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+132"
 }
 
-# Función para mostrar ayuda de Base de Datos
 show_db_help() {
          CUSTOM_LEFT $NC "Database :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
          CUSTOM_CENTER $LIGHT_CYAN "dumpsdb" $NC "Perform a full backup of all mariadb databases. (excluding system db)" $NC "➤" " " " " "7+132"
@@ -141,7 +139,6 @@ show_db_help() {
          CUSTOM_CENTER $LIGHT_CYAN "importdb <database_name> <file>" $NC "Perform a file import of a specific full mariadb database." $NC "➤" " " " " "7+132"
 }
 
-# Función para mostrar ayuda de Base de Datos
 show_backup_help() {
          CUSTOM_LEFT $NC "BackUP :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
          CUSTOM_CENTER $LIGHT_CYAN "backup" $NC "backup of files (www/DB/Configs)" $NC "➤" " " " " "7+132"
@@ -171,6 +168,7 @@ show_sites_help() {
          CUSTOM_CENTER $LIGHT_CYAN "delsubdomain <site>" $NC "Delete the SubDomain extist. ( ${GREEN}<site>.${COMPOSE_PROJECT_NAME,,}.local${NC} )" $NC "➤" " " " " "7+132"
          CUSTOM_CENTER $LIGHT_CYAN "delsubdomain <site> yes" $NC "Delete the SubDomain extist and directory ( ${GREEN}<site>.${COMPOSE_PROJECT_NAME,,}.local${NC} )" $NC "➤" " " " " "7+132"
 }
+
 show_supervisor_help() {
          CUSTOM_LEFT $NC "Supervisor :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
          CUSTOM_CENTER $LIGHT_CYAN "listsupervisor" $NC "List all Supervisor. " $NC "➤" " " " " "7+132"
