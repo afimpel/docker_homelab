@@ -97,7 +97,7 @@ listSupervisor()
 startedSupervisor()
 {
     rightH1 $YELLOW "Start :: SUPERVISOR" $LIGHT_GREEN '✔' "." 
-    docker exec -t homelab-php7 nohup /usr/sbin/service supervisor start > /dev/null & date
-    docker exec -t homelab-php8 nohup /usr/sbin/service supervisor start > /dev/null & date
-    leftH1 $LIGHT_CYAN " done ... " $WHITE "⛁" "."
+    docker exec -t homelab-php7 nohup /usr/sbin/service supervisor start > /dev/null & echo -e "\t✔ service supervisor start | PHP7"
+    docker exec -t homelab-php8 nohup /usr/sbin/service supervisor start > /dev/null & echo -e "\t✔ service supervisor start | PHP8"
+    ln
 }
