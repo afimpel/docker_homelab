@@ -64,7 +64,7 @@ case "$subcommand" in
   help)
     header
     ln
-    help
+    help "$@"
     footer
   ;;
   install)
@@ -224,7 +224,7 @@ case "$subcommand" in
       CUSTOM_RIGHT $LIGHT_RED 'Invalid command' $LIGHT_RED "'$subcommand'" $WHITE "⮡" "." "✘" 0
       ln
     fi
-    help
+    help "$@"
     footer
   ;;
 esac

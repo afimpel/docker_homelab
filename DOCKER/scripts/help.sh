@@ -3,7 +3,6 @@
 ############################################################
 # Help                                                     #
 ############################################################
-
 help()
 {
    # Display Help
@@ -13,17 +12,89 @@ help()
    echo -e "\t➤ ${LIGHT_GREEN}./homelab${NC} <cmd> <options>"
    ln
    rightH1 $WHITE 'Commands (cmd) : ' $LIGHT_GREEN '✔' " " 
-   CUSTOM_CENTER $LIGHT_CYAN "help" $NC "Display usage information. (this message)" $NC "➤" " " " " "7+132"
    if ! [ -f "${COMPOSE_PROJECT_NAME,,}.md" ]; then
       CUSTOM_CENTER $LIGHT_CYAN "install" $NC "Install this project." $NC "➤" " " " " "7+132"
    else
       if [ -f "logs/startup.pid" ]; then
+         show_general_help $1
+         if [ $# -eq 1 ]; then
+            case "$1" in
+               --all)
+                     ln
+                     show_backup_help
+                     ln
+                     show_docker_help
+                     ln
+                     show_db_help
+                     ln
+                     show_sites_help
+                     ln
+                     show_supervisor_help
+                     ;;
+               --docker)
+                     ln
+                     show_docker_help
+                     ;;
+               --db)
+                     ln
+                     show_db_help
+                     ;;
+               --backup)
+                     ln
+                     show_backup_help
+                     ;;
+               --sites)
+                     ln
+                     show_sites_help
+                     ;;
+               --supervisor)
+                     ln
+                     show_supervisor_help
+                     ;;
+            esac
+         fi
+      else
+         CUSTOM_LEFT $NC "Docker :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
+         CUSTOM_CENTER $LIGHT_CYAN "up" $NC "Start all containers." $NC "➤" " " " " "7+132"
+      fi
+
+   fi
+}
+
+
+
+show_general_help() {
+         CUSTOM_LEFT $NC "Help :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
+         CUSTOM_CENTER $LIGHT_CYAN "help" $NC "Display usage information$(this_msg "" $1 )" $NC "➤" " " " " "7+132"
+         CUSTOM_CENTER $LIGHT_GRAY "Opciones disponibles:" $NC "" $NC "☐" " " " " "10+132"
+         CUSTOM_CENTER $(this_color "--all" $1 ) "--all" $NC "Show all available help$(this_msg "--all" $1 )" $NC "➤" " " " " "13+132"
+         CUSTOM_CENTER $(this_color "--db" $1 ) "--db" $NC "Show help related to the database$(this_msg "--db" $1 )" $NC "➤" " " " " "13+132"
+         CUSTOM_CENTER $(this_color "--docker" $1 ) "--docker" $NC "Show help related to Docker$(this_msg "--docker" $1 )" $NC "➤" " " " " "13+132"
+         CUSTOM_CENTER $(this_color "--backup" $1 ) "--backup" $NC "Show help related to backup$(this_msg "--backup" $1 )" $NC "➤" " " " " "13+132"
+         CUSTOM_CENTER $(this_color "--sites" $1 ) "--sites" $NC "Show help related to sites$(this_msg "--sites" $1 )" $NC "➤" " " " " "13+132"
+         CUSTOM_CENTER $(this_color "--supervisor" $1 ) "--supervisor" $NC "Show help related to Supervisor$(this_msg "--supervisor" $1 )" $NC "➤" " " " " "13+132"
+}
+
+this_msg() {
+   if [ "$1" == "$2" ]; then
+      echo ". ( this message )"
+   fi
+}
+this_color() {
+   if [ "$1" == "$2" ]; then
+      echo -e $LIGHT_CYAN
+   else
+      echo -e $CYAN
+   fi
+}
+
+# Función para mostrar ayuda de Docker
+show_docker_help() {
          php7=$(docker_bash "homelab-php7" "php" -v | head -1 | cut -d " " -f 2)
          php8=$(docker_bash "homelab-php8" "php" -v | head -1 | cut -d " " -f 2)
          composer7=$(docker_bash "homelab-php7" "composer" -V | head -1 | cut -d " " -f 3)
          composer8=$(docker_bash "homelab-php8" "composer" -V | head -1 | cut -d " " -f 3)
 
-         ln
          CUSTOM_LEFT $NC "Docker :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
          CUSTOM_CENTER $LIGHT_CYAN "ps" $NC "Print started containers." $NC "➤" " " " " "7+132"
 
@@ -58,8 +129,25 @@ help()
          CUSTOM_CENTER $LIGHT_CYAN "php8-cli <command>" $NC "Docker CLI in\t ${YELLOW}PHP $php8${NC}\t\t\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+132"
 
          CUSTOM_CENTER $LIGHT_CYAN "php8-composer <command>" $NC "Docker CLI in\t ${YELLOW}PHP $php8${NC} ➤ ${YELLOW}Composer $composer8${NC}\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+132"
+}
 
-         ln
+# Función para mostrar ayuda de Base de Datos
+show_db_help() {
+         CUSTOM_LEFT $NC "Database :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
+         CUSTOM_CENTER $LIGHT_CYAN "dumpsdb" $NC "Perform a full backup of all mariadb databases. (excluding system db)" $NC "➤" " " " " "7+132"
+
+         CUSTOM_CENTER $LIGHT_CYAN "dumpsdb <database_name>" $NC "Perform a backup of a specified entire mariadb database." $NC "➤" " " " " "7+132"
+
+         CUSTOM_CENTER $LIGHT_CYAN "importdb <database_name> <file>" $NC "Perform a file import of a specific full mariadb database." $NC "➤" " " " " "7+132"
+}
+
+# Función para mostrar ayuda de Base de Datos
+show_backup_help() {
+         CUSTOM_LEFT $NC "BackUP :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
+         CUSTOM_CENTER $LIGHT_CYAN "backup" $NC "backup of files (www/DB/Configs)" $NC "➤" " " " " "7+132"
+}
+
+show_sites_help() {
          CUSTOM_LEFT $NC "Sites :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
          CUSTOM_CENTER $LIGHT_CYAN "listsite" $NC "List all Sites." $NC "➤" " " " " "7+132"
 
@@ -82,20 +170,8 @@ help()
 
          CUSTOM_CENTER $LIGHT_CYAN "delsubdomain <site>" $NC "Delete the SubDomain extist. ( ${GREEN}<site>.${COMPOSE_PROJECT_NAME,,}.local${NC} )" $NC "➤" " " " " "7+132"
          CUSTOM_CENTER $LIGHT_CYAN "delsubdomain <site> yes" $NC "Delete the SubDomain extist and directory ( ${GREEN}<site>.${COMPOSE_PROJECT_NAME,,}.local${NC} )" $NC "➤" " " " " "7+132"
-         
-         ln
-         CUSTOM_LEFT $NC "BackUP :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
-         CUSTOM_CENTER $LIGHT_CYAN "backup" $NC "backup of files (www/DB/Configs)" $NC "➤" " " " " "7+132"
-
-         ln
-         CUSTOM_LEFT $NC "Database :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
-         CUSTOM_CENTER $LIGHT_CYAN "dumpsdb" $NC "Perform a full backup of all mariadb databases. (excluding system db)" $NC "➤" " " " " "7+132"
-
-         CUSTOM_CENTER $LIGHT_CYAN "dumpsdb <database_name>" $NC "Perform a backup of a specified entire mariadb database." $NC "➤" " " " " "7+132"
-
-         CUSTOM_CENTER $LIGHT_CYAN "importdb <database_name> <file>" $NC "Perform a file import of a specific full mariadb database." $NC "➤" " " " " "7+132"
-
-         ln
+}
+show_supervisor_help() {
          CUSTOM_LEFT $NC "Supervisor :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
          CUSTOM_CENTER $LIGHT_CYAN "listsupervisor" $NC "List all Supervisor. " $NC "➤" " " " " "7+132"
 
@@ -104,10 +180,4 @@ help()
          CUSTOM_CENTER $LIGHT_CYAN " " $NC "${GREEN}<cmd>${NC} ( Command artisan )" $NC " " " " " " "7+132"
 
          CUSTOM_CENTER $LIGHT_CYAN "delsupervisor <programName>" $NC "Delete the Supervisor extist. " $NC "➤" " " " " "7+132"
-       else
-         ln
-         CUSTOM_LEFT $NC "Docker :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
-         CUSTOM_CENTER $LIGHT_CYAN "up" $NC "Start all containers." $NC "➤" " " " " "7+132"
-      fi
-   fi
 }

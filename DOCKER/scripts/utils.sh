@@ -69,9 +69,16 @@ CUSTOM_LEFT () {
 }
 
 CUSTOM_CENTER () {
+    inputotal="$9";
+    ants111=$(echo "$9" | cut -d "+" -f 2)
+    ants000=$(echo "$9" | cut -d "+" -f 1);
+    if [ "$ants111" -eq "$ants000" ]; then
+        ants=0
+    else
+        ants=$(( $ants000 ))
+    fi
     data=$(completeLine "$2" "$7" 4 "$4" $(( $9 )));
     ant_string=""
-    ants=7
     for ((i=0; i<ants; i++)); do
         ant_string+=" "
     done
