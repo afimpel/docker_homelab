@@ -47,8 +47,8 @@ ARG uid
 RUN useradd -G www-data,root -u $uid -d /home/$user $user
 RUN mkdir -p /var/www 
 RUN mkdir -p /home/$user/.composer && \
-    chown -R $user:$user /home/$user && \
-    chown -R $user:www-data /var/www
+chown -R $user:$user /home/$user && \
+chown -R $user:www-data /var/www
 
 COPY ./php/* /usr/local/etc/php-fpm.d/
 
@@ -58,7 +58,10 @@ RUN apt-get install net-tools iputils-ping bash-completion -y
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 COPY ./supervisord.conf /etc/supervisor/supervisord.conf
 ARG port=9000
+RUN echo "$user:docker" | chpasswd
+RUN sed -i "s/USERNAME/${user}/g" /etc/supervisor/supervisord.conf
 RUN sed -i "s/9000/${port}/g" /etc/supervisor/supervisord.conf
+RUN sed -i "s/900/php/g" /etc/supervisor/supervisord.conf
 RUN sed -i "s/9000/${port}/g" /usr/local/etc/php-fpm.d/www.conf
 RUN sed -i "s/9000/${port}/g" /usr/local/etc/php-fpm.d/zz-docker.conf
 
