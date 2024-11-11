@@ -132,11 +132,14 @@ show_docker_help() {
 
 show_db_help() {
          CUSTOM_LEFT $NC "Database :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
+         CUSTOM_CENTER $LIGHT_CYAN "createdb <database_name>" $NC "The specified mariadb database is backed up and deleted." $NC "➤" " " " " "7+132"
          CUSTOM_CENTER $LIGHT_CYAN "dumpsdb" $NC "Perform a full backup of all mariadb databases. (excluding system db)" $NC "➤" " " " " "7+132"
 
          CUSTOM_CENTER $LIGHT_CYAN "dumpsdb <database_name>" $NC "Perform a backup of a specified entire mariadb database." $NC "➤" " " " " "7+132"
 
          CUSTOM_CENTER $LIGHT_CYAN "importdb <database_name> <file>" $NC "Perform a file import of a specific full mariadb database." $NC "➤" " " " " "7+132"
+
+         CUSTOM_CENTER $LIGHT_CYAN "dropdb <database_name>" $NC "The specified mariadb database is backed up and deleted." $NC "➤" " " " " "7+132"
 }
 
 show_backup_help() {

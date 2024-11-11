@@ -21,8 +21,7 @@ services:
       - "./images/mariadb/conf.d:/etc/mysql/conf.d"
       - "../dumpSQL:/root/dumps:rw"
       - "./images/mariadb/logs-chmod.sh:/usr/bin/logs-chmod"
-      - "./images/mariadb/dump_databases.sh:/usr/bin/dump_databases"
-      - "./images/mariadb/import_databases.sh:/usr/bin/import_databases"
+      - "./images/mariadb/opt:/opt/db:rw"
     networks:
       - homelab-network
 
