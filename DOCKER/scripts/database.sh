@@ -35,7 +35,7 @@ dropdb () {
         rightH1 $YELLOW "Drop from Database" $WHITE '▾' "."
         docker_bash "homelab-mariadb" "mariadb --version"
         ln
-        CUSTOM_RIGHT $GREEN 'DUMPS in' $LIGHT_CYAN "$OLDPWD/dumpSQL" $WHITE "✔" "." "✔" 0
+        CUSTOM_RIGHT $GREEN 'DUMPS before Drop in' $LIGHT_CYAN "$OLDPWD/dumpSQL/backup" $WHITE "✔" "." "✔" 0
         docker_bash "homelab-mariadb" "/opt/db/drop_databases.sh $@"
       else
         CUSTOM_RIGHT $GREEN 'Drop ...' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
@@ -82,7 +82,7 @@ importdb () {
       rightH1 $YELLOW "Imported from file to database" $WHITE '▾' "."
       docker_bash "homelab-mariadb" "mariadb --version"
       ln
-      rightH1 $GREEN "DUMPS: dumpSQL" $WHITE '✔' "."
+      CUSTOM_RIGHT $GREEN 'DUMPS before Import in' $LIGHT_CYAN "$OLDPWD/dumpSQL/backup" $WHITE "✔" "." "✔" 0
       docker_bash "homelab-mariadb" "/opt/db/import_databases.sh $@"
     else
       CUSTOM_RIGHT $NC 'Imported ...' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
