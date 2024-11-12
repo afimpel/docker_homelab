@@ -29,6 +29,7 @@ cat << EOF > DOCKER/docker-compose.override.yml
 services:
   homelab-php7:
     extra_hosts:
+      - "host.docker.internal:host-gateway"
 EOF
 sort DOCKER/dockerDATA.yml | uniq >> DOCKER/docker-compose.override.yml
 
@@ -36,6 +37,7 @@ cat << EOF >> DOCKER/docker-compose.override.yml
 
   homelab-php8:
     extra_hosts:
+      - "host.docker.internal:host-gateway"
 EOF
 sort DOCKER/dockerDATA.yml | uniq >> DOCKER/docker-compose.override.yml
 rm DOCKER/dockerDATA.yml
