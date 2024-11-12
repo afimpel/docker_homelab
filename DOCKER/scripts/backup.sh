@@ -5,7 +5,7 @@
 ############################################################
 
 backup () {
-    startExec=$(date +'%s')
+    startExec0000=$(date +'%s')
     openCD $0
     unix=$(date '+%Y_%m_%d-%s')
     CUSTOM_RIGHT $GREEN "Backup:" $WHITE "$OLDPWD/backup" $WHITE "✔" "." "✔" 0
@@ -13,8 +13,7 @@ backup () {
     #clearLogs
     if [ -f "logs/startup.pid" ]; then
         ln
-        CUSTOM_RIGHT $LIGHT_GRAY "DUMPS:" $WHITE "$OLDPWD/dumpSQL/database" $WHITE "✔" "_" "✔" 0
-        docker_bash "homelab-mariadb" "dump_databases"
+        dumpsdb
     fi
     ln
     CUSTOM_RIGHT $LIGHT_GRAY "FILES:" $WHITE "$OLDPWD" $WHITE "✔" "_" "✔" 0
@@ -26,7 +25,8 @@ backup () {
     echo -e "\n ${unix}-${COMPOSE_PROJECT_NAME,,}_backup.tgz ($size)" >> logs/backups.log
     echo " 🗃  ${unix}-${COMPOSE_PROJECT_NAME,,}_backup.tgz ($size)"
     ln
-    timeExec=$(diffTime "$startExec")
+
+    timeExec=$(diffTime "$startExec0000")
     CUSTOM_RIGHT $WHITE "backup Done:" $LIGHT_GRAY "$timeExec" $WHITE "✔" "." "✔" 0
 }
 

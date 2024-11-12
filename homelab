@@ -4,6 +4,7 @@ source $(dirname $0)/DOCKER/scripts/help.sh
 source $(dirname $0)/DOCKER/scripts/utils.sh
 source $(dirname $0)/DOCKER/scripts/sites.sh
 source $(dirname $0)/DOCKER/scripts/supervisor.sh
+source $(dirname $0)/DOCKER/scripts/database.sh
 source $(dirname $0)/DOCKER/scripts/installer.sh
 source $(dirname $0)/DOCKER/scripts/docker.sh
 source $(dirname $0)/DOCKER/scripts/backup.sh
@@ -85,55 +86,25 @@ case "$subcommand" in
   dumpsdb)
     header
     ln
-    openCD $0 
-    if [ -f "logs/startup.pid" ]; then
-      rightH1 $YELLOW "Dump to file from Database" $WHITE '▾' "."
-      docker_bash "homelab-mariadb" "mariadb --version"
-      ln
-      CUSTOM_RIGHT $GREEN 'DUMPS in' $LIGHT_CYAN "/dumpSQL" $WHITE "✔" "." "✔" 0
-      docker_bash "homelab-mariadb" "/opt/db/dump_databases.sh $@"
-    else
-      CUSTOM_RIGHT $GREEN 'Dumps ...' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
-      ln
-      help
-    fi
+    dumpsdb "$@"
     footer
   ;;
   dropdb)
     header
-    db="$1"
+    dropdb "$@"
     ln
-    if [ -n "$db" ]; then
-      openCD $0 
-      if [ -f "logs/startup.pid" ]; then
-        rightH1 $YELLOW "Drop from Database" $WHITE '▾' "."
-        docker_bash "homelab-mariadb" "mariadb --version"
-        ln
-        CUSTOM_RIGHT $GREEN 'DUMPS in' $LIGHT_CYAN "/dumpSQL" $WHITE "✔" "." "✔" 0
-        docker_bash "homelab-mariadb" "/opt/db/drop_databases.sh $@"
-      else
-        CUSTOM_RIGHT $GREEN 'Drop ...' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
-      fi
-    else
-      CUSTOM_RIGHT $GREEN 'Drop ...' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
-    fi
+    footer
+  ;;
+  createdb)
+    header
+    createdb "$@"
+    ln
     footer
   ;;
   importdb)
     header
+    importdb "$@"
     ln
-    openCD $0 
-    if [ -f "logs/startup.pid" ]; then
-      rightH1 $YELLOW "Imported from file to database" $WHITE '▾' "."
-      docker_bash "homelab-mariadb" "mariadb --version"
-      ln
-      rightH1 $GREEN "DUMPS: dumpSQL" $WHITE '✔' "."
-      docker_bash "homelab-mariadb" "/opt/db/import_databases.sh $@"
-    else
-      CUSTOM_RIGHT $NC 'Imported ...' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
-      ln
-      help
-    fi
     footer
   ;;
   php8)

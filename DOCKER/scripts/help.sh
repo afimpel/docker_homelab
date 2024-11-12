@@ -132,7 +132,7 @@ show_docker_help() {
 
 show_db_help() {
          CUSTOM_LEFT $NC "Database :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
-         CUSTOM_CENTER $LIGHT_CYAN "createdb <database_name>" $NC "The specified mariadb database is backed up and deleted." $NC "➤" " " " " "7+132"
+         CUSTOM_CENTER $LIGHT_CYAN "createdb <database_name>" $NC "mariadb database is created specified with its respective user (same name: EX: db pepe_base the user will be: pepe)." $NC "➤" " " " " "7+132"
          CUSTOM_CENTER $LIGHT_CYAN "dumpsdb" $NC "Perform a full backup of all mariadb databases. (excluding system db)" $NC "➤" " " " " "7+132"
 
          CUSTOM_CENTER $LIGHT_CYAN "dumpsdb <database_name>" $NC "Perform a backup of a specified entire mariadb database." $NC "➤" " " " " "7+132"
