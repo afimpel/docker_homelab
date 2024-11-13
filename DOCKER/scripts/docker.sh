@@ -64,7 +64,7 @@ docker_logs() {
 }
 
 docker_down() {
-  startExec0000=$(date +'%s')
+  startExec0002=$(date +'%s')
   openCD $0
   if [ -f "logs/startup.pid" ]; then
       startup
@@ -84,7 +84,7 @@ docker_down() {
       ln
       help
   fi 
-  timeExec=$(diffTime "$startExec0000")
+  timeExec=$(diffTime "$startExec0002")
   CUSTOM_RIGHT $WHITE "Done all:" $LIGHT_GRAY "$timeExec" $WHITE "✔" "." "✔" 0
 }
 
