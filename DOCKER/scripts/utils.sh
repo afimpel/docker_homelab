@@ -147,12 +147,16 @@ completeLine() {
 }
 
 clearLogs () {
+    startExec0000=$(date +'%s')
     rightH1 $YELLOW 'Clear Logs' $WHITE '🗑' "."
     openCD $0
     find . -type f -name "*.log" -delete -printf " 🗑  REMOVED:\t $LIGHT_RED \0%p $NC\n" | sort
     find . -type f -name "no*.out" -delete -printf " 🗑  REMOVED:\t $LIGHT_RED \0%p $NC\n" | sort
     find . -type f -name "debug*.json" -delete -printf " 🗑  REMOVED:\t $LIGHT_RED \0%p $NC\n" | sort
     find . -type f -name "ci_sessio*" -delete -printf " 🗑  REMOVED:\t $LIGHT_RED \0%p $NC\n" | sort
+    ln
+    timeExec=$(diffTime "$startExec0000")
+    CUSTOM_RIGHT $WHITE "Done all:" $LIGHT_GRAY "$timeExec" $WHITE "✔" "." "✔" 0
 }
 
 exist (){ 

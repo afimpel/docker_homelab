@@ -25,7 +25,7 @@ backup () {
     echo -e "\n ${unix}-${COMPOSE_PROJECT_NAME,,}_backup.tgz ($size)" >> logs/backups.log
     echo " 🗃  ${unix}-${COMPOSE_PROJECT_NAME,,}_backup.tgz ($size)"
     ln
-
+ 
     timeExec=$(diffTime "$startExec0000")
     CUSTOM_RIGHT $WHITE "backup Done:" $LIGHT_GRAY "$timeExec" $WHITE "✔" "." "✔" 0
 }

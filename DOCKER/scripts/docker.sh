@@ -11,7 +11,29 @@ docker_up () {
   cd DOCKER/
   docker compose up -d
 }
+
+runonce_fn () {
+  startExec0000=$(date +'%s')
+  openCD $0
+  if [ -f "logs/startup.pid" ]; then
+    rightH1 $YELLOW 'Runonce' $WHITE '☐' "."
+    for script in config/runonce/*.sh ; do
+        if [ -r "$script" ] ; then
+                echo -e "RUN:\t\t$script" >> logs/runonce.log
+                bash -c "bash $script" >> logs/runonce.log 2>>logs/runonce.log 
+                timeExec=$(diffTime "$startExec0000")
+                sed -i 's/<br>/\n/g' logs/runonce.log
+                CUSTOM_LEFT $NC "bash $script" $BLUE "$timeExec" $LIGHT_GREEN "✔" " " " " "7"
+                echo -e "\n-----------\n" >> logs/runonce.log 
+
+        fi
+    done 
+  fi
+}
+
+
 docker_restart () {
+  startExec0000=$(date +'%s')
   openCD $0
   if [ -f "logs/startup.pid" ]; then
     rightH1 $YELLOW 'Restart containers' $WHITE '⟳' "."
@@ -22,7 +44,9 @@ docker_restart () {
       CUSTOM_RIGHT $NC 'Restart containers' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
       ln
       help
-  fi  
+  fi   
+  timeExec=$(diffTime "$startExec0000")
+  CUSTOM_RIGHT $WHITE "Done all:" $LIGHT_GRAY "$timeExec" $WHITE "✔" "." "✔" 0
 }
 
 docker_ps() {
@@ -40,6 +64,7 @@ docker_logs() {
 }
 
 docker_down() {
+  startExec0000=$(date +'%s')
   openCD $0
   if [ -f "logs/startup.pid" ]; then
       startup
@@ -58,7 +83,9 @@ docker_down() {
       CUSTOM_RIGHT $NC 'Stop & down all containers' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
       ln
       help
-  fi
+  fi 
+  timeExec=$(diffTime "$startExec0000")
+  CUSTOM_RIGHT $WHITE "Done all:" $LIGHT_GRAY "$timeExec" $WHITE "✔" "." "✔" 0
 }
 
 docker_bash() {

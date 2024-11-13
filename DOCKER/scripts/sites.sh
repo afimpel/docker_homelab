@@ -145,7 +145,7 @@ delsite()
 www()
 {
    openCD $0
-   rightH1 $YELLOW "WWW ( ${COMPOSE_PROJECT_NAME,,}.md )" $LIGHT_GREEN '✔' "." 
+   rightH1 $YELLOW "WWW ( ${COMPOSE_PROJECT_NAME,,}.md )" $WHITE '✔' "." 
    input_file="${COMPOSE_PROJECT_NAME,,}.md"
    lnline=0
    while IFS= read -r line; do
@@ -166,7 +166,7 @@ www()
    input_file0="${COMPOSE_PROJECT_NAME,,}_domains.md"
    if [ -f "${input_file0}" ]; then
       ln
-      rightH1 $YELLOW "Domains ( ${COMPOSE_PROJECT_NAME,,}_domains.md )" $LIGHT_GREEN '✔' "." 
+      rightH1 $YELLOW "Domains ( ${COMPOSE_PROJECT_NAME,,}_domains.md )" $WHITE '✔' "." 
       lnline=0
       while IFS= read -r line; do
          # Check for section titles
@@ -187,7 +187,7 @@ www()
    input_file0="$(dirname $0)/${COMPOSE_PROJECT_NAME,,}_subdomains.md"
    if [ -f "${input_file0}" ]; then
       ln
-      rightH1 $YELLOW "SubDomains ( ${COMPOSE_PROJECT_NAME,,}_subdomains.md )" $LIGHT_GREEN '✔' "." 
+      rightH1 $YELLOW "SubDomains ( ${COMPOSE_PROJECT_NAME,,}_subdomains.md )" $WHITE '✔' "." 
       lnline=0
       while IFS= read -r line; do
          # Check for section titles
