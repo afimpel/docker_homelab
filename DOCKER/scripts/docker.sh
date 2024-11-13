@@ -79,13 +79,13 @@ docker_down() {
           ln
           clearLogs
       fi
+      timeExec=$(diffTime "$startExec0002")
+      CUSTOM_RIGHT $WHITE "Done all:" $LIGHT_GRAY "DOCKER Down: $timeExec" $WHITE "✔" "." "✔" 0
   else
       CUSTOM_RIGHT $NC 'Stop & down all containers' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
       ln
       help
   fi 
-  timeExec=$(diffTime "$startExec0002")
-  CUSTOM_RIGHT $WHITE "Done all:" $LIGHT_GRAY "$timeExec" $WHITE "✔" "." "✔" 0
 }
 
 docker_bash() {
