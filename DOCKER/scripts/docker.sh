@@ -17,14 +17,15 @@ runonce_fn () {
   openCD $0
   if [ -f "logs/startup.pid" ]; then
     rightH1 $YELLOW 'Runonce' $WHITE '☐' "."
+    echo -e "---\t\t ${COMPOSE_PROJECT_NAME^^} ✔ \t\t---" > logs/runonce.log 
     for script in config/runonce/*.sh ; do
         if [ -r "$script" ] ; then
-                echo -e "RUN:\t\t$script" >> logs/runonce.log
+                echo -e "✔ RUN:\t\t$script" >> logs/runonce.log
                 bash -c "bash $script" >> logs/runonce.log 2>>logs/runonce.log 
                 timeExec=$(diffTime "$startExec0000")
                 sed -i 's/<br>/\n/g' logs/runonce.log
-                CUSTOM_LEFT $NC "bash $script" $BLUE "$timeExec" $LIGHT_GREEN "✔" " " " " "7"
-                echo -e "\n-----------\n" >> logs/runonce.log 
+                CUSTOM_LEFT $NC "bash $script" $BLUE "$timeExec" $LIGHT_GREEN "✔" " " " " "0"
+                echo -e "\n---\t\t $(date) \t\t---\n" >> logs/runonce.log 
 
         fi
     done 
