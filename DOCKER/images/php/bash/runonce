@@ -4,5 +4,5 @@ echo -e "----------" >> /var/log/php/startup-$(hostname).log
 date >> /var/log/php/startup-$(hostname).log
 echo -e "----------" >> /var/log/php/startup-$(hostname).log
 hostname >> /var/log/php/startup-$(hostname).log
-nohup /usr/sbin/service supervisor start 
-nohup /usr/local/sbin/php-fpm -R
+nohup /usr/sbin/service supervisor start & date
+/usr/local/sbin/php-fpm -R
