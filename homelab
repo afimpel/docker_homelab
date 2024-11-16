@@ -32,7 +32,6 @@ case "$subcommand" in
     CUSTOM_RIGHT $WHITE "Done all:" $LIGHT_GRAY "$timeExec" $WHITE "✔" "." "✔" 0
     docker_bash "homelab-mariadb" "logs-chmod"
     ln
-    startedSupervisor
     runonce_fn
     ln
     www
@@ -56,7 +55,6 @@ case "$subcommand" in
     ln
     docker_restart
     ln
-    startedSupervisor
     runonce_fn
     footer
   ;;
@@ -70,7 +68,6 @@ case "$subcommand" in
       ln
       docker_restart
       ln
-      startedSupervisor
       runonce_fn
     fi
     footer
@@ -208,6 +205,12 @@ case "$subcommand" in
     header
     ln
     listSupervisor $@
+    footer
+  ;;
+  startsupervisor)
+    header
+    ln
+    startedSupervisor $@
     footer
   ;;
   down)

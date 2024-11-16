@@ -1,0 +1,8 @@
+#!/bin/bash
+php -v > /var/log/sites-logs/startup-$(hostname).log
+echo -e "----------" >> /var/log/sites-logs/startup-$(hostname).log
+date >> /var/log/sites-logs/startup-$(hostname).log
+echo -e "----------" >> /var/log/sites-logs/startup-$(hostname).log
+hostname >> /var/log/sites-logs/startup-$(hostname).log
+nohup /usr/sbin/service supervisor start 
+nohup /usr/local/sbin/php-fpm -R

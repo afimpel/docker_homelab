@@ -64,7 +64,9 @@ RUN sed -i "s/9000/${port}/g" /etc/supervisor/supervisord.conf
 RUN sed -i "s/900/php/g" /etc/supervisor/supervisord.conf
 RUN sed -i "s/9000/${port}/g" /usr/local/etc/php-fpm.d/www.conf
 RUN sed -i "s/9000/${port}/g" /usr/local/etc/php-fpm.d/zz-docker.conf
+COPY ./bash/* /usr/bin/
 
 EXPOSE ${port}
 
-CMD ["php-fpm", "-R"]
+CMD [ "runonce" ]
+#CMD ["php-fpm", "-R"]

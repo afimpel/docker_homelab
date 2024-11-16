@@ -174,6 +174,8 @@ show_sites_help() {
 
 show_supervisor_help() {
          CUSTOM_LEFT $NC "Supervisor :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
+         CUSTOM_CENTER $LIGHT_CYAN "startsupervisor" $NC "Start all Supervisor." $NC "➤" " " " " "7+132"
+
          CUSTOM_CENTER $LIGHT_CYAN "listsupervisor" $NC "List all Supervisor. " $NC "➤" " " " " "7+132"
 
          CUSTOM_CENTER $LIGHT_CYAN "newsupervisor <programName> <type> '<cmd>'" $NC "Create the New Supervisor artisan. (Framework Code) ( ${GREEN}<programName>${NC} )" $NC "➤" " " " " "7+132"
