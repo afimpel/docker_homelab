@@ -24,7 +24,7 @@ runonce_fn () {
                 bash -c "bash $script" >> logs/runonce.log 2>>logs/runonce.log 
                 timeExec=$(diffTime "$startExec0000")
                 sed -i 's/<br>/\n/g' logs/runonce.log
-                CUSTOM_LEFT $NC "bash $script" $BLUE "$timeExec" $LIGHT_GREEN "✔" " " " " "0"
+                CUSTOM_LEFT $NC "bash $script" $BLUE "$timeExec" $LIGHT_GREEN "➤" " " "✔" "7"
                 echo -e "\n---\t\t $(date) \t\t---\n" >> logs/runonce.log 
 
         fi
