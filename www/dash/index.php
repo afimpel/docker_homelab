@@ -1,5 +1,10 @@
 <?php
+include "./config.php";
+include "./libs.php";
+include "./dbs.php";
 errorLogger(["COMPOSE" => strtoupper(getenv('COMPOSE_PROJECT_NAME')),"SERVER" => $_SERVER['SERVER_SOFTWARE'], 'PHP' => phpversion()], true);
+errorLogger($dbs);
+
 // Ruta del directorio a listar
 $directorySubdomain = '../subdomains/';
 $directoryDomain = '../domains/';
@@ -89,25 +94,11 @@ $sitesDomain = [];
             </div>
         </div>
     </nav>
-    <?php
-        $mariaDBversion = "error";
-        try {
-            $link = mysqli_connect("homelab-mariadb", getenv('MARIADB_USER'), getenv('MARIADB_PASSWORD'), null);
-            if (mysqli_connect_errno()) {
-                throw new Exception(mysqli_connect_error());
-            } else {
-                $mariaDBversion = mysqli_get_server_info($link);
-                $result = mysqli_query($link, "select TIME_FORMAT(SEC_TO_TIME(VARIABLE_VALUE ),'%Hh %im')  as uptime from information_schema.GLOBAL_STATUS where VARIABLE_NAME='Uptime';");
-                if (!$result) {
-                    throw new Exception("Error en la consulta: " . mysqli_error($link));
-                }
-                $rows_uptime = mysqli_fetch_assoc($result);
-           }       
-        } catch (\Exception $e) {
-    ?>
-    <div class="alert alert-danger m-2 p-1">
-        <?php echo $e->getMessage(); ?>
-    </div>
+
+    <?php if ( ! is_null($dbs['error'])){ ?>
+        <div class="mx-4 alert alert-danger">
+            <?php echo $dbs['error']; ?>
+        </div>
     <?php } ?>
 
     <div class="container">
@@ -125,7 +116,7 @@ $sitesDomain = [];
             <div class="col-12 col-xl">
                 <h3 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1">
                     <i class="icon-docker me-2"></i> Environment
-                    <small style="font-size: small;" class="badge text-light bg-info rounded ms-auto my-auto"><?php echo $rows_uptime['uptime'];?></small>
+                    <small style="font-size: small;" class="badge text-light bg-info rounded ms-auto my-auto"><?php echo $dbs['uptime'];?></small>
                 </h3>
                 <div class="list-group">
                     <span class="list-group-item d-flex justify-content-between align-items-center py-1">
@@ -140,33 +131,43 @@ $sitesDomain = [];
                             <?= phpversion(); ?>
                         </small>
                     </a>
-                    <a href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?server=homelab-mariadb&username=<?= getenv('MARIADB_USER'); ?>" target="_blank" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-1">
-                        <span><i class="icon-mariadb me-2"></i> mariaDB:</span>
+                    <a href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>" target="_blank" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-1">
+                        <span><i class="<?= $dbs['server']['icon']; ?> me-2"></i> <?= $dbs['server']['name']; ?>:</span>
                         <small class="badge text-light bg-primary rounded-pill px-2">
-                            <?php echo $mariaDBversion; ?>
+                            <?= $dbs['server']['version']; ?>
                         </small>
                     </a>
                 </div>
-                <a href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?server=homelab-mariadb&username=<?= getenv('MARIADB_USER'); ?>" target="_blank" class="w-100 mt-2 btn btn-outline-primary p-1">
+                <?php
+                    if(is_null($dbs['error'])){
+                ?>
+                <a href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>" target="_blank" class="w-100 mt-2 btn btn-outline-primary p-1">
                     <small class="d-flex justify-content-between align-items-center px-1">
-                        <span><i class="icon-mysql-alt me-2"></i> Server:</span>
+                        <span><i class="<?= $dbs['server']['icon-alt']; ?> me-2"></i> Server:</span>
                         <b class="px-0">
-                        homelab-mariadb
+                        <?= $datebase_server; ?>
                         </b>
                     </small>
                     <small class="d-flex justify-content-between align-items-center px-1">
-                        <span><i class="icon-mysql-alt me-2"></i> User:</span>
+                        <span><i class="<?= $dbs['server']['icon-alt']; ?> me-2"></i> User:</span>
                         <b class="px-0">
-                            <?= getenv('MARIADB_USER'); ?>
+                        <?= $datebase_user; ?>
                         </b>
                     </small>
                     <small class="d-flex justify-content-between align-items-center px-1">
-                        <span><i class="icon-mysql-alt me-2"></i> Password:</span>
+                        <span><i class="<?= $dbs['server']['icon-alt']; ?> me-2"></i> Password:</span>
                         <b class="px-0">
-                        <?= getenv('MARIADB_PASSWORD'); ?>
+                        <?= $datebase_pass; ?>
+                        </b>
+                    </small>
+                    <small class="d-flex justify-content-between align-items-center px-1">
+                        <span><i class="<?= $dbs['server']['icon-alt']; ?> me-2"></i> Port:</span>
+                        <b class="px-0">
+                        <?= $datebase_port; ?>
                         </b>
                     </small>
                 </a>
+                <?php } ?>
             </div>
             <div class="col-12 col-xl-4">
                 <h3 class="title has-text-centered border-bottom border-primary d-flex py-1">
@@ -182,27 +183,18 @@ $sitesDomain = [];
             </div>
         </div>
         <div class="rounded row border border-success m-2 p-2 py-3">
-        <?php
-            try {
-                if (!$link) {
-                    throw new Exception("Fatal Error");
-                }
-                $result = mysqli_query($link, 'SHOW DATABASES;');
-                if (!$result) {
-                    throw new Exception("Error en la consulta: " . mysqli_error($link));
-                }
-                $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
-        ?>
+            <?php
+                if(is_null($dbs['error'])){
+            ?>
             <div class="col-12 col-xxl">
                 <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1">
-                    <i class="icon-mysql me-2"></i> Database List
-                    <small class="badge text-light bg-primary ms-auto"><?php echo count($rows);?></small>
+                    <i class="<?= $dbs['server']['icon']; ?> me-2"></i> Database List
+                    <small class="badge text-light bg-primary ms-auto"><?php echo count($dbs['database']);?></small>
                 </h5>
                 <div class="list-group">
                 <?php
-                errorLogger(["mariaDB" => $mariaDBversion, "Database" => count($rows), "rows" => $rows, "uptime" => $rows_uptime['uptime']]);
-                foreach ($rows as $row) { ?>
-                    <a target="_blank" translate="no" class="list-group-item list-group-item-action list-group-item-info py-1" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?server=homelab-mariadb&username=<?= getenv('MARIADB_USER'); ?>&db=<?= $row["Database"]; ?>">
+                foreach ($dbs['database'] as $row) { ?>
+                    <a target="_blank" translate="no" class="list-group-item list-group-item-action list-group-item-info py-1" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>&db=<?= $row["Database"]; ?>">
                         <i class="bi bi-database-fill me-2"></i>
                         <?= $row["Database"]; ?>
                     </a>
@@ -210,16 +202,8 @@ $sitesDomain = [];
                 ?>
                 </div>
             </div>
-        <?php
-            mysqli_free_result($result);
-            mysqli_close($link);
-        } catch (\Exception $e) {
-        ?>
-        <div class="alert alert-danger">
-            <?php echo $e->getMessage(); ?>
-        </div>
-        <?php }
-        if (count($filesDomain) > 3){?>
+            <?php }
+            if (count($filesDomain) > 3){?>
             <div class="col-12 col-xxl">
                 <h5 class="title is-2 has-text-centered border-bottom border-info d-flex py-1">
                     <i class="icon-nginx me-2"></i> Domain Sites List (<em> .local </em>)
@@ -242,8 +226,7 @@ $sitesDomain = [];
             </div>
             <?php }?>
         </div>
-        <hr class="my-3">
-        <div class="container border border-secondary rounded p-2">
+        <div class="container border border-secondary rounded p-2 my-2">
             <h3 class="text-center py-1 border-bottom"><i class="icon-shell"></i> access to php composer:</h3>
             <ol>
                 <li>Open terminal (ej: xterm, gnome-terminal)</li>
@@ -257,7 +240,6 @@ $sitesDomain = [];
             </ol>
 
         </div>
-        <hr class="my-3">
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script>
@@ -289,38 +271,3 @@ $sitesDomain = [];
 
 </body>
 </html>
-<?php
-function errorLogger($data, $hr = false, $file="dash.log"){
-    $filename = date('Y-m-d').'_'.str_replace(".",'-',$_ENV['HTTP_HOST'])."_".$file;
-    error_log(($hr ? "---\t".$_ENV['HTTP_HOST']."\t---\n" : "").date('H:i:s')." > ".json_encode($data)."\n",3,'/var/log/sites-logs/'.$filename);
-}
-
-function listSites($files, $directory, $classA, $domain = "", $prefix=""){ 
-    $sites=[];
-    $sitesLinks = array();
-    foreach ($files as $file) {
-        if ($file !== '.' && $file !== '..') {
-            if (is_dir($directory . $file)) { 
-                $type = "nginx-alt";
-                if (is_dir($directory . $file.'/node_modules')) { 
-                    $type="html";
-                }
-                if (is_dir($directory . $file.'/public') && is_dir($directory . $file.'/vendor')) { 
-                    $type="php";
-                }
-                $url=$prefix.$file."".$domain;
-                $sites[$type][]=["type" => $type, "url" => "$url.local", "directory" => $directory.$file];
-                foreach ($classA as $key => $class) {
-                    $sitesLinks[$key][]="<a translate='no' title='$url.local' target='_blank' class='$class' href='//$url.local' style='min-width: 15vw;'><i class='icon-$type me-2'></i> $file</a>";
-                }
-            }
-        }
-    }
-    errorLogger(["sites" => $sites, "sitesLinks" => count($sitesLinks, 1), "directory" => $directory]);
-    $output = [];
-    foreach ($sitesLinks as $key => $class) {
-        $output[$key] = implode("\n",$class);
-    }
-    return $output;
-}
-?>

@@ -1,5 +1,8 @@
 *
 !.gitignore
 !index.php
+!libs.php
+!dbs.php
+!config.php
 !phpinfo.php
 !favicon.ico
