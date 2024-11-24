@@ -141,11 +141,11 @@ services:
         phpVersion: ${phpVersion7}
     environment:
       TZ: ${TIMEZONE}
-      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
-      MARIADB_DATABASE: ${MARIADB_DATABASE}
-      MARIADB_PORT: ${MARIADB_PORT}
-      MARIADB_USER: ${MARIADB_USER}
-      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+      DB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      DB_DATABASE: ${MARIADB_DATABASE}
+      DB_PORT: ${MARIADB_PORT}
+      DB_USER: ${MARIADB_USER}
+      DB_PASSWORD: ${MARIADB_PASSWORD}
       COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME}
     container_name: homelab-php7
     image: homelab:${phpVersion7}-custom
@@ -185,11 +185,11 @@ services:
         phpVersion: ${phpVersion8}
     environment:
       TZ: ${TIMEZONE}
-      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
-      MARIADB_DATABASE: ${MARIADB_DATABASE}
-      MARIADB_PORT: ${MARIADB_PORT}
-      MARIADB_USER: ${MARIADB_USER}
-      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+      DB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      DB_DATABASE: ${MARIADB_DATABASE}
+      DB_PORT: ${MARIADB_PORT}
+      DB_USER: ${MARIADB_USER}
+      DB_PASSWORD: ${MARIADB_PASSWORD}
       COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME}
     container_name: homelab-php8
     image: homelab:${phpVersion8}-custom
