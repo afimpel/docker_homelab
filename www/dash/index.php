@@ -27,7 +27,7 @@ $sitesDomain = [];
 </head>
 
 <body style="padding-top: 96px;">
-    <nav class="navbar navbar-expand-xl navbar-dark bg-dark fixed-top">
+    <nav class="navbar navbar-expand-xl navbar-dark bg-dark fixed-top shadow">
 
         <div class="container">
             <a href="./" class="navbar-brand"><i class="me-2 icon-docker"></i> LEMP</a>
@@ -48,7 +48,7 @@ $sitesDomain = [];
                     <?php if (count($filesDomain) > 3){?>          
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="domains"><i class="me-2 icon-ghost"></i> Domain (<?php echo count($filesDomain)-3;?>)</a>
-                        <div class="dropdown-menu" aria-labelledby="domains">
+                        <div class="dropdown-menu shadow" aria-labelledby="domains">
                             <?php
                             $sitesDomain = listSites($filesDomain, $directoryDomain, ["dropdown-item", "list-group-item list-group-item-action list-group-item-secondary py-1"], '', 'www.');
                             echo $sitesDomain[0]; ?>
@@ -58,7 +58,7 @@ $sitesDomain = [];
                     if (count($filesSubdomain) > 3){?>
                      <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="subdomains"><i class="me-2 icon-ghost"></i> SubDomain (<?php echo count($filesSubdomain)-3;?>)</a>
-                        <div class="dropdown-menu" aria-labelledby="subdomains">
+                        <div class="dropdown-menu shadow" aria-labelledby="subdomains">
                             <?php
                             $sitesSubdomain = listSites($filesSubdomain, $directorySubdomain, ["dropdown-item", "list-group-item list-group-item-action list-group-item-secondary py-1"],".".strtolower(getenv('COMPOSE_PROJECT_NAME')));
                             echo $sitesSubdomain[0]; ?>
@@ -77,7 +77,7 @@ $sitesDomain = [];
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="theme-menu" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme">
                           <i class="bi bi-sun-fill"></i>
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-end">
+                        <ul class="dropdown-menu shadow dropdown-menu-end">
                           <li>
                             <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-style="bi-sun-fill" data-bs-theme-value="light" aria-pressed="false">
                               <i class="bi bi-sun-fill"></i><span class="ms-2">Light</span>
@@ -95,30 +95,36 @@ $sitesDomain = [];
         </div>
     </nav>
 
-    <?php if ( ! is_null($dbs['error'])){ ?>
-        <div class="mx-4 alert alert-danger">
-            <?php echo $dbs['error']; ?>
-        </div>
-    <?php } ?>
-
     <div class="container">
         <h1 class="title text-success px-3 d-flex">
             <i class="icon-docker pe-1"></i> <b>LEMP STACK</b> <small class="ms-auto">( Compose: <em class="px-3"> <?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?> </em>)</small>
         </h1>
-        <small class="muted border border-secondary d-block px-3 rounded-pill">PHP / Nginx / MariaDB / Adminer / Redis / Composer / Supervisor</small>
+        <small class="muted border border-secondary d-block px-3 rounded-pill shadow">PHP / Nginx / MariaDB / Adminer / Redis / Composer / Supervisor</small>
         <h2 class="subtitle p-3">
             Your local development environment in Docker
         </h2>
     </div>
 
+    <?php if ( ! is_null($dbs['error'])){ ?>
+    <div class="mx-4 alert alert-danger py-2 shadow">
+        <b><i class="<?= $dbs['server']['icon']; ?> me-2"></i> <?= $dbs['server']['name']; ?>:</b> <?php echo $dbs['error']; ?>
+    </div>
+    <?php } ?>
+
     <div class="container-fluid py-2">
-        <div class="rounded row border border-primary m-2 p-2 py-3">
+        <div class="row m-1">
             <div class="col-12 col-xl">
                 <h3 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1">
                     <i class="icon-docker me-2"></i> Environment
+                    <?php
+                        if(!is_null($dbs['uptime'])){
+                    ?>
                     <small style="font-size: small;" class="badge text-light bg-info rounded ms-auto my-auto"><?php echo $dbs['uptime'];?></small>
+                    <?php
+                        }
+                    ?>
                 </h3>
-                <div class="list-group">
+                <div class="list-group shadow">
                     <span class="list-group-item d-flex justify-content-between align-items-center py-1">
                         <span><i class="icon-nginx me-2"></i> Server:</span>
                         <small class="badge text-light bg-primary rounded-pill px-2">
@@ -131,17 +137,24 @@ $sitesDomain = [];
                             <?= phpversion(); ?>
                         </small>
                     </a>
+                    <?php
+                        if(is_null($dbs['error'])){
+                    ?>
                     <a href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>" target="_blank" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-1">
                         <span><i class="<?= $dbs['server']['icon']; ?> me-2"></i> <?= $dbs['server']['name']; ?>:</span>
                         <small class="badge text-light bg-primary rounded-pill px-2">
                             <?= $dbs['server']['version']; ?>
                         </small>
                     </a>
+                    <?php
+                        }
+                    ?>
                 </div>
                 <?php
                     if(is_null($dbs['error'])){
                 ?>
-                <a href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>" target="_blank" class="w-100 mt-2 btn btn-outline-primary p-1">
+                <a href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>" target="_blank" class="w-100 mt-4 shadow btn btn-outline-primary p-1">
+                    <h5 class="text-light bg-primary py-1 mb-1 rounded">Database Connection: <b><?= $dbs['server']['name']; ?></b></h5>
                     <small class="d-flex justify-content-between align-items-center px-1">
                         <span><i class="<?= $dbs['server']['icon-alt']; ?> me-2"></i> Server:</span>
                         <b class="px-0">
@@ -173,7 +186,7 @@ $sitesDomain = [];
                 <h3 class="title has-text-centered border-bottom border-primary d-flex py-1">
                     <i class="icon-google-developers me-2"></i> Quick Links
                 </h3>
-                <div class="list-group">
+                <div class="list-group shadow">
                     <a title="php7.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-info list-group-item-action p-0 px-2" href="//php7.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-php-alt mx-2"></i>php7 -> phpinfo()</a>
                     <a title="php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-info list-group-item-action p-0 px-2" href="//php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-php-alt mx-2"></i>php8 -> phpinfo()</a>
                     <a title="adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-warning list-group-item-action p-0 px-2" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-database mx-2"></i> adminer</a>
@@ -182,7 +195,7 @@ $sitesDomain = [];
                 </div>
             </div>
         </div>
-        <div class="rounded row border border-success m-2 p-2 py-3">
+        <div class="row my-4 mx-1">
             <?php
                 if(is_null($dbs['error'])){
             ?>
@@ -191,7 +204,7 @@ $sitesDomain = [];
                     <i class="<?= $dbs['server']['icon']; ?> me-2"></i> Database List
                     <small class="badge text-light bg-primary ms-auto"><?php echo count($dbs['database']);?></small>
                 </h5>
-                <div class="list-group">
+                <div class="list-group shadow">
                 <?php
                 foreach ($dbs['database'] as $row) { ?>
                     <a target="_blank" translate="no" class="list-group-item list-group-item-action list-group-item-info py-1" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>&db=<?= $row["Database"]; ?>">
@@ -209,7 +222,7 @@ $sitesDomain = [];
                     <i class="icon-nginx me-2"></i> Domain Sites List (<em> .local </em>)
                     <small class="badge text-light bg-info rounded ms-auto"><?php echo count($filesDomain)-3;?></small>
                 </h5>
-                <div class="list-group">
+                <div class="list-group shadow">
                     <?php echo $sitesDomain[1];?>
                 </div>
             </div>
@@ -220,13 +233,13 @@ $sitesDomain = [];
                     <i class="icon-nginx me-2"></i> SubDomain Sites List (<em> .<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local </em>)
                     <small class="badge text-light bg-info rounded ms-auto"><?php echo count($filesSubdomain)-3;?></small>
                 </h5>
-                <div class="list-group">
+                <div class="list-group shadow">
                     <?php echo $sitesSubdomain[1];?>
                 </div>
             </div>
             <?php }?>
         </div>
-        <div class="container border border-secondary rounded p-2 my-2">
+        <div class="container border border-secondary rounded p-2 my-2 shadow">
             <h3 class="text-center py-1 border-bottom"><i class="icon-shell"></i> access to php composer:</h3>
             <ol>
                 <li>Open terminal (ej: xterm, gnome-terminal)</li>

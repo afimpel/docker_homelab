@@ -1,7 +1,7 @@
 <?php
-$dbs = ['error' => null, 'database' => [], 'uptime' => 0, 'server'=> ['version' => null, 'name' => 'mariaDB', 'icon' => 'icon-mariadb', 'icon-alt' => 'icon-mysql-alt' ] ];
+$dbs = ['error' => null, 'database' => [], 'uptime' => null, 'server'=> ['version' => null, 'name' => 'mariaDB', 'icon' => 'icon-mariadb', 'icon-alt' => 'icon-mysql-alt' ] ];
 try {
-    $mysqli = new mysqli("homelab-mariadb", getenv('DB_USER'), getenv('DB_PASSWORD'), NULL, getenv('DB_PORT'));
+    $mysqli = new mysqli("homelab-mariadb", getenv('HOMELAB_USER'), getenv('HOMELAB_PASSWORD'), NULL, getenv('HOMELAB_PORT'));
 
     if ($mysqli->connect_error) {
         $dbs['error'] = $mysqli->connect_error;
@@ -26,6 +26,8 @@ try {
     if ($result2) {
         $dbs['uptime'] = $result2->fetch_array()[0];
         $result2->close();
+    } else {
+        $dbs['error'] = $mysqli->error;
     }
 
 } catch (Exception $e) {
