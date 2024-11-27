@@ -22,7 +22,7 @@ if [ -f "$files" ]; then
     echo -e "\n ⛃  $db < IMPORT: import/$files"
     echo -e "\n## Importing database\n" >> import.md
     cd import
-    mariadb -uroot -p$MARIADB_ROOT_PASSWORD $db < $files
+    mariadb -uroot -p$MARIADB_ROOT_PASSWORD $db -v  < $files
     unix=$(date '+%Y_%m_%d-%s')
     mv -v $files ../import_done/$unix-$files
     size=$(du -sh ../import_done/$unix-$files | awk '{print $1}')

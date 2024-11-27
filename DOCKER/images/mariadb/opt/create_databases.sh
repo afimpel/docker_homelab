@@ -17,7 +17,7 @@ if [ -n "$db" ]; then
         sed -i "s/USERNAME/${dbuser}/g" /tmp/sql-create.sql
         sed -i "s/MARIADB_ROOT_PASSWORD/${MARIADB_ROOT_PASSWORD}/g" /tmp/sql-create.sql
         sed -i "s/DATABASE/${db}/g" /tmp/sql-create.sql
-        mariadb -uroot -p$MARIADB_ROOT_PASSWORD < /tmp/sql-create.sql
+        mariadb -uroot -p$MARIADB_ROOT_PASSWORD -v < /tmp/sql-create.sql
         echo " ⛃  $db :: 👤 USR: ${dbuser}"
         echo -e "* ⛃  $db :: 👤 USR: ${dbuser}" >> create.md
         echo -e "\n---\n$(date)" >> create.md

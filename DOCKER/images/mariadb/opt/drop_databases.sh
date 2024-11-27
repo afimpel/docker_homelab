@@ -28,11 +28,11 @@ if [ -n "$db" ]; then
         echo -e "* ⛃ $db > backup/${db}_beforeDrop.sql ($size)" >> drop.md
 
         echo -e "\n ⛃  $db < DROP"
-        mariadb -uroot -p$MARIADB_ROOT_PASSWORD  -e "DROP DATABASE IF EXISTS $db;"
+        mariadb -uroot -p$MARIADB_ROOT_PASSWORD  -e "DROP DATABASE IF EXISTS $db;" -v
         DBSUSR=$(mariadb -u root -p$MARIADB_ROOT_PASSWORD -e "SHOW DATABASES LIKE '$dbuser%';")
         if [ ! -n "$DBSUSR" ]; then
             echo -e " 👤  Drop USER: $dbuser < DROP"
-            mariadb -uroot -p$MARIADB_ROOT_PASSWORD  -e "DROP USER IF EXISTS '$dbuser'@'%'; FLUSH PRIVILEGES;"    
+            mariadb -uroot -p$MARIADB_ROOT_PASSWORD  -e "DROP USER IF EXISTS '$dbuser'@'%'; FLUSH PRIVILEGES;" -v
         fi
         echo -e "\n---\n$(date)" >> drop.md
     else

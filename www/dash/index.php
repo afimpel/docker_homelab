@@ -199,7 +199,7 @@ $sitesDomain = [];
             <?php
                 if(is_null($dbs['error'])){
             ?>
-            <div class="col-12 col-xxl">
+            <div class="col-12 col-xl">
                 <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1">
                     <i class="<?= $dbs['server']['icon']; ?> me-2"></i> Database List
                     <small class="badge text-light bg-primary ms-auto"><?php echo count($dbs['database']);?></small>
@@ -217,7 +217,7 @@ $sitesDomain = [];
             </div>
             <?php }
             if (count($filesDomain) > 3){?>
-            <div class="col-12 col-xxl">
+            <div class="col-12 col-xl">
                 <h5 class="title is-2 has-text-centered border-bottom border-info d-flex py-1">
                     <i class="icon-nginx me-2"></i> Domain Sites List (<em> .local </em>)
                     <small class="badge text-light bg-info rounded ms-auto"><?php echo count($filesDomain)-3;?></small>
@@ -228,7 +228,7 @@ $sitesDomain = [];
             </div>
             <?php }
             if (count($filesSubdomain) > 3){?>
-            <div class="col-12 col-xxl">
+            <div class="col-12 col-xl">
                 <h5 class="title is-2 has-text-centered border-bottom border-info d-flex py-1">
                     <i class="icon-nginx me-2"></i> SubDomain Sites List (<em> .<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local </em>)
                     <small class="badge text-light bg-info rounded ms-auto"><?php echo count($filesSubdomain)-3;?></small>
