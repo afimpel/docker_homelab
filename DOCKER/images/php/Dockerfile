@@ -33,10 +33,6 @@ RUN docker-php-ext-install mbstring mysqli pdo_mysql gd zip calendar exif gettex
 RUN pecl install apcu igbinary redis \
     && docker-php-ext-enable apcu --ini-name 10-docker-php-ext-apcu.ini igbinary redis
 
-RUN curl -JLO "https://dl.filippo.io/mkcert/latest?for=linux/amd64" \
-    && chmod +x mkcert-v*-linux-amd64 \
-    && cp mkcert-v*-linux-amd64 /usr/local/bin/mkcert
-
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 

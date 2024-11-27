@@ -26,7 +26,7 @@ Los servicios que levanta son los siguientes:
 
 ```sh
 # apt-get (Debian / Ubuntu y derivadas)
-sudo apt install mkcert -y
+sudo apt install mkcert libnss3-tools -y
 ```
 
 4. para instalar el Proyecto

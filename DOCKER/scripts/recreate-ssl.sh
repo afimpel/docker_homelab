@@ -37,6 +37,7 @@ recreate-ssl()
       ln
       rightH1 $LIGHT_PURPLE "${domain,,,}.local" $LIGHT_GREEN '⛁' "."
       cd DOCKER/certs
+      cp -v $HOME/.local/share/mkcert/rootCA* DOCKER/certs/mkcert
       mkcert ${URLS,,}
       mv -v ${domain,,}.local*-key.pem ${fileSSLcert,,}-key.pem 
       mv -v ${domain,,}.local*.pem ${fileSSLcert,,}.pem 
