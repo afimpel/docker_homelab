@@ -3,7 +3,7 @@ services:
   # Databases
   ############################
   homelab-database:
-    image: ${DATABASE_IMAGES:-mariadb}:latest
+    image: mariadb:latest
     container_name: homelab-database
     hostname: database-${COMPOSE_PROJECT_NAME}
     ports:
@@ -38,7 +38,7 @@ services:
     links:
       - homelab-database
     environment:
-      ADMINER_DEFAULT_SYSTEM: "mysql"
+      ADMINER_DEFAULT_SYSTEM: mariadb
       ADMINER_DEFAULT_SERVER: "homelab-database"
       ADMINER_DEFAULT_USERNAME: "root"
       ADMINER_DEFAULT_PASSWORD: ${DATABASE_PASSWORD}
@@ -144,7 +144,7 @@ services:
       DATABASE_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
       DATABASE_DATABASE: ${DATABASE_DATABASE}
       DATABASE_PORT: ${DATABASE_PORT}
-      DATABASE_IMAGES: ${DATABASE_IMAGES_TXT:-database}
+      DATABASE_IMAGES: MariaDB
       DATABASE_USER: ${DATABASE_USER}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME}
@@ -189,7 +189,7 @@ services:
       DATABASE_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
       DATABASE_DATABASE: ${DATABASE_DATABASE}
       DATABASE_PORT: ${DATABASE_PORT}
-      DATABASE_IMAGES: ${DATABASE_IMAGES_TXT:-database}
+      DATABASE_IMAGES: MariaDB
       DATABASE_USER: ${DATABASE_USER}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME}
