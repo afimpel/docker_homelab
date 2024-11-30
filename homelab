@@ -30,7 +30,7 @@ case "$subcommand" in
     docker_up
     timeExec=$(diffTime "$startExec0000")
     CUSTOM_RIGHT $WHITE "Done all:" $LIGHT_GRAY "$timeExec" $WHITE "✔" "." "✔" 0
-    docker_bash "homelab-mariadb" "logs-chmod"
+    docker_bash "homelab-database" "logs-chmod"
     ln
     runonce_fn
     ln

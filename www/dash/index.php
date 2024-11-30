@@ -126,13 +126,13 @@ $sitesDomain = [];
                 </h3>
                 <div class="list-group shadow">
                     <span class="list-group-item d-flex justify-content-between align-items-center py-1">
-                        <span><i class="icon-nginx me-2"></i> Server:</span>
+                        <span><i class="icon-nginx me-2"></i> <b>Server :</b></span>
                         <small class="badge text-light bg-primary rounded-pill px-2">
                             <?= $_SERVER['SERVER_SOFTWARE']; ?>
                         </small>
                     </span>
                     <a href="//php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" target="_blank" class="list-group-item list-group-item-info list-group-item-action d-flex justify-content-between align-items-center py-1">
-                        <span><i class="icon-php me-2"></i> PHP8:</span>
+                        <span><i class="icon-php me-2"></i> <b>PHP8 :</b></span>
                         <small class="badge text-light bg-primary rounded-pill px-2">
                             <?= phpversion(); ?>
                         </small>
@@ -141,7 +141,7 @@ $sitesDomain = [];
                         if(is_null($dbs['error'])){
                     ?>
                     <a href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>" target="_blank" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-1">
-                        <span><i class="<?= $dbs['server']['icon']; ?> me-2"></i> <?= $dbs['server']['name']; ?>:</span>
+                        <span><i class="<?= $dbs['server']['icon']; ?> me-2"></i> <b><?= $dbs['server']['name']; ?> :</b></span>
                         <small class="badge text-light bg-primary rounded-pill px-2">
                             <?= $dbs['server']['version']; ?>
                         </small>
@@ -153,8 +153,8 @@ $sitesDomain = [];
                 <?php
                     if(is_null($dbs['error'])){
                 ?>
-                <a href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>" target="_blank" class="w-100 mt-4 shadow btn btn-outline-primary p-1">
-                    <h5 class="text-light bg-primary py-1 mb-1 rounded">Database Connection: <b><?= $dbs['server']['name']; ?></b></h5>
+                <a href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>" target="_blank" class="w-100 mt-3 shadow btn btn-outline-primary p-1">
+                    <h5 class="text-light bg-primary py-1 mb-1 rounded"><i class="bi bi-database-fill me-2"></i> Database Connection: <b><?= $dbs['server']['name']; ?></b></h5>
                     <small class="d-flex justify-content-between align-items-center px-1">
                         <span><i class="<?= $dbs['server']['icon-alt']; ?> me-2"></i> Server:</span>
                         <b class="px-0">
@@ -182,7 +182,7 @@ $sitesDomain = [];
                 </a>
                 <?php } ?>
             </div>
-            <div class="col-12 col-xl-4">
+            <div class="col-12 col-xl-5">
                 <h3 class="title has-text-centered border-bottom border-primary d-flex py-1">
                     <i class="icon-google-developers me-2"></i> Quick Links
                 </h3>

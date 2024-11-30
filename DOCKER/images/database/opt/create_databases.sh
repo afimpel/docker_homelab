@@ -14,8 +14,8 @@ if [ -n "$db" ]; then
         cp /opt/db/sql-create.sql /tmp/sql-create.sql
         dbuser=$(echo "$db" | cut -d "_" -f 1)
         echo -e "# Creating database\n" >> create.md
+        sed -i "s/DATABASE_ROOT_PASSWORD/${MARIADB_ROOT_PASSWORD}/g" /tmp/sql-create.sql
         sed -i "s/USERNAME/${dbuser}/g" /tmp/sql-create.sql
-        sed -i "s/MARIADB_ROOT_PASSWORD/${MARIADB_ROOT_PASSWORD}/g" /tmp/sql-create.sql
         sed -i "s/DATABASE/${db}/g" /tmp/sql-create.sql
         mariadb -uroot -p$MARIADB_ROOT_PASSWORD -v < /tmp/sql-create.sql
         echo " ⛃  $db :: 👤 USR: ${dbuser}"

@@ -1,7 +1,7 @@
 <?php
-$dbs = ['error' => null, 'database' => [], 'uptime' => null, 'server'=> ['version' => null, 'name' => 'mariaDB', 'icon' => 'icon-mariadb', 'icon-alt' => 'icon-mysql-alt' ] ];
+$dbs = ['error' => null, 'database' => [], 'uptime' => null, 'server'=> ['version' => null, 'name' => getenv('DATABASE_IMAGES'), 'icon' => 'icon-'.strtolower(getenv('DATABASE_IMAGES')), 'icon-alt' => 'icon-mysql-alt' ] ];
 try {
-    $mysqli = new mysqli("homelab-mariadb", getenv('HOMELAB_USER'), getenv('HOMELAB_PASSWORD'), NULL, getenv('HOMELAB_PORT'));
+    $mysqli = new mysqli("homelab-database", getenv('DATABASE_USER'), getenv('DATABASE_PASSWORD'), NULL, getenv('DATABASE_PORT'));
 
     if ($mysqli->connect_error) {
         $dbs['error'] = $mysqli->connect_error;

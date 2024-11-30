@@ -2,26 +2,26 @@ services:
   ############################
   # Databases
   ############################
-  homelab-mariadb:
-    image: mariadb:latest
-    container_name: homelab-mariadb
-    hostname: mariadb-${COMPOSE_PROJECT_NAME}
+  homelab-database:
+    image: ${DATABASE_IMAGES:-mariadb}:latest
+    container_name: homelab-database
+    hostname: database-${COMPOSE_PROJECT_NAME}
     ports:
-      - ${MARIADB_PORT}:3306
+      - ${DATABASE_PORT}:${DATABASE_PORT}
     environment:
       TZ: ${TIMEZONE}
-      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
-      MARIADB_DATABASE: ${MARIADB_DATABASE}
-      MARIADB_USER: ${MARIADB_USER}
-      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${DATABASE_DATABASE}
+      MARIADB_USER: ${DATABASE_USER}
+      MARIADB_PASSWORD: ${DATABASE_PASSWORD}
     volumes:
       - MariadbVol:/var/lib/mysql
-      - "../logs/mariadb:/var/log/mysql:rw"
-      - "../config/mariadb-initdb:/docker-entrypoint-initdb.d:rw"
-      - "./images/mariadb/conf.d:/etc/mysql/conf.d"
+      - "../logs/database:/var/log/mysql:rw"
+      - "../config/database-initdb:/docker-entrypoint-initdb.d:rw"
+      - "./images/database/conf.d:/etc/mysql/conf.d"
       - "../dumpSQL:/root/dumps:rw"
-      - "./images/mariadb/logs-chmod.sh:/usr/bin/logs-chmod"
-      - "./images/mariadb/opt:/opt/db:rw"
+      - "./images/database/logs-chmod.sh:/usr/bin/logs-chmod"
+      - "./images/database/opt:/opt/db:rw"
     networks:
       - homelab-network
 
@@ -36,12 +36,12 @@ services:
     ports:
       - 8080
     links:
-      - homelab-mariadb
+      - homelab-database
     environment:
       ADMINER_DEFAULT_SYSTEM: "mysql"
-      ADMINER_DEFAULT_SERVER: "homelab-mariadb"
+      ADMINER_DEFAULT_SERVER: "homelab-database"
       ADMINER_DEFAULT_USERNAME: "root"
-      ADMINER_DEFAULT_PASSWORD: ${MARIADB_PASSWORD}
+      ADMINER_DEFAULT_PASSWORD: ${DATABASE_PASSWORD}
       TZ: ${TIMEZONE}
     dns:
       - 8.8.8.8
@@ -112,7 +112,7 @@ services:
       - ./certs:/certs
     hostname: webserver-${COMPOSE_PROJECT_NAME}
     depends_on:
-      - homelab-mariadb
+      - homelab-database
       - homelab-php7
       - homelab-php8
       - homelab-adminer
@@ -141,11 +141,12 @@ services:
         phpVersion: ${phpVersion7}
     environment:
       TZ: ${TIMEZONE}
-      HOMELAB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
-      HOMELAB_DATABASE: ${MARIADB_DATABASE}
-      HOMELAB_PORT: ${MARIADB_PORT}
-      HOMELAB_USER: ${MARIADB_USER}
-      HOMELAB_PASSWORD: ${MARIADB_PASSWORD}
+      DATABASE_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
+      DATABASE_DATABASE: ${DATABASE_DATABASE}
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_IMAGES: ${DATABASE_IMAGES_TXT:-database}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME}
     container_name: homelab-php7
     image: homelab:${phpVersion7}-custom
@@ -164,7 +165,7 @@ services:
       - ./images/php/ini/defaults.ini:/usr/local/etc/php/conf.d/defaults.ini
       - ./certs/mkcert:/root/.local/share/mkcert
     depends_on:
-      - homelab-mariadb
+      - homelab-database
       - homelab-redis
       - homelab-mailhog
     networks:
@@ -185,11 +186,12 @@ services:
         phpVersion: ${phpVersion8}
     environment:
       TZ: ${TIMEZONE}
-      HOMELAB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
-      HOMELAB_DATABASE: ${MARIADB_DATABASE}
-      HOMELAB_PORT: ${MARIADB_PORT}
-      HOMELAB_USER: ${MARIADB_USER}
-      HOMELAB_PASSWORD: ${MARIADB_PASSWORD}
+      DATABASE_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
+      DATABASE_DATABASE: ${DATABASE_DATABASE}
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_IMAGES: ${DATABASE_IMAGES_TXT:-database}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME}
     container_name: homelab-php8
     image: homelab:${phpVersion8}-custom
@@ -208,7 +210,7 @@ services:
       - ./images/php/ini/defaults.ini:/usr/local/etc/php/conf.d/defaults.ini
       - ./certs/mkcert:/root/.local/share/mkcert
     depends_on:
-      - homelab-mariadb
+      - homelab-database
       - homelab-redis
       - homelab-mailhog
     networks:

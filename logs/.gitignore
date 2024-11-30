@@ -2,7 +2,7 @@
 !nginx
 !php7
 !php8
-!mariadb
+!database
 !sites-logs
 !.gitignore
 !supervisor
