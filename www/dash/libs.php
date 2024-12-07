@@ -1,7 +1,8 @@
 <?php
-function errorLogger($data, $hr = false, $file="dash.log"){
+function errorLogger($data, $hr = false){
+    $file = basename($_ENV['SCRIPT_FILENAME'],'.php')."-".PHP_MAJOR_VERSION.".log";
     $filename = date('Y-m-d').'_'.str_replace(".",'-',$_ENV['HTTP_HOST'])."_".$file;
-    error_log(($hr ? "---\t".$_ENV['HTTP_HOST']."\t---\n" : "").date('H:i:s')." > ".json_encode($data)."\n",3,'/var/log/sites-logs/'.$filename);
+    error_log(($hr ? "---\t".$_ENV['HTTP_HOST']." --- ".$file."\t---\n" : "").date('H:i:s')." :: ".$_SERVER['REDIRECT_STATUS']." > ".json_encode($data)."\n",3,'/var/log/sites-logs/'.$filename);
 }
 
 function listSites($files, $directory, $classA, $domain = "", $prefix=""){ 
