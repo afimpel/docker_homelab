@@ -50,7 +50,7 @@ errorLogger(['extensions' => $extensions]);
 echo "\n</table><hr />\n";
 
 echo "<h2> Classes </h2>\n<table>\n\t<tr class='h'>\n\t\t<th>Variable</th>\n\t\t<th>Value</th>\n\t</tr>";
-errorLogger(["classes" => get_declared_classes()], 2);
+errorLogger(["classes" => get_declared_classes()], 2, "Classes");
 
 foreach (get_declared_classes() as $c ) {
 	$classes = get_class_methods($c);

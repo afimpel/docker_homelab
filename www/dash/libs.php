@@ -1,5 +1,5 @@
 <?php
-function errorLogger($data, $hr = false){
+function errorLogger($data, $hr = false, $title = ""){
     $file = basename($_ENV['SCRIPT_FILENAME'],'.php')."-".PHP_MAJOR_VERSION.".log";
     $filename = date('Y-m-d').'_'.str_replace(".",'-',$_ENV['HTTP_HOST'])."_".$file;
     $hrline = "";
@@ -8,7 +8,7 @@ function errorLogger($data, $hr = false){
             $hrline = "--- \t\t".date('r')." --- ".$_SERVER['REQUEST_SCHEME']."://".$_ENV['HTTP_HOST'].$_ENV['REQUEST_URI']." --- ".strtolower($filename)."\t\t --- \n";
             break;
         case 2:
-            $hrline = "\n";
+            $hrline = "--- \t\t$title\t\t ---\n";
             break;
         default:
             $hrline = "";
