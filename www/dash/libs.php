@@ -2,7 +2,19 @@
 function errorLogger($data, $hr = false){
     $file = basename($_ENV['SCRIPT_FILENAME'],'.php')."-".PHP_MAJOR_VERSION.".log";
     $filename = date('Y-m-d').'_'.str_replace(".",'-',$_ENV['HTTP_HOST'])."_".$file;
-    error_log(($hr ? "---\t".$_ENV['HTTP_HOST']." --- ".$file."\t---\n" : "").date('H:i:s')." :: ".$_SERVER['REDIRECT_STATUS']." > ".json_encode($data)."\n",3,'/var/log/sites-logs/'.$filename);
+    $hrline = "";
+    switch (intval($hr)) {
+        case 1:
+            $hrline = "--- \t\t".date('r')." --- ".$_SERVER['REQUEST_SCHEME']."://".$_ENV['HTTP_HOST'].$_ENV['REQUEST_URI']." --- ".strtolower($filename)."\t\t --- \n";
+            break;
+        case 2:
+            $hrline = "\n";
+            break;
+        default:
+            $hrline = "";
+    }
+    $dataVaule = gettype($data) == 'string' ? $data : json_encode($data);
+    error_log($hrline."[".date('H:i:s')."]\t ".$dataVaule."\n", 3, '/var/log/sites-logs/'.strtolower($filename));
 }
 
 function listSites($files, $directory, $classA, $domain = "", $prefix=""){ 
