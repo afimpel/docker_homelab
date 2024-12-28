@@ -3,7 +3,7 @@ DUMP_DIR="/root/dumps"
 db="${1,,}"
 files="$2"
 cd $DUMP_DIR
-if [ -f "$files" ]; then
+if [ -f "import/$files" ]; then
     echo -e "---\n$(date)\n---\n" > import.md  
     echo -e " ⛃  $db > backup: backup/${db}_beforeImport.sql"
     echo -e "\n# Importing\n" >> import.md
@@ -22,7 +22,7 @@ if [ -f "$files" ]; then
     echo -e "\n ⛃  $db < IMPORT: import/$files"
     echo -e "\n## Importing database\n" >> import.md
     cd import
-    mariadb -uroot -p$MARIADB_ROOT_PASSWORD $db -v  < $files
+    mariadb -uroot -p$MARIADB_ROOT_PASSWORD $db --init-command="SET SESSION FOREIGN_KEY_CHECKS=0;" -v  < $files
     unix=$(date '+%Y_%m_%d-%s')
     mv -v $files ../import_done/$unix-$files
     size=$(du -sh ../import_done/$unix-$files | awk '{print $1}')
