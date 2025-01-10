@@ -9,7 +9,7 @@ try {
     }
 
     $dbs['server']['version'] = $mysqli->server_info;
-    $query = "SHOW DATABASES WHERE Database NOT LIKE 'information_schema';";
+    $query = "SELECT SCHEMA_NAME Database,DEFAULT_COLLATION_NAME Collation,SCHEMA_COMMENT Comment FROM information_schema.SCHEMATA WHERE `SCHEMA_NAME` NOT IN ('information_schema','sys','mysql','performance_schema');";
     $result = $mysqli->query($query);
 
     if ($result) {

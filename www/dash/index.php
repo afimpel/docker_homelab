@@ -30,7 +30,7 @@ $sitesDomain = [];
     <nav class="navbar navbar-expand-xl navbar-dark bg-dark fixed-top shadow">
 
         <div class="container">
-            <a href="./" class="navbar-brand"><i class="me-2 icon-docker"></i> LEMP</a>
+            <a href="//www.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" class="navbar-brand"><i class="me-2 icon-docker"></i> LEMP</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -207,7 +207,7 @@ $sitesDomain = [];
                 <div class="list-group shadow">
                 <?php
                 foreach ($dbs['database'] as $row) { ?>
-                    <a target="_blank" translate="no" class="list-group-item list-group-item-action list-group-item-info py-1" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>&db=<?= $row["Database"]; ?>">
+                    <a target="_blank" translate="no" class="list-group-item list-group-item-action list-group-item-info py-1" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>&db=<?= $row["Database"]; ?>" title="DB: <?= $row["Database"]." ( Collation: ".$row["Collation"]." / Comment: ".$row["Comment"]." )"; ?>">
                         <i class="bi bi-database-fill me-2"></i>
                         <?= $row["Database"]; ?>
                     </a>
