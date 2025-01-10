@@ -1,6 +1,5 @@
 ARG phpVersion="8-fpm"
 FROM php:${phpVersion}
-
 WORKDIR /var/www
 
 RUN apt-get update && apt-get install -y \
@@ -43,8 +42,8 @@ ARG uid
 RUN useradd -G www-data,root -u $uid -d /home/$user $user
 RUN mkdir -p /var/www 
 RUN mkdir -p /home/$user/.composer && \
-chown -R $user:$user /home/$user && \
-chown -R $user:www-data /var/www
+chown -R $user:www-data /home/$user && \
+chown -R $user:www-data /var/www 
 
 COPY ./php/* /usr/local/etc/php-fpm.d/
 
@@ -58,11 +57,12 @@ RUN echo "$user:docker" | chpasswd
 RUN sed -i "s/USERNAME/${user}/g" /etc/supervisor/supervisord.conf
 RUN sed -i "s/9000/${port}/g" /etc/supervisor/supervisord.conf
 RUN sed -i "s/900/php/g" /etc/supervisor/supervisord.conf
+RUN sed -i "s/USERNAME/${user}/g" /usr/local/etc/php-fpm.d/www.conf
+RUN sed -i "s/USERNAME/${user}/g" /usr/local/etc/php-fpm.d/zz-docker.conf
 RUN sed -i "s/9000/${port}/g" /usr/local/etc/php-fpm.d/www.conf
 RUN sed -i "s/9000/${port}/g" /usr/local/etc/php-fpm.d/zz-docker.conf
 COPY ./bash/* /usr/bin/
 
 EXPOSE ${port}
-
 CMD [ "runonce" ]
 #CMD ["php-fpm", "-R"]

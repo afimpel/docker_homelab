@@ -92,14 +92,15 @@ docker_down() {
 docker_bash() {
   OLDOLDPWD=$OLDPWD
   openCD $0
-  Usr=""
   Container=$1
+  Command=$(echo "$2" | cut -d ":" -f 1)
+  Usr=$(echo "$2" | cut -d ":" -f 2)
   parm3=""
   if [ -f "logs/startup.pid" ]; then
-    if [ "$2" == "bash" ]; then
+    if [ "$Command" == "bash" ]; then
       header
-      rightH1 $YELLOW "Container: $1 $2" $WHITE '✔' "."
-      Usr=$3
+      rightH1 $YELLOW "Container: $Container $Command" $WHITE '✔' "."
+      #Usr=$3
     else
       parm3="${@: 3}"
     fi
@@ -107,19 +108,15 @@ docker_bash() {
     if [[ $OLDOLDPWD == *"/www"* ]]; then
       workdir=" -w ${OLDOLDPWD/$PWD/\/var}"
     fi
-    if [ ${#Usr} -gt 0 ]; then
-      docker exec$workdir -it -u $Usr $Container $2
-    else
-      docker exec$workdir -it $Container $2 $parm3
-    fi
+    docker exec$workdir -it -u $Usr $Container $Command $parm3
   else
-    if [ "$2" == "bash" ]; then
+    if [ "$Command" == "bash" ]; then
       header
       rightH1 $RED "Docker OFF" $LIGHT_RED "✘" "."
     fi
     colorize $CYAN "./homelab up"
   fi
-  if [ "$2" == "bash" ]; then
+  if [ "$Command" == "bash" ]; then
     footer
   fi
 }

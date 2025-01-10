@@ -30,7 +30,7 @@ case "$subcommand" in
     docker_up
     timeExec=$(diffTime "$startExec0000")
     CUSTOM_RIGHT $WHITE "Done all:" $LIGHT_GRAY "$timeExec" $WHITE "✔" "." "✔" 0
-    docker_bash "homelab-database" "logs-chmod"
+    docker_bash "homelab-database" "logs-chmod:root"
     ln
     runonce_fn
     ln
@@ -53,6 +53,7 @@ case "$subcommand" in
     header
     startup
     ln
+    docker_bash "homelab-php7" "storage-logs:root"
     docker_restart
     ln
     runonce_fn
@@ -62,6 +63,7 @@ case "$subcommand" in
     header
     startup
     ln
+    docker_bash "homelab-php7" "storage-logs:root"
     clearLogs
     openCD $0 
     if [ -f "logs/startup.pid" ]; then
@@ -91,7 +93,7 @@ case "$subcommand" in
     footer
   ;;
   bash)
-    docker_bash "$@" "bash"
+    docker_bash "$@" "bash:root"
   ;;
   dumpsdb)
     header
@@ -118,28 +120,28 @@ case "$subcommand" in
     footer
   ;;
   php8)
-    docker_bash "homelab-php8" "bash"
+    docker_bash "homelab-php8" "bash:root"
   ;;
   php7)
-    docker_bash "homelab-php7" "bash"
-  ;;
-  php8-cli)
-    docker_bash "homelab-php8" "php" $@
-  ;;
-  php7-cli)
-    docker_bash "homelab-php7" "php" $@
-  ;;
-  php8-composer)
-    docker_bash "homelab-php8" "composer" $@
-  ;;
-  php7-composer)
-    docker_bash "homelab-php7" "composer" $@
+    docker_bash "homelab-php7" "bash:root"
   ;;
   php8-usr)
-    docker_bash "homelab-php8" "bash" "${USERNAME}"
+    docker_bash "homelab-php8" "bash:${USERNAME}"
   ;;
   php7-usr)
-    docker_bash "homelab-php7" "bash" "${USERNAME}"
+    docker_bash "homelab-php7" "bash:${USERNAME}"
+  ;;
+  php8-cli)
+    docker_bash "homelab-php8" "php:${USERNAME}" $@
+  ;;
+  php7-cli)
+    docker_bash "homelab-php7" "php:${USERNAME}" $@
+  ;;
+  php8-composer)
+    docker_bash "homelab-php8" "composer:${USERNAME}" $@
+  ;;
+  php7-composer)
+    docker_bash "homelab-php7" "composer:${USERNAME}" $@
   ;;
   recreate-ssl)
     header
@@ -215,6 +217,7 @@ case "$subcommand" in
   ;;
   down)
     header
+    docker_bash "homelab-php7" "storage-logs:root"
     docker_down "$@"
     footer
   ;;
