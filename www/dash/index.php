@@ -207,7 +207,7 @@ $sitesDomain = [];
                 <div class="list-group shadow">
                 <?php
                 foreach ($dbs['database'] as $row) { ?>
-                    <a target="_blank" translate="no" class="list-group-item list-group-item-action list-group-item-info py-1" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>&db=<?= $row["Database"]; ?>" title="DB: <?= $row["Database"]." ( Collation: ".$row["Collation"]." / Comment: ".$row["Comment"]." )"; ?>">
+                    <a target="_blank" translate="no" class="list-group-item list-group-item-action list-group-item-info py-1" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>&db=<?= $row["Database"]; ?>" title="DB: <?= $row["Database"]." ( ".$row["Collation"]." / ".$row["Comment"]." )"; ?>">
                         <i class="bi bi-database-fill me-2"></i>
                         <?= $row["Database"]; ?>
                     </a>
