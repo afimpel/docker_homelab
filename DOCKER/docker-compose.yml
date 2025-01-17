@@ -168,6 +168,9 @@ services:
       - homelab-database
       - homelab-redis
       - homelab-mailhog
+    dns:
+      - 8.8.4.4
+      - 8.8.8.8
     networks:
       homelab-network:
         aliases:
@@ -213,6 +216,9 @@ services:
       - homelab-database
       - homelab-redis
       - homelab-mailhog
+    dns:
+      - 8.8.4.4
+      - 8.8.8.8
     networks:
       homelab-network:
         aliases:

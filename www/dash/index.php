@@ -2,7 +2,8 @@
 include "./config.php";
 include "./libs.php";
 include "./dbs.php";
-errorLogger(["COMPOSE" => strtoupper(getenv('COMPOSE_PROJECT_NAME')),"SERVER" => $_SERVER['SERVER_SOFTWARE'], 'PHP' => phpversion()], true);
+$dateTime = new DateTime('now');
+errorLogger(["COMPOSE" => strtoupper(getenv('COMPOSE_PROJECT_NAME')), "SERVER" => $_SERVER['SERVER_SOFTWARE'], 'PHP' => phpversion()], true);
 errorLogger($dbs);
 
 // Ruta del directorio a listar
@@ -99,7 +100,7 @@ $sitesDomain = [];
         <h1 class="title text-success px-3 d-flex">
             <i class="icon-docker pe-1"></i> <b>LEMP STACK</b> <small class="ms-auto">( Compose: <em class="px-3"> <?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?> </em>)</small>
         </h1>
-        <small class="muted border border-secondary d-block px-3 rounded-pill shadow">PHP / Nginx / MariaDB / Adminer / Redis / Composer / Supervisor</small>
+        <small class="muted border border-secondary d-block px-3 rounded-pill shadow text-center">PHP / Nginx / MariaDB / Adminer / Redis / Composer / Supervisor</small>
         <h2 class="subtitle p-3">
             Your local development environment in Docker
         </h2>
@@ -183,6 +184,19 @@ $sitesDomain = [];
                 <?php } ?>
             </div>
             <div class="col-12 col-xl-5">
+
+                <div class="list-group shadow mb-2">
+                    <span class="list-group-item d-flex justify-content-between align-items-center py-1">
+                        <span><i class="icon-php-alt me-2"></i> DateTime :</span>
+                        <b class="px-2">
+                            <?php 
+                                $dateTime->setTimezone(new DateTimeZone($_ENV['TZ']));
+                                echo $dateTime->format('r');
+                            ?>
+                        </b>
+                    </span>
+                </div>
+
                 <h3 class="title has-text-centered border-bottom border-primary d-flex py-1">
                     <i class="icon-google-developers me-2"></i> Quick Links
                 </h3>
