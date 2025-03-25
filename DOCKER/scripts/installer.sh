@@ -34,7 +34,8 @@ installer()
    mkcert ${COMPOSE_PROJECT_NAME,,}.local www.${COMPOSE_PROJECT_NAME,,}.local adminer.${COMPOSE_PROJECT_NAME,,}.local mailhog.${COMPOSE_PROJECT_NAME,,}.local redis.${COMPOSE_PROJECT_NAME,,}.local php8.${COMPOSE_PROJECT_NAME,,}.local php7.${COMPOSE_PROJECT_NAME,,}.local localhost 127.0.0.1 ::1
    mv ${COMPOSE_PROJECT_NAME,,}.local*-key.pem certs_default-key.pem
    mv ${COMPOSE_PROJECT_NAME,,}.local*.pem certs_default.pem
-   sudo echo -e "127.0.0.1\t\t${COMPOSE_PROJECT_NAME,,}.local www.${COMPOSE_PROJECT_NAME,,}.local adminer.${COMPOSE_PROJECT_NAME,,}.local mailhog.${COMPOSE_PROJECT_NAME,,}.local redis.${COMPOSE_PROJECT_NAME,,}.local php8.${COMPOSE_PROJECT_NAME,,}.local php7.${COMPOSE_PROJECT_NAME,,}.local" >> /etc/hosts
+   
+   sudo bash -c "echo -e \"127.0.0.1\t\t${COMPOSE_PROJECT_NAME,,}.local www.${COMPOSE_PROJECT_NAME,,}.local adminer.${COMPOSE_PROJECT_NAME,,}.local mailhog.${COMPOSE_PROJECT_NAME,,}.local redis.${COMPOSE_PROJECT_NAME,,}.local php8.${COMPOSE_PROJECT_NAME,,}.local php7.${COMPOSE_PROJECT_NAME,,}.local\" >> /etc/hosts"
 
    openCD $0
    echo -e "# HomeLAB: ${COMPOSE_PROJECT_NAME^^}\n" > ${COMPOSE_PROJECT_NAME,,}.md
