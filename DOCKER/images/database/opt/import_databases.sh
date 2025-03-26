@@ -3,6 +3,14 @@ DUMP_DIR="/root/dumps"
 db="${1,,}"
 files="$2"
 cd $DUMP_DIR
+if [ ! -n "$db" ]; then
+    echo -e " ⛃  NOT DB: $db"  
+    exit
+fi
+if [ ! -n "$files" ]; then
+    echo -e " ⛃  NOT FILES: $files"          
+    exit
+fi
 if [ -f "import/$files" ]; then
     echo -e "---\n$(date)\n---\n" > import.md  
     echo -e " ⛃  $db > backup: backup/${db}_beforeImport.sql"
