@@ -31,7 +31,8 @@ namespace docker {
 }
 
 namespace {
-	if (basename($_SERVER['DOCUMENT_URI']) === 'adminer.css' && is_readable('adminer.css')) {
+	ini_set('display_errors', 0);
+	if ($_SERVER['REQUEST_URI'] === '/adminer.css' && is_readable('adminer.css')) {
 		header("Expires: on, 01 Jan 1970 00:00:00 GMT");
 		header("Last-Modified: " . gmdate("D, d M Y H:i:s") . " GMT");
 		header("Cache-Control: no-store, no-cache, must-revalidate");
