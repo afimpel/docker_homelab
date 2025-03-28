@@ -23,8 +23,11 @@ runonce_fn () {
     echo -e "---\t\t ${COMPOSE_PROJECT_NAME^^} ✔ \t\t---" > logs/runonce.log 
     for script in config/runonce/*.sh ; do
         if [ -r "$script" ] ; then
+                nombre_archivo=$(basename "${script}")
+                nombre_base="${nombre_archivo%.*}"
+                nuevo_nombre="${nombre_base}_bash.log"
                 echo -e "✔ RUN:\t\t$script" >> logs/runonce.log
-                bash -c "bash $script" >> logs/runonce.log 2>>logs/runonce.log 
+                bash -c "bash $script > logs/runonce_$nuevo_nombre" >> logs/runonce.log 2>>logs/runonce.log 
                 timeExec=$(diffTime "$startExec0000")
                 sed -i 's/<br>/\n/g' logs/runonce.log
                 CUSTOM_LEFT $NC "bash $script" $BLUE "$timeExec" $LIGHT_GREEN "➤" " " "✔" "7"
