@@ -47,7 +47,8 @@ installer()
    echo -e "* [PHP8](https://php8.${COMPOSE_PROJECT_NAME,,}.local) :: PHP8 info" >> ${COMPOSE_PROJECT_NAME,,}.md
    leftH1 $LIGHT_GREEN 'DONE' $WHITE '✔' "."
    ln
-
+   makealias
+   ln
    docker_up
    ln
    help
