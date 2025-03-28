@@ -31,7 +31,7 @@ services:
       context: ./images/adminer
       dockerfile: Dockerfile
     container_name: homelab-adminer
-    image: homelab:adminer
+    image: afimpelcom/adminer:latest
     hostname: adminer-client
     ports:
       - 8080
@@ -149,7 +149,7 @@ services:
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME}
     container_name: homelab-php7
-    image: homelab:${phpVersion7}-custom
+    image: afimpelcom/php-custom:${phpVersion7}
     working_dir: /var/www
     tty: true
     hostname: php7-${COMPOSE_PROJECT_NAME}
@@ -164,6 +164,7 @@ services:
       - ./images/php/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
       - ./images/php/ini/defaults.ini:/usr/local/etc/php/conf.d/defaults.ini
       - ./certs/mkcert:/root/.local/share/mkcert
+      - "./images/php/logs-chmod.sh:/usr/bin/logs-chmod"
     depends_on:
       - homelab-database
       - homelab-redis
@@ -197,7 +198,7 @@ services:
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME}
     container_name: homelab-php8
-    image: homelab:${phpVersion8}-custom
+    image: afimpelcom/php-custom:${phpVersion8}
     working_dir: /var/www
     hostname: php8-${COMPOSE_PROJECT_NAME}
     tty: true
@@ -212,6 +213,7 @@ services:
       - ./images/php/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
       - ./images/php/ini/defaults.ini:/usr/local/etc/php/conf.d/defaults.ini
       - ./certs/mkcert:/root/.local/share/mkcert
+      - "./images/php/logs-chmod.sh:/usr/bin/logs-chmod"
     depends_on:
       - homelab-database
       - homelab-redis

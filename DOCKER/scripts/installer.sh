@@ -53,3 +53,33 @@ installer()
    help
    www
 }
+
+############################################################
+# makealias                                                #
+############################################################
+makealias()
+{
+   openCD $0
+   if ! [ -f "logs/makealias.pid" ]; then
+      date > logs/makealias.pid
+      CUSTOM_RIGHT $YELLOW "Make alias" $LIGHT_GREEN "${COMPOSE_PROJECT_NAME,,}" $WHITE "▶" "." "▶" 0
+      ln
+
+      rightH1 $LIGHT_GREEN 'ZSH' $WHITE '✔' "."
+      echo -e "alias ${COMPOSE_PROJECT_NAME,,}=$PWD/homelab">>~/.aliasrc
+      echo -e "alias ${COMPOSE_PROJECT_NAME,,}-php7=$PWD/homelab-php7">>~/.aliasrc
+      echo -e "alias ${COMPOSE_PROJECT_NAME,,}-php8=$PWD/homelab-php8">>~/.aliasrc
+      ln
+      
+      rightH1 $LIGHT_GREEN 'BASH' $WHITE '✔' "."
+      echo -e "alias ${COMPOSE_PROJECT_NAME,,}=$PWD/homelab">>~/.bash_aliases
+      echo -e "alias ${COMPOSE_PROJECT_NAME,,}-php7=$PWD/homelab-php7">>~/.bash_aliases
+      echo -e "alias ${COMPOSE_PROJECT_NAME,,}-php8=$PWD/homelab-php8">>~/.bash_aliases
+      ln
+
+      leftH1 $LIGHT_GREEN 'DONE' $WHITE '✔' "."
+      ln
+      
+      help
+   fi
+}

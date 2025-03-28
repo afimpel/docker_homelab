@@ -48,7 +48,7 @@ chown -R $user:www-data /var/www
 COPY ./php/* /usr/local/etc/php-fpm.d/
 
 COPY ./bash.bashrc /etc/bash.bashrc
-RUN apt-get install net-tools iputils-ping bash-completion -y
+RUN apt-get install net-tools iputils-ping bash-completion ca-certificates -y
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 COPY ./supervisord.conf /etc/supervisor/supervisord.conf

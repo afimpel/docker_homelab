@@ -10,6 +10,9 @@ docker_up () {
   date +'%s' > logs/startup.pid
   cd DOCKER/
   docker compose up -d
+  docker_bash "homelab-php8" "logs-chmod:root"
+  docker_bash "homelab-php7" "logs-chmod:root"
+  docker_bash "homelab-database" "logs-chmod:root"
 }
 
 runonce_fn () {

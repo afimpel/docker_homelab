@@ -53,7 +53,7 @@ case "$subcommand" in
     header
     startup
     ln
-    docker_bash "homelab-php7" "storage-logs:root"
+    docker_bash "homelab-php7" "logs-chmod:root"
     docker_restart
     ln
     runonce_fn
@@ -63,7 +63,7 @@ case "$subcommand" in
     header
     startup
     ln
-    docker_bash "homelab-php7" "storage-logs:root"
+    docker_bash "homelab-php7" "logs-chmod:root"
     clearLogs
     openCD $0 
     if [ -f "logs/startup.pid" ]; then
@@ -217,13 +217,20 @@ case "$subcommand" in
   ;;
   down)
     header
-    docker_bash "homelab-php7" "storage-logs:root"
+    docker_bash "homelab-php8" "logs-chmod:root"
+    docker_bash "homelab-php7" "logs-chmod:root"
+    docker_bash "homelab-database" "logs-chmod:root"
     docker_down "$@"
     footer
   ;;
   backup)
     header
     backup
+    footer
+  ;;
+  makealias)
+    header
+    makealias
     footer
   ;;
   *)
