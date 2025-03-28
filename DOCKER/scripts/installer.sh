@@ -79,8 +79,5 @@ makealias()
       ln
 
       leftH1 $LIGHT_GREEN 'DONE' $WHITE '✔' "."
-      ln
-      
-      help
    fi
 }
