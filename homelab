@@ -228,6 +228,11 @@ case "$subcommand" in
     backup
     footer
   ;;
+  status)
+    header
+    status
+    footer
+  ;;
   makealias)
     header
     makealias

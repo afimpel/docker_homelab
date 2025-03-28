@@ -119,8 +119,12 @@ docker_bash() {
     if [ "$Command" == "bash" ]; then
       header
       rightH1 $RED "Docker OFF" $LIGHT_RED "✘" "."
+      if [ -f "logs/makealias.pid" ]; then
+          echo -e " ➤ ${LIGHT_GREEN}${COMPOSE_PROJECT_NAME,,} up${NC}"
+      else
+          echo -e " ➤ ${LIGHT_GREEN}./homelab up${NC}"
+      fi
     fi
-    colorize $CYAN "./homelab up"
   fi
   if [ "$Command" == "bash" ]; then
     footer

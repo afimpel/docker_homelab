@@ -74,16 +74,37 @@ help()
    fi
 }
 
+status()
+{
+   # Display Help
+   openCD $0
+   rightH1 $YELLOW 'STATUS ' $WHITE '☐' "." 
+   ln
+   if ! [ -f "${COMPOSE_PROJECT_NAME,,}.md" ]; then
+      CUSTOM_CENTER $LIGHT_CYAN "install" $NC "Install this project." $NC "➤" " " " " "7+132"
+   else
+      if [ -f "logs/startup.pid" ]; then
+         CUSTOM_CENTER $NC "STATUS:" $LIGHT_GREEN "ENABLE" $LIGHT_GREEN "✔" " " " " "7+132"
+      else
+         CUSTOM_CENTER $NC "STATUS:" $LIGHT_RED "DISABLE" $LIGHT_RED "✘" " " " " "7+132"
+      fi
+   fi
+}
 
 
 show_general_help() {
+         CUSTOM_LEFT $NC "Status :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
+         CUSTOM_CENTER $LIGHT_CYAN "status" $NC "Shows project status whether it is active or not." $NC "➤" " " " " "7+132"
+         ln
          CUSTOM_LEFT $NC "Help :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
          CUSTOM_CENTER $LIGHT_CYAN "help" $NC "Display usage information$(this_msg "" $1 )" $NC "➤" " " " " "7+132"
          CUSTOM_CENTER $LIGHT_GRAY "Opciones disponibles:" $NC "" $NC "☐" " " " " "10+132"
          CUSTOM_CENTER $(this_color "--all" $1 ) "--all" $NC "Show all available help$(this_msg "--all" $1 )" $NC "➤" " " " " "13+132"
          CUSTOM_CENTER $(this_color "--db" $1 ) "--db" $NC "Show help related to the database$(this_msg "--db" $1 )" $NC "➤" " " " " "13+132"
          CUSTOM_CENTER $(this_color "--docker" $1 ) "--docker" $NC "Show help related to Docker$(this_msg "--docker" $1 )" $NC "➤" " " " " "13+132"
-         CUSTOM_CENTER $(this_color "--alias" $1 ) "--alias" $NC "Show help related to Alias$(this_msg "--alias" $1 )" $NC "➤" " " " " "13+132"
+         if ! [ -f "logs/makealias.pid" ]; then
+            CUSTOM_CENTER $(this_color "--alias" $1 ) "--alias" $NC "Show help related to Alias$(this_msg "--alias" $1 )" $NC "➤" " " " " "13+132"
+         fi
          CUSTOM_CENTER $(this_color "--backup" $1 ) "--backup" $NC "Show help related to backup$(this_msg "--backup" $1 )" $NC "➤" " " " " "13+132"
          CUSTOM_CENTER $(this_color "--sites" $1 ) "--sites" $NC "Show help related to sites$(this_msg "--sites" $1 )" $NC "➤" " " " " "13+132"
          CUSTOM_CENTER $(this_color "--supervisor" $1 ) "--supervisor" $NC "Show help related to Supervisor$(this_msg "--supervisor" $1 )" $NC "➤" " " " " "13+132"
@@ -162,8 +183,10 @@ show_backup_help() {
 }
 
 show_alias_help() {
+   if ! [ -f "logs/makealias.pid" ]; then
          CUSTOM_LEFT $NC "Alias :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
          CUSTOM_CENTER $LIGHT_CYAN "makealias" $NC "Aliases are created in ZSH and Bash" $NC "➤" " " " " "7+132"
+   fi
 }
 
 show_sites_help() {
