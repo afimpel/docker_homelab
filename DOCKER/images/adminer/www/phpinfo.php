@@ -18,8 +18,12 @@ $out2 = str_replace("><th", ">\n\t\t<th", $out2);
 
 $out2 = str_replace("</div></body></html>", "\n</div><br />\n\t</body>\n</html>", $out2);
 $out1 = explode("<hr />", $out2);
+$out3 = explode("<body>", $out1[0]);
 
-echo $out1[0]."\n \n";
+echo $out3[0]."\n \n";
+echo "<body>\n";
+echo "<a style='font-size:12px; width:98%; text-align:center; display:block; border:1px solid #505153; margin:10px auto; color:white; background-color:#606A90;' href='./'>Back</a>";
+echo $out3[1]."\n \n";
 echo $out1[1]."\n \n";
 
 echo "<h2> Extensions </h2>\n\n<table>\n\t<tr class='h'>\n\t\t<th>Variable</th>\n\t\t<th>Version</th>\n\t</tr>";
@@ -47,7 +51,7 @@ $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto"
 
 echo "\n \n<table>\n\t";
 echo "<tr>\n\t\t<td class='e'>DATE / TIME</td>\n\t\t<td class='v'>".$diassemana[date('w')].", ".date('d')." de ".$meses[date('n')-1]. " del ".date('Y')." / ".date("H:i:s")."</td>\n\t</tr>\n";
-echo "<tr>\n\t\t<td class='e'>SERVER NAME</td>\n\t\t<td class='v'>".php_uname('n')." / ".$_SERVER['SERVER_ADDR']." / ".$_SERVER['HTTP_HOST']."</td>\n\t</tr>\n";
+echo "<tr>\n\t\t<td class='e'>SERVER NAME</td>\n\t\t<td class='v'>".php_uname('n')." / ".$_SERVER['HTTP_X_FORWARDED_FOR']." / ".$_SERVER['HTTP_HOST']."</td>\n\t</tr>\n";
 echo "<tr>\n\t\t<td class='e'>REMOTE NAME</td>\n\t\t<td class='v'>".gethostbyaddr($_SERVER['REMOTE_ADDR'])." / ".$_SERVER['REMOTE_ADDR']."</td>\n\t</tr>\n";
 echo "</table>\n";
 
@@ -57,5 +61,6 @@ $__outs__ = str_replace("\n<p>", '', $__out__[1]);
 $__outs__ = str_replace("<td>\n", '<td>', $__outs__);
 $__outs__ = str_replace("</p>", '', $__outs__);
 
+$__outs__ .= "<a style='font-size:12px; width:98%; text-align:center; display:block; border:1px solid #505153; margin:10px auto; color:white; background-color:#606A90;' href='./'>Back</a>";
 echo $__outs__;
 ?>

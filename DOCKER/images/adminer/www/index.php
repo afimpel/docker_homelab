@@ -1,23 +1,48 @@
 <?php
-
 namespace docker {
 	function adminer_object() {
-		require_once('plugins/plugin.php');
+		/**
+		 * DefaultServerPlugin extends loginFormField() to set default values for the login form.
+		 * @author Alvaro Fimpel <afimpel@afimpel.com>
+		 * @link https://github.com/afimpel/docker_homelab
+		 * @license MIT
+		 */
+		final class DefaultServerPlugin extends \Adminer\Plugin {
+			public function __construct(
+				private \Adminer\Adminer $adminer
+			) { }
 
-		class Adminer extends \AdminerPlugin {
-			function _callParent($function, $args) {
-				if ($function === 'loginForm') {
-					ob_start();
-					$return = \Adminer::loginForm();
-					$form = ob_get_clean();
+			public function loginFormField(...$args) {
+				return (function (...$args) {
+					$field = $this->loginFormField(...$args);
+
+					$server = $_GET['server'] ?? ($_ENV['ADMINER_DEFAULT_SERVER'] ?? 'homelab-database');
+					$username = $_GET['username'] ?? ($_ENV['ADMINER_DEFAULT_USERNAME'] ?? 'root');
+					$password = $_GET['password'] ?? ($_ENV['ADMINER_DEFAULT_PASSWORD'] ?? '');
+					$database = $_GET['db'] ?? ( $_ENV['ADMINER_DEFAULT_DB'] ?? '');
 					
-					$form = str_replace('name="auth[server]" value="" title="hostname[:port]"', 'name="auth[server]" value="'.($_ENV['ADMINER_DEFAULT_SERVER'] ?: 'homelab-database').'" title="hostname[:port]"', $form);
-					$form = str_replace('name="auth[username]" id="username" value=""', 'name="auth[username]" id="username" value="'.($_ENV['ADMINER_DEFAULT_USERNAME'] ?: 'root').'" ', $form);
-					echo str_replace('name="auth[password]"', 'name="auth[password]" value="'.($_ENV['ADMINER_DEFAULT_PASSWORD'] ?: '').'"', $form);
-					echo '<br /><br /><br /><hr /><a class="links" href="/phpinfo.php">PHP '.phpversion().'</a><hr />';
-					return $return;
-				}
-				return parent::_callParent($function, $args);
+					$field = \str_replace(
+						'name="auth[username]" id="username"',
+						\sprintf('name="auth[username]" value="%s" title="username"', $username),
+						$field,
+					);
+					$field = \str_replace(
+						'name="auth[password]"',
+						\sprintf('name="auth[password]" value="%s" title="password"', $password),
+						$field,
+					);
+					$field = \str_replace(
+						'name="auth[db]"',
+						\sprintf('name="auth[db]" value="%s" title="db"', $database),
+						$field,
+					);
+
+					return \str_replace(
+						'name="auth[server]" value="" title="hostname[:port]"',
+						\sprintf('name="auth[server]" value="%s" title="hostname[:port]"', $server),
+						$field,
+					);
+				})->call($this->adminer, ...$args);
 			}
 		}
 
@@ -26,7 +51,20 @@ namespace docker {
 			$plugins[] = require($plugin);
 		}
 
-		return new Adminer($plugins);
+		$adminer = new \Adminer\Plugins($plugins);
+
+		(function () {
+			$last = &$this->hooks['loginFormField'][\array_key_last($this->hooks['loginFormField'])];
+			
+			if ($last instanceof \Adminer\Adminer) {
+				$defaultServerPlugin = new DefaultServerPlugin($last);
+				$this->plugins[] = $defaultServerPlugin;
+				$last = $defaultServerPlugin;
+			}
+		})->call($adminer);
+
+
+		return $adminer;
 	}
 }
 
