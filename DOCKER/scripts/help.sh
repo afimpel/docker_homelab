@@ -124,10 +124,10 @@ this_color() {
 }
 
 show_docker_help() {
-         php7=$(docker_bash "homelab-php7" "php" -v | head -1 | cut -d " " -f 2)
-         php8=$(docker_bash "homelab-php8" "php" -v | head -1 | cut -d " " -f 2)
-         composer7=$(docker_bash "homelab-php7" "composer" -V | head -1 | cut -d " " -f 3)
-         composer8=$(docker_bash "homelab-php8" "composer" -V | head -1 | cut -d " " -f 3)
+         php7=$(docker_bash "homelab-php7" "php:root" -v | head -1 | cut -d " " -f 2)
+         php8=$(docker_bash "homelab-php8" "php:root" -v | head -1 | cut -d " " -f 2)
+         composer7=$(docker_bash "homelab-php7" "composer:root" -V | head -1 | cut -d " " -f 3)
+         composer8=$(docker_bash "homelab-php8" "composer:root" -V | head -1 | cut -d " " -f 3)
 
          CUSTOM_LEFT $NC "Docker :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
          CUSTOM_CENTER $LIGHT_CYAN "ps" $NC "Print started containers." $NC "➤" " " " " "7+132"
