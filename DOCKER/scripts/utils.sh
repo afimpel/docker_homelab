@@ -107,6 +107,7 @@ footer() {
     dockerV=$(docker -v)
     dockerCompose=$(docker compose version)
     CUSTOM_RIGHT $LIGHT_CYAN "$dockerCompose" $LIGHT_GREEN "$dockerV" $WHITE "☑" "." "☑" 0
+    echo " "
 }
 
 
