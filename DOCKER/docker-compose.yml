@@ -151,7 +151,7 @@ services:
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME}
     container_name: homelab-php7
-    image: afimpelcom/php-custom:${phpVersion7}
+    image: builder-php:${phpVersion7}
     working_dir: /var/www
     tty: true
     hostname: php7-${COMPOSE_PROJECT_NAME}
@@ -200,7 +200,7 @@ services:
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME}
     container_name: homelab-php8
-    image: afimpelcom/php-custom:${phpVersion8}
+    image: builder-php:${phpVersion8}
     working_dir: /var/www
     hostname: php8-${COMPOSE_PROJECT_NAME}
     tty: true

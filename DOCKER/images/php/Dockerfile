@@ -16,6 +16,8 @@ RUN apt-get update && apt-get install -y \
     libsodium-dev \
     libargon2-dev \
     libxslt1-dev \
+    libfreetype6-dev \
+    libicu-dev \
     libzip-dev \
     libxslt-dev \
     unzip \
