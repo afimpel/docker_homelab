@@ -58,13 +58,11 @@ newsite()
       cp -v DOCKER/examples/examplesite-${typefile}-local.conf config/nginx-sites/${typefile}-${sites_name}_local.conf
       if [ "$subdomainsTrue" == "0" ]; then
          siteFile="SubDomains"
-         mkdir -p www/subdomains/${sites}/${subdir}
          sed -i "s/examplesite/${sites}/g" config/nginx-sites/${typefile}-${sites_name}_local.conf
          sed -i "s/COMPOSE_PROJECT_NAME/${COMPOSE_PROJECT_NAME,,}/g" config/nginx-sites/${typefile}-${sites_name}_local.conf
       else
          filename="_domains"
          siteFile="Domains"
-         mkdir -p www/domains/${sites}/${subdir}
          sed -i "s/subdomains/domains/g" config/nginx-sites/${typefile}-${sites_name}_local.conf
          sed -i "s/examplesite_COMPOSE_PROJECT_NAME/${sites_name}/g" config/nginx-sites/${typefile}-${sites_name}_local.conf
          sed -i "s/examplesite.COMPOSE_PROJECT_NAME/${sites_url}/g" config/nginx-sites/${typefile}-${sites_name}_local.conf
@@ -72,6 +70,18 @@ newsite()
          sed -i "s/.gkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkggkgk././g" config/nginx-sites/${typefile}-${sites_name}_local.conf
          sed -i "s/examplesite/${sites_url}/g" config/nginx-sites/${typefile}-${sites_name}_local.conf
       fi
+      if [ ! -d "www/${siteFile,,}/${sites}" ]; then
+         mkdir -p www/${siteFile,,}/${sites}/${subdir}
+         if [ "$typefile" == "php8" ]; then
+            echo "<?php phpinfo();?>" > www/${siteFile,,}/${sites}/${subdir}/index.php
+         elif [ "$typefile" == "php7" ]; then
+            echo "<?php phpinfo();?>" > www/${siteFile,,}/${sites}/${subdir}/index.php
+         else
+            echo "Hello World" > www/${siteFile,,}/${sites}/${subdir}/index.html
+         fi
+      fi
+      
+      
       sudo bash -c "echo -e '127.0.0.1\t\t${sites_url}.local www.${sites_url}.local nginx-${sites}-${COMPOSE_PROJECT_NAME,,}.local' >> /etc/hosts"
 
       dateTime=$(date '+%Y_%m_%d-%s')
@@ -91,6 +101,11 @@ newsite()
       docker restart homelab-webserver
       ln
       mkcert -install
+      if [ -x "$(command -v notify-send)" ]; then
+         startup=$(cat logs/startup.pid)
+         startupDate=$(diffTime "$startup")
+         /usr/bin/notify-send "Compose use: ${COMPOSE_PROJECT_NAME^^}" "The website ${sites_url}.local and Restarted Webserver" -a "HomeLab" -i dialog-information -t 8000 1>/dev/null 2>&1
+      fi
       leftH1 $LIGHT_CYAN " done ... (${sites_url}.local)" $WHITE "⛁" "."
    else
       leftH1 $LIGHT_CYAN " The website already exists ... (${sites_url}.local)" $WHITE "⛁" "."
@@ -133,6 +148,11 @@ delsite()
          else
             rm -vrf www/domains/${sites}
          fi
+      fi
+      if [ -x "$(command -v notify-send)" ]; then
+         startup=$(cat logs/startup.pid)
+         startupDate=$(diffTime "$startup")
+         /usr/bin/notify-send "Compose use: ${COMPOSE_PROJECT_NAME^^}" "The website ${sites_url}.local was deleted and Restarted Webserver" -a "HomeLab" -i dialog-information -t 8000 1>/dev/null 2>&1
       fi
       docker restart homelab-webserver
    else

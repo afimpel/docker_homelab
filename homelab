@@ -90,6 +90,11 @@ case "$subcommand" in
     ln
     installer
     footer
+    if [ -x "$(command -v notify-send)" ]; then
+      startup=$(cat logs/startup.pid)
+      startupDate=$(diffTime "$startup")
+      /usr/bin/notify-send "Compose use: ${COMPOSE_PROJECT_NAME^^}" "Installing and Startup containers | ${startupDate}" -a "HomeLab" -i process-working-symbolic -t 8000 1>/dev/null 2>&1
+    fi
   ;;
   logs)
     header
