@@ -72,13 +72,17 @@ newsite()
       fi
       if [ ! -d "www/${siteFile,,}/${sites}" ]; then
          mkdir -p www/${siteFile,,}/${sites}/${subdir}
+         indexFile="index.php"
          if [ "$typefile" == "php8" ]; then
-            echo "<?php phpinfo();?>" > www/${siteFile,,}/${sites}/${subdir}/index.php
+            cp -v DOCKER/examples/php-newsite.php www/${siteFile,,}/${sites}/${subdir}/index.php
          elif [ "$typefile" == "php7" ]; then
-            echo "<?php phpinfo();?>" > www/${siteFile,,}/${sites}/${subdir}/index.php
+            cp -v DOCKER/examples/php-newsite.php www/${siteFile,,}/${sites}/${subdir}/index.php
          else
-            echo "Hello World" > www/${siteFile,,}/${sites}/${subdir}/index.html
+            indexFile="index.html"
+            cp -v DOCKER/examples/legacy-newsite.html www/${siteFile,,}/${sites}/${subdir}/index.html
          fi
+         sed -i "s/wwwSite/${sites_url}/g" www/${siteFile,,}/${sites}/${subdir}/$indexFile
+         sed -i "s/typeSite/${siteFile}/g" www/${siteFile,,}/${sites}/${subdir}/$indexFile
       fi
       
       

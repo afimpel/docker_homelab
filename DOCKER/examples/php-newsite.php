@@ -22,7 +22,7 @@ $out3 = explode("<body>", $out1[0]);
 
 echo $out3[0]."\n \n";
 echo "<body>\n";
-echo "<a style='font-size:12px; width:98%; text-align:center; display:block; border:1px solid #505153; margin:10px auto; color:white; background-color:#606A90;' href='./'>Back</a>";
+echo "<h1>Welcome to new SubDomains: pruebaphp.homelab.local !</h1> <hr />";
 echo $out3[1]."\n \n";
 echo $out1[1]."\n \n";
 
@@ -46,9 +46,8 @@ echo "\n</table>\n \n";
 
 $__out__ = explode('<h2>PHP License</h2>',$out1[2]);
 echo $__out__[0];
-
 echo "\n \n<table>\n\t";
-echo "<tr>\n\t\t<td class='e'>SERVER NAME</td>\n\t\t<td class='v'>".php_uname('n')." / ".($_SERVER['HTTP_X_FORWARDED_FOR']??"-")." / ".$_SERVER['HTTP_HOST']."</td>\n\t</tr>\n";
+echo "<tr>\n\t\t<td class='e'>SERVER NAME</td>\n\t\t<td class='v'>".php_uname('n')." / ".($_SERVER['HTTP_X_FORWARDED_FOR'] ?? "-")." / ".$_SERVER['HTTP_HOST']."</td>\n\t</tr>\n";
 echo "<tr>\n\t\t<td class='e'>REMOTE NAME</td>\n\t\t<td class='v'>".gethostbyaddr($_SERVER['REMOTE_ADDR'])." / ".$_SERVER['REMOTE_ADDR']."</td>\n\t</tr>\n";
 echo "</table>\n";
 
@@ -57,7 +56,5 @@ echo "<h2>PHP License</h2>\n";
 $__outs__ = str_replace("\n<p>", '', $__out__[1]);
 $__outs__ = str_replace("<td>\n", '<td>', $__outs__);
 $__outs__ = str_replace("</p>", '', $__outs__);
-
-$__outs__ .= "<a style='font-size:12px; width:98%; text-align:center; display:block; border:1px solid #505153; margin:10px auto; color:white; background-color:#606A90;' href='./'>Back</a>";
 echo $__outs__;
 ?>

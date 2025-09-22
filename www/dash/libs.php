@@ -24,8 +24,11 @@ function listSites($files, $directory, $classA, $domain = "", $prefix=""){
         if ($file !== '.' && $file !== '..') {
             if (is_dir($directory . $file)) { 
                 $type = "nginx-alt";
-                if (is_dir($directory . $file.'/node_modules')) { 
+                if (is_dir($directory . $file.'/build')) { 
                     $type="html";
+                }
+                if (is_dir($directory . $file.'/public')) { 
+                    $type="php-alt";
                 }
                 if (is_dir($directory . $file.'/public') && is_dir($directory . $file.'/vendor')) { 
                     $type="php";
