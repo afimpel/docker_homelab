@@ -29,6 +29,7 @@ newsite()
 
    sites=${2,,}
    subdomainsTrue=1;
+   typefileFinal=${typefile}
    if [ "$1" == "0" ]; then
       subdomainsTrue=0;
       sites_url="${sites}.${COMPOSE_PROJECT_NAME,,}";
@@ -36,13 +37,13 @@ newsite()
    elif [ "$1" == "2" ]; then
       sites_url="${sites}";
       sites_name="${sites//./_}";
-      typefile="legacy-${typefile}";
+      typefileFinal="legacy-${typefile}";
       subdir="";
    elif [ "$1" == "3" ]; then
       subdomainsTrue=0;
       sites_url="${sites}.${COMPOSE_PROJECT_NAME,,}";
       sites_name="${sites}_${COMPOSE_PROJECT_NAME,,}";
-      typefile="legacy-${typefile}";
+      typefileFinal="legacy-${typefile}";
       subdir="";
    else
       sites_url="${sites}";
@@ -50,25 +51,25 @@ newsite()
    fi
 
    exist 'mkcert'
-   rightH1 $YELLOW "${typefile^^} :: https://${sites_url}.local" $WHITE "⛁" "."
+   rightH1 $YELLOW "${typefileFinal^^} :: https://${sites_url}.local" $WHITE "⛁" "."
    ln
    openCD $0
-   if [ ! -f "config/nginx-sites/${typefile}-${sites_name}_local.conf" ]; then
+   if [ ! -f "config/nginx-sites/${typefileFinal}-${sites_name}_local.conf" ]; then
       filename="_subdomains"
-      cp -v DOCKER/examples/examplesite-${typefile}-local.conf config/nginx-sites/${typefile}-${sites_name}_local.conf
+      cp -v DOCKER/examples/examplesite-${typefileFinal}-local.conf config/nginx-sites/${typefileFinal}-${sites_name}_local.conf
       if [ "$subdomainsTrue" == "0" ]; then
          siteFile="SubDomains"
-         sed -i "s/examplesite/${sites}/g" config/nginx-sites/${typefile}-${sites_name}_local.conf
-         sed -i "s/COMPOSE_PROJECT_NAME/${COMPOSE_PROJECT_NAME,,}/g" config/nginx-sites/${typefile}-${sites_name}_local.conf
+         sed -i "s/examplesite/${sites}/g" config/nginx-sites/${typefileFinal}-${sites_name}_local.conf
+         sed -i "s/COMPOSE_PROJECT_NAME/${COMPOSE_PROJECT_NAME,,}/g" config/nginx-sites/${typefileFinal}-${sites_name}_local.conf
       else
          filename="_domains"
          siteFile="Domains"
-         sed -i "s/subdomains/domains/g" config/nginx-sites/${typefile}-${sites_name}_local.conf
-         sed -i "s/examplesite_COMPOSE_PROJECT_NAME/${sites_name}/g" config/nginx-sites/${typefile}-${sites_name}_local.conf
-         sed -i "s/examplesite.COMPOSE_PROJECT_NAME/${sites_url}/g" config/nginx-sites/${typefile}-${sites_name}_local.conf
-         sed -i "s/COMPOSE_PROJECT_NAME./gkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkggkgk/g" config/nginx-sites/${typefile}-${sites_name}_local.conf
-         sed -i "s/.gkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkggkgk././g" config/nginx-sites/${typefile}-${sites_name}_local.conf
-         sed -i "s/examplesite/${sites_url}/g" config/nginx-sites/${typefile}-${sites_name}_local.conf
+         sed -i "s/subdomains/domains/g" config/nginx-sites/${typefileFinal}-${sites_name}_local.conf
+         sed -i "s/examplesite_COMPOSE_PROJECT_NAME/${sites_name}/g" config/nginx-sites/${typefileFinal}-${sites_name}_local.conf
+         sed -i "s/examplesite.COMPOSE_PROJECT_NAME/${sites_url}/g" config/nginx-sites/${typefileFinal}-${sites_name}_local.conf
+         sed -i "s/COMPOSE_PROJECT_NAME./gkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkggkgk/g" config/nginx-sites/${typefileFinal}-${sites_name}_local.conf
+         sed -i "s/.gkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkggkgk././g" config/nginx-sites/${typefileFinal}-${sites_name}_local.conf
+         sed -i "s/examplesite/${sites_url}/g" config/nginx-sites/${typefileFinal}-${sites_name}_local.conf
       fi
       if [ ! -d "www/${siteFile,,}/${sites}" ]; then
          mkdir -p www/${siteFile,,}/${sites}/${subdir}
