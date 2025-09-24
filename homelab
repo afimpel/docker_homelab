@@ -1,21 +1,22 @@
 #!/bin/bash
 
-source $(dirname $0)/DOCKER/scripts/help.sh
-source $(dirname $0)/DOCKER/scripts/utils.sh
-source $(dirname $0)/DOCKER/scripts/sites.sh
-source $(dirname $0)/DOCKER/scripts/supervisor.sh
-source $(dirname $0)/DOCKER/scripts/database.sh
-source $(dirname $0)/DOCKER/scripts/installer.sh
-source $(dirname $0)/DOCKER/scripts/docker.sh
-source $(dirname $0)/DOCKER/scripts/backup.sh
-source $(dirname $0)/DOCKER/scripts/generate-override.sh
-source $(dirname $0)/DOCKER/scripts/recreate-ssl.sh
-
+source $(dirname $0)/scripts/help.sh
+source $(dirname $0)/scripts/utils.sh
+source $(dirname $0)/scripts/sites.sh
+source $(dirname $0)/scripts/supervisor.sh
+source $(dirname $0)/scripts/database.sh
+source $(dirname $0)/scripts/installer.sh
+source $(dirname $0)/scripts/docker.sh
+source $(dirname $0)/scripts/backup.sh
+source $(dirname $0)/scripts/generate-override.sh
+source $(dirname $0)/scripts/recreate-ssl.sh
+source $(dirname $0)/scripts/check_updates.sh
 openCD $0
 
 set -a && source DOCKER/.env && set +a
 shift $((OPTIND -1))
 
+check_and_pull_updates
 subcommand=$1; shift
 
 case "$subcommand" in

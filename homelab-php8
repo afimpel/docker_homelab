@@ -1,4 +1,4 @@
 #!/bin/bash
-source $(dirname $0)/DOCKER/scripts/utils.sh
-source $(dirname $0)/DOCKER/scripts/docker.sh
+source $(dirname $0)/scripts/utils.sh
+source $(dirname $0)/scripts/docker.sh
 docker_bash "homelab-php8" "php:${USER}" $@

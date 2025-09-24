@@ -5,6 +5,7 @@
 ############################################################
 
 docker_up () {
+  clear
   openCD $0
   rightH1 $YELLOW 'Startup containers' $WHITE '✔' "."
   date +'%s' > logs/startup.pid
@@ -44,6 +45,7 @@ runonce_fn () {
 
 
 docker_restart () {
+  clear
   startExec0000=$(date +'%s')
   openCD $0
   if [ -f "logs/startup.pid" ]; then
@@ -75,6 +77,7 @@ docker_logs() {
 }
 
 docker_down() {
+  clear
   startExec0002=$(date +'%s')
   openCD $0
   if [ -f "logs/startup.pid" ]; then

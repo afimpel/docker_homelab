@@ -8,6 +8,7 @@ backup () {
     startExec0000=$(date +'%s')
     openCD $0
     unix=$(date '+%Y_%m_%d-%s')
+    clear
     CUSTOM_RIGHT $GREEN "Backup:" $WHITE "$OLDPWD/backup" $WHITE "✔" "." "✔" 0
     find . -name "*.tgz" -mtime -15 -exec rm {} \;
     #clearLogs

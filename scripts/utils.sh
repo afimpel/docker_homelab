@@ -90,7 +90,6 @@ leftH1 () {
     printf " ${3}$4${NC}$1  $data ${3}$4${NC}\n${NC}"
 }
 header() {
-    clear 
     CUSTOM_RIGHT $WHITE "Compose use: ${COMPOSE_PROJECT_NAME^^} ✔" $LIGHT_GRAY "${USERNAME^^}" $WHITE "☑" "." "☑" 0
 }
 startup() {
