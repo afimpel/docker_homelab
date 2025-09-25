@@ -89,16 +89,15 @@ docker_down() {
       openCD $0
       startup=$(cat logs/startup.pid)
       cd logs
-      colorize $LIGHT_GREEN "✔ $LIGHT_RED$(rm -v startup.pid)"
       if [ "$#" -gt 0 ] && [ "$1" == "clear" ]; then
           ln
           clearLogs
       fi
       timeExec=$(diffTime "$startExec0002")
-      if [ -x "$(command -v notify-send)" ]; then
-        startupDate=$(diffTime "$startup")
-        /usr/bin/notify-send "Compose use: ${COMPOSE_PROJECT_NAME^^}" "Stop & down all containers in $timeExec | ${startupDate}" -a "HomeLab" -i process-stop-symbolic -t 8000 1>/dev/null 2>&1
-      fi
+      send_notify "Stop & down all containers in $timeExec" "process-stop-symbolic"
+      cd logs
+      colorize $LIGHT_GREEN "✔ $LIGHT_RED$(rm -v startup.pid)"
+      ln
       CUSTOM_RIGHT $WHITE "Done all:" $LIGHT_GRAY "DOCKER Down: $timeExec" $WHITE "✔" "." "✔" 0
   else
       CUSTOM_RIGHT $NC 'Stop & down all containers' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
@@ -117,6 +116,7 @@ docker_bash() {
   if [ -f "logs/startup.pid" ]; then
     if [ "$Command" == "bash" ]; then
       header
+      send_notify "Container: $Container $Command" "utilities-terminal.svg"
       rightH1 $YELLOW "Container: $Container $Command" $WHITE '✔' "."
       #Usr=$3
     else

@@ -2,7 +2,6 @@
 
 # Function to check and perform a git pull if there are new remote commits
 check_and_pull_updates() {
-    clear
     CUSTOM_RIGHT $NC 'GIT' $LIGHT_CYAN "check update" $WHITE "☐" " " "☐" 0
 
     if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
