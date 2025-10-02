@@ -2,6 +2,8 @@
 include "./config.php";
 include "./libs.php";
 include "./dbs.php";
+include "./cache.php";
+
 $dateTime = new DateTime('now');
 errorLogger(["COMPOSE" => strtoupper(getenv('COMPOSE_PROJECT_NAME')), "SERVER" => $_SERVER['SERVER_SOFTWARE'], 'PHP' => phpversion()], true);
 errorLogger($dbs);
@@ -100,7 +102,7 @@ $sitesDomain = [];
         <h1 class="title text-success px-3 d-flex">
             <i class="icon-docker pe-1"></i> <b>LEMP STACK</b> <small class="ms-auto">( Compose: <em class="px-3"> <?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?> </em>)</small>
         </h1>
-        <small class="muted border border-secondary d-block px-3 rounded-pill shadow text-center">PHP / Nginx / MariaDB / Adminer / Redis / Composer / Supervisor</small>
+        <small class="muted border border-secondary d-block px-3 rounded-pill shadow text-center">PHP / Nginx / MariaDB / Adminer / Valkey / Composer / Supervisor</small>
         <h2 class="subtitle p-3">
             Your local development environment in Docker
         </h2>
@@ -111,6 +113,11 @@ $sitesDomain = [];
         <b><i class="<?= $dbs['server']['icon']; ?> me-2"></i> <?= $dbs['server']['name']; ?>:</b> <?php echo $dbs['error']; ?>
     </div>
     <?php } ?>
+    <?php if ( ! is_null($cache['error'])){ ?>
+    <div class="mx-4 alert alert-danger py-2 shadow">
+        <b><i class="<?= $cache['server']['icon']; ?> me-2"></i> <?= $cache['server']['name']; ?>:</b> <?php echo $cache['error']; ?>
+    </div>
+    <?php } ?>
 
     <div class="container-fluid py-2">
         <div class="row m-1">
@@ -118,9 +125,16 @@ $sitesDomain = [];
                 <h3 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1">
                     <i class="icon-docker me-2"></i> Environment
                     <?php
+                        if(!is_null($cache['uptime'])){
+                    ?>
+                    <small style="font-size: small;" class="badge text-light bg-warning rounded ms-auto my-auto"><i class="<?= $cache['server']['icon']; ?> me-2"></i> <?php echo $cache['uptime'];?></small>
+                    <?php
+                        }
+                    ?>
+                    <?php
                         if(!is_null($dbs['uptime'])){
                     ?>
-                    <small style="font-size: small;" class="badge text-light bg-info rounded ms-auto my-auto"><?php echo $dbs['uptime'];?></small>
+                    <small style="font-size: small;" class="badge text-light bg-info rounded ms-2 my-auto"><i class="<?= $dbs['server']['icon']; ?> me-2"></i> <?php echo $dbs['uptime'];?></small>
                     <?php
                         }
                     ?>
@@ -149,7 +163,15 @@ $sitesDomain = [];
                     </a>
                     <?php
                         }
+                        if(is_null($cache['error'])){
                     ?>
+                    <a href="//redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" target="_blank" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-1">
+                        <span><i class="<?= $cache['server']['icon']; ?> me-2"></i> <b><?= $cache['server']['name']; ?> :</b></span>
+                        <small class="badge text-light bg-primary rounded-pill px-2">
+                            <?= $cache['server']['version']; ?>
+                        </small>
+                    </a>
+                    <?php } ?>
                 </div>
                 <?php
                     if(is_null($dbs['error'])){
@@ -225,6 +247,25 @@ $sitesDomain = [];
                         <i class="bi bi-database-fill me-2"></i>
                         <?= $row["Database"]; ?>
                     </a>
+                <?php }
+                ?>
+                </div>
+            </div>
+            <?php }
+            if(count($cache['keys'])>=1){
+            ?>
+            <div class="col-12 col-xl">
+                <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1">
+                    <i class="<?= $cache['server']['icon']; ?> me-2"></i> Cache List
+                    <small class="badge text-light bg-primary ms-auto"><?php echo count($cache['keys']);?></small>
+                </h5>
+                <div class="list-group shadow">
+                <?php
+                foreach ($cache['keys'] as $row) { ?>
+                    <span class="list-group-item list-group-item-action list-group-item-info py-1" title="<?= $row; ?>">
+                        <i class="bi bi-memory me-2"></i>
+                        <?= $row; ?>
+                    </span>
                 <?php }
                 ?>
                 </div>

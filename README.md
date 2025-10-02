@@ -5,7 +5,7 @@
 Los servicios que levanta son los siguientes:
 
 - MariaBD
-- Redis
+- Valkey (fork de Redis)
 - Adminer (gui para MariaDB)
 - Redis Commander (gui para redis)
 - Nginx

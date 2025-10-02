@@ -54,16 +54,16 @@ services:
   ############################
   # Caches
   ############################
-  homelab-redis:
-    image: redis:alpine
-    container_name: homelab-redis
+  homelab-cache:
+    image: valkey/valkey:alpine
+    container_name: homelab-cache
     ports:
       - ${REDIS_PORT}:6379
     environment:
       TZ: ${TIMEZONE}
-    command: redis-server --save 20 1 --loglevel warning
+    command: valkey-server --save 20 1 --loglevel warning
     volumes:
-      - RedisVol:/data
+      - ValkeyVol:/data
     networks:
       - homelab-network
 
@@ -71,7 +71,7 @@ services:
     image: rediscommander/redis-commander:latest
     container_name: homelab-redis-commander
     environment:
-      - REDIS_HOSTS=local:homelab-redis:${REDIS_PORT}
+      - REDIS_HOSTS=local:homelab-cache:${REDIS_PORT}
       - HTTP_USER=${REDIS_COMMANDER_USER}
       - HTTP_PASSWORD=${REDIS_COMMANDER_PASSWORD}
     ports:
@@ -79,7 +79,7 @@ services:
     networks:
       - homelab-network
     depends_on:
-      - homelab-redis
+      - homelab-cache
 
   ############################
   # Mailtramp
@@ -169,7 +169,7 @@ services:
       - "./images/php/logs-chmod.sh:/usr/bin/logs-chmod"
     depends_on:
       - homelab-database
-      - homelab-redis
+      - homelab-cache
       - homelab-mailhog
     dns:
       - 8.8.4.4
@@ -218,7 +218,7 @@ services:
       - "./images/php/logs-chmod.sh:/usr/bin/logs-chmod"
     depends_on:
       - homelab-database
-      - homelab-redis
+      - homelab-cache
       - homelab-mailhog
     dns:
       - 8.8.4.4
@@ -232,7 +232,7 @@ services:
 
 volumes:
   MariadbVol:
-  RedisVol:
+  ValkeyVol:
 
 networks:
   homelab-network:
