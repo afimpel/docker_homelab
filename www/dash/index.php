@@ -5,8 +5,6 @@ include "./dbs.php";
 include "./cache.php";
 
 $dateTime = new DateTime('now');
-errorLogger(["COMPOSE" => strtoupper(getenv('COMPOSE_PROJECT_NAME')), "SERVER" => $_SERVER['SERVER_SOFTWARE'], 'PHP' => phpversion()], true);
-errorLogger($dbs);
 
 // Ruta del directorio a listar
 $directorySubdomain = '../subdomains/';

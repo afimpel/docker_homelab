@@ -41,7 +41,7 @@ function listSites($files, $directory, $classA, $domain = "", $prefix=""){
             }
         }
     }
-    errorLogger(["sitesLinks" => count($files)-3, "directory" => $directory, "sites" => $sites]);
+    //errorLogger(["sitesLinks" => count($files)-3, "directory" => $directory, "sites" => $sites]);
     $output = [];
     foreach ($sitesLinks as $key => $class) {
         $output[$key] = implode("\n",$class);
