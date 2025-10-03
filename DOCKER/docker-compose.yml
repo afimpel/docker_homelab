@@ -108,6 +108,7 @@ services:
     volumes:
       - ../logs/nginx:/var/log/nginx:rw
       - ../www:/var/www:rw
+      - goaccessVol:/var/report-html:rw
       - ./images/nginx/entrypoint:/docker-entrypoint.d:rw
       - ./images/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ../config/nginx-sites:/etc/nginx/sites-available:rw
@@ -119,6 +120,7 @@ services:
       - homelab-php8
       - homelab-adminer
       - homelab-redis-commander
+      - homelab-goaccess
     extra_hosts:
       - "docker.internal:host-gateway"
     networks:
@@ -128,6 +130,7 @@ services:
           - homelab-php8
           - homelab-adminer
           - homelab-redis-commander
+          - homelab-goaccess
 
   ############################
   # Applications
@@ -151,7 +154,7 @@ services:
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME}
     container_name: homelab-php7
-    image: builder-php:${phpVersion7}
+    image: local:php-${phpVersion7}
     working_dir: /var/www
     tty: true
     hostname: php7-${COMPOSE_PROJECT_NAME}
@@ -200,7 +203,7 @@ services:
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME}
     container_name: homelab-php8
-    image: builder-php:${phpVersion8}
+    image: local:php-${phpVersion8}
     working_dir: /var/www
     hostname: php8-${COMPOSE_PROJECT_NAME}
     tty: true
@@ -230,9 +233,32 @@ services:
           - homelab-php7
           - homelab-mailhog
 
+  homelab-goaccess:
+    build:
+      context: ./images/goaccess/
+      dockerfile: Dockerfile
+      args:
+        COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME}
+        user: ${USERNAME}
+        uid: ${USER_UID}
+    environment:
+      COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME}
+    image: local:goaccess-${COMPOSE_PROJECT_NAME}
+    container_name: homelab-goaccess
+    volumes:
+      - goaccessVol:/usr/share/nginx/html:rw
+      - ../logs/nginx:/host_logs_var:ro
+    restart: unless-stopped
+    networks:
+      homelab-network:
+        aliases:
+          - homelab-webserver
+    
+
 volumes:
   MariadbVol:
   ValkeyVol:
+  goaccessVol:
 
 networks:
   homelab-network:
