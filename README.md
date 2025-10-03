@@ -12,6 +12,7 @@ Los servicios que levanta son los siguientes:
 - PHP8 (con composer)
 - PHP7 (con composer)
 - Mailhog (gui para Mails)
+- GoAccess (web log analyzer)
 
 ## Configuración e instalación
 
