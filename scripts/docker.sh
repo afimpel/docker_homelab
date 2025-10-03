@@ -93,12 +93,13 @@ docker_down() {
           ln
           clearLogs
       fi
+      openCD $0
+      ln
       timeExec=$(diffTime "$startExec0002")
       send_notify "Stop & down all containers in $timeExec" "process-stop-symbolic"
+      CUSTOM_RIGHT $WHITE "Done all:" $LIGHT_GRAY "DOCKER Down: $timeExec" $WHITE "✔" "." "✔" 0
       cd logs
       colorize $LIGHT_GREEN "✔ $LIGHT_RED$(rm -v startup.pid)"
-      ln
-      CUSTOM_RIGHT $WHITE "Done all:" $LIGHT_GRAY "DOCKER Down: $timeExec" $WHITE "✔" "." "✔" 0
   else
       CUSTOM_RIGHT $NC 'Stop & down all containers' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
       ln
