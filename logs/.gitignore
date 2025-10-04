@@ -6,3 +6,4 @@
 !sites-logs
 !.gitignore
 !supervisor
+!goaccess

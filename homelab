@@ -8,11 +8,12 @@ source $(dirname $0)/scripts/database.sh
 source $(dirname $0)/scripts/installer.sh
 source $(dirname $0)/scripts/docker.sh
 source $(dirname $0)/scripts/backup.sh
+source $(dirname $0)/scripts/goaccess.sh
 source $(dirname $0)/scripts/generate-override.sh
 source $(dirname $0)/scripts/recreate-ssl.sh
 source $(dirname $0)/scripts/check_updates.sh
 openCD $0
-
+agentData=$RANDOM
 set -a && source DOCKER/.env && set +a
 shift $((OPTIND -1))
 
@@ -34,6 +35,7 @@ case "$subcommand" in
     CUSTOM_RIGHT $WHITE "Done all:" $LIGHT_GRAY "$timeExec" $WHITE "✔" "." "✔" 0
     docker_bash "homelab-database" "logs-chmod:root"
     ln
+    goaccess
     runonce_fn
     ln
     www
@@ -220,6 +222,7 @@ case "$subcommand" in
     footer
   ;;
   down)
+    clear
     header
     docker_bash "homelab-php8" "logs-chmod:root"
     docker_bash "homelab-php7" "logs-chmod:root"

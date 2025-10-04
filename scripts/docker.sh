@@ -77,7 +77,6 @@ docker_logs() {
 }
 
 docker_down() {
-  clear
   startExec0002=$(date +'%s')
   openCD $0
   if [ -f "logs/startup.pid" ]; then

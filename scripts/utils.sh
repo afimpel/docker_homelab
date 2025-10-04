@@ -152,7 +152,7 @@ clearLogs () {
     openCD $0
     find . -type f -name "*.log" -delete -printf " 🗑  REMOVED:\t $LIGHT_RED \0%p $NC\n" | sort
     find . -path "*/storage/logs/*" -type d -delete -printf " 🗑  REMOVED:\t $LIGHT_RED \0%p $NC\n" | sort
-    find . -type f -name "no*.out" -delete -printf " 🗑  REMOVED:\t $LIGHT_RED \0%p $NC\n" | sort
+    find . -type f -name "*.out" -delete -printf " 🗑  REMOVED:\t $LIGHT_RED \0%p $NC\n" | sort
     find . -type f -name "debug*.json" -delete -printf " 🗑  REMOVED:\t $LIGHT_RED \0%p $NC\n" | sort
     find . -type f -name "ci_sessio*" -delete -printf " 🗑  REMOVED:\t $LIGHT_RED \0%p $NC\n" | sort
     ln
