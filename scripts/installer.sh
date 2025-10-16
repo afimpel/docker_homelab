@@ -42,7 +42,7 @@ installer()
    echo -e "* [WWW](https://www.${COMPOSE_PROJECT_NAME,,}.local) :: WELCOME" >> ${COMPOSE_PROJECT_NAME,,}.md
    echo -e "* [Adminer](https://adminer.${COMPOSE_PROJECT_NAME,,}.local) :: Adminer" >> ${COMPOSE_PROJECT_NAME,,}.md
    echo -e "* [GoAccess LOG](https://goaccess.${COMPOSE_PROJECT_NAME,,}.local) :: GoAccess LOG" >> ${COMPOSE_PROJECT_NAME,,}.md
-   echo -e "* [Redis Commander](https://redis.${COMPOSE_PROJECT_NAME,,}.local) :: Redis Commander" >> ${COMPOSE_PROJECT_NAME,,}.md
+   echo -e "* [Redis Insight](https://redis.${COMPOSE_PROJECT_NAME,,}.local) :: Redis Insight" >> ${COMPOSE_PROJECT_NAME,,}.md
    echo -e "* [MailHOG](https://mailhog.${COMPOSE_PROJECT_NAME,,}.local) :: MailHOG" >> ${COMPOSE_PROJECT_NAME,,}.md
    echo -e "* [PHP7](https://php7.${COMPOSE_PROJECT_NAME,,}.local) :: PHP7 info" >> ${COMPOSE_PROJECT_NAME,,}.md
    echo -e "* [PHP8](https://php8.${COMPOSE_PROJECT_NAME,,}.local) :: PHP8 info" >> ${COMPOSE_PROJECT_NAME,,}.md

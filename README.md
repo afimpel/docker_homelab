@@ -7,7 +7,7 @@ Los servicios que levanta son los siguientes:
 - MariaBD
 - Valkey (fork de Redis)
 - Adminer (gui para MariaDB)
-- Redis Commander (gui para redis)
+- Redis Insight (gui para Redis/Valkey)
 - Nginx
 - PHP8 (con composer)
 - PHP7 (con composer)

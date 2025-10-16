@@ -25,8 +25,7 @@ services:
     networks:
       - homelab-network
 
-
-  homelab-adminer:    
+  homelab-adminer:
     build:
       context: ./images/adminer
       dockerfile: Dockerfile
@@ -67,19 +66,23 @@ services:
     networks:
       - homelab-network
 
-  homelab-redis-commander:
-    image: rediscommander/redis-commander:latest
-    container_name: homelab-redis-commander
-    environment:
-      - REDIS_HOSTS=local:homelab-cache:${REDIS_PORT}
-      - HTTP_USER=${REDIS_COMMANDER_USER}
-      - HTTP_PASSWORD=${REDIS_COMMANDER_PASSWORD}
+  homelab-redisinsight:
+    image: redis/redisinsight:latest
+    container_name: homelab-redisinsight
     ports:
       - 9080:8081
     networks:
       - homelab-network
-    depends_on:
-      - homelab-cache
+    volumes:
+      - redisinsightVol:/data:rw
+    environment:
+      - RI_FILES_LOGGER=false
+      - TZ=${TIMEZONE}
+      - RI_APP_PORT=8081
+      - RI_REDIS_HOST=homelab-cache
+      - RI_REDIS_PORT=${REDIS_PORT}
+      - RI_REDIS_ALIAS=LocalValkey
+      - RI_REDIS_USERNAME=default
 
   ############################
   # Mailtramp
@@ -119,7 +122,7 @@ services:
       - homelab-php7
       - homelab-php8
       - homelab-adminer
-      - homelab-redis-commander
+      - homelab-redisinsight
       - homelab-goaccess
     extra_hosts:
       - "docker.internal:host-gateway"
@@ -129,7 +132,7 @@ services:
           - homelab-php7
           - homelab-php8
           - homelab-adminer
-          - homelab-redis-commander
+          - homelab-redisinsight
           - homelab-goaccess
 
   ############################
@@ -233,6 +236,9 @@ services:
           - homelab-php7
           - homelab-mailhog
 
+  ############################
+  # Analytics Tool
+  ############################
   homelab-goaccess:
     build:
       context: ./images/goaccess/
@@ -259,6 +265,7 @@ volumes:
   MariadbVol:
   ValkeyVol:
   goaccessVol:
+  redisinsightVol:
 
 networks:
   homelab-network:
