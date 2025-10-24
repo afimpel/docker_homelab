@@ -155,6 +155,7 @@ services:
       DATABASE_USER: ${DATABASE_USER}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME}
+      REDIS_PORT: ${REDIS_PORT}
     container_name: homelab-php7
     image: local:php-${phpVersion7}
     working_dir: /var/www
@@ -203,6 +204,7 @@ services:
       DATABASE_USER: ${DATABASE_USER}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME}
+      REDIS_PORT: ${REDIS_PORT}
     container_name: homelab-php8
     image: local:php-${phpVersion8}
     working_dir: /var/www

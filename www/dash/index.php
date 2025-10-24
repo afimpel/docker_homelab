@@ -119,7 +119,7 @@ $sitesDomain = [];
 
     <div class="container-fluid py-2">
         <div class="row m-1">
-            <div class="col-12 col-xl">
+            <div class="col-12 mb-3">
                 <h3 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1">
                     <i class="icon-docker me-2"></i> Environment
                     <?php
@@ -137,6 +137,8 @@ $sitesDomain = [];
                         }
                     ?>
                 </h3>
+            </div>
+            <div class="col-12 col-xl">
                 <div class="list-group shadow">
                     <span class="list-group-item d-flex justify-content-between align-items-center py-1">
                         <span><i class="icon-nginx me-2"></i> <b>Server :</b></span>
@@ -179,25 +181,44 @@ $sitesDomain = [];
                     <small class="d-flex justify-content-between align-items-center px-1">
                         <span><i class="<?= $dbs['server']['icon-alt']; ?> me-2"></i> Server:</span>
                         <b class="px-0">
-                        <?= $datebase_server; ?>
+                        <?= $database_server; ?>
                         </b>
                     </small>
                     <small class="d-flex justify-content-between align-items-center px-1">
                         <span><i class="<?= $dbs['server']['icon-alt']; ?> me-2"></i> User:</span>
                         <b class="px-0">
-                        <?= $datebase_user; ?>
+                        <?= $database_user; ?>
                         </b>
                     </small>
                     <small class="d-flex justify-content-between align-items-center px-1">
                         <span><i class="<?= $dbs['server']['icon-alt']; ?> me-2"></i> Password:</span>
                         <b class="px-0">
-                        <?= $datebase_pass; ?>
+                        <?= $database_pass; ?>
                         </b>
                     </small>
                     <small class="d-flex justify-content-between align-items-center px-1">
                         <span><i class="<?= $dbs['server']['icon-alt']; ?> me-2"></i> Port:</span>
                         <b class="px-0">
-                        <?= $datebase_port; ?>
+                        <?= $database_port; ?>
+                        </b>
+                    </small>
+                </a>
+                <?php } ?>
+                <?php
+                    if(is_null($cache['error'])){
+                ?>
+                <a href="//redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" target="_blank" class="w-100 mt-3 shadow btn btn-outline-primary p-1">
+                    <h5 class="text-light bg-primary py-1 mb-1 rounded"><i class="<?= $cache['server']['icon']; ?> me-2"></i> Cache Connection: <b><?= $cache['server']['name']; ?></b></h5>
+                    <small class="d-flex justify-content-between align-items-center px-1">
+                        <span><i class="<?= $cache['server']['icon']; ?> me-2"></i> Server:</span>
+                        <b class="px-0">
+                        <?= $cache_server; ?>
+                        </b>
+                    </small>
+                    <small class="d-flex justify-content-between align-items-center px-1">
+                        <span><i class="<?= $cache['server']['icon']; ?> me-2"></i> Port:</span>
+                        <b class="px-0">
+                        <?= $cache_port; ?>
                         </b>
                     </small>
                 </a>
@@ -205,8 +226,8 @@ $sitesDomain = [];
             </div>
             <div class="col-12 col-xl-5">
 
-                <div class="list-group shadow mb-2">
-                    <span class="list-group-item d-flex justify-content-between align-items-center py-1">
+                <div class="list-group shadow mb-3">
+                    <span class="list-group-item d-flex justify-content-between align-items-center py-1 border-primary">
                         <span><i class="icon-php-alt me-2"></i> DateTime :</span>
                         <b class="px-2">
                             <?php 
@@ -220,13 +241,15 @@ $sitesDomain = [];
                 <h3 class="title has-text-centered border-bottom border-primary d-flex py-1">
                     <i class="icon-google-developers me-2"></i> Quick Links
                 </h3>
-                <div class="list-group shadow">
-                    <a title="php7.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-info list-group-item-action p-1 px-2 d-flex" href="//php7.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-php-alt mx-2"></i>php7 -> phpinfo()<small style="font-size: small;" class="badge text-light bg-info rounded ms-auto my-auto" id="php7_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">dd</small></a>
-                    <a title="php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-info list-group-item-action p-1 px-2 d-flex" href="//php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-php-alt mx-2"></i>php8 -> phpinfo()<small style="font-size: small;" class="badge text-light bg-info rounded ms-auto my-auto" id="php8_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">dd</small></a>
+                <div class="mt-4 list-group shadow">
+                    <a title="php7.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-info list-group-item-action p-1 px-2 d-flex" href="//php7.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-php-alt mx-2"></i>php7 -> phpinfo()<small style="font-size: small;" class="badge text-light bg-primary rounded ms-auto my-auto" id="php7_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">dd</small></a>
+                    <a title="php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-info list-group-item-action p-1 px-2 d-flex" href="//php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-php-alt mx-2"></i>php8 -> phpinfo()<small style="font-size: small;" class="badge text-light bg-primary rounded ms-auto my-auto" id="php8_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">dd</small></a>
+                </div>
+                <div class="mt-4 list-group shadow">
                     <a title="adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-warning list-group-item-action p-1 px-2" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-database mx-2"></i> adminer</a>
                     <a title="redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-danger list-group-item-action p-1 px-2" href="//redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-redis mx-2"></i> redis</a>
-                    <a title="goaccess.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-danger list-group-item-action p-1 px-2" href="//goaccess.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="bi bi-journal-text mx-2"></i> GoAccess LOG</a>
-                    <a translate="no" title="mailhog.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-danger list-group-item-action p-1 px-2" href="//mailhog.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class=" icon-bomb mx-2"></i> mailhog</a>
+                    <a title="goaccess.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-dark list-group-item-action p-1 px-2" href="//goaccess.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="bi bi-journal-text mx-2"></i> GoAccess LOG</a>
+                    <a translate="no" title="mailhog.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-info list-group-item-action p-1 px-2" href="//mailhog.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class=" icon-bomb mx-2"></i> mailhog</a>
                 </div>
             </div>
         </div>
@@ -296,11 +319,11 @@ $sitesDomain = [];
         <div class="container border border-secondary rounded p-2 my-2 shadow">
             <h3 class="text-center py-1 border-bottom"><i class="icon-shell"></i> access to php composer:</h3>
             <ol>
-                <li>Open terminal (ej: xterm, gnome-terminal)</li>
+                <li>Open terminal (ej: xterm, tilix, kitty, etc)</li>
                 <li>
                     <ul>
-                        <li>for PHP7, type this command: <code>docker exec -it homelab-php7 bash</code></li>
-                        <li>for PHP8, type this command: <code>docker exec -it homelab-php8 bash</code></li>
+                        <li>for PHP7, type this command: <code>docker exec -it homelab-php7 bash</code> or <code><?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?> php7-usr</code></li>
+                        <li>for PHP8, type this command: <code>docker exec -it homelab-php8 bash</code> or <code><?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?> php8-usr</code></li>
                     </ul>
                 </li>
                 <li>exit: <code>exit</code> or <code>ctrl+d</code> </li>

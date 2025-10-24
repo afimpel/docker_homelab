@@ -4,7 +4,7 @@ $cache = ['error' => null, 'keys' => [], 'uptime' => null, 'server'=> ['version'
 try {
    
     $redis = new Redis();
-    $redis->connect('homelab-cache', 6379);
+    $redis->connect($cache_server, $cache_port);
     $cache['server']['version'] = $redis->serverVersion()."-".$redis->serverName();
     $cache['server']['info'] = $redis->info();
     $seconds = $redis->info()['uptime_in_seconds'];
