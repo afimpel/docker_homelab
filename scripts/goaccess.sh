@@ -23,7 +23,6 @@ goaccess () {
             for extra in $extras; do
                 URLSnginx=$(echo "$extra" | cut -d "-" -f 1)
                 URLSnginx0=$(echo "$extra" | cut -d "." -f 1)
-                echo "$extra > $URLSnginx / $URLSnginx0" >> logs/goaccess/serverData-debug.log
                 if [ "$URLSnginx0" == "www" ]; then
                     URLSnginx="nginx"
                 fi
