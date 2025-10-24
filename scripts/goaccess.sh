@@ -19,18 +19,18 @@ goaccess () {
             sites_name="${hostname//./_}";
             echo "$hostname > $sites_name.out" >> logs/goaccess/serverData-lists.log
             # Si hay hostnames adicionales en la misma línea
-            curl -silent "https://$hostname" -o "logs/goaccess/$sites_name.out"
+            curl -silent "https://$hostname" -o "logs/goaccess/site-$sites_name.out"
             for extra in $extras; do
                 URLSnginx=$(echo "$extra" | cut -d "-" -f 1)
                 if [ "$URLSnginx" != "nginx" ]; then
                     sites_name2="${extra//./_}";
-                    curl -silent "https://$extra" -o "logs/goaccess/$sites_name2.out"
+                    curl -silent "https://$extra" -o "logs/goaccess/site-$sites_name2.out"
                     echo "$extra > $sites_name2.out" >> logs/goaccess/serverData-lists.log
                 fi
             done
         fi
     done
-    echo -e "\n\n# docker" >> logs/goaccess/serverData-lists.log    
+    echo -e "\n# docker" >> logs/goaccess/serverData-lists.log    
     docker stop homelab-goaccess 1>> logs/goaccess/serverData-lists.log 2>&1
     sleep 1s
     docker start homelab-goaccess 1>> logs/goaccess/serverData-lists.log 2>&1
