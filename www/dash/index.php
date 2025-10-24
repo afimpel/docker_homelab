@@ -241,11 +241,11 @@ $sitesDomain = [];
                 <h3 class="title has-text-centered border-bottom border-primary d-flex py-1">
                     <i class="icon-google-developers me-2"></i> Quick Links
                 </h3>
-                <div class="mt-4 list-group shadow">
+                <div class="mt-3 list-group shadow">
                     <a title="php7.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-info list-group-item-action p-1 px-2 d-flex" href="//php7.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-php-alt mx-2"></i>php7 -> phpinfo()<small style="font-size: small;" class="badge text-light bg-primary rounded ms-auto my-auto" id="php7_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">dd</small></a>
                     <a title="php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-info list-group-item-action p-1 px-2 d-flex" href="//php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-php-alt mx-2"></i>php8 -> phpinfo()<small style="font-size: small;" class="badge text-light bg-primary rounded ms-auto my-auto" id="php8_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">dd</small></a>
                 </div>
-                <div class="mt-4 list-group shadow">
+                <div class="mt-3 list-group shadow">
                     <a title="adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-warning list-group-item-action p-1 px-2" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-database mx-2"></i> adminer</a>
                     <a title="redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-danger list-group-item-action p-1 px-2" href="//redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-redis mx-2"></i> redis</a>
                     <a title="goaccess.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-dark list-group-item-action p-1 px-2" href="//goaccess.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="bi bi-journal-text mx-2"></i> GoAccess LOG</a>
@@ -258,7 +258,7 @@ $sitesDomain = [];
                 if(is_null($dbs['error'])){
             ?>
             <div class="col-12 col-xl">
-                <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1">
+                <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3">
                     <i class="<?= $dbs['server']['icon']; ?> me-2"></i> Database List
                     <small class="badge text-light bg-primary ms-auto"><?php echo count($dbs['database']);?></small>
                 </h5>
@@ -277,7 +277,7 @@ $sitesDomain = [];
             if(count($cache['keys'])>=1){
             ?>
             <div class="col-12 col-xl">
-                <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1">
+                <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3">
                     <i class="<?= $cache['server']['icon']; ?> me-2"></i> Cache List
                     <small class="badge text-light bg-primary ms-auto"><?php echo count($cache['keys']);?></small>
                 </h5>
@@ -295,7 +295,7 @@ $sitesDomain = [];
             <?php }
             if (count($filesDomain) > 3){?>
             <div class="col-12 col-xl">
-                <h5 class="title is-2 has-text-centered border-bottom border-info d-flex py-1">
+                <h5 class="title is-2 has-text-centered border-bottom border-info d-flex py-1 mb-3">
                     <i class="icon-nginx me-2"></i> Domain Sites List (<em> .local </em>)
                     <small class="badge text-light bg-info rounded ms-auto"><?php echo count($filesDomain)-3;?></small>
                 </h5>
@@ -306,7 +306,7 @@ $sitesDomain = [];
             <?php }
             if (count($filesSubdomain) > 3){?>
             <div class="col-12 col-xl">
-                <h5 class="title is-2 has-text-centered border-bottom border-info d-flex py-1">
+                <h5 class="title is-2 has-text-centered border-bottom border-info d-flex py-1 mb-3">
                     <i class="icon-nginx me-2"></i> SubDomain Sites List (<em> .<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local </em>)
                     <small class="badge text-light bg-info rounded ms-auto"><?php echo count($filesSubdomain)-3;?></small>
                 </h5>
@@ -316,8 +316,10 @@ $sitesDomain = [];
             </div>
             <?php }?>
         </div>
-        <div class="container border border-secondary rounded p-2 my-2 shadow">
-            <h3 class="text-center py-1 border-bottom"><i class="icon-shell"></i> access to php composer:</h3>
+    </div>
+    <div class="container-fluid py-2">
+        <div class="container border border-primary rounded p-2 my-1 shadow">
+            <h3 class="text-center py-1 border bg-dark text-light rounded"><i class="icon-shell me-4"></i> access to php composer:</h3>
             <ol>
                 <li>Open terminal (ej: xterm, tilix, kitty, etc)</li>
                 <li>
