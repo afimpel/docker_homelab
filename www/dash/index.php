@@ -177,7 +177,7 @@ $sitesDomain = [];
                     if(is_null($dbs['error'])){
                 ?>
                 <a href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>" target="_blank" class="w-100 mt-3 shadow btn btn-outline-primary p-1">
-                    <h5 class="text-light bg-primary py-1 mb-1 rounded"><i class="bi bi-database-fill me-2"></i> Database Connection: <b><?= $dbs['server']['name']; ?></b></h5>
+                    <h5 class="text-light bg-info py-1 mb-1 rounded"><i class="bi bi-database-fill me-2"></i> Database Connection: <b><?= $dbs['server']['name']; ?></b></h5>
                     <small class="d-flex justify-content-between align-items-center px-1">
                         <span><i class="<?= $dbs['server']['icon-alt']; ?> me-2"></i> Server:</span>
                         <b class="px-0">
@@ -208,7 +208,7 @@ $sitesDomain = [];
                     if(is_null($cache['error'])){
                 ?>
                 <a href="//redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" target="_blank" class="w-100 mt-3 shadow btn btn-outline-primary p-1">
-                    <h5 class="text-light bg-primary py-1 mb-1 rounded"><i class="<?= $cache['server']['icon']; ?> me-2"></i> Cache Connection: <b><?= $cache['server']['name']; ?></b></h5>
+                    <h5 class="text-light bg-info py-1 mb-1 rounded"><i class="<?= $cache['server']['icon']; ?> me-2"></i> Cache Connection: <b><?= $cache['server']['name']; ?></b></h5>
                     <small class="d-flex justify-content-between align-items-center px-1">
                         <span><i class="<?= $cache['server']['icon']; ?> me-2"></i> Server:</span>
                         <b class="px-0">
@@ -388,8 +388,6 @@ function dataUrl(url,id) {
 }
 
 dataUrl('https://php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/',"php8_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
-
-// Ejemplo 3: URL que probablemente no existe o da error
 dataUrl('https://php7.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/',"php7_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
     </script>
 
