@@ -7,11 +7,11 @@
 recreate-ssl()
 {
    openCD $0
+   touch mkcert_recreate.csv
    echo -e "MKCERT\n" > logs/mkcert.log
    rm -v DOCKER/certs/*.pem >> logs/mkcert.log
    rm -v mkcert_recreate.csv >> logs/mkcert.log
    echo -e "\t --- Recreating SSL Certificates ---\n" >> logs/mkcert.log
-   touch mkcert_recreate.csv
    rightH1 $YELLOW "SSL Certificate Recreation" $LIGHT_GREEN '✔' "." 
    exist 'mkcert'
    input_file="mkcert.csv"
