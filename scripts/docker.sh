@@ -14,6 +14,12 @@ docker_up () {
   docker_bash "homelab-php8" "logs-chmod:root"
   docker_bash "homelab-php7" "logs-chmod:root"
   docker_bash "homelab-database" "logs-chmod:root"
+  versionPHP7=$(docker_bash "homelab-php7" "php:root" -v | head -1 | cut -d " " -f 2)
+  versionPHP8=$(docker_bash "homelab-php8" "php:root" -v | head -1 | cut -d " " -f 2)
+  composerVersion7=$(docker_bash "homelab-php7" "composer:root" -V | head -1 | cut -d " " -f 3 | sed -E 's/\x1b\[[0-9;]*m//g')
+  composerVersion8=$(docker_bash "homelab-php8" "composer:root" -V | head -1 | cut -d " " -f 3 | sed -E 's/\x1b\[[0-9;]*m//g')
+  echo -e "{ \"startup\":\"$(date)\",\"username\":\"$USERNAME\",\"version\":{\"php8\":\"$versionPHP8\", \"composer8\":\"$composerVersion8\", \"php7\":\"$versionPHP7\", \"composer7\":\"$composerVersion7\", \"dockerCompose\":\"$(docker compose version)\", \"docker\":\"$(docker -v)\"} }" | jq . > www/dash/version.json
+  chmod 777 www/dash/version.json
 }
 
 runonce_fn () {
@@ -117,7 +123,7 @@ docker_bash() {
     if [ "$Command" == "bash" ]; then
       header
       send_notify "Container: $Container $Command" "utilities-terminal.svg"
-      rightH1 $YELLOW "Container: $Container $Command" $WHITE '✔' "."
+      CUSTOM_RIGHT $RED "Container: $Container $Command" $YELLOW "USR: $Usr" $WHITE '✔' "." '✔' 0
       #Usr=$3
     else
       parm3="${@: 3}"
