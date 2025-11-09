@@ -195,7 +195,7 @@ $description = $objHelp0000[0]->description;
                     <hr class="m-2" />
                     <figure class="text-center">
                         <blockquote class="blockquote">
-                            <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+                            <p class="mb-0">All help commands are listed here:</p>
                         </blockquote>
                     </figure>
                     <?php

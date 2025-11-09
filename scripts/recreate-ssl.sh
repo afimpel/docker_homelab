@@ -11,7 +11,7 @@ recreate-ssl()
    echo -e "MKCERT\n" > logs/mkcert.log
    rm -v DOCKER/certs/*.pem >> logs/mkcert.log
    rm -v mkcert_recreate.csv >> logs/mkcert.log
-   echo -e "\t --- Recreating SSL Certificates ---\n" >> logs/mkcert.log
+   echo -e "\n\t --- Recreating SSL Certificates ---\n" >> logs/mkcert.log
    rightH1 $YELLOW "SSL Certificate Recreation" $LIGHT_GREEN '✔' "." 
    exist 'mkcert'
    input_file="mkcert.csv"
