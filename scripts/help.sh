@@ -124,8 +124,8 @@ this_color() {
 }
 
 show_docker_help() {
-         php7=$(docker_bash "homelab-php7" "php:root" -v | head -1 | cut -d " " -f 2)
-         php8=$(docker_bash "homelab-php8" "php:root" -v | head -1 | cut -d " " -f 2)
+         versionPHP7=$(docker_bash "homelab-php7" "php:root" -v | head -1 | cut -d " " -f 2)
+         versionPHP8=$(docker_bash "homelab-php8" "php:root" -v | head -1 | cut -d " " -f 2)
          composer7=$(docker_bash "homelab-php7" "composer:root" -V | head -1 | cut -d " " -f 3)
          composer8=$(docker_bash "homelab-php8" "composer:root" -V | head -1 | cut -d " " -f 3)
 
@@ -146,23 +146,25 @@ show_docker_help() {
 
          ln
          CUSTOM_LEFT $NC "Docker Container :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
-         CUSTOM_CENTER $LIGHT_CYAN "bash <container_name>" $NC "Docker bash in container." $NC "➤" " " " " "7+132"
+         CUSTOM_CENTER $LIGHT_CYAN "bash <container_name>" $NC "Docker bash in container.\t\t\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+132"
 
-         CUSTOM_CENTER $LIGHT_CYAN "php7-usr" $NC "Docker bash in\t ${YELLOW}PHP $php7${NC}\t\t\t( ${LIGHT_ORANGE}♟ ${USERNAME}${NC} )" $NC "➤" " " " " "7+132"
+         CUSTOM_CENTER $LIGHT_CYAN "bash <container_name> --user" $NC "Docker bash in container.\t\t\t( ${LIGHT_ORANGE}♟ ${USERNAME}${NC} )" $NC "➤" " " " " "7+132"
 
-         CUSTOM_CENTER $LIGHT_CYAN "php7" $NC "Docker bash in\t ${YELLOW}PHP $php7${NC}\t\t\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+132"
+         CUSTOM_CENTER $LIGHT_CYAN "php7" $NC "Docker bash in\t ${YELLOW}PHP $versionPHP7${NC}\t\t\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+132"
 
-         CUSTOM_CENTER $LIGHT_CYAN "php7-cli <command>" $NC "Docker CLI in\t ${YELLOW}PHP $php7${NC}\t\t\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+132"
+         CUSTOM_CENTER $LIGHT_CYAN "php7 --user" $NC "Docker bash in\t ${YELLOW}PHP $versionPHP7${NC}\t\t\t( ${LIGHT_ORANGE}♟ ${USERNAME}${NC} )" $NC "➤" " " " " "7+132"
 
-         CUSTOM_CENTER $LIGHT_CYAN "php7-composer <command>" $NC "Docker CLI in\t ${YELLOW}PHP $php7${NC} ➤ ${YELLOW}Composer $composer7${NC}\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+132"
+         CUSTOM_CENTER $LIGHT_CYAN "php7-cli <command>" $NC "Docker CLI in\t ${YELLOW}PHP $versionPHP7${NC}\t\t\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+132"
+
+         CUSTOM_CENTER $LIGHT_CYAN "php7-composer <command>" $NC "Docker CLI in\t ${YELLOW}PHP $versionPHP7${NC} ➤ ${YELLOW}Composer $composer7${NC}\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+132"
          
-         CUSTOM_CENTER $LIGHT_CYAN "php8-usr" $NC "Docker bash in\t ${YELLOW}PHP $php8${NC}\t\t\t( ${LIGHT_ORANGE}♟ ${USERNAME}${NC} )" $NC "➤" " " " " "7+132"
+         CUSTOM_CENTER $LIGHT_CYAN "php8" $NC "Docker bash in\t ${YELLOW}PHP $versionPHP8${NC}\t\t\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+132"
 
-         CUSTOM_CENTER $LIGHT_CYAN "php8" $NC "Docker bash in\t ${YELLOW}PHP $php8${NC}\t\t\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+132"
+         CUSTOM_CENTER $LIGHT_CYAN "php8 --user" $NC "Docker bash in\t ${YELLOW}PHP $versionPHP8${NC}\t\t\t( ${LIGHT_ORANGE}♟ ${USERNAME}${NC} )" $NC "➤" " " " " "7+132"
 
-         CUSTOM_CENTER $LIGHT_CYAN "php8-cli <command>" $NC "Docker CLI in\t ${YELLOW}PHP $php8${NC}\t\t\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+132"
+         CUSTOM_CENTER $LIGHT_CYAN "php8-cli <command>" $NC "Docker CLI in\t ${YELLOW}PHP $versionPHP8${NC}\t\t\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+132"
 
-         CUSTOM_CENTER $LIGHT_CYAN "php8-composer <command>" $NC "Docker CLI in\t ${YELLOW}PHP $php8${NC} ➤ ${YELLOW}Composer $composer8${NC}\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+132"
+         CUSTOM_CENTER $LIGHT_CYAN "php8-composer <command>" $NC "Docker CLI in\t ${YELLOW}PHP $versionPHP8${NC} ➤ ${YELLOW}Composer $composer8${NC}\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+132"
 }
 
 show_db_help() {

@@ -99,7 +99,11 @@ case "$subcommand" in
     footer
   ;;
   bash)
-    docker_bash "$@" "bash:root"
+    if [ "$2" == '--user' ]; then
+      docker_bash "$1" "bash:${USERNAME}"
+    else
+      docker_bash "$1" "bash:root"
+    fi
   ;;
   dumpsdb)
     header
@@ -126,16 +130,18 @@ case "$subcommand" in
     footer
   ;;
   php8)
-    docker_bash "homelab-php8" "bash:root"
+    if [ "$1" == '--user' ]; then
+      docker_bash "homelab-php8" "bash:${USERNAME}"
+    else
+      docker_bash "homelab-php8" "bash:root"
+    fi
   ;;
   php7)
-    docker_bash "homelab-php7" "bash:root"
-  ;;
-  php8-usr)
-    docker_bash "homelab-php8" "bash:${USERNAME}"
-  ;;
-  php7-usr)
-    docker_bash "homelab-php7" "bash:${USERNAME}"
+    if [ "$1" == '--user' ]; then
+      docker_bash "homelab-php7" "bash:${USERNAME}"
+    else
+      docker_bash "homelab-php7" "bash:root"
+    fi
   ;;
   php8-cli)
     docker_bash "homelab-php8" "php:${USERNAME}" $@

@@ -97,7 +97,7 @@ startup() {
     if [ -f "logs/startup.pid" ]; then
         startup=$(cat logs/startup.pid)
         startupDate=$(diffTime "$startup")
-        CUSTOM_RIGHT $LIGHT_CYAN "Startup" $NC "$startupDate" $LIGHT_GREEN "⏲" ":" "⏲" 0
+        CUSTOM_RIGHT $LIGHT_CYAN "Startup" $WHITE "$startupDate" $LIGHT_GREEN "⏲" ":" "⏲" 0
     fi
 }
 footer() {
