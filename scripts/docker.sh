@@ -28,10 +28,6 @@ runonce_fn () {
   if [ -f "logs/startup.pid" ]; then
     rightH1 $YELLOW 'Runonce' $WHITE '☐' "."
     echo -e "---\t\t ${COMPOSE_PROJECT_NAME^^} ✔ \t\t---" > logs/runonce.log 
-    echo 'localhost' > logs/runonce_localhost.log
-    echo '--------------------------' >> logs/runonce_localhost.log
-    curl -silent -I http://localhost >> logs/runonce_localhost.log
-    echo '--------------------------' >> logs/runonce_localhost.log
     for script in config/runonce/*.sh ; do
         if [ -r "$script" ] ; then
                 nombre_archivo=$(basename "${script}")
@@ -46,6 +42,9 @@ runonce_fn () {
 
         fi
     done 
+    timeExec=$(diffTime "$startExec0000")
+    CUSTOM_RIGHT $WHITE "Runonce Done:" $LIGHT_GRAY "$timeExec" $WHITE "✔" "." "✔" 0
+    echo -e "\nTime excution: $timeExec." >> logs/runonce.log
   fi
 }
 

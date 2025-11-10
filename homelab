@@ -36,6 +36,7 @@ case "$subcommand" in
     docker_bash "homelab-database" "logs-chmod:root"
     ln
     goaccess
+    ln
     runonce_fn
     ln
     www
@@ -52,6 +53,12 @@ case "$subcommand" in
     header
     ln
     runonce_fn
+    footer
+  ;;
+  goaccess)
+    header
+    ln
+    goaccess
     footer
   ;;
   restart)
