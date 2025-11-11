@@ -36,7 +36,7 @@ runonce_fn () {
                 nuevo_nombre="${nombre_base}_bash.log"
                 bash -c "bash $script > logs/runonce-$nuevo_nombre 2>&1"
                 timeExec=$(diffTime "$startExec0000")
-                echo -e "✔\t RUN: \t$script\n➤\t Time: \t$timeExec seg\n➤\t Size: \t$(du -h logs/runonce-$nuevo_nombre)\n" >> logs/runonce_ALL.log
+                echo -e "✔\t RUN: \t$script\n➤\t Time: \t$timeExec\n➤\t Size: \t$(du -h logs/runonce-$nuevo_nombre)\n" >> logs/runonce_ALL.log
                 CUSTOM_LEFT $NC "bash $script" $BLUE "$timeExec" $LIGHT_GREEN "➤" " " "✔" "7"
         fi
     done 
