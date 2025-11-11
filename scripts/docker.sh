@@ -44,7 +44,7 @@ runonce_fn () {
     done 
     timeExec=$(diffTime "$startExec0000")
     CUSTOM_RIGHT $WHITE "Runonce Done:" $LIGHT_GRAY "$timeExec" $WHITE "✔" "." "✔" 0
-    echo -e "\nTime excution: $timeExec." >> logs/runonce_ALL.log
+    echo -e "Time excution: $timeExec." >> logs/runonce_ALL.log
   fi
 }
 
