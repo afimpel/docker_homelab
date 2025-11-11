@@ -50,7 +50,7 @@ installer()
    ln
    makealias
    ln
-   docker_up
+   docker_up_master
    ln
    help
    www

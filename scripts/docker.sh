@@ -23,6 +23,21 @@ docker_up () {
   chmod 777 www/dash/version.json
 }
 
+docker_up_master () {
+  colorize $WHITE "🗑 $LIGHT_RED$(rm -v DOCKER/docker-compose.override.yml)"
+  docker_up
+  generate-override
+  clear
+  docker_up
+  timeExec=$(diffTime "$startExec0000")
+  CUSTOM_RIGHT $WHITE "Done all:" $LIGHT_GRAY "$timeExec" $WHITE "✔" "." "✔" 0
+  docker_bash "homelab-database" "logs-chmod:root"
+  ln
+  goaccess
+  ln
+  runonce_fn
+ }
+
 runonce_fn () {
   startExec0000=$(date +'%s')
   openCD $0
