@@ -13,7 +13,7 @@ goaccess () {
     echo "# goaccess Sites" > logs/goaccess/serverData-lists.log
     more hostsfile.conf | while read -r ip hostname extras; do
         if [ "$ip" == "#" ]; then
-            echo;
+            echo "" > /dev/null;
         elif [ ! -z "$hostname" ]; then
             colorize $LIGHT_GRAY "✔ $WHITE $hostname"
             sites_name="${hostname//./_}";
