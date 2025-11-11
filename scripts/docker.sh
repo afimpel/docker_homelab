@@ -7,6 +7,7 @@
 docker_up () {
   clear
   openCD $0
+  touch www/dash/version.json
   rightH1 $YELLOW 'Startup containers' $WHITE '✔' "."
   date +'%s' > logs/startup.pid
   cd DOCKER/
