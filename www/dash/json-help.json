@@ -13,6 +13,9 @@
       "options": {
         "status": {
           "description": "Shows project status whether it is active or not."
+        },
+        "check-updates": {
+          "description": "Git pull updates for HomeLab project."
         }
       }
     },

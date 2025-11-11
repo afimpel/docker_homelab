@@ -95,6 +95,7 @@ status()
 show_general_help() {
          CUSTOM_LEFT $NC "Status :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
          CUSTOM_CENTER $LIGHT_CYAN "status" $NC "Shows project status whether it is active or not." $NC "➤" " " " " "7+132"
+         CUSTOM_CENTER $LIGHT_CYAN "check-updates" $NC "Git pull updates for HomeLab project." $NC "➤" " " " " "7+132"
          ln
          CUSTOM_LEFT $NC "Help :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
          CUSTOM_CENTER $LIGHT_CYAN "help" $NC "Display usage information$(this_msg "" $1 )" $NC "➤" " " " " "7+132"

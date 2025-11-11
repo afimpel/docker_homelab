@@ -43,6 +43,12 @@ case "$subcommand" in
     footer
     send_notify "Startup containers" 'process-working-symbolic'
   ;;
+  check-updates)
+    header
+    ln
+    check_and_pull_updates
+    footer
+  ;;
   ps)
     header
     ln
