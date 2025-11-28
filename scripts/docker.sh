@@ -12,6 +12,11 @@ docker_up () {
   date +'%s' > logs/startup.pid
   cd DOCKER/
   docker compose up -d
+  if [ $? -ne 0 ]; then
+    send_notify "Error: On start, docker compose up." "error" 16000 "critical"
+    docker_down clear
+    exit 1
+  fi
   docker_bash "homelab-php8" "logs-chmod:root"
   docker_bash "homelab-php7" "logs-chmod:root"
   docker_bash "homelab-database" "logs-chmod:root"
