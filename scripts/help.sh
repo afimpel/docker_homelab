@@ -1,75 +1,49 @@
 #!/bin/bash
 
+RUNNER_NAME="./homelab"
+JSON_FILE="www/dash/json-help.json"
+JSON_FILE_Version="www/dash/version.json"
+
 ############################################################
 # Help                                                     #
 ############################################################
+
 help()
 {
    # Display Help
    openCD $0
-   rightH1 $YELLOW 'Help ' $WHITE '☐' "." 
-   rightH1 $WHITE 'Syntax : ' $LIGHT_GREEN '✔' " " 
-   if [ -f "logs/makealias.pid" ]; then
-      echo -e "\t➤ ${LIGHT_GREEN}${COMPOSE_PROJECT_NAME,,}${NC} <cmd> <options>"
-   else
-      echo -e "\t➤ ${LIGHT_GREEN}./homelab${NC} <cmd> <options>"
+   rightH1 $YELLOW 'Help' $WHITE '☐' "." 
+   local syntax_from_json=$(jq -r '.syntax' "$JSON_FILE")
+   local USERNAME=$(whoami)
+
+   local code_mode="off"
+   local modeselect="off"
+   
+   if [ -f "logs/startup.pid" ]; then
+      modeselect="on"
+      code_mode="on"
    fi
+   if [ -f "logs/makealias.pid" ]; then
+      RUNNER_NAME="${COMPOSE_PROJECT_NAME,,}"
+   fi
+   syntax_from_json="${syntax_from_json//COMPOSE_PROJECT_NAME/${RUNNER_NAME}}"
    ln
-   rightH1 $WHITE 'Commands (cmd) : ' $LIGHT_GREEN '✔' " " 
-   if ! [ -f "${COMPOSE_PROJECT_NAME,,}.md" ]; then
-      CUSTOM_CENTER $LIGHT_CYAN "install" $NC "Install this project." $NC "➤" " " " " "7+132"
+ 
+   rightH1 $WHITE 'Syntax : ' $LIGHT_GREEN '✔' " " 
+   CUSTOM_LEFT $LIGHT_GREEN "$syntax_from_json" $LIGHT_GRAY " " $NC "✔" " " " " 7
+   ln
+
+   rightH1 $WHITE 'Commands :' $LIGHT_GREEN '✔' " "
+   if ! [ -f "${COMPOSE_PROJECT_NAME,,}.md" ]; then 
+      CUSTOM_CENTER $LIGHT_CYAN "install" $NC "Install this project." $NC "➤" " " " " "7+20"
    else
-      if [ -f "logs/startup.pid" ]; then
-         show_general_help $1
-         if [ $# -eq 1 ]; then
-            case "$1" in
-               --all)
-                     ln
-                     show_alias_help
-                     ln
-                     show_backup_help
-                     ln
-                     show_docker_help
-                     ln
-                     show_db_help
-                     ln
-                     show_sites_help
-                     ln
-                     show_supervisor_help
-                     ;;
-               --docker)
-                     ln
-                     show_docker_help
-                     ;;
-               --alias)
-                     ln
-                     show_alias_help
-                     ;;
-               --db)
-                     ln
-                     show_db_help
-                     ;;
-               --backup)
-                     ln
-                     show_backup_help
-                     ;;
-               --sites)
-                     ln
-                     show_sites_help
-                     ;;
-               --supervisor)
-                     ln
-                     show_supervisor_help
-                     ;;
-            esac
-         fi
+      OPTION="$1"
+      if [ -z "$OPTION" ]; then
+         show_general_help 'list' 'list'
       else
-         CUSTOM_LEFT $NC "Docker :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
-         CUSTOM_CENTER $LIGHT_CYAN "up" $NC "Start all containers." $NC "➤" " " " " "7+132"
-         if ! [ -f "logs/makealias.pid" ]; then
-            ln
-            show_alias_help
-         fi
+         show_general_help 'list' "$OPTION"
+         TAG_FILTER="${OPTION#--}"
+         show_general_help "$TAG_FILTER" "$OPTION"
       fi
    fi
 }
@@ -81,151 +55,113 @@ status()
    rightH1 $YELLOW 'STATUS ' $WHITE '☐' "." 
    ln
    if ! [ -f "${COMPOSE_PROJECT_NAME,,}.md" ]; then
-      CUSTOM_CENTER $LIGHT_CYAN "install" $NC "Install this project." $NC "➤" " " " " "7+132"
+      CUSTOM_CENTER $LIGHT_CYAN "install" $NC "Install this project" $NC "➤" " " " " "7+20"
    else
       if [ -f "logs/startup.pid" ]; then
-         CUSTOM_CENTER $NC "STATUS:" $LIGHT_GREEN "ENABLE" $LIGHT_GREEN "✔" " " " " "7+132"
+         CUSTOM_CENTER $NC "STATUS:" $LIGHT_GREEN "ENABLE" $LIGHT_GREEN "✔" " " "✔" "7+5"
       else
-         CUSTOM_CENTER $NC "STATUS:" $LIGHT_RED "DISABLE" $LIGHT_RED "✘" " " " " "7+132"
+         CUSTOM_CENTER $NC "STATUS:" $LIGHT_RED "DISABLE" $LIGHT_RED "✘" " " "✘" "7+6"
       fi
    fi
 }
 
 
-show_general_help() {
-         CUSTOM_LEFT $NC "Status :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
-         CUSTOM_CENTER $LIGHT_CYAN "status" $NC "Shows project status whether it is active or not." $NC "➤" " " " " "7+132"
-         CUSTOM_CENTER $LIGHT_CYAN "check-updates" $NC "Git pull updates for HomeLab project." $NC "➤" " " " " "7+132"
-         ln
-         CUSTOM_LEFT $NC "Help :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
-         CUSTOM_CENTER $LIGHT_CYAN "help" $NC "Display usage information$(this_msg "" $1 )" $NC "➤" " " " " "7+132"
-         CUSTOM_CENTER $LIGHT_GRAY "Opciones disponibles:" $NC "" $NC "☐" " " " " "10+132"
-         CUSTOM_CENTER $(this_color "--all" $1 ) "--all" $NC "Show all available help$(this_msg "--all" $1 )" $NC "➤" " " " " "13+132"
-         CUSTOM_CENTER $(this_color "--db" $1 ) "--db" $NC "Show help related to the database$(this_msg "--db" $1 )" $NC "➤" " " " " "13+132"
-         CUSTOM_CENTER $(this_color "--docker" $1 ) "--docker" $NC "Show help related to Docker$(this_msg "--docker" $1 )" $NC "➤" " " " " "13+132"
-         if ! [ -f "logs/makealias.pid" ]; then
-            CUSTOM_CENTER $(this_color "--alias" $1 ) "--alias" $NC "Show help related to Alias$(this_msg "--alias" $1 )" $NC "➤" " " " " "13+132"
-         fi
-         CUSTOM_CENTER $(this_color "--backup" $1 ) "--backup" $NC "Show help related to backup$(this_msg "--backup" $1 )" $NC "➤" " " " " "13+132"
-         CUSTOM_CENTER $(this_color "--sites" $1 ) "--sites" $NC "Show help related to sites$(this_msg "--sites" $1 )" $NC "➤" " " " " "13+132"
-         CUSTOM_CENTER $(this_color "--supervisor" $1 ) "--supervisor" $NC "Show help related to Supervisor$(this_msg "--supervisor" $1 )" $NC "➤" " " " " "13+132"
-}
-
-this_msg() {
-   if [ "$1" == "$2" ]; then
-      echo ". ( this message )"
+show_general_help() 
+{
+   if [ ! -f "$JSON_FILE_Version" ]; then
+      echo -e "{ \"startup\":\"$(date)\",\"username\":\"$(whoami)\",\"checkfile\":[],\"version\":{\"php8\":\"8.0\", \"composer8\":\"2.0\", \"php7\":\"7.0\", \"composer7\":\"2.0\", \"dockerCompose\":\"$(docker compose version)\", \"docker\":\"$(docker -v)\"} }" | jq . > $JSON_FILE_Version
    fi
-}
-this_color() {
-   if [ "$1" == "$2" ]; then
-      echo -e $LIGHT_CYAN
-   else
-      echo -e $CYAN
-   fi
-}
+   local filter_tag="${1}"
+   local tag_data="$2"
+   local USERNAME=$(whoami)
+   local runner_name_from_json=$(jq -r '.runner' "$JSON_FILE")
+   local versionPHP8=$(jq -r '.version.php8' "$JSON_FILE_Version")
+   local composerVersion8=$(jq -r '.version.composer8' "$JSON_FILE_Version")
+   local versionPHP7=$(jq -r '.version.php7' "$JSON_FILE_Version")
+   local composerVersion7=$(jq -r '.version.composer7' "$JSON_FILE_Version")
+   local docker_version=$(jq -r '.version.docker' "$JSON_FILE_Version")
+   local docker_compose_version=$(jq -r '.version.dockerCompose' "$JSON_FILE_Version")
 
-show_docker_help() {
-         versionPHP7=$(docker_bash "homelab-php7" "php:root" -v | head -1 | cut -d " " -f 2)
-         versionPHP8=$(docker_bash "homelab-php8" "php:root" -v | head -1 | cut -d " " -f 2)
-         composer7=$(docker_bash "homelab-php7" "composer:root" -V | head -1 | cut -d " " -f 3)
-         composer8=$(docker_bash "homelab-php8" "composer:root" -V | head -1 | cut -d " " -f 3)
+   jq -c --arg tag "$filter_tag" --arg modes "$modeselect" '
+        .commands[] |
+        select(
+            (.tags | index($tag)) and
+            (.mode == $modes or .mode == "both")
+        ) |
+        {
+            title: .title,
+            description: .description,
+            command_base: .command,
+            options: .options,
+            checkfile: .checkfile,
+            mode: .mode
+        }
+   ' "$JSON_FILE" | while read -r cmd_block; do
 
-         CUSTOM_LEFT $NC "Docker :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
-         CUSTOM_CENTER $LIGHT_CYAN "ps" $NC "Print started containers." $NC "➤" " " " " "7+132"
+        cmd_block="${cmd_block//docker_version/$docker_version}"
+        cmd_block="${cmd_block//docker_compose_version/$docker_compose_version}"
+        cmd_block="${cmd_block//USERNAME/$USERNAME}"
+        cmd_block="${cmd_block//COMPOSE_PROJECT_NAME/${COMPOSE_PROJECT_NAME}}"
+        cmd_block="${cmd_block//composerVersion8/$composerVersion8}"
+        cmd_block="${cmd_block//versionPHP8/$versionPHP8}"
+        cmd_block="${cmd_block//composerVersion7/$composerVersion7}"
+        cmd_block="${cmd_block//versionPHP7/$versionPHP7}"
 
-         CUSTOM_CENTER $LIGHT_CYAN "restart" $NC "Restart containers." $NC "➤" " " " " "7+132"
+        local title=$(echo "$cmd_block" | jq -r '.title')
+        local description=$(echo "$cmd_block" | jq -r '.description')
+        local command_base=$(echo "$cmd_block" | jq -r '.command_base')
+        local options=$(echo "$cmd_block" | jq -c '.options')
+        local checkfile=$(echo "$cmd_block" | jq -c '.checkfile')
+        local mode=$(echo "$cmd_block" | jq -c '.mode')
+        checkfile=${checkfile//\"/}
+        mode=${mode//\"/}
+        description="${description//docker_version/$docker_version}"
+        description="${description//docker_compose_version/$docker_compose_version}"
 
-         CUSTOM_CENTER $LIGHT_CYAN "clear" $NC "Clear all logs & Restart containers." $NC "➤" " " " " "7+132"
 
-         CUSTOM_CENTER $LIGHT_CYAN "logs" $NC "Docker All logs." $NC "➤" " " " " "7+132"
+        if [ -f "logs/$checkfile" ]; then
+            continue
+        fi
+        local description_count=${#description}
 
-         CUSTOM_CENTER $LIGHT_CYAN "logs <container_name>" $NC "Docker logs in container." $NC "➤" " " " " "7+132"
+        description_count=$(( description_count - 1 ))
+        CUSTOM_CENTER $WHITE "$title" $LIGHT_GRAY "$description" $LIGHT_CYAN "☑" " " "☑" "4+${description_count}"
 
-         CUSTOM_CENTER $LIGHT_CYAN "down" $NC "Stop & Down containers." $NC "➤" " " " " "7+132"
+        # Iterar sobre las opciones
+        echo "$options" | jq -r 'to_entries[] | "\(.key)@\(.value.description)@\(.value.mode)@\(.value.checkfile)"' | while IFS="@" read -r option_key option_desc option_mode option_checkfile; do
+            
+            if [ ! -z $option_checkfile ]; then
+                if [ -f "logs/$option_checkfile" ]; then
+                    continue
+                fi
+            fi
 
-         CUSTOM_CENTER $LIGHT_CYAN "down clear" $NC "Stop, Down containers & Clear all logs." $NC "➤" " " " " "7+132"
+            
+            if [ $option_mode == $code_mode ] || [ $option_mode == "both" ]; then
+               ICONS_COLOR=$WHITE
+               ICONS_OK=" "
+               if [ "$option_key" == "$tag_data" ]; then
+                  ICONS_COLOR=$ORANGE
+                  ICONS_OK="✔"
+               fi
+               option_desc_count=${#option_desc}
+               option_desc_count=$(( option_desc_count - 1 ))
+               option_desc0=$option_desc
+               if [ $option_desc_count -gt 80 ]; then
+                  option_desc0=" "
+               fi
 
-         ln
-         CUSTOM_LEFT $NC "Docker Container :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
-         CUSTOM_CENTER $LIGHT_CYAN "bash <container_name>" $NC "Docker bash in container.\t\t\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+132"
+               if [ -z "$command_base" ]; then
+                  CUSTOM_CENTER $LIGHT_CYAN "$RUNNER_NAME $option_key" $LIGHT_GRAY "$option_desc0" $ICONS_COLOR "➤" " " "$ICONS_OK" "7+${option_desc_count}"
+               else
+                  CUSTOM_CENTER $LIGHT_CYAN "$RUNNER_NAME $command_base $option_key" $LIGHT_GRAY "$option_desc0" $ICONS_COLOR "➤" " " "$ICONS_OK" "7+${option_desc_count}"
+               fi
 
-         CUSTOM_CENTER $LIGHT_CYAN "bash <container_name> --user" $NC "Docker bash in container.\t\t\t( ${LIGHT_ORANGE}♟ ${USERNAME}${NC} )" $NC "➤" " " " " "7+132"
-
-         CUSTOM_CENTER $LIGHT_CYAN "php7" $NC "Docker bash in\t ${YELLOW}PHP $versionPHP7${NC}\t\t\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+132"
-
-         CUSTOM_CENTER $LIGHT_CYAN "php7 --user" $NC "Docker bash in\t ${YELLOW}PHP $versionPHP7${NC}\t\t\t( ${LIGHT_ORANGE}♟ ${USERNAME}${NC} )" $NC "➤" " " " " "7+132"
-
-         CUSTOM_CENTER $LIGHT_CYAN "php7-cli <command>" $NC "Docker CLI in\t ${YELLOW}PHP $versionPHP7${NC}\t\t\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+132"
-
-         CUSTOM_CENTER $LIGHT_CYAN "php7-composer <command>" $NC "Docker CLI in\t ${YELLOW}PHP $versionPHP7${NC} ➤ ${YELLOW}Composer $composer7${NC}\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+132"
-         
-         CUSTOM_CENTER $LIGHT_CYAN "php8" $NC "Docker bash in\t ${YELLOW}PHP $versionPHP8${NC}\t\t\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+132"
-
-         CUSTOM_CENTER $LIGHT_CYAN "php8 --user" $NC "Docker bash in\t ${YELLOW}PHP $versionPHP8${NC}\t\t\t( ${LIGHT_ORANGE}♟ ${USERNAME}${NC} )" $NC "➤" " " " " "7+132"
-
-         CUSTOM_CENTER $LIGHT_CYAN "php8-cli <command>" $NC "Docker CLI in\t ${YELLOW}PHP $versionPHP8${NC}\t\t\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+132"
-
-         CUSTOM_CENTER $LIGHT_CYAN "php8-composer <command>" $NC "Docker CLI in\t ${YELLOW}PHP $versionPHP8${NC} ➤ ${YELLOW}Composer $composer8${NC}\t( ${RED}♚ root${NC} )" $NC "➤" " " " " "7+132"
-}
-
-show_db_help() {
-         CUSTOM_LEFT $NC "Database :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
-         CUSTOM_CENTER $LIGHT_CYAN "createdb <database_name>" $NC "mariadb database is created specified with its respective user (same name: EX: db pepe_base the user will be: pepe)." $NC "➤" " " " " "7+132"
-         CUSTOM_CENTER $LIGHT_CYAN "dumpsdb" $NC "Perform a full backup of all mariadb databases. (excluding system db)" $NC "➤" " " " " "7+132"
-
-         CUSTOM_CENTER $LIGHT_CYAN "dumpsdb <database_name>" $NC "Perform a backup of a specified entire mariadb database." $NC "➤" " " " " "7+132"
-
-         CUSTOM_CENTER $LIGHT_CYAN "importdb <database_name> <file>" $NC "Perform a file import of a specific full mariadb database." $NC "➤" " " " " "7+132"
-
-         CUSTOM_CENTER $LIGHT_CYAN "dropdb <database_name>" $NC "The specified mariadb database is backed up and deleted." $NC "➤" " " " " "7+132"
-}
-
-show_backup_help() {
-         CUSTOM_LEFT $NC "BackUP :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
-         CUSTOM_CENTER $LIGHT_CYAN "backup" $NC "backup of files (www/DB/Configs)" $NC "➤" " " " " "7+132"
-}
-
-show_alias_help() {
-   if ! [ -f "logs/makealias.pid" ]; then
-         CUSTOM_LEFT $NC "Alias :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
-         CUSTOM_CENTER $LIGHT_CYAN "makealias" $NC "Aliases are created in ZSH and Bash" $NC "➤" " " " " "7+132"
-   fi
-}
-
-show_sites_help() {
-         CUSTOM_LEFT $NC "Sites :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
-         CUSTOM_CENTER $LIGHT_CYAN "listsite" $NC "List all Sites." $NC "➤" " " " " "7+132"
-
-         CUSTOM_CENTER $LIGHT_CYAN "recreate-ssl" $NC "Recreating SSL Certificates." $NC "➤" " " " " "7+132"
-
-         CUSTOM_CENTER $LIGHT_CYAN "legacydomain <site> <type>" $NC "Create the New Domain. (Legacy Code) ( ${GREEN}<site>.local${NC} )" $NC "➤" " " " " "7+132"
-         CUSTOM_CENTER $LIGHT_CYAN " " $NC "${GREEN}<type>${NC} ( ${CYAN}build${NC}, ${CYAN}php7${NC} & ${CYAN}php8${NC} )" $NC " " " " " " "7+132"
-
-         CUSTOM_CENTER $LIGHT_CYAN "legacysubdomain <site> <type>" $NC "Create the New SubDomain. (Legacy Code) ( ${GREEN}<site>.${COMPOSE_PROJECT_NAME,,}.local${NC} )" $NC "➤" " " " " "7+132"
-         CUSTOM_CENTER $LIGHT_CYAN " " $NC "${GREEN}<type>${NC} ( ${CYAN}build${NC}, ${CYAN}php7${NC} & ${CYAN}php8${NC} )" $NC " " " " " " "7+132"
-
-         CUSTOM_CENTER $LIGHT_CYAN "newdomain <site> <type>" $NC "Create the New Domain. (Framework Code) ( ${GREEN}<site>.local${NC} )" $NC "➤" " " " " "7+132"
-         CUSTOM_CENTER $LIGHT_CYAN " " $NC "${GREEN}<type>${NC} ( ${CYAN}build${NC}, ${CYAN}php7${NC} & ${CYAN}php8${NC} )" $NC " " " " " " "7+132"
-
-         CUSTOM_CENTER $LIGHT_CYAN "newsubdomain <site> <type>" $NC "Create the New SubDomain. (Framework Code) ( ${GREEN}<site>.${COMPOSE_PROJECT_NAME,,}.local${NC} )" $NC "➤" " " " " "7+132"
-         CUSTOM_CENTER $LIGHT_CYAN " " $NC "${GREEN}<type>${NC} ( ${CYAN}build${NC}, ${CYAN}php7${NC} & ${CYAN}php8${NC} )" $NC " " " " " " "7+132"
-
-         CUSTOM_CENTER $LIGHT_CYAN "deldomain <site>" $NC "Delete the Domain extist. ( ${GREEN}<site>.local${NC} )" $NC "➤" " " " " "7+132"
-         CUSTOM_CENTER $LIGHT_CYAN "deldomain <site> yes" $NC "Delete the Domain extist and directory ( ${GREEN}<site>.local${NC} )" $NC "➤" " " " " "7+132"
-
-         CUSTOM_CENTER $LIGHT_CYAN "delsubdomain <site>" $NC "Delete the SubDomain extist. ( ${GREEN}<site>.${COMPOSE_PROJECT_NAME,,}.local${NC} )" $NC "➤" " " " " "7+132"
-         CUSTOM_CENTER $LIGHT_CYAN "delsubdomain <site> yes" $NC "Delete the SubDomain extist and directory ( ${GREEN}<site>.${COMPOSE_PROJECT_NAME,,}.local${NC} )" $NC "➤" " " " " "7+132"
-}
-
-show_supervisor_help() {
-         CUSTOM_LEFT $NC "Supervisor :" $LIGHT_GRAY " " $LIGHT_CYAN "☑" " " " " 4
-         CUSTOM_CENTER $LIGHT_CYAN "startsupervisor" $NC "Start all Supervisor." $NC "➤" " " " " "7+132"
-
-         CUSTOM_CENTER $LIGHT_CYAN "listsupervisor" $NC "List all Supervisor. " $NC "➤" " " " " "7+132"
-
-         CUSTOM_CENTER $LIGHT_CYAN "newsupervisor <programName> <type> '<cmd>'" $NC "Create the New Supervisor artisan. (Framework Code) ( ${GREEN}<programName>${NC} )" $NC "➤" " " " " "7+132"
-         CUSTOM_CENTER $LIGHT_CYAN " " $NC "${GREEN}<type>${NC} ( ${CYAN}php7${NC} & ${CYAN}php8${NC} )" $NC " " " " " " "7+132"
-         CUSTOM_CENTER $LIGHT_CYAN " " $NC "${GREEN}<cmd>${NC} ( Command artisan )" $NC " " " " " " "7+132"
-
-         CUSTOM_CENTER $LIGHT_CYAN "delsupervisor <programName>" $NC "Delete the Supervisor extist. " $NC "➤" " " " " "7+132"
+               if [ $option_desc_count -gt 80 ]; then
+                  CUSTOM_CENTER $NC " " $LIGHT_GRAY "$option_desc" $ICONS_COLOR " " " " " " "7+${option_desc_count}"
+               fi
+            fi
+        done
+        ln
+   done
 }

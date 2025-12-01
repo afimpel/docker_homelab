@@ -24,7 +24,19 @@ docker_up () {
   versionPHP8=$(docker_bash "homelab-php8" "php:root" -v | head -1 | cut -d " " -f 2)
   composerVersion7=$(docker_bash "homelab-php7" "composer:root" -V | head -1 | cut -d " " -f 3 | sed -E 's/\x1b\[[0-9;]*m//g')
   composerVersion8=$(docker_bash "homelab-php8" "composer:root" -V | head -1 | cut -d " " -f 3 | sed -E 's/\x1b\[[0-9;]*m//g')
-  echo -e "{ \"startup\":\"$(date)\",\"username\":\"$USERNAME\",\"version\":{\"php8\":\"$versionPHP8\", \"composer8\":\"$composerVersion8\", \"php7\":\"$versionPHP7\", \"composer7\":\"$composerVersion7\", \"dockerCompose\":\"$(docker compose version)\", \"docker\":\"$(docker -v)\"} }" | jq . > www/dash/version.json
+  checkfile="\"startup.pid\""
+  if [ -f "logs/makealias.pid" ]; then
+    checkfile="$checkfile,\"makealias.pid\""
+  fi
+  dockerVersion=$(docker -v)
+  dockerVersion=${dockerVersion//version/:}
+  dockerVersion=$(echo $dockerVersion | cut -d ":" -f 2 | cut -d "," -f 1)
+  
+  dockerComposeVersion=$(docker compose version)
+  dockerComposeVersion=${dockerComposeVersion//version/:}
+  dockerComposeVersion=$(echo $dockerComposeVersion | cut -d ":" -f 2)
+  
+  echo -e "{ \"startup\":\"$(date)\",\"username\":\"$USERNAME\",\"checkfile\":[$checkfile],\"version\":{\"php8\":\"$versionPHP8\", \"composer8\":\"$composerVersion8\", \"php7\":\"$versionPHP7\", \"composer7\":\"$composerVersion7\", \"docker\":\"Ver$dockerVersion\", \"dockerCompose\":\"Ver$dockerComposeVersion\"} }" | jq . > www/dash/version.json
   chmod 777 www/dash/version.json
 }
 

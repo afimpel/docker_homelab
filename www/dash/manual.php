@@ -20,7 +20,9 @@ $changeArrayOrigin = array(
     "versionPHP8", 
     "USERNAME",
     "composerVersion7", 
-    "composerVersion8" 
+    "composerVersion8",
+    "docker_version",
+    "docker_compose_version"
 );
 $changeArrayEND = array(
     strtolower(getenv('COMPOSE_PROJECT_NAME')), 
@@ -28,7 +30,9 @@ $changeArrayEND = array(
     $objVersion->version->php8, 
     $objVersion->username, 
     $objVersion->version->composer7, 
-    $objVersion->version->composer8
+    $objVersion->version->composer8,
+    $objVersion->version->docker,
+    $objVersion->version->dockerCompose
 );
 $jsonStringReplace = str_replace($changeArrayOrigin, $changeArrayEND, $jsonString);
 
@@ -39,7 +43,7 @@ function filterObjectsByTag(array $objects, string $tagToFind, string $tagProper
     $filteredObjects = [];
     foreach ($objects as $object) {
         if (property_exists($object, $tagPropertyName) && is_array($object->$tagPropertyName)) {
-            if (in_array($tagToFind, $object->$tagPropertyName, true)) {
+            if (in_array($tagToFind, $object->$tagPropertyName, true) && in_array($object->mode, ['on','both'], true)) {
                 $filteredObjects[] = $object;
             }
         }
@@ -166,12 +170,18 @@ $description = $objHelp0000[0]->description;
                 <div class="mt-3 list-group shadow">
                     <?php
                         foreach ($objHelp0000[0]->options as $key => $value) {
+                            if ( 
+                                in_array( $value->mode, ['off'], true ) || 
+                                in_array( $value->checkfile, $objVersion->checkfile, true ) 
+                            ){
+                                continue;
+                            }
                             $active = ($value->href == $dataTAG) ? ' active' : '';
                     ?>
                     <a href="manual.php?tags=<?= $value->href; ?>" class="list-group-item list-group-item-info list-group-item-action d-flex justify-content-between align-items-center py-1<?php echo $active; ?>">
                         <span>
                             <i class="icon-script-alt me-2"></i>
-                            <b><?php echo $command." ".$key ?></b>
+                            <b><?php echo $objHelp->runner." ".$command." ".$key ?></b>
                         </span>
                         <small class="badge text-light bg-primary rounded-pill px-2">
                             <?= $value->description; ?>
@@ -188,14 +198,20 @@ $description = $objHelp0000[0]->description;
             </div>
             <div class="col-12 col-xl-9">
                 <div class="border border-primary rounded p-2 m-0 shadow">
-                    <div class="input-group input-group-lg">
-                        <span class="input-group-text" id="inputGroup-sizing-lg">Syntax</span>
-                        <input class="form-control" type="text" value="<?php echo $objHelp->syntax; ?>" readonly />
+                    <div class="border border-primary rounded p-2 m-4 shadow">
+                        <h3 class="text-center py-1 border bg-dark text-light rounded"><i class="icon-shell me-4"></i> USE:</h3>
+                        <ol>
+                            <li>Open terminal (ej: xterm, tilix, kitty, etc)</li>
+                            <li>copy and paste the following command. ( ex: <code><?php echo $objHelp->runner." status" ?></code>)</li>
+                            <li>exit: <code>exit</code> or <code>ctrl+d</code> </li>
+                        </ol>
                     </div>
-                    <hr class="m-2" />
+                    
+                    <hr class="my-2 mx-4">
+
                     <figure class="text-center">
                         <blockquote class="blockquote">
-                            <p class="mb-0">All help commands are listed here:</p>
+                            <p class="mb-0">Commands are listed here:</p>
                         </blockquote>
                     </figure>
                     <?php
@@ -205,20 +221,32 @@ $description = $objHelp0000[0]->description;
                             $description = $value00->description;
                             $title = $value00->title;
                             $href = $value00->href;
+                            if ( 
+                                in_array( $value00->mode,['off'],true ) || 
+                                in_array( $value00->checkfile,$objVersion->checkfile,true ) 
+                            ){
+                                continue;
+                            }
                     ?>
-                    <a href="manual.php?tags=<?= $href; ?>" class="shadow btn btn-outline-secondary text-decoration-none fs-4 title is-3 has-text-centered d-flex py-1">
+                    <a href="manual.php?tags=<?= $href; ?>" class="mx-4 mt-4 shadow btn btn-outline-secondary text-decoration-none fs-4 title is-3 has-text-centered d-flex py-1">
                         <span class="pe-4 me-auto"><i class="icon-script-alt me-2"></i> <?=$title; ?>: </span>
                         <small class="small rounded-pill px-2" style="font-size: small;"> <?=$description; ?> </small>
                     </a>
-                    <div class="my-2 list-group shadow">
+                    <div class="mx-4 my-2 list-group shadow">
                     <?php
                             foreach ($value00->options as $key => $value) {
+                                if ( 
+                                    in_array( $value->mode,['off'],true ) || 
+                                    in_array( $value->checkfile,$objVersion->checkfile,true ) 
+                                ){
+                                    continue;
+                                }
                     ?>
                     <span class="list-group-item list-group-item-info list-group-item-action d-flex justify-content-between align-items-center py-1">
-                        <code>
+                        <b>
                             <i class="icon-shell me-2"></i>
-                            <b><?php echo $command." ".$key ?></b>
-                        </code>
+                            <code><?php echo $objHelp->runner." ".$command." ".$key ?></code>
+                        </b>
                         <small class="badge text-light bg-primary rounded-pill px-2" style="font-size: small;">
                             <?= $value->description; ?>
                         </small>
@@ -260,6 +288,37 @@ $description = $objHelp0000[0]->description;
         });
     }
     toggleThemeMenu();
+    const codes = document.querySelectorAll('code');
+
+  codes.forEach(code => {
+    code.style.cursor = 'pointer';
+    const parent = code.parentElement.parentElement;
+    parent.style.transition = 'all 0.6s ease';
+
+    code.addEventListener('click', async () => {
+        const texto = code.innerText;
+      try {
+        await navigator.clipboard.writeText(texto);
+
+        // feedback visual simple
+        const originalBg = parent.style.backgroundColor;
+        const originalColor = parent.style.color;
+        const originalCodeTextBg = code.style.color;
+
+        parent.style.backgroundColor = '#333';
+        parent.style.color = '#fff';
+        code.style.color = 'silver';
+
+        setTimeout(() => {
+          parent.style.backgroundColor = originalBg;
+          parent.style.color = originalColor;
+          code.style.color = originalCodeTextBg;
+        }, 1000);
+      } catch (err) {
+        console.error('Copy ERROR:', err);
+      }
+    });
+  });
     </script>
 
 </body>

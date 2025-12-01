@@ -1,6 +1,26 @@
 {
-  "syntax": "COMPOSE_PROJECT_NAME *cmd* *options*",
+  "syntax": "COMPOSE_PROJECT_NAME <cmd> [options]",
+  "runner": "COMPOSE_PROJECT_NAME",
   "commands": [
+    {
+      "tags": [
+        "alias",
+        "all"
+      ],
+      "href": "alias",
+      "title": "Alias",
+      "description": "Aliases TOOLS",
+      "command": "",
+      "checkfile": "makealias.pid",
+      "mode": "both",
+      "options": {
+        "makealias": {
+          "mode": "both",
+          "checkfile": "makealias.pid",
+          "description": "Aliases are created in ZSH and Bash"
+        }
+      }
+    },
     {
       "tags": [
         "status",
@@ -10,12 +30,18 @@
       "title": "Status",
       "description": "Status TOOLS",
       "command": "",
+      "checkfile": "",
+      "mode": "both",
       "options": {
         "status": {
-          "description": "Shows project status whether it is active or not."
+          "mode": "both",
+          "checkfile": "",
+          "description": "Shows project status whether it is active or not"
         },
         "check-updates": {
-          "description": "Git pull updates for HomeLab project."
+          "mode": "both",
+          "checkfile": "",
+          "description": "Git pull updates for HomeLab project"
         }
       }
     },
@@ -27,30 +53,56 @@
       "href": "help",
       "description": "Display usage information",
       "command": "help",
+      "checkfile": "",
+      "mode": "both",
       "options": {
         "--all": {
-          "description": "Show all available help.",
+          "mode": "on",
+          "checkfile": "",
+          "description": "Show all available help",
           "href": "all"
         },
-        "--db": {
-          "description": "Show help related to the database",
-          "href": "database"
-        },
         "--docker": {
+          "mode": "both",
+          "checkfile": "",
           "description": "Show help related to Docker",
           "href": "docker"
         },
+        "--database": {
+          "mode": "on",
+          "checkfile": "",
+          "description": "Show help related to the database",
+          "href": "database"
+        },
+        "--alias": {
+          "mode": "on",
+          "checkfile": "makealias.pid",
+          "description": "Show help related to aliases",
+          "href": "alias"
+        },
         "--backup": {
+          "mode": "on",
+          "checkfile": "",
           "description": "Show help related to backup",
           "href": "backup"
         },
         "--sites": {
+          "mode": "on",
+          "checkfile": "",
           "description": "Show help related to sites",
           "href": "sites"
         },
         "--supervisor": {
+          "mode": "on",
+          "checkfile": "",
           "description": "Show help related to Supervisor",
           "href": "supervisor"
+        },
+        "--status": {
+          "mode": "both",
+          "checkfile": "",
+          "description": "Show status available help",
+          "href": "status"
         }
       }
     },
@@ -63,8 +115,12 @@
       "href": "backup",
       "description": "Backup TOOLS",
       "command": "",
+      "checkfile": "",
+      "mode": "on",
       "options": {
         "backup": {
+          "mode": "on",
+          "checkfile": "",
           "description": "backup of files (www/DB/Configs)"
         }
       }
@@ -75,33 +131,51 @@
         "all"
       ],
       "title": "Docker",
-      "href":"docker",
-      "description": "Docker Compose",
+      "href": "docker",
+      "description": "Docker Compose - docker_compose_version",
       "command": "",
+      "checkfile": "",
+      "mode": "both",
       "options": {
         "up": {
-          "description": "Start all containers."
+          "mode": "off",
+          "checkfile": "startup.pid",
+          "description": "Start all containers"
         },
         "ps": {
-          "description": "Print started containers."
+          "mode": "on",
+          "checkfile": "",
+          "description": "Print started containers"
         },
         "restart": {
-          "description": "Restart containers."
+          "mode": "on",
+          "checkfile": "",
+          "description": "Restart containers"
         },
         "clear": {
-          "description": "Clear all logs & Restart containers."
+          "mode": "on",
+          "checkfile": "",
+          "description": "Clear all logs & Restart containers"
         },
         "logs": {
-          "description": "Docker All logs."
+          "mode": "on",
+          "checkfile": "",
+          "description": "Docker All logs"
         },
-        "logs *container_name*": {
-          "description": "Docker logs in container."
+        "logs [container_name]": {
+          "mode": "on",
+          "checkfile": "",
+          "description": "Docker logs in container"
         },
         "down": {
-          "description": "Stop & Down containers."
+          "mode": "on",
+          "checkfile": "",
+          "description": "Stop & Down containers"
         },
         "down clear": {
-          "description": "Stop, Down containers & Clear all logs."
+          "mode": "on",
+          "checkfile": "",
+          "description": "Stop, Down containers & Clear all logs"
         }
       }
     },
@@ -112,37 +186,59 @@
       ],
       "title": "Docker",
       "href": "docker",
-      "description": "Docker container",
+      "description": "Docker container commands - docker_version",
       "command": "",
+      "checkfile": "",
+      "mode": "on",
       "options": {
-        "bash *container_name*": {
+        "bash [container_name]": {
+          "mode": "on",
+          "checkfile": "",
           "description": "Docker bash in container. ( ♚ root )"
         },
-        "bash *container_name* --user": {
+        "bash [container_name] --user": {
+          "mode": "on",
+          "checkfile": "",
           "description": "Docker bash in container. ( ♟ USERNAME )"
         },
         "php7": {
+          "mode": "on",
+          "checkfile": "",
           "description": "Docker bash in versionPHP7 ( ♚ root )"
         },
         "php7 --user": {
+          "mode": "on",
+          "checkfile": "",
           "description": "Docker bash in versionPHP7 ( ♟ USERNAME )"
         },
-        "php7-cli *command*": {
+        "php7-cli [command]": {
+          "mode": "on",
+          "checkfile": "",
           "description": "Docker CLI in versionPHP7 ( ♚ root )"
         },
-        "php7-composer *command*": {
+        "php7-composer [command]": {
+          "mode": "on",
+          "checkfile": "",
           "description": "Docker CLI in versionPHP7 ➤ Composer composerVersion7 ( ♚ root )"
         },
         "php8": {
+          "mode": "on",
+          "checkfile": "",
           "description": "Docker bash in versionPHP8 ( ♚ root )"
         },
         "php8 --user": {
+          "mode": "on",
+          "checkfile": "",
           "description": "Docker bash in versionPHP8 ( ♟ USERNAME )"
         },
-        "php8-cli *command*": {
+        "php8-cli [command]": {
+          "mode": "on",
+          "checkfile": "",
           "description": "Docker CLI in versionPHP8 ( ♚ root )"
         },
-        "php8-composer *command*": {
+        "php8-composer [command]": {
+          "mode": "on",
+          "checkfile": "",
           "description": "Docker CLI in versionPHP8 ➤ Composer composerVersion8 ( ♚ root )"
         }
       }
@@ -156,21 +252,33 @@
       "href": "database",
       "description": "Database TOOLS",
       "command": "",
+      "checkfile": "",
+      "mode": "on",
       "options": {
-        "createdb *database_name*": {
-          "description": "mariadb database is created specified with its respective user (same name: EX: db pepe_base the user will be: pepe)."
+        "createdb [database_name]": {
+          "mode": "on",
+          "checkfile": "",
+          "description": "mariadb database is created specified with its respective user (same name: EX: db pepe_base the user will be: pepe)"
         },
         "dumpsdb": {
+          "mode": "on",
+          "checkfile": "",
           "description": "Perform a full backup of all mariadb databases. (excluding system db)"
         },
-        "dumpsdb *database_name*": {
-          "description": "Perform a backup of a specified entire mariadb database."
+        "dumpsdb [database_name]": {
+          "mode": "on",
+          "checkfile": "",
+          "description": "Perform a backup of a specified entire mariadb database"
         },
-        "importdb *database_name* *file*": {
-          "description": "Perform a file import of a specific full mariadb database."
+        "importdb [database_name] [file]": {
+          "mode": "on",
+          "checkfile": "",
+          "description": "Perform a file import of a specific full mariadb database"
         },
-        "dropdb *database_name*": {
-          "description": "The specified mariadb database is backed up and deleted."
+        "dropdb [database_name]": {
+          "mode": "on",
+          "checkfile": "",
+          "description": "The specified mariadb database is backed up and deleted"
         }
       }
     },
@@ -183,36 +291,58 @@
       "href": "sites",
       "description": "Sites TOOLS",
       "command": "",
+      "checkfile": "",
+      "mode": "on",
       "options": {
         "listsite": {
-          "description": "List all Sites."
+          "mode": "on",
+          "checkfile": "",
+          "description": "List all Sites"
         },
         "recreate-ssl": {
-          "description": "Recreating SSL Certificates."
+          "mode": "on",
+          "checkfile": "",
+          "description": "Recreating SSL Certificates"
         },
-        "legacydomain *site* *type*": {
-          "description": "Create the New Domain. (Legacy Code) ( *site*.local ) type: ( build, php7 & php8 )"
+        "legacydomain [site] [type]": {
+          "mode": "on",
+          "checkfile": "",
+          "description": "Create the New Domain. (Legacy Code) ( [site].local ) type: ( build, php7 & php8 )"
         },
-        "legacysubdomain *site* *type*": {
-          "description": "Create the New SubDomain. (Legacy Code) ( *site*.COMPOSE_PROJECT_NAME.local ) type: ( build, php7 & php8 )"
+        "legacysubdomain [site] [type]": {
+          "mode": "on",
+          "checkfile": "",
+          "description": "Create the New SubDomain. (Legacy Code) ( [site].COMPOSE_PROJECT_NAME.local ) type: ( build, php7 & php8 )"
         },
-        "newdomain *site* *type*": {
-          "description": "Create the New Domain. (Framework Code) ( *site*.local ) type: ( build, php7 & php8 )"
+        "newdomain [site] [type]": {
+          "mode": "on",
+          "checkfile": "",
+          "description": "Create the New Domain. (Framework Code) ( [site].local ) type: ( build, php7 & php8 )"
         },
-        "newsubdomain *site* *type*": {
-          "description": "Create the New SubDomain. (Framework Code) ( *site*.COMPOSE_PROJECT_NAME.local ) type: ( build, php7 & php8 )"
+        "newsubdomain [site] [type]": {
+          "mode": "on",
+          "checkfile": "",
+          "description": "Create the New SubDomain. (Framework Code) ( [site].COMPOSE_PROJECT_NAME.local ) type: ( build, php7 & php8 )"
         },
-        "deldomain *site*": {
-          "description": "Delete the Domain extist. ( *site*.local )"
+        "deldomain [site]": {
+          "mode": "on",
+          "checkfile": "",
+          "description": "Delete the Domain extist. ( [site].local )"
         },
-        "deldomain *site* yes": {
-          "description": "Delete the Domain extist and directory ( *site*.local )"
+        "deldomain [site] yes": {
+          "mode": "on",
+          "checkfile": "",
+          "description": "Delete the Domain extist and directory ( [site].local )"
         },
-        "delsubdomain *site*": {
-          "description": "Delete the SubDomain extist. ( *site*.COMPOSE_PROJECT_NAME.local )"
+        "delsubdomain [site]": {
+          "mode": "on",
+          "checkfile": "",
+          "description": "Delete the SubDomain extist. ( [site].COMPOSE_PROJECT_NAME.local )"
         },
-        "delsubdomain *site* yes": {
-          "description": "Delete the SubDomain extist and directory ( *site*.COMPOSE_PROJECT_NAME.local )"
+        "delsubdomain [site] yes": {
+          "mode": "on",
+          "checkfile": "",
+          "description": "Delete the SubDomain extist and directory ( [site].COMPOSE_PROJECT_NAME.local )"
         }
       }
     },
@@ -225,18 +355,28 @@
       "href": "supervisor",
       "description": "Supervisor Functions",
       "command": "",
+      "checkfile": "",
+      "mode": "on",
       "options": {
         "startsupervisor": {
-          "description": "Start all Supervisor."
+          "mode": "on",
+          "checkfile": "",
+          "description": "Start all Supervisor"
         },
         "listsupervisor": {
-          "description": "List all Supervisor."
+          "mode": "on",
+          "checkfile": "",
+          "description": "List all Supervisor"
         },
-        "newsupervisor *programName* *type* '*cmd*'": {
-          "description": "Create the New Supervisor artisan. (Framework Code) ( *programName* ) type: ( php7 & php8 ) cmd: ( Command artisan )"
+        "newsupervisor [programName] [type] '<cmd>'": {
+          "mode": "on",
+          "checkfile": "",
+          "description": "Create the New Supervisor artisan. (Framework Code) ( [programName] ) type: ( php7 & php8 ) cmd: ( Command artisan )"
         },
-        "delsupervisor *programName*": {
-          "description": "Delete the Supervisor extist."
+        "delsupervisor [programName]": {
+          "mode": "on",
+          "checkfile": "",
+          "description": "Delete the Supervisor extist"
         }
       }
     }
