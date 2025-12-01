@@ -368,7 +368,7 @@
           "checkfile": "",
           "description": "List all Supervisor"
         },
-        "newsupervisor [programName] [type] '<cmd>'": {
+        "newsupervisor [programName] [type] `cmd`": {
           "mode": "on",
           "checkfile": "",
           "description": "Create the New Supervisor artisan. (Framework Code) ( [programName] ) type: ( php7 & php8 ) cmd: ( Command artisan )"
