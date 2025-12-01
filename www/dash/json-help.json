@@ -57,7 +57,7 @@
       "mode": "both",
       "options": {
         "--all": {
-          "mode": "on",
+          "mode": "both",
           "checkfile": "",
           "description": "Show all available help",
           "href": "all"
