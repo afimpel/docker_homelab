@@ -76,22 +76,24 @@ listSupervisor()
    rightH1 $YELLOW "List :: SUPERVISOR" $LIGHT_GREEN '✔' "." 
    input_file="${COMPOSE_PROJECT_NAME,,}_supervisor.md"
    lnline=0
-   while IFS= read -r line; do
-      # Check for section titles
-      if [[ $line =~ ^#\ (.*) ]]; then
-         if [[ $lnline == 1 ]]; then
-            ln
-         fi
-         lnline=1
-         title="${BASH_REMATCH[1]}"
-         rightH1 $NC "${title}:" $LIGHT_GREEN '☐' " "
-      elif [[ ! -z  $line ]]; then
-            base="* "
-            cambiar=" "
-            line22="${line/${base}/${cambiar}}"
-            echo -e "\t➤ ${LIGHT_CYAN}$line22${NC}"
-      fi
-   done < "$input_file"
+   if [ -f $input_file ]; then
+        while IFS= read -r line; do
+            # Check for section titles
+            if [[ $line =~ ^#\ (.*) ]]; then
+                if [[ $lnline == 1 ]]; then
+                    ln
+                fi
+                lnline=1
+                title="${BASH_REMATCH[1]}"
+                rightH1 $NC "${title}:" $LIGHT_GREEN '☐' " "
+            elif [[ ! -z  $line ]]; then
+                    base="* "
+                    cambiar=" "
+                    line22="${line/${base}/${cambiar}}"
+                    echo -e "\t➤ ${LIGHT_CYAN}$line22${NC}"
+            fi
+        done < "$input_file"
+   fi
 }
 
 startedSupervisor()
