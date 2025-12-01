@@ -78,12 +78,18 @@ CUSTOM_CENTER () {
     else
         ants=$(( $ants000 ))
     fi
-    data=$(completeLine "$2" "$7" 4 "$4" $(( $9 )));
+    data=$(completeLine "$2" "$7" 4 " " $(( $9 )));
+    data2=$(completeLine " " "$7" 4 "$4" $(( $9 )));
     ant_string=""
     for ((i=0; i<ants; i++)); do
         ant_string+=" "
     done
-    printf "$ant_string ${5}$6${NC}$1  $2$3 $data$4 ${5}$8${NC}\n${NC}"
+    if [ $ants111 -gt 80 ]; then 
+        printf "$ant_string ${5}$6${NC}$1  $2$3 $data  ${5}$8${NC}\n${NC}"
+        printf "$ant_string ${5} ${NC}$1   $3 $data2$4 ${5} ${NC}\n${NC}"
+    else
+        printf "$ant_string ${5}$6${NC}$1  $2$3 $data$4 ${5}$8${NC}\n${NC}"
+    fi
 }
 
 leftH1 () {

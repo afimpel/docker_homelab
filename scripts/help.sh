@@ -146,20 +146,13 @@ show_general_help()
                fi
                option_desc_count=${#option_desc}
                option_desc_count=$(( option_desc_count - 1 ))
-               option_desc0=$option_desc
-               if [ $option_desc_count -gt 80 ]; then
-                  option_desc0=" "
-               fi
 
                if [ -z "$command_base" ]; then
-                  CUSTOM_CENTER $LIGHT_CYAN "$RUNNER_NAME $option_key" $LIGHT_GRAY "$option_desc0" $ICONS_COLOR "➤" " " "$ICONS_OK" "7+${option_desc_count}"
+                  CUSTOM_CENTER $LIGHT_CYAN "$RUNNER_NAME $option_key" $LIGHT_GRAY "$option_desc" $ICONS_COLOR "➤" " " "$ICONS_OK" "7+${option_desc_count}"
                else
-                  CUSTOM_CENTER $LIGHT_CYAN "$RUNNER_NAME $command_base $option_key" $LIGHT_GRAY "$option_desc0" $ICONS_COLOR "➤" " " "$ICONS_OK" "7+${option_desc_count}"
+                  CUSTOM_CENTER $LIGHT_CYAN "$RUNNER_NAME $command_base $option_key" $LIGHT_GRAY "$option_desc" $ICONS_COLOR "➤" " " "$ICONS_OK" "7+${option_desc_count}"
                fi
 
-               if [ $option_desc_count -gt 80 ]; then
-                  CUSTOM_CENTER $NC " " $LIGHT_GRAY "$option_desc" $ICONS_COLOR " " " " " " "7+${option_desc_count}"
-               fi
             fi
         done
         ln
