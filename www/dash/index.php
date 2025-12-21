@@ -5,14 +5,8 @@ include "./dbs.php";
 include "./cache.php";
 
 $dateTime = new DateTime('now');
-
-// Ruta del directorio a listar
-$directorySubdomain = '../subdomains/';
-$directoryDomain = '../domains/';
-$filesSubdomain = scandir($directorySubdomain);
-$filesDomain = scandir($directoryDomain);
-$sitesSubdomain = [];
-$sitesDomain = [];
+$sitesDomain = listSitesJSON("domains", ["dropdown-item", "list-group-item list-group-item-action list-group-item-secondary py-1"]);
+$sitesSubdomain = listSitesJSON("subdomains", ["dropdown-item", "list-group-item list-group-item-action list-group-item-secondary py-1"]);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,22 +40,20 @@ $sitesDomain = [];
                     <li class="nav-item">
                         <a class="nav-link" target="_blank" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="me-2 icon-database"></i> Adminer</a>
                     </li>
-                    <?php if (count($filesDomain) > 3){?>          
+                    <?php if ($sitesDomain[2] > 1){?>          
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="domains"><i class="me-2 icon-ghost"></i> Domain (<?php echo count($filesDomain)-3;?>)</a>
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="domains"><i class="me-2 icon-ghost"></i> Domain (<?php echo $sitesDomain[2];?>)</a>
                         <div class="dropdown-menu shadow" aria-labelledby="domains">
                             <?php
-                            $sitesDomain = listSites($filesDomain, $directoryDomain, ["dropdown-item", "list-group-item list-group-item-action list-group-item-secondary py-1"], '', 'www.');
                             echo $sitesDomain[0]; ?>
                         </div>
                     </li>
                     <?php }
-                    if (count($filesSubdomain) > 3){?>
+                    if ($sitesSubdomain[2] > 1){?>
                      <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="subdomains"><i class="me-2 icon-ghost"></i> SubDomain (<?php echo count($filesSubdomain)-3;?>)</a>
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="subdomains"><i class="me-2 icon-ghost"></i> SubDomain (<?php echo $sitesSubdomain[2];?>)</a>
                         <div class="dropdown-menu shadow" aria-labelledby="subdomains">
                             <?php
-                            $sitesSubdomain = listSites($filesSubdomain, $directorySubdomain, ["dropdown-item", "list-group-item list-group-item-action list-group-item-secondary py-1"],".".strtolower(getenv('COMPOSE_PROJECT_NAME')));
                             echo $sitesSubdomain[0]; ?>
                         </div>
                     </li>
@@ -296,22 +288,22 @@ $sitesDomain = [];
                 </div>
             </div>
             <?php }
-            if (count($filesDomain) > 3){?>
+            if ($sitesDomain[2] > 0){?>
             <div class="col-12 col-xl">
                 <h5 class="title is-2 has-text-centered border-bottom border-info d-flex py-1 mb-3">
                     <i class="icon-nginx me-2"></i> Domain Sites List (<em> .local </em>)
-                    <small class="badge text-light bg-info rounded ms-auto"><?php echo count($filesDomain)-3;?></small>
+                    <small class="badge text-light bg-info rounded ms-auto"><?php echo $sitesDomain[2];?></small>
                 </h5>
                 <div class="list-group shadow">
                     <?php echo $sitesDomain[1];?>
                 </div>
             </div>
             <?php }
-            if (count($filesSubdomain) > 3){?>
+            if ($sitesSubdomain[2] > 0){?>
             <div class="col-12 col-xl">
                 <h5 class="title is-2 has-text-centered border-bottom border-info d-flex py-1 mb-3">
                     <i class="icon-nginx me-2"></i> SubDomain Sites List (<em> .<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local </em>)
-                    <small class="badge text-light bg-info rounded ms-auto"><?php echo count($filesSubdomain)-3;?></small>
+                    <small class="badge text-light bg-info rounded ms-auto"><?php echo $sitesSubdomain[2];?></small>
                 </h5>
                 <div class="list-group shadow">
                     <?php echo $sitesSubdomain[1];?>

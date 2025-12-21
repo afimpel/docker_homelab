@@ -48,3 +48,28 @@ function listSites($files, $directory, $classA, $domain = "", $prefix=""){
     }
     return $output;
 }
+function listSitesJSON($typeJSON, $classA){ 
+    $sites=[];
+    $sitesLinks = array();
+    $listSitesOBJ = json_decode(file_get_contents($typeJSON.'.json'));
+    $output = ["","",count($listSitesOBJ->items)];
+    foreach ($listSitesOBJ->items as $site) {
+        foreach ($classA as $key => $class) {
+            $typeStr=strtoupper($site->type);
+            $type = "nginx-alt";
+            if (str_contains($site->type, 'build')){
+                $type="html";
+            }elseif (str_contains($site->type, 'legacy-php')){
+                $type="php";
+            }elseif (str_contains($site->type, 'php')){
+                $type="php-alt";
+            }
+            $sitesLinks[$key][]="<a translate='no' title='$site->title ➤ $typeStr' target='_blank' class='$class' href='$site->url' style='min-width: 15vw;'>\n<i class='icon-$type me-2'></i> $site->title ➤ $typeStr\n</a>";
+        }
+    }
+    //errorLogger(["sitesLinks" => count($files)-3, "directory" => $directory, "sites" => $sites]);
+    foreach ($sitesLinks as $key => $class) {
+        $output[$key] = implode("\n",$class);
+    }
+    return $output;
+}

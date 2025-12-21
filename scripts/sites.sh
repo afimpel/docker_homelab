@@ -115,7 +115,7 @@ newsite()
       if [ ! -f "${COMPOSE_PROJECT_NAME,,}${filename}.md" ]; then
          echo -e "# ${siteFile}\n" > "${COMPOSE_PROJECT_NAME,,}${filename}.md"
       fi
-      echo -e "* [${sites^^}${subdomainsNAME}](https://${sites_url}.local) :: ${typefile^^}" >> "${COMPOSE_PROJECT_NAME,,}${filename}.md"
+      echo -e "* [${sites^^}${subdomainsNAME}](https://${sites_url}.local) :: ${typefileFinal^^}" >> "${COMPOSE_PROJECT_NAME,,}${filename}.md"
       docker restart homelab-webserver
       ln
       mkcert -install
@@ -220,7 +220,7 @@ www()
             title="${BASH_REMATCH[1]}"
             url="${BASH_REMATCH[2]}"
             type="${BASH_REMATCH[3]}"
-            echo "{\"title\": \"${BASH_REMATCH[1]}\", \"url\": \"${BASH_REMATCH[2]}\", \"type\": \"${BASH_REMATCH[3]}\"}" >> TEMP/algo0.json
+            echo "{\"title\": \"${BASH_REMATCH[1]}\", \"url\": \"${BASH_REMATCH[2]}\", \"type\": \"${type,,}\"}" >> TEMP/algo0.json
          fi
       fi
    done < "$input_file"
@@ -228,12 +228,12 @@ www()
    jq . TEMP/algo0.json > www/dash/home.json
 
    input_file0="$(dirname $0)/${COMPOSE_PROJECT_NAME,,}_domains.md"
+   echo "{\"datetime\":\"$(date)\",\"items\":[" > TEMP/algo1.json
    if [ -f "${input_file0}" ]; then
       ln
       rightH1 $YELLOW "Domains ( ${COMPOSE_PROJECT_NAME,,}_domains.md )" $WHITE '✔' "." 
       lnline=0
       first=1
-      echo "{\"datetime\":\"$(date)\",\"items\":[" > TEMP/algo1.json
       while IFS= read -r line1; do
          # Check for section titles
          if [[ $line1 =~ ^#\ (.*) ]]; then
@@ -255,22 +255,27 @@ www()
                title="${BASH_REMATCH[1]}"
                url="${BASH_REMATCH[2]}"
                type="${BASH_REMATCH[3]}"
-               echo "{\"title\": \"${BASH_REMATCH[1]}\", \"url\": \"${BASH_REMATCH[2]}\", \"type\": \"${BASH_REMATCH[3]}\"}" >> TEMP/algo1.json
+               echo "{\"title\": \"${BASH_REMATCH[1]}\", \"url\": \"${BASH_REMATCH[2]}\", \"type\": \"${type,,}\"}" >> TEMP/algo1.json
             fi
          fi
       done < "$input_file0"
-      echo "]}" >> TEMP/algo1.json
-      jq . TEMP/algo1.json > www/dash/domains.json
-
+   fi
+   echo "]}" >> TEMP/algo1.json
+   jq . TEMP/algo1.json > www/dash/domains.json
+   lengthContent=$(jq '.items | length' www/dash/domains.json)
+   if [ $lengthContent -eq 0 ]; then
+      if [ -f "${input_file1}" ]; then
+         rm -v $input_file0
+      fi
    fi
 
    input_file1="$(dirname $0)/${COMPOSE_PROJECT_NAME,,}_subdomains.md"
+   echo "{\"datetime\":\"$(date)\",\"items\":[" > TEMP/algo2.json
    if [ -f "${input_file1}" ]; then
       ln
       rightH1 $YELLOW "SubDomains ( ${COMPOSE_PROJECT_NAME,,}_subdomains.md )" $WHITE '✔' "." 
       lnline=0
       first=1
-      echo "{\"datetime\":\"$(date)\",\"items\":[" > TEMP/algo2.json
       while IFS= read -r line2; do
          # Check for section titles
          if [[ $line2 =~ ^#\ (.*) ]]; then
@@ -292,11 +297,18 @@ www()
                title="${BASH_REMATCH[1]}"
                url="${BASH_REMATCH[2]}"
                type="${BASH_REMATCH[3]}"
-               echo "{\"title\": \"${BASH_REMATCH[1]}\", \"url\": \"${BASH_REMATCH[2]}\", \"type\": \"${BASH_REMATCH[3]}\"}" >> TEMP/algo2.json
+               echo "{\"title\": \"${BASH_REMATCH[1]}\", \"url\": \"${BASH_REMATCH[2]}\", \"type\": \"${type,,}\"}" >> TEMP/algo2.json
             fi
          fi
       done < "$input_file1"
-      echo "]}" >> TEMP/algo2.json
-      jq . TEMP/algo2.json > www/dash/subdomains.json
-   fi
+  fi
+  echo "]}" >> TEMP/algo2.json
+  jq . TEMP/algo2.json > www/dash/subdomains.json
+  lengthContent=$(jq '.items | length' www/dash/subdomains.json)
+  if [ $lengthContent -eq 0 ]; then
+      if [ -f "${input_file1}" ]; then
+         rm -v $input_file1
+      fi
+  fi
+
 }
