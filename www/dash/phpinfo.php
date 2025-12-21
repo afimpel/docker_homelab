@@ -1,11 +1,14 @@
 <?php 
-include "./libs.php";
+#include "./libs.php";
 $diassemana = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
 $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 ob_start();
 phpinfo(); 
 $out2 = ob_get_contents();
 ob_end_clean();
+function errorLogger(){
+	return;	
+}
 
 errorLogger(
 	[
