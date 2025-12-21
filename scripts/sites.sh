@@ -26,7 +26,7 @@ newsite()
          subdir="build";
       ;;
    esac
-
+   subdomainsNAME=""
    sites=${2,,}
    subdomainsTrue=1;
    typefileFinal=${typefile}
@@ -49,6 +49,16 @@ newsite()
       sites_url="${sites}";
       sites_name="${sites//./_}";
    fi
+   examplesiteDir="${sites}"
+
+   if [ ! -z "$4" ]; then
+      subdomainsTrue=1;
+      sites_url="${4,,}.${sites}";
+      sites_name="${4,,}_${sites}";
+      subdir="${4,,}/$subdir"
+      examplesiteDir="${sites}\/${4,,}"
+      subdomainsNAME=" | ${4^^}"
+   fi
 
    exist 'mkcert'
    rightH1 $YELLOW "${typefileFinal^^} :: https://${sites_url}.local" $WHITE "⛁" "."
@@ -57,6 +67,7 @@ newsite()
    if [ ! -f "config/nginx-sites/${typefileFinal}-${sites_name}_local.conf" ]; then
       filename="_subdomains"
       cp -v DOCKER/examples/examplesite-${typefileFinal}-local.conf config/nginx-sites/${typefileFinal}-${sites_name}_local.conf
+      sed -i "s/examplesiteDir/${examplesiteDir,,}/g" config/nginx-sites/${typefileFinal}-${sites_name}_local.conf
       if [ "$subdomainsTrue" == "0" ]; then
          siteFile="SubDomains"
          sed -i "s/examplesite/${sites}/g" config/nginx-sites/${typefileFinal}-${sites_name}_local.conf
@@ -71,23 +82,25 @@ newsite()
          sed -i "s/.gkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkggkgk././g" config/nginx-sites/${typefileFinal}-${sites_name}_local.conf
          sed -i "s/examplesite/${sites_url}/g" config/nginx-sites/${typefileFinal}-${sites_name}_local.conf
       fi
-      if [ ! -d "www/${siteFile,,}/${sites}" ]; then
-         mkdir -p www/${siteFile,,}/${sites}/${subdir}
+      if [ ! -d "www/${siteFile,,}/${sites}/${subdir,,}" ]; then
+         mkdir -p www/${siteFile,,}/${sites}/${subdir,,}
          indexFile="index.php"
          if [ "$typefile" == "php8" ]; then
-            cp -v DOCKER/examples/php-newsite.php www/${siteFile,,}/${sites}/${subdir}/index.php
+            cp -v DOCKER/examples/php-newsite.php www/${siteFile,,}/${sites}/${subdir,,}/index.php
          elif [ "$typefile" == "php7" ]; then
-            cp -v DOCKER/examples/php-newsite.php www/${siteFile,,}/${sites}/${subdir}/index.php
+            cp -v DOCKER/examples/php-newsite.php www/${siteFile,,}/${sites}/${subdir,,}/index.php
          else
             indexFile="index.html"
-            cp -v DOCKER/examples/legacy-newsite.html www/${siteFile,,}/${sites}/${subdir}/index.html
+            cp -v DOCKER/examples/legacy-newsite.html www/${siteFile,,}/${sites}/${subdir,,}/index.html
          fi
-         sed -i "s/wwwSite/${sites_url}/g" www/${siteFile,,}/${sites}/${subdir}/$indexFile
-         sed -i "s/typeSite/${siteFile}/g" www/${siteFile,,}/${sites}/${subdir}/$indexFile
+         sed -i "s/wwwSite/${sites_url}/g" www/${siteFile,,}/${sites}/${subdir,,}/$indexFile
+         sed -i "s/typeSite/${siteFile}/g" www/${siteFile,,}/${sites}/${subdir,,}/$indexFile
+         sed -i "s/COMPOSE_PROJECT_NAME/${COMPOSE_PROJECT_NAME,,}/g" www/${siteFile,,}/${sites}/${subdir,,}/$indexFile
+         sed -i "s/COMPOSE_PROJECT_NAME/${COMPOSE_PROJECT_NAME,,}/g" www/${siteFile,,}/${sites}/${subdir,,}/$indexFile
       fi
       
       
-      sudo bash -c "echo -e '127.0.0.1\t\t${sites_url}.local www.${sites_url}.local nginx-${sites}-${COMPOSE_PROJECT_NAME,,}.local' >> /etc/hosts"
+      sudo bash -c "echo -e '127.0.0.1\t\t${sites_url}.local www.${sites_url}.local nginx-${sites_name}-${COMPOSE_PROJECT_NAME,,}.local' >> /etc/hosts"
 
       dateTime=$(date '+%Y_%m_%d-%s')
       echo -e "${sites_url}.local www.${sites_url}.local;${sites_name}_local;${sites_url};${typefile}-${sites_name}_local;certs_${sites_name,,}_local;${dateTime};new" >> mkcert.csv
@@ -102,7 +115,7 @@ newsite()
       if [ ! -f "${COMPOSE_PROJECT_NAME,,}${filename}.md" ]; then
          echo -e "# ${siteFile}\n" > "${COMPOSE_PROJECT_NAME,,}${filename}.md"
       fi
-      echo -e "* [${sites^^}](https://${sites_url}.local) :: ${typefile^^}" >> "${COMPOSE_PROJECT_NAME,,}${filename}.md"
+      echo -e "* [${sites^^}${subdomainsNAME}](https://${sites_url}.local) :: ${typefile^^}" >> "${COMPOSE_PROJECT_NAME,,}${filename}.md"
       docker restart homelab-webserver
       ln
       mkcert -install
@@ -115,25 +128,34 @@ newsite()
    else
       leftH1 $LIGHT_CYAN " The website already exists ... (${sites_url}.local)" $WHITE "⛁" "."
    fi
+   ln
+   www
 }
 
 delsite()
 {
+   subdomainsTrue=1;
    filename="_domains"
    sites=${2,,}
    if [ "$1" == "0" ]; then
+      subdomainsTrue=0;
       filename="_subdomains"
       sites_url="${sites}.${COMPOSE_PROJECT_NAME,,}";
       sites_name="${sites}_${COMPOSE_PROJECT_NAME,,}";
    elif [ "$1" == "2" ]; then
       sites_url="${sites}";
       sites_name="${sites//./_}";
-      subdir="";
    else
       sites_url="${sites}";
       sites_name="${sites//./_}";
    fi
    deleteDir=${3,,}
+   if [ ! -z "$4" ]; then
+      filename="_domains"
+      subdomainsTrue=1;
+      sites_url="${4,,}.${sites}";
+      sites_name="${4,,}_${sites}";
+   fi      
 
    if [ -f config/nginx-sites/*-${sites_name}_local.conf ]; then
       rightH1 $LIGHT_RED "DELETE :: https://${sites_url}.local" $WHITE "⛁" "."  
@@ -148,7 +170,7 @@ delsite()
       rm -v DOCKER/certs/certs_${sites_name}_local*
       if [ "$deleteDir" == "yes" ]; then
          ln
-         if [ "$1" == "0" ]; then
+         if [ "$subdomainsTrue" == "0" ]; then
             rm -vrf www/subdomains/${sites}
          else
             rm -vrf www/domains/${sites}
@@ -163,6 +185,8 @@ delsite()
    else
       leftH1 $LIGHT_CYAN " The website not exists ... (${sites_url}.local)" $WHITE "⛁" "."
    fi
+   ln
+   www
 }
 
 
@@ -171,62 +195,108 @@ www()
 {
    openCD $0
    rightH1 $YELLOW "WWW ( ${COMPOSE_PROJECT_NAME,,}.md )" $WHITE '✔' "." 
-   input_file="${COMPOSE_PROJECT_NAME,,}.md"
+   input_file="$(dirname $0)/${COMPOSE_PROJECT_NAME,,}.md"
    lnline=0
-   while IFS= read -r line; do
+   first=1
+   echo "{\"datetime\":\"$(date)\",\"items\":[" > TEMP/algo0.json
+   while IFS= read -r line0; do
       # Check for section titles
-      if [[ $line =~ ^#\ (.*) ]]; then
+      if [[ $line0 =~ ^#\ (.*) ]]; then
          if [[ $lnline == 1 ]]; then
             ln
          fi
          lnline=1
          title="${BASH_REMATCH[1]}"
          rightH1 $NC "${title}:" $LIGHT_GREEN '☐' " "
-      elif [[ ! -z  $line ]]; then
-         url=$(echo "$line" |grep -Eo 'https://[^ )]+'|head -1)
+      elif [[ ! -z  $line0 ]]; then
+         url=$(echo "$line0" |grep -Eo 'https://[^ )]+'|head -1)
          echo -e "\t➤ ${LIGHT_CYAN}$url${NC}"
+         if [[ $first == 0 ]]; then
+            echo "," >> TEMP/algo0.json
+         fi
+         first=0
+         regex='\[([^]]+)\]\(([^)]+)\) :: (.+)$'
+         if [[ $line0 =~ $regex ]]; then
+            title="${BASH_REMATCH[1]}"
+            url="${BASH_REMATCH[2]}"
+            type="${BASH_REMATCH[3]}"
+            echo "{\"title\": \"${BASH_REMATCH[1]}\", \"url\": \"${BASH_REMATCH[2]}\", \"type\": \"${BASH_REMATCH[3]}\"}" >> TEMP/algo0.json
+         fi
       fi
    done < "$input_file"
+   echo "]}" >> TEMP/algo0.json
+   jq . TEMP/algo0.json > www/dash/home.json
 
-   input_file0="${COMPOSE_PROJECT_NAME,,}_domains.md"
+   input_file0="$(dirname $0)/${COMPOSE_PROJECT_NAME,,}_domains.md"
    if [ -f "${input_file0}" ]; then
       ln
       rightH1 $YELLOW "Domains ( ${COMPOSE_PROJECT_NAME,,}_domains.md )" $WHITE '✔' "." 
       lnline=0
-      while IFS= read -r line; do
+      first=1
+      echo "{\"datetime\":\"$(date)\",\"items\":[" > TEMP/algo1.json
+      while IFS= read -r line1; do
          # Check for section titles
-         if [[ $line =~ ^#\ (.*) ]]; then
+         if [[ $line1 =~ ^#\ (.*) ]]; then
             if [[ $lnline == 1 ]]; then
                ln
             fi
             lnline=1
             title="${BASH_REMATCH[1]}"
             rightH1 $NC "${title}:" $LIGHT_GREEN '☐' " "
-         elif [[ ! -z  $line ]]; then
-            url=$(echo "$line" |grep -Eo 'https://[^ )]+'|head -1)
+         elif [[ ! -z  $line1 ]]; then
+            url=$(echo "$line1" |grep -Eo 'https://[^ )]+'|head -1)
             echo -e "\t➤ ${LIGHT_CYAN}$url${NC}"
+            if [[ $first == 0 ]]; then
+               echo "," >> TEMP/algo1.json
+            fi
+            first=0
+            regex='\[([^]]+)\]\(([^)]+)\) :: (.+)$'
+            if [[ $line1 =~ $regex ]]; then
+               title="${BASH_REMATCH[1]}"
+               url="${BASH_REMATCH[2]}"
+               type="${BASH_REMATCH[3]}"
+               echo "{\"title\": \"${BASH_REMATCH[1]}\", \"url\": \"${BASH_REMATCH[2]}\", \"type\": \"${BASH_REMATCH[3]}\"}" >> TEMP/algo1.json
+            fi
          fi
       done < "$input_file0"
+      echo "]}" >> TEMP/algo1.json
+      jq . TEMP/algo1.json > www/dash/domains.json
+
    fi
 
-   input_file0="$(dirname $0)/${COMPOSE_PROJECT_NAME,,}_subdomains.md"
-   if [ -f "${input_file0}" ]; then
+   input_file1="$(dirname $0)/${COMPOSE_PROJECT_NAME,,}_subdomains.md"
+   if [ -f "${input_file1}" ]; then
       ln
       rightH1 $YELLOW "SubDomains ( ${COMPOSE_PROJECT_NAME,,}_subdomains.md )" $WHITE '✔' "." 
       lnline=0
-      while IFS= read -r line; do
+      first=1
+      echo "{\"datetime\":\"$(date)\",\"items\":[" > TEMP/algo2.json
+      while IFS= read -r line2; do
          # Check for section titles
-         if [[ $line =~ ^#\ (.*) ]]; then
+         if [[ $line2 =~ ^#\ (.*) ]]; then
             if [[ $lnline == 1 ]]; then
                ln
             fi
             lnline=1
             title="${BASH_REMATCH[1]}"
             rightH1 $NC "${title}:" $LIGHT_GREEN '☐' " "
-         elif [[ ! -z  $line ]]; then
-            url=$(echo "$line" |grep -Eo 'https://[^ )]+'|head -1)
+         elif [[ ! -z  $line2 ]]; then
+            if [[ $first == 0 ]]; then
+               echo "," >> TEMP/algo2.json
+            fi
+            first=0
+            url=$(echo "$line2" |grep -Eo 'https://[^ )]+'|head -1)
             echo -e "\t➤ ${LIGHT_CYAN}$url${NC}"
+            regex='\[([^]]+)\]\(([^)]+)\) :: (.+)$'
+            if [[ $line2 =~ $regex ]]; then
+               title="${BASH_REMATCH[1]}"
+               url="${BASH_REMATCH[2]}"
+               type="${BASH_REMATCH[3]}"
+               echo "{\"title\": \"${BASH_REMATCH[1]}\", \"url\": \"${BASH_REMATCH[2]}\", \"type\": \"${BASH_REMATCH[3]}\"}" >> TEMP/algo2.json
+            fi
          fi
-      done < "$input_file0"
+      done < "$input_file1"
+      echo "]}" >> TEMP/algo2.json
+      jq . TEMP/algo2.json > www/dash/subdomains.json
    fi
 }
