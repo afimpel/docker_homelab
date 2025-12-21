@@ -44,10 +44,10 @@ docker_up_master () {
   colorize $WHITE "🗑 $LIGHT_RED$(rm -v DOCKER/docker-compose.override.yml)"
   docker_up
   generate-override
-  clear
   docker_up
   timeExec=$(diffTime "$startExec0000")
   CUSTOM_RIGHT $WHITE "Done all:" $LIGHT_GRAY "$timeExec" $WHITE "✔" "." "✔" 0
+  clear
   docker_bash "homelab-database" "logs-chmod:root"
   ln
   goaccess
@@ -88,6 +88,7 @@ docker_restart () {
     date +'%s' > logs/startup.pid
     cd DOCKER/
     docker compose restart
+    clear
   else
       CUSTOM_RIGHT $NC 'Restart containers' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
       ln
@@ -120,6 +121,7 @@ docker_down() {
       rightH1 $YELLOW 'Stop & down all containers' $WHITE "☐" "."
       cd DOCKER/
       docker compose down --remove-orphans
+      clear
       openCD $0
       startup=$(cat logs/startup.pid)
       cd logs
