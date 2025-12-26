@@ -51,6 +51,15 @@ newsite()
    fi
    examplesiteDir="${sites}"
 
+   if [[ $sites_url == *.* ]]; then
+      subdomainsTrue=1;
+      subdomains=$(echo "$sites_url" | cut -d "." -f 1);
+      sites=$(echo "$sites_url" | cut -d "." -f 2);
+      subdir="${subdomains,,}/$subdir"
+      examplesiteDir="${sites}\/${subdomains,,}";
+      subdomainsNAME=" | ${subdomains^^}"
+   fi
+
    if [ ! -z "$4" ]; then
       subdomainsTrue=1;
       sites_url="${4,,}.${sites}";

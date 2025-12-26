@@ -49,7 +49,6 @@ echo $__out__[0];
 echo "\n \n<table>\n\t";
 echo "<tr>\n\t\t<td class='e'>SERVER NAME</td>\n\t\t<td class='v'>".php_uname('n')." / ".($_SERVER['HTTP_X_FORWARDED_FOR'] ?? "-")." / ".$_SERVER['HTTP_HOST']." ( ⛁ COMPOSE_PROJECT_NAME )"."</td>\n\t</tr>\n";
 echo "<tr>\n\t\t<td class='e'>REMOTE NAME</td>\n\t\t<td class='v'>".gethostbyaddr($_SERVER['REMOTE_ADDR'])." / ".$_SERVER['REMOTE_ADDR']."</td>\n\t</tr>\n";
-echo "<tr>\n\t\t<td class='e'>CERTIFICATE</td>\n\t\t<td class='v'>".$_ENV['HTTP_SEC_CH_UA']."</td>\n\t</tr>\n";
 echo "</table>\n";
 
 
