@@ -15,7 +15,7 @@ if [ -n "$db" ]; then
     echo -e "* ⛃ $db :: ${db}.sql ($size)" >> dumps.md
     echo -e "\n---\n$(date)" >> dumps.md  
 else
-    find . -name "*.tgz" -mtime -15 -exec rm {} \;
+    find . -name "*.tgz" -mtime -15 -exec rm -Rvf {} \;
     DBS=$(mariadb -u root -p$MARIADB_ROOT_PASSWORD -e 'SHOW DATABASES;' | grep -Ev "(Database|information_schema|performance_schema|mysql|sys)")
 
     mkdir -p "database"
@@ -31,7 +31,7 @@ else
 
     echo -e "\n## Dumping database\n" >> dumps.md
     cd database
-    rm *
+    rm -Rvf *
     unix=$(date '+%Y_%m_%d-%s')
 
     for db in $DBS; do

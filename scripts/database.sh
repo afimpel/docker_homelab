@@ -11,10 +11,10 @@ dumpsdb () {
     openCD $0 
     if [ -f "logs/startup.pid" ]; then
       rightH1 $YELLOW "Dump to file from Database" $WHITE '▾' "."
-      docker_bash "homelab-database" "mariadb --version"
+      docker_bash "homelab-database" "mariadb --version:root"
       ln
       CUSTOM_RIGHT $GREEN 'DUMPS in' $LIGHT_CYAN "$OLDPWD/dumpSQL" $WHITE "✔" "." "✔" 0
-      docker_bash "homelab-database" "/opt/db/dump_databases.sh $@"
+      docker_bash "homelab-database" "/opt/db/dump_databases.sh $@:root"
     else
       CUSTOM_RIGHT $GREEN 'Dumps ...' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
       ln
@@ -34,10 +34,10 @@ dropdb () {
       openCD $0 
       if [ -f "logs/startup.pid" ]; then
         rightH1 $YELLOW "Drop from Database" $WHITE '▾' "."
-        docker_bash "homelab-database" "mariadb --version"
+        docker_bash "homelab-database" "mariadb --version:root"
         ln
         CUSTOM_RIGHT $GREEN 'DUMPS before Drop in' $LIGHT_CYAN "$OLDPWD/dumpSQL/backup" $WHITE "✔" "." "✔" 0
-        docker_bash "homelab-database" "/opt/db/drop_databases.sh $@"
+        docker_bash "homelab-database" "/opt/db/drop_databases.sh $@:root"
       else
         CUSTOM_RIGHT $GREEN 'Drop ...' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
       fi
@@ -60,9 +60,9 @@ createdb () {
       openCD $0 
       if [ -f "logs/startup.pid" ]; then
         rightH1 $YELLOW "Create Database" $WHITE '▾' "."
-        docker_bash "homelab-database" "mariadb --version"
+        docker_bash "homelab-database" "mariadb --version:root"
         ln
-        docker_bash "homelab-database" "/opt/db/create_databases.sh $@"
+        docker_bash "homelab-database" "/opt/db/create_databases.sh $@:root"
       else
         CUSTOM_RIGHT $GREEN 'Create ...' $LIGHT_CYAN "There is nothing to do." $WHITE "☐" " " "☐" 0
       fi
@@ -81,10 +81,10 @@ importdb () {
     openCD $0 
     if [ -f "logs/startup.pid" ]; then
       rightH1 $YELLOW "Imported from file to database" $WHITE '▾' "."
-      docker_bash "homelab-database" "mariadb --version"
+      docker_bash "homelab-database" "mariadb --version:root"
       ln
       CUSTOM_RIGHT $GREEN 'DUMPS before Import in' $LIGHT_CYAN "$OLDPWD/dumpSQL/backup" $WHITE "✔" "." "✔" 0
-      docker_bash "homelab-database" "/opt/db/import_databases.sh $@"
+      docker_bash "homelab-database" "/opt/db/import_databases.sh $@:root"
     else
       CUSTOM_RIGHT $NC 'Imported ...' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
       ln
