@@ -48,26 +48,35 @@ function listSites($files, $directory, $classA, $domain = "", $prefix=""){
     }
     return $output;
 }
-function listSitesJSON($typeJSON, $classA){ 
+
+function listSitesJSON($typeJSON, $classA, $function, $strReplace){ 
     $sites=[];
     $sitesLinks = array();
     $listSitesOBJ = json_decode(file_get_contents($typeJSON.'.json'));
     $output = ["","",count($listSitesOBJ->items)];
+    usort($listSitesOBJ->items, function($a, $b) {
+        return strcmp($a->title, $b->title);
+    });
     foreach ($listSitesOBJ->items as $site) {
         foreach ($classA as $key => $class) {
             $typeStr=strtoupper($site->type);
-            $type = "nginx-alt";
+            $type = "nginx-alt text-success";
             if (str_contains($site->type, 'build')){
-                $type="html";
+                $type="html text-warning";
             }elseif (str_contains($site->type, 'legacy-php')){
-                $type="php";
+                $type="php text-primary";
             }elseif (str_contains($site->type, 'php')){
-                $type="php-alt";
+                $type="php-alt text-info";
             }
-            $sitesLinks[$key][]="<a translate='no' title='$site->title ➤ $typeStr' target='_blank' class='$class' href='$site->url' style='min-width: 15vw;'>\n<i class='icon-$type me-2'></i> $site->title ➤ $typeStr\n</a>";
+            $site_ID=str_ireplace('://','_',str_ireplace('.','_',$site->url));
+            $onloadFunction=str_replace($strReplace[$key][1],$site->url,$function[$key][0]);
+            $onloadFunction=str_replace($strReplace[$key][0],$site_ID,$onloadFunction);
+            $onloadReplace=str_replace($strReplace[$key][0],$site_ID,$function[$key][1]);
+
+            $sitesLinks[$key][]="<a translate='no' title='$site->title ➤ $typeStr\n🔗\t$site->url' target='_blank' class='$class' href='$site->url' style='min-width: 15vw;'><i class='icon-$type me-2'></i>$onloadFunction $site->title ➤ $typeStr $onloadReplace</a>";
         }
     }
-    //errorLogger(["sitesLinks" => count($files)-3, "directory" => $directory, "sites" => $sites]);
+
     foreach ($sitesLinks as $key => $class) {
         $output[$key] = implode("\n",$class);
     }

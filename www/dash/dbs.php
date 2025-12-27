@@ -9,11 +9,11 @@ try {
     }
 
     $dbs['server']['version'] = $mysqli->server_info;
-    $query = "SELECT SCHEMA_NAME Database,DEFAULT_COLLATION_NAME Collation,SCHEMA_COMMENT Comment FROM information_schema.SCHEMATA WHERE `SCHEMA_NAME` NOT IN ('information_schema','sys','mysql','performance_schema');";
+    $query = "SELECT SCHEMA_NAME Database, DEFAULT_CHARACTER_SET_NAME Chars,DEFAULT_COLLATION_NAME Collation,SCHEMA_COMMENT Comment FROM information_schema.SCHEMATA WHERE `SCHEMA_NAME` NOT IN ('information_schema','sys','mysql','performance_schema');";
     $result = $mysqli->query($query);
 
     if ($result) {
-        $dbs['database'] = $result->fetch_all(MYSQLI_BOTH);
+        $dbs['database'] = $result->fetch_all(MYSQLI_ASSOC);
         $result->close();
     } else {
         $dbs['error'] = $mysqli->error;

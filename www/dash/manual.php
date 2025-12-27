@@ -68,7 +68,7 @@ $description = $objHelp0000[0]->description;
     <meta charset="utf-8">
     <link rel="icon" href="./favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>LEMP STACK -- <?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local </title>
+    <title>Manual ➤ LEMP STACK -- <?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local </title>
     <link rel="stylesheet" href="https://bootswatch.com/5/spacelab/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-mfizz/2.4.1/font-mfizz.min.css" integrity="sha512-Cdvnk1SFWqcb3An6gMyqDRH40Js8qmsWcSK10I2gSifCe2LilaPMsHd6DldEvQ3uIlCb1qdRUrNeAFFleOu4xQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -297,26 +297,26 @@ $description = $objHelp0000[0]->description;
 
     code.addEventListener('click', async () => {
         const texto = code.innerText;
-      try {
-        await navigator.clipboard.writeText(texto);
+        try {
+            await navigator.clipboard.writeText(texto);
+            
+            const originalBg = parent.style.backgroundColor;
+            const originalColor = parent.style.color;
+            const originalCodeTextBg = code.style.color;
 
-        // feedback visual simple
-        const originalBg = parent.style.backgroundColor;
-        const originalColor = parent.style.color;
-        const originalCodeTextBg = code.style.color;
+            parent.style.backgroundColor = '#333';
+            parent.style.color = '#fff';
+            code.style.color = 'silver';
+            console.log('Copy :', texto);
 
-        parent.style.backgroundColor = '#333';
-        parent.style.color = '#fff';
-        code.style.color = 'silver';
-
-        setTimeout(() => {
-          parent.style.backgroundColor = originalBg;
-          parent.style.color = originalColor;
-          code.style.color = originalCodeTextBg;
-        }, 1000);
-      } catch (err) {
-        console.error('Copy ERROR:', err);
-      }
+            setTimeout(() => {
+                parent.style.backgroundColor = originalBg;
+                parent.style.color = originalColor;
+                code.style.color = originalCodeTextBg;
+            }, 1500);
+        } catch (err) {
+            console.error('Copy ERROR:', err);
+        }
     });
   });
     </script>

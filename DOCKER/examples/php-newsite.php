@@ -1,4 +1,5 @@
 <?php 
+header("Access-Control-Allow-Origin: *");
 ob_start();
 phpinfo(); 
 $out2 = ob_get_contents();

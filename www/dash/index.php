@@ -5,8 +5,11 @@ include "./dbs.php";
 include "./cache.php";
 
 $dateTime = new DateTime('now');
-$sitesDomain = listSitesJSON("domains", ["dropdown-item", "list-group-item list-group-item-action list-group-item-secondary py-1"]);
-$sitesSubdomain = listSitesJSON("subdomains", ["dropdown-item", "list-group-item list-group-item-action list-group-item-secondary py-1"]);
+$funtionsITEMS=[['',''], ['<script>listSitesURL(\'ITEMNODESITE\',\'ITEMNODESITEURL\');</script>','<small style=\'font-size: xx-small;\' class=\'badge text-light bg-primary rounded ms-auto my-auto\' id=\'ITEMNODESITE\'>-</small>']];
+$replaceITEMS=[['',''],['ITEMNODESITE','ITEMNODESITEURL']];
+$classITEMS=["dropdown-item", "list-group-item list-group-item-action list-group-item-secondary py-1 d-flex"];
+$sitesDomain = listSitesJSON("domains", $classITEMS, $funtionsITEMS, $replaceITEMS);
+$sitesSubdomain = listSitesJSON("subdomains", $classITEMS, $funtionsITEMS, $replaceITEMS);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,6 +22,7 @@ $sitesSubdomain = listSitesJSON("subdomains", ["dropdown-item", "list-group-item
     <link rel="stylesheet" href="https://bootswatch.com/5/spacelab/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-mfizz/2.4.1/font-mfizz.min.css" integrity="sha512-Cdvnk1SFWqcb3An6gMyqDRH40Js8qmsWcSK10I2gSifCe2LilaPMsHd6DldEvQ3uIlCb1qdRUrNeAFFleOu4xQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/files.js" crossorigin="anonymous"></script>
 </head>
 
 <body style="padding-top: 96px;">
@@ -241,10 +245,10 @@ $sitesSubdomain = listSitesJSON("subdomains", ["dropdown-item", "list-group-item
                     <a title="php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-info list-group-item-action p-1 px-2 d-flex" href="//php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-php-alt mx-2"></i>php8 -> phpinfo()<small style="font-size: small;" class="badge text-light bg-primary rounded ms-auto my-auto" id="php8_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">-</small></a>
                 </div>
                 <div class="mt-3 list-group shadow">
-                    <a title="adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-warning list-group-item-action p-1 px-2" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-database mx-2"></i> adminer</a>
+                    <a title="adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-warning list-group-item-action p-1 px-2" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-database mx-2"></i> Adminer</a>
                     <a title="redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-danger list-group-item-action p-1 px-2 d-flex" href="//redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-redis mx-2"></i> Redis<small style="font-size: small;" class="badge text-light bg-danger rounded ms-auto my-auto" id="redis_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">-</small></a>
                     <a title="goaccess.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-dark list-group-item-action p-1 px-2" href="//goaccess.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="bi bi-journal-text mx-2"></i> GoAccess LOG</a>
-                    <a translate="no" title="mailhog.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-info list-group-item-action p-1 px-2" href="//mailhog.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class=" icon-bomb mx-2"></i> mailhog</a>
+                    <a translate="no" title="mailhog.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-info list-group-item-action p-1 px-2" href="//mailhog.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class=" icon-bomb mx-2"></i> MailHog</a>
                 </div>
             </div>
         </div>
@@ -260,7 +264,7 @@ $sitesSubdomain = listSitesJSON("subdomains", ["dropdown-item", "list-group-item
                 <div class="list-group shadow">
                 <?php
                 foreach ($dbs['database'] as $row) { ?>
-                    <a target="_blank" translate="no" class="list-group-item list-group-item-action list-group-item-info py-1" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>&db=<?= $row["Database"]; ?>" title="<?= $row["Database"]." ( ".$row["Collation"].($row["Comment"]!=""?' --- '.$row["Comment"]:'')." )"; ?>">
+                    <a target="_blank" translate="no" class="list-group-item list-group-item-action list-group-item-info py-1" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>&db=<?= $row["Database"]; ?>" title="<?= "⛁\t".$row["Database"]."\n\t".$row["Chars"]." ➤\t".$row["Collation"].($row["Comment"]!=""?"\n\t".$row["Comment"]:'').""; ?>">
                         <i class="bi bi-database-fill me-2"></i>
                         <?= $row["Database"]; ?>
                     </a>
@@ -330,58 +334,7 @@ $sitesSubdomain = listSitesJSON("subdomains", ["dropdown-item", "list-group-item
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <script>
-    function toggleThemeMenu() {
-        let themeMenu = document.querySelector('#theme-menu');
-        var bsTheme = localStorage.getItem("bsTheme");
-        let prevCss = "bi-sun-fill";
-        if (bsTheme){
-            document.documentElement.setAttribute('data-bs-theme', bsTheme);
-            if(bsTheme == "dark"){
-                themeMenu.children[0].classList.replace(prevCss,'bi-moon-stars-fill');
-            }
-        }
-        if (!themeMenu) return;
-
-        document.querySelectorAll('[data-bs-theme-value]').forEach(value => {
-            value.addEventListener('click', () => {
-                const theme = value.getAttribute('data-bs-theme-value');
-                const themeCss = value.getAttribute('data-bs-theme-style');
-                themeMenu.children[0].classList.replace(prevCss,themeCss);
-                localStorage.setItem("bsTheme", theme);
-                prevCss = themeCss;
-                document.documentElement.setAttribute('data-bs-theme', theme);
-            });
-        });
-    }
     toggleThemeMenu();
-async function obtenerTituloDeUrl(url, idAttr) {
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      console.error(`Error al obtener la URL: ${response.status} ${response.statusText}`);
-      return null;
-    }
-    const htmlText = await response.text();
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(htmlText, 'text/html');
-    const title = doc.title;
-    document.getElementById(idAttr).innerHTML = title;
-    return title || null;
-
-  } catch (error) {
-    console.error(`Ocurrió un error al procesar la URL '${url}':`, error);
-    return null;
-  }
-}
-function dataUrl(url,id) {
-  obtenerTituloDeUrl(url,id).then(title => {
-    if (!title) {
-      console.log('No se pudo obtener el título de la URL inexistente (esperado).');
-    }
-  });
-
-}
-
 dataUrl('https://redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/',"redis_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
 dataUrl('https://php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/',"php8_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
 dataUrl('https://php7.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/',"php7_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
