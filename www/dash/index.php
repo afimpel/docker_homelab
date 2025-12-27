@@ -172,7 +172,7 @@ $sitesSubdomain = listSitesJSON("subdomains", $classITEMS, $funtionsITEMS, $repl
                 <?php
                     if(is_null($dbs['error'])){
                 ?>
-                <a href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>" title="<?= "Server: $database_server\nUser: $database_user\nPassword: $database_pass\nPort: $database_port"; ?>" target="_blank" class="w-100 mt-3 shadow btn btn-outline-primary p-1">
+                <a href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>" title="<?= "\tServer: $database_server\t\nUser: $database_user\t\nPassword: $database_pass\t\nPort: $database_port"; ?>" target="_blank" class="w-100 mt-3 shadow btn btn-outline-primary p-1">
                     <h5 class="text-light bg-info py-1 mb-1 rounded"><i class="bi bi-database-fill me-2"></i> Database Connection: <b><?= $dbs['server']['name']; ?></b></h5>
                     <small class="d-flex justify-content-between align-items-center px-1">
                         <span><i class="<?= $dbs['server']['icon-alt']; ?> me-2"></i> Server:</span>
