@@ -9,7 +9,7 @@ recreate-ssl()
    openCD $0
    touch mkcert_recreate.csv
    echo -e "MKCERT\n" > logs/mkcert.log
-   rm -v DOCKER/certs/*.pem >> logs/mkcert.log
+   sudo rm -v DOCKER/certs/*.pem >> logs/mkcert.log
    rm -v mkcert_recreate.csv >> logs/mkcert.log
    echo -e "\n\t --- Recreating SSL Certificates ---\n" >> logs/mkcert.log
    rightH1 $YELLOW "SSL Certificate Recreation" $LIGHT_GREEN '✔' "." 
@@ -35,7 +35,7 @@ recreate-ssl()
       echo -e "\t --- --- --- ---" >> logs/mkcert.log
       ln
       rightH1 $LIGHT_PURPLE "${domain,,,}.local" $LIGHT_GREEN '⛁' "."
-      cp -v $HOME/.local/share/mkcert/rootCA* DOCKER/certs/mkcert >> logs/mkcert.log
+      sudo cp -v $HOME/.local/share/mkcert/rootCA* DOCKER/certs/mkcert >> logs/mkcert.log
       cd DOCKER/certs
       mkcert ${URLS,,}
       mv -v ${domain,,}.local*-key.pem ${fileSSLcert,,}-key.pem >>../../logs/mkcert.log

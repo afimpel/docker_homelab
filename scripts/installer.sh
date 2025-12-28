@@ -23,7 +23,7 @@ installer()
    set -a && source DOCKER/.env && set +a
    mkdir DOCKER/certs/mkcert
    mkcert -install
-   cp $HOME/.local/share/mkcert/rootCA* DOCKER/certs/mkcert
+   sudo cp -v $HOME/.local/share/mkcert/rootCA* DOCKER/certs/mkcert
    cp -v DOCKER/examples/installer-homelab-local.conf config/nginx-sites/main_${COMPOSE_PROJECT_NAME,,}_local.conf
    sed -i "s/COMPOSE_PROJECT_NAME/${COMPOSE_PROJECT_NAME,,}/g" config/nginx-sites/main_${COMPOSE_PROJECT_NAME,,}_local.conf
 
