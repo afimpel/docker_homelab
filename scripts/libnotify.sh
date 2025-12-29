@@ -12,6 +12,6 @@ send_notify() {
         else
             startupDate="Not running"
         fi
-        /usr/bin/notify-send --category=homelab --urgency=$urgency "Compose use: ${COMPOSE_PROJECT_NAME^^}" "${text} | ${startupDate}" -a "${COMPOSE_PROJECT_NAME^^}" -i ${icons} -t $timeout 1>/dev/null 2>&1
+        /usr/bin/notify-send --hint=int:transient:5 --category=homelab --urgency=$urgency "Compose use: ${COMPOSE_PROJECT_NAME^^}" "${text} | ${startupDate}" -a "${COMPOSE_PROJECT_NAME^^}" -i ${icons} -t $timeout 1>/dev/null 2>&1
     fi
 }
