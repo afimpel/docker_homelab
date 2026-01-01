@@ -121,14 +121,14 @@ $sitesSubdomain = listSitesJSON("subdomains", $classITEMS, $funtionsITEMS, $repl
                     <?php
                         if(!is_null($cache['uptime'])){
                     ?>
-                    <small style="font-size: small;" class="badge text-light bg-warning rounded ms-auto my-auto"><i class="<?= $cache['server']['icon']; ?> me-2"></i> <?php echo $cache['uptime'];?></small>
+                    <small style="font-size: small;" class="badge text-light bg-warning rounded ms-auto my-auto" title="<?= $cache['server']['name']; ?> Uptime: <?php echo $cache['uptime'];?>"><i class="<?= $cache['server']['icon']; ?> me-2"></i> <?php echo $cache['uptime'];?></small>
                     <?php
                         }
                     ?>
                     <?php
                         if(!is_null($dbs['uptime'])){
                     ?>
-                    <small style="font-size: small;" class="badge text-light bg-info rounded ms-2 my-auto"><i class="<?= $dbs['server']['icon']; ?> me-2"></i> <?php echo $dbs['uptime'];?></small>
+                    <small style="font-size: small;" class="badge text-light bg-info rounded ms-2 my-auto" title="<?= $dbs['server']['name']; ?> Uptime: <?php echo $dbs['uptime'];?>"><i class="<?= $dbs['server']['icon']; ?> me-2"></i> <?php echo $dbs['uptime'];?></small>
                     <?php
                         }
                     ?>
@@ -136,13 +136,13 @@ $sitesSubdomain = listSitesJSON("subdomains", $classITEMS, $funtionsITEMS, $repl
             </div>
             <div class="col-12 col-xl">
                 <div class="list-group shadow">
-                    <span class="list-group-item d-flex justify-content-between align-items-center py-1">
+                    <span class="list-group-item d-flex justify-content-between align-items-center py-1" title="Server : <?=$_SERVER['SERVER_SOFTWARE'];?>">
                         <span><i class="icon-nginx me-2"></i> <b>Server :</b></span>
                         <small class="badge text-light bg-primary rounded-pill px-2">
                             <?= $_SERVER['SERVER_SOFTWARE']; ?>
                         </small>
                     </span>
-                    <a href="//php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" target="_blank" class="list-group-item list-group-item-info list-group-item-action d-flex justify-content-between align-items-center py-1">
+                    <a href="//php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" target="_blank" class="list-group-item list-group-item-info list-group-item-action d-flex justify-content-between align-items-center py-1" title="PHP8: <?= phpversion(); ?>">
                         <span><i class="icon-php me-2"></i> <b>PHP8 :</b></span>
                         <small class="badge text-light bg-primary rounded-pill px-2">
                             <?= phpversion(); ?>
@@ -172,7 +172,7 @@ $sitesSubdomain = listSitesJSON("subdomains", $classITEMS, $funtionsITEMS, $repl
                 <?php
                     if(is_null($dbs['error'])){
                 ?>
-                <a href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>" title="<?= "\tServer: $database_server\n\tUser: $database_user\n\tPassword: $database_pass\n\tPort: $database_port"; ?>" target="_blank" class="w-100 mt-3 shadow btn btn-outline-primary p-1">
+                <a href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>" title="<?= "Database Connection: ". $dbs['server']['name']."\nServer: $database_server\nUser: $database_user\nPassword: $database_pass\nPort: $database_port"; ?>" target="_blank" class="w-100 mt-3 shadow btn btn-outline-primary p-1">
                     <h5 class="text-light bg-info py-1 mb-1 rounded"><i class="bi bi-database-fill me-2"></i> Database Connection: <b><?= $dbs['server']['name']; ?></b></h5>
                     <small class="d-flex justify-content-between align-items-center px-1">
                         <span><i class="<?= $dbs['server']['icon-alt']; ?> me-2"></i> Server:</span>
@@ -203,7 +203,7 @@ $sitesSubdomain = listSitesJSON("subdomains", $classITEMS, $funtionsITEMS, $repl
                 <?php
                     if(is_null($cache['error'])){
                 ?>
-                <a href="//redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" target="_blank" class="w-100 mt-3 shadow btn btn-outline-primary p-1">
+                <a href="//redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" target="_blank" class="w-100 mt-3 shadow btn btn-outline-primary p-1" title="<?= "Cache Connection: ". $cache['server']['name']."\nServer: $cache_server\nPort: $cache_port"; ?>">
                     <h5 class="text-light bg-info py-1 mb-1 rounded"><i class="<?= $cache['server']['icon']; ?> me-2"></i> Cache Connection: <b><?= $cache['server']['name']; ?></b></h5>
                     <small class="d-flex justify-content-between align-items-center px-1">
                         <span><i class="<?= $cache['server']['icon']; ?> me-2"></i> Server:</span>
@@ -264,7 +264,7 @@ $sitesSubdomain = listSitesJSON("subdomains", $classITEMS, $funtionsITEMS, $repl
                 <div class="list-group shadow">
                 <?php
                 foreach ($dbs['database'] as $row) { ?>
-                    <a target="_blank" translate="no" class="list-group-item list-group-item-action list-group-item-info py-1" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>&db=<?= $row["Database"]; ?>" title="<?= "⛁\t".$row["Database"]."\n\t".$row["Chars"]." ➤\t".$row["Collation"].($row["Comment"]!=""?"\n\t".$row["Comment"]:'').""; ?>">
+                    <a target="_blank" translate="no" class="list-group-item list-group-item-action list-group-item-info py-1" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>&db=<?= $row["Database"]; ?>" title="<?= "⛁ ".$row["Database"]."\n\t".$row["Chars"]." ➤\t".$row["Collation"].($row["Comment"]!=""?"\n\t".$row["Comment"]:'').""; ?>">
                         <i class="bi bi-database-fill me-2"></i>
                         <?= $row["Database"]; ?>
                     </a>
