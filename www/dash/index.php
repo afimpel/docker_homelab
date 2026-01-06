@@ -3,8 +3,6 @@ include "./config.php";
 include "./libs.php";
 include "./dbs.php";
 include "./cache.php";
-
-$dateTime = new DateTime('now');
 $funtionsITEMS=[['',''], ['<script>listSitesURL(\'ITEMNODESITE\',\'ITEMNODESITEURL\');</script>','<small style=\'font-size: xx-small;\' class=\'badge text-light bg-primary rounded ms-auto my-auto\' id=\'ITEMNODESITE\'>-</small>']];
 $replaceITEMS=[['',''],['ITEMNODESITE','ITEMNODESITEURL']];
 $classITEMS=["dropdown-item", "list-group-item list-group-item-action list-group-item-secondary py-1 d-flex"];
@@ -23,6 +21,10 @@ $sitesSubdomain = listSitesJSON("subdomains", $classITEMS, $funtionsITEMS, $repl
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-mfizz/2.4.1/font-mfizz.min.css" integrity="sha512-Cdvnk1SFWqcb3An6gMyqDRH40Js8qmsWcSK10I2gSifCe2LilaPMsHd6DldEvQ3uIlCb1qdRUrNeAFFleOu4xQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="https://<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/files.js" crossorigin="anonymous"></script>
+    <style>
+        small::before{ margin-right: .5rem;}
+        .btn::before{ margin-right: .5rem;}
+    </style>
 </head>
 
 <body style="padding-top: 96px;">
@@ -121,14 +123,14 @@ $sitesSubdomain = listSitesJSON("subdomains", $classITEMS, $funtionsITEMS, $repl
                     <?php
                         if(!is_null($cache['uptime'])){
                     ?>
-                    <small style="font-size: small;" class="badge text-light bg-warning rounded ms-auto my-auto" title="<?= $cache['server']['name']; ?> Uptime: <?php echo $cache['uptime'];?>"><i class="<?= $cache['server']['icon']; ?> me-2"></i> <?php echo $cache['uptime'];?></small>
+                    <a  style="font-size: small;" id="cache_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>" target="_blank" class="btn btn-warning btn-sm ms-auto my-auto <?= $cache['server']['icon']; ?>" href="//redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/">redis</a>
                     <?php
                         }
                     ?>
                     <?php
                         if(!is_null($dbs['uptime'])){
                     ?>
-                    <small style="font-size: small;" class="badge text-light bg-info rounded ms-2 my-auto" title="<?= $dbs['server']['name']; ?> Uptime: <?php echo $dbs['uptime'];?>"><i class="<?= $dbs['server']['icon']; ?> me-2"></i> <?php echo $dbs['uptime'];?></small>
+                    <a  style="font-size: small;" id="database_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>" target="_blank" class="btn btn-info btn-sm ms-2 my-auto <?= $dbs['server']['icon']; ?>" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/">adminer</a>
                     <?php
                         }
                     ?>
@@ -225,12 +227,7 @@ $sitesSubdomain = listSitesJSON("subdomains", $classITEMS, $funtionsITEMS, $repl
                 <div class="list-group shadow mb-3">
                     <span class="list-group-item d-flex justify-content-between align-items-center py-1 border-primary">
                         <span><i class="icon-php-alt me-2"></i> DateTime :</span>
-                        <b class="px-2">
-                            <?php 
-                                $dateTime->setTimezone(new DateTimeZone($_ENV['TZ']));
-                                echo $dateTime->format('r');
-                            ?>
-                        </b>
+                        <b class="px-2" id="datetime_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>">-</b>
                     </span>
                 </div>
 
@@ -241,8 +238,8 @@ $sitesSubdomain = listSitesJSON("subdomains", $classITEMS, $funtionsITEMS, $repl
                     <a translate="no" title="Manual Homelab" class="list-group-item list-group-item-info list-group-item-action p-1 px-2" href="/manual.php" target="_blank"><i class=" icon-php mx-2"></i> Manual Homelab</a>
                 </div>
                 <div class="mt-3 list-group shadow">
-                    <a title="php7.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-info list-group-item-action p-1 px-2 d-flex" href="//php7.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-php-alt mx-2"></i>php7 -> phpinfo()<small style="font-size: small;" class="badge text-light bg-primary rounded ms-auto my-auto" id="php7_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">-</small></a>
-                    <a title="php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-info list-group-item-action p-1 px-2 d-flex" href="//php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-php-alt mx-2"></i>php8 -> phpinfo()<small style="font-size: small;" class="badge text-light bg-primary rounded ms-auto my-auto" id="php8_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">-</small></a>
+                    <a title="php7.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-info list-group-item-action p-1 px-2 d-flex" href="//php7.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-php-alt mx-2"></i> PHP7 ➤ phpinfo()<small style="font-size: small;" class="badge text-light bg-primary rounded ms-auto my-auto" id="php7_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">-</small></a>
+                    <a title="php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-info list-group-item-action p-1 px-2 d-flex" href="//php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-php-alt mx-2"></i> PHP8 ➤ phpinfo()<small style="font-size: small;" class="badge text-light bg-primary rounded ms-auto my-auto" id="php8_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">-</small></a>
                 </div>
                 <div class="mt-3 list-group shadow">
                     <a title="adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-warning list-group-item-action p-1 px-2" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-database mx-2"></i> Adminer</a>
@@ -338,6 +335,11 @@ $sitesSubdomain = listSitesJSON("subdomains", $classITEMS, $funtionsITEMS, $repl
 dataUrl('https://redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/',"redis_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
 dataUrl('https://php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/',"php8_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
 dataUrl('https://php7.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/',"php7_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
+function recursiveLoop(kkk) {
+    dataUptimeUrl('/uptime.php', '<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>');
+    setTimeout(recursiveLoop, 15000);
+}
+recursiveLoop();
     </script>
 
 </body>
