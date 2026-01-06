@@ -118,19 +118,19 @@ $sitesSubdomain = listSitesJSON("subdomains", $classITEMS, $funtionsITEMS, $repl
     <div class="container-fluid py-2">
         <div class="row m-1">
             <div class="col-12 mb-3">
-                <h3 class="title is-3 has-text-centered border-bottom border-primary d-flex p-1 shadow">
-                    <i class="icon-docker me-2"></i> Environment
+                <h3 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 px-3 shadow">
+                    <i class="icon-docker me-2 text-primary"></i> Environment
                     <?php
                         if(!is_null($cache['uptime'])){
                     ?>
-                    <a  style="font-size: small;" id="cache_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>" target="_blank" class="btn btn-warning btn-sm ms-auto my-auto <?= $cache['server']['icon']; ?>" href="//redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/">redis</a>
+                    <a  style="font-size: small;" id="cache_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>" target="_blank" class="btn btn-warning btn-sm ms-auto my-auto py-0 <?= $cache['server']['icon']; ?>" href="//redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/">redis</a>
                     <?php
                         }
                     ?>
                     <?php
                         if(!is_null($dbs['uptime'])){
                     ?>
-                    <a  style="font-size: small;" id="database_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>" target="_blank" class="btn btn-info btn-sm ms-2 my-auto <?= $dbs['server']['icon']; ?>" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/">adminer</a>
+                    <a  style="font-size: small;" id="database_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>" target="_blank" class="btn btn-primary btn-sm ms-2 my-auto py-0 <?= $dbs['server']['icon']; ?>" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/">adminer</a>
                     <?php
                         }
                     ?>
@@ -153,7 +153,7 @@ $sitesSubdomain = listSitesJSON("subdomains", $classITEMS, $funtionsITEMS, $repl
                     <?php
                         if(is_null($dbs['error'])){
                     ?>
-                    <a href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>" target="_blank" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-1">
+                    <a href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>" target="_blank" class="list-group-item list-group-item-primary list-group-item-action d-flex justify-content-between align-items-center py-1">
                         <span><i class="<?= $dbs['server']['icon']; ?> me-2"></i> <b><?= $dbs['server']['name']; ?> :</b></span>
                         <small class="badge text-light bg-primary rounded-pill px-2">
                             <?= $dbs['server']['version']; ?>
@@ -163,7 +163,7 @@ $sitesSubdomain = listSitesJSON("subdomains", $classITEMS, $funtionsITEMS, $repl
                         }
                         if(is_null($cache['error'])){
                     ?>
-                    <a href="//redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" target="_blank" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-1">
+                    <a href="//redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" target="_blank" class="list-group-item list-group-item-warning list-group-item-action d-flex justify-content-between align-items-center py-1">
                         <span><i class="<?= $cache['server']['icon']; ?> me-2"></i> <b><?= $cache['server']['name']; ?> :</b></span>
                         <small class="badge text-light bg-primary rounded-pill px-2">
                             <?= $cache['server']['version']; ?>
@@ -205,8 +205,8 @@ $sitesSubdomain = listSitesJSON("subdomains", $classITEMS, $funtionsITEMS, $repl
                 <?php
                     if(is_null($cache['error'])){
                 ?>
-                <a href="//redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" target="_blank" class="w-100 mt-3 shadow btn btn-outline-primary p-1" title="<?= "Cache Connection: ". $cache['server']['name']."\nServer: $cache_server\nPort: $cache_port"; ?>">
-                    <h5 class="text-light bg-info py-1 mb-1 rounded"><i class="<?= $cache['server']['icon']; ?> me-2"></i> Cache Connection: <b><?= $cache['server']['name']; ?></b></h5>
+                <a href="//redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" target="_blank" class="w-100 mt-3 shadow btn btn-outline-warning p-1" title="<?= "Cache Connection: ". $cache['server']['name']."\nServer: $cache_server\nPort: $cache_port"; ?>">
+                    <h5 class="text-light bg-danger py-1 mb-1 rounded"><i class="<?= $cache['server']['icon']; ?> me-2"></i> Cache Connection: <b><?= $cache['server']['name']; ?></b></h5>
                     <small class="d-flex justify-content-between align-items-center px-1">
                         <span><i class="<?= $cache['server']['icon']; ?> me-2"></i> Server:</span>
                         <b class="px-0">
@@ -242,8 +242,8 @@ $sitesSubdomain = listSitesJSON("subdomains", $classITEMS, $funtionsITEMS, $repl
                     <a title="php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-info list-group-item-action p-1 px-2 d-flex" href="//php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-php-alt mx-2"></i> PHP8 ➤ phpinfo()<small style="font-size: small;" class="badge text-light bg-primary rounded ms-auto my-auto" id="php8_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">-</small></a>
                 </div>
                 <div class="mt-3 list-group shadow">
-                    <a title="adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-warning list-group-item-action p-1 px-2" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-database mx-2"></i> Adminer</a>
-                    <a title="redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-danger list-group-item-action p-1 px-2 d-flex" href="//redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-redis mx-2"></i> Redis<small style="font-size: small;" class="badge text-light bg-danger rounded ms-auto my-auto" id="redis_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">-</small></a>
+                    <a title="adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-primary list-group-item-action p-1 px-2" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-database mx-2"></i> Adminer</a>
+                    <a title="redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-warning list-group-item-action p-1 px-2 d-flex" href="//redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-redis mx-2"></i> Redis<small style="font-size: small;" class="badge text-light bg-warning rounded ms-auto my-auto" id="redis_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">-</small></a>
                     <a title="goaccess.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-dark list-group-item-action p-1 px-2" href="//goaccess.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="bi bi-journal-text mx-2"></i> GoAccess LOG</a>
                     <a translate="no" title="mailhog.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" target="_blank" class="list-group-item list-group-item-info list-group-item-action p-1 px-2" href="//mailhog.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class=" icon-bomb mx-2"></i> MailHog</a>
                 </div>
@@ -255,7 +255,7 @@ $sitesSubdomain = listSitesJSON("subdomains", $classITEMS, $funtionsITEMS, $repl
             ?>
             <div class="col-12 col-xl">
                 <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3">
-                    <i class="<?= $dbs['server']['icon']; ?> me-2"></i> Database List
+                    <i class="<?= $dbs['server']['icon']; ?> me-2 text-primary"></i> Database List
                     <small class="badge text-light bg-primary ms-auto"><?php echo count($dbs['database']);?></small>
                 </h5>
                 <div class="list-group shadow">
@@ -274,7 +274,7 @@ $sitesSubdomain = listSitesJSON("subdomains", $classITEMS, $funtionsITEMS, $repl
             ?>
             <div class="col-12 col-xl">
                 <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3">
-                    <i class="<?= $cache['server']['icon']; ?> me-2"></i> Cache List
+                    <i class="<?= $cache['server']['icon']; ?> me-2 text-warning"></i> Cache List
                     <small class="badge text-light bg-primary ms-auto"><?php echo count($cache['keys']);?></small>
                 </h5>
                 <div class="list-group shadow">
