@@ -72,8 +72,14 @@ function listSitesJSON($typeJSON, $classA, $function, $strReplace){
             $onloadFunction=str_replace($strReplace[$key][1],$site->url,$function[$key][0]);
             $onloadFunction=str_replace($strReplace[$key][0],$site_ID,$onloadFunction);
             $onloadReplace=str_replace($strReplace[$key][0],$site_ID,$function[$key][1]);
+            $attrExtras=str_replace($strReplace[$key][0],$site_ID,$function[$key][2]);
+            $attrExtras=str_replace($strReplace[$key][4],parse_url($site->url, PHP_URL_HOST),$attrExtras);
+            $attrExtras=str_replace($strReplace[$key][1],$site->url,$attrExtras);
+            $attrExtras=str_replace($strReplace[$key][2],$typeStr,$attrExtras);
+            $attrExtras=str_replace($strReplace[$key][3],$site->title,$attrExtras);
 
-            $sitesLinks[$key][]="<a translate='no' title='$site->title ➤ $typeStr\n🔗\t$site->url' target='_blank' class='$class' href='$site->url' style='min-width: 15vw;'><i class='icon-$type me-2'></i>$onloadFunction $site->title ➤ $typeStr $onloadReplace</a>";
+            #errorLogger([$strReplace[$key], $site_ID, $function[$key], [$onloadFunction, $onloadReplace, $attrExtras]]);
+            $sitesLinks[$key][]="<a translate='no' $attrExtras target='_blank' class='$class' href='$site->url' style='min-width: 15vw;'><i class='icon-$type me-2'></i>$onloadFunction $site->title ➤ $typeStr $onloadReplace</a>";
         }
     }
 

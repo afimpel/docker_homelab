@@ -39,12 +39,31 @@ async function obtenerTituloDeUrl(url, idAttr) {
         const doc = parser.parseFromString(htmlText, 'text/html');
         const title = doc.title;
         //console.log(title);
-        document.getElementById(idAttr).innerHTML = title;
-        document.getElementById(idAttr).title = url + " ➤ " + title;
+        const url2 = new URL(url);
+        let urlHostname = url2.hostname;
+        document.getElementsByName(idAttr).forEach(item => {
+            item.innerHTML = title;
+        });
+        try {
+            document.getElementsByName(idAttr + "_tooltip").forEach(item => {
+                let itemsTitlesText = ""
+                let itemsTitles = item.dataset.title;
+                if (itemsTitles != undefined) {
+                    itemsTitlesText = itemsTitles + " ➤ ";
+                }
+                item.dataset.bsOriginalTitle = itemsTitlesText + urlHostname + " ➤ " + title;
+            });
+        } catch (error) {
+            document.getElementsByName(idAttr).forEach(item => {
+                item.title = urlHostname + " ➤ " + title;
+            });
+        }
         return title || null;
 
     } catch (error) {
-        document.getElementById(idAttr).style.display = 'none';
+        document.getElementsByName(idAttr).forEach(item => {
+            item.style.display = 'none';
+        });
         console.error(`Ocurrió un error al procesar la URL '${url}':`, error);
         return null;
     }
@@ -69,12 +88,12 @@ async function obtenerUptimeUrl(url, idAttr) {
         let IDcache = 'cache_' + idAttr;
         let dataJson = responseJson.data;
         document.getElementById(IDcache).innerHTML = dataJson.cache.uptime;
-        document.getElementById(IDcache).title = dataJson.cache.server.name + " Uptime ➤ " + dataJson.cache.uptime;
+        document.getElementById(IDcache).dataset.bsOriginalTitle = dataJson.cache.server.name + " ➤ Uptime : " + dataJson.cache.uptime;
         document.getElementById(IDdatabase).innerHTML = dataJson.database.uptime;
-        document.getElementById(IDdatabase).title = dataJson.database.server.name + " Uptime ➤ " + dataJson.database.uptime;
+        document.getElementById(IDdatabase).dataset.bsOriginalTitle = dataJson.database.server.name + " ➤ Uptime : " + dataJson.database.uptime;
         document.getElementById(IDdatetime).innerHTML = dataJson.datetime;
-        document.getElementById(IDdatetime).title = "DateTime ➤ " + dataJson.datetime;
-        console.log('DateTime : ',  dataJson.datetime);
+        document.getElementById(IDdatetime + "_tooltip").dataset.bsOriginalTitle = "DateTime : " + dataJson.datetime;
+        console.log('DateTime : ', dataJson.datetime);
         return "dd";
 
     } catch (error) {
