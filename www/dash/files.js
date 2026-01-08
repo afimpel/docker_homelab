@@ -87,6 +87,9 @@ async function obtenerUptimeUrl(url, idAttr) {
         let IDdatabase = 'database_' + idAttr;
         let IDcache = 'cache_' + idAttr;
         let dataJson = responseJson.data;
+        document.getElementById("active_" + idAttr + "_local").style.display = '';
+        document.getElementById("active2_" + idAttr + "_local").style.display = '';
+        document.getElementById("display_" + idAttr + "_local").style.display = 'none';
         document.getElementById(IDcache).innerHTML = dataJson.cache.uptime;
         document.getElementById(IDcache).dataset.bsOriginalTitle = dataJson.cache.server.name + " ➤ Uptime : " + dataJson.cache.uptime;
         document.getElementById(IDdatabase).innerHTML = dataJson.database.uptime;
@@ -105,6 +108,9 @@ async function obtenerUptimeUrl(url, idAttr) {
 function dataUptimeUrl(url, id) {
     obtenerUptimeUrl(url, id).then(title => {
         if (!title) {
+            document.getElementById("display_" + id + "_local").style.display = 'flex';
+            document.getElementById("active_" + id + "_local").style.display = 'none';
+            document.getElementById("active2_" + id + "_local").style.display = 'none';
             console.log('No se pudo obtener el título de la URL inexistente (esperado).');
         }
     });

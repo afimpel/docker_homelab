@@ -1,6 +1,10 @@
 <?php
 include "./inc/head.php";
 ?>
+    <h2 class="mx-4 alert alert-danger p-4 shadow" id="display_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">
+        <b><i class="icon-bomb"></i> The project is inactive.</b>
+        <span class="ms-auto">Please start the Docker containers with <code class="px-4"><?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?> up</code> command.</span>
+    </h2>
     <?php if ( ! is_null($dbs['error'])){ ?>
     <div class="mx-4 alert alert-danger py-2 shadow">
         <b><i class="<?= $dbs['server']['icon']; ?> me-2"></i> <?= $dbs['server']['name']; ?>:</b> <?php echo $dbs['error']; ?>
@@ -11,7 +15,7 @@ include "./inc/head.php";
     </div>
     <?php } ?>
 
-    <div class="container-fluid py-2">
+    <div class="container-fluid py-2" id="active_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">
         <div class="row m-1">
             <div class="col-12 mb-3">
                 <h3 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 px-3 shadow">
@@ -188,7 +192,7 @@ include "./inc/head.php";
             if ($sitesDomain[2] > 0){?>
             <div class="col-12 col-xl">
                 <h5 class="title is-2 has-text-centered border-bottom border-info d-flex py-1 mb-3">
-                    <i class="icon-nginx me-2"></i> Domain Sites List (<em> .local </em>)
+                    <i class="text-success icon-nginx me-2"></i> Domain Sites List (<em> .local </em>)
                     <small class="badge text-light bg-info rounded ms-auto"><?php echo $sitesDomain[2];?></small>
                 </h5>
                 <div class="list-group shadow">
@@ -199,7 +203,7 @@ include "./inc/head.php";
             if ($sitesSubdomain[2] > 0){?>
             <div class="col-12 col-xl">
                 <h5 class="title is-2 has-text-centered border-bottom border-info d-flex py-1 mb-3">
-                    <i class="icon-nginx me-2"></i> SubDomain Sites List (<em> .<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local </em>)
+                    <i class="text-success icon-nginx me-2"></i> SubDomain Sites List (<em> .<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local </em>)
                     <small class="badge text-light bg-info rounded ms-auto"><?php echo $sitesSubdomain[2];?></small>
                 </h5>
                 <div class="list-group shadow">
@@ -209,7 +213,7 @@ include "./inc/head.php";
             <?php }?>
         </div>
     </div>
-    <div class="container-fluid py-2">
+    <div class="container-fluid py-2" id="active2_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">
         <div class="container border border-primary rounded p-2 my-1 shadow">
             <h3 class="text-center py-1 border bg-dark text-light rounded"><i class="icon-shell me-4"></i> access to php composer:</h3>
             <ol>

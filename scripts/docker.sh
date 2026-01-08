@@ -35,8 +35,8 @@ docker_up () {
   dockerComposeVersion=$(docker compose version)
   dockerComposeVersion=${dockerComposeVersion//version/:}
   dockerComposeVersion=$(echo $dockerComposeVersion | cut -d ":" -f 2)
-  
-  echo -e "{ \"startup\":\"$(date)\",\"username\":\"$USERNAME\",\"checkfile\":[$checkfile],\"version\":{\"php8\":\"$versionPHP8\", \"composer8\":\"$composerVersion8\", \"php7\":\"$versionPHP7\", \"composer7\":\"$composerVersion7\", \"docker\":\"Ver$dockerVersion\", \"dockerCompose\":\"Ver$dockerComposeVersion\"} }" | jq . > www/dash/version.json
+  gitinfo=$(git log -1 --pretty=format:"%an: %h - %s ( %cD )")
+  echo -e "{ \"startup\":\"$(date)\",\"gitinfo\":\"$gitinfo\",\"username\":\"$USERNAME\",\"checkfile\":[$checkfile],\"version\":{\"php8\":\"$versionPHP8\", \"composer8\":\"$composerVersion8\", \"php7\":\"$versionPHP7\", \"composer7\":\"$composerVersion7\", \"docker\":\"Ver$dockerVersion\", \"dockerCompose\":\"Ver$dockerComposeVersion\"} }" | jq . > www/dash/version.json
   chmod 777 www/dash/version.json
 }
 
