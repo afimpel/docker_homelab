@@ -34,7 +34,7 @@ $objVersion = json_decode(file_get_contents('version.json'));
     <nav class="navbar navbar-expand-xl navbar-dark bg-dark fixed-top shadow">
 
         <div class="container">
-            <a href="//www.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" class="navbar-brand"><i class="me-2 icon-docker"></i> LEMP</a>
+            <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="LEMP STACK ➤ Your local development environment in Docker" href="//www.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" class="navbar-brand"><i class="me-2 icon-docker"></i> LEMP</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -96,7 +96,7 @@ $objVersion = json_decode(file_get_contents('version.json'));
             </div>
         </div>
     </nav>
-    <div class="container">
+    <div class="container" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="LEMP STACK ➤ Compose: <?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?> ➤ Your local development environment in Docker">
         <h1 class="title text-success px-3 d-flex">
             <i class="icon-docker pe-1"></i> <b>LEMP STACK</b> <small class="ms-auto">( Compose: <em class="px-3"> <?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?> </em>)</small>
         </h1>
