@@ -229,6 +229,14 @@ include "./inc/head.php";
 
         </div>
     </div>
+    
+    <div class="container-fluid pb-2" id="git_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">
+        <div class="container border border-primary rounded p-2 my-1 shadow">
+            <h6 class="text-center py-1 border bg-dark text-light rounded"><i class="icon-git me-4"></i> the latest commit on GitHub:</h6>
+            <code class="text-center d-block"><?php echo $objVersion->gitinfo ?? "-"; ?></code>
+        </div>
+    </div>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <script>
     toggleThemeMenu();

@@ -90,9 +90,9 @@ $description = $objHelp0000[0]->description;
 
                 </div>
                 <div class="card border-info my-2 shadow">
-                    <div class="card-header"><i class="icon-git"></i> GIT</div>
+                    <div class="card-header py-1 bg-primary text-light"><i class="icon-git me-4"></i> <b>the latest commit on GitHub:</b></div>
                     <div class="card-body">
-                        <code class="card-text"><?php echo $objVersion->gitinfo ?? "-"; ?></code>
+                        <span class="card-text"><?php echo $objVersion->gitinfo ?? "-"; ?></span>
                     </div>
                 </div>
 

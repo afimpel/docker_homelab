@@ -8,6 +8,7 @@ $replaceITEMS=[['ITEMNODESITEID','ITEMNODESITEURL','ITEMNODESITETYPE','ITEMNODES
 $classITEMS=["dropdown-item", "list-group-item list-group-item-action list-group-item-secondary py-1 d-flex"];
 $sitesDomain = listSitesJSON("domains", $classITEMS, $funtionsITEMS, $replaceITEMS);
 $sitesSubdomain = listSitesJSON("subdomains", $classITEMS, $funtionsITEMS, $replaceITEMS);
+$objVersion = json_decode(file_get_contents('version.json'));
 ?>
 <!DOCTYPE html>
 <html lang="en">
