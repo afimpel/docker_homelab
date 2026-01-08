@@ -51,11 +51,11 @@ async function obtenerTituloDeUrl(url, idAttr) {
                 if (itemsTitles != undefined) {
                     itemsTitlesText = itemsTitles + " ➤ ";
                 }
-                item.dataset.bsOriginalTitle = itemsTitlesText + urlHostname + " ➤ " + title;
+                item.dataset.bsOriginalTitle = "🌐 " + itemsTitlesText + urlHostname + " ➤ " + title;
             });
         } catch (error) {
             document.getElementsByName(idAttr).forEach(item => {
-                item.title = urlHostname + " ➤ " + title;
+                item.title = "🌐 " + urlHostname + " ➤ " + title;
             });
         }
         return title || null;

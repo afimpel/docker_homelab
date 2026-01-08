@@ -11,3 +11,5 @@
 !uptime.php
 !json-help.json
 !*.js
+!inc
+!inc/*.php

@@ -1,17 +1,5 @@
 <?php
-include "./config.php";
-include "./libs.php";
-include "./dbs.php";
-include "./cache.php";
-
-$dateTime = new DateTime('now');
-// Ruta del directorio a listar
-$directorySubdomain = '../subdomains/';
-$directoryDomain = '../domains/';
-$filesSubdomain = scandir($directorySubdomain);
-$filesDomain = scandir($directoryDomain);
-$sitesSubdomain = [];
-$sitesDomain = [];
+include "./inc/head.php";
 $jsonString = file_get_contents('json-help.json');
 $objVersion = json_decode(file_get_contents('version.json'));
 $changeArrayOrigin = array(
@@ -61,97 +49,6 @@ $title = $objHelp0000[0]->title;
 $description = $objHelp0000[0]->description;
 
 ?>
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <link rel="icon" href="./favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Manual ➤ LEMP STACK -- <?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local </title>
-    <link rel="stylesheet" href="https://bootswatch.com/5/spacelab/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-mfizz/2.4.1/font-mfizz.min.css" integrity="sha512-Cdvnk1SFWqcb3An6gMyqDRH40Js8qmsWcSK10I2gSifCe2LilaPMsHd6DldEvQ3uIlCb1qdRUrNeAFFleOu4xQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-</head>
-
-<body style="padding-top: 96px;">
-    <nav class="navbar navbar-expand-xl navbar-dark bg-dark fixed-top shadow">
-
-        <div class="container">
-            <a href="//www.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" class="navbar-brand"><i class="me-2 icon-docker"></i> LEMP</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" target="_blank" href="//php7.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="me-2 icon-php"></i> PHP7</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" target="_blank" href="//php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="me-2 icon-php"></i> PHP8</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" target="_blank" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="me-2 icon-database"></i> Adminer</a>
-                    </li>
-                    <?php if (count($filesDomain) > 3){?>          
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="domains"><i class="me-2 icon-ghost"></i> Domain (<?php echo count($filesDomain)-3;?>)</a>
-                        <div class="dropdown-menu shadow" aria-labelledby="domains">
-                            <?php
-                            $sitesDomain = listSites($filesDomain, $directoryDomain, ["dropdown-item", "list-group-item list-group-item-action list-group-item-secondary py-1"], '', 'www.');
-                            echo $sitesDomain[0]; ?>
-                        </div>
-                    </li>
-                    <?php }
-                    if (count($filesSubdomain) > 3){?>
-                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="subdomains"><i class="me-2 icon-ghost"></i> SubDomain (<?php echo count($filesSubdomain)-3;?>)</a>
-                        <div class="dropdown-menu shadow" aria-labelledby="subdomains">
-                            <?php
-                            $sitesSubdomain = listSites($filesSubdomain, $directorySubdomain, ["dropdown-item", "list-group-item list-group-item-action list-group-item-secondary py-1"],".".strtolower(getenv('COMPOSE_PROJECT_NAME')));
-                            echo $sitesSubdomain[0]; ?>
-                        </div>
-                    </li>
-                <?php } ?>
-                </ul>
-                <ul class="navbar-nav ms-xl-auto">
-                    <li class="nav-item">
-                        <a target="_blank" rel="noopener" class="nav-link" href="https://github.com/afimpel/docker_homelab"><i class="bi bi-github"></i> GitHub</a>
-                    </li>
-                    <li class="nav-item">
-                        <a target="_blank" rel="noopener" class="nav-link" href="https://twitter.com/afimpel"><i class="bi bi-twitter"></i> Twitter</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="theme-menu" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme">
-                          <i class="bi bi-sun-fill"></i>
-                        </a>
-                        <ul class="dropdown-menu shadow dropdown-menu-end">
-                          <li>
-                            <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-style="bi-sun-fill" data-bs-theme-value="light" aria-pressed="false">
-                              <i class="bi bi-sun-fill"></i><span class="ms-2">Light</span>
-                            </button>
-                          </li>
-                          <li>
-                            <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-style="bi-moon-stars-fill" data-bs-theme-value="dark" aria-pressed="true">
-                              <i class="bi bi-moon-stars-fill"></i><span class="ms-2">Dark</span>
-                            </button>
-                          </li>
-                        </ul>
-                      </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <div class="container">
-        <h1 class="title text-success px-3 d-flex">
-            <i class="icon-docker pe-1"></i> <b>LEMP STACK</b> <small class="ms-auto">( Compose: <em class="px-3"> <?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?> </em>)</small>
-        </h1>
-        <small class="muted border border-secondary d-block px-3 rounded-pill shadow text-center">PHP / Nginx / MariaDB / Adminer / Valkey / Composer / Supervisor / GoAccess</small>
-        <h2 class="subtitle p-3">
-            Your local development environment in Docker
-        </h2>
-    </div>
     <div class="container-fluid py-2">
         <div class="row m-1">
             <div class="col-12 mb-3">
@@ -178,7 +75,7 @@ $description = $objHelp0000[0]->description;
                             }
                             $active = ($value->href == $dataTAG) ? ' active' : '';
                     ?>
-                    <a href="manual.php?tags=<?= $value->href; ?>" class="list-group-item list-group-item-info list-group-item-action d-flex justify-content-between align-items-center py-1<?php echo $active; ?>">
+                    <a href="manual.php?tags=<?= $value->href; ?>" class="list-group-item list-group-item-info list-group-item-action d-flex justify-content-between align-items-center py-1<?php echo $active; ?>"  data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="<?php echo $objHelp->runner." ".$command." ".$key ?> ➤ <?= $value->description; ?>">
                         <span>
                             <i class="icon-script-alt me-2"></i>
                             <b><?php echo $objHelp->runner." ".$command." ".$key ?></b>
@@ -242,7 +139,7 @@ $description = $objHelp0000[0]->description;
                                     continue;
                                 }
                     ?>
-                    <span class="list-group-item list-group-item-info list-group-item-action d-flex justify-content-between align-items-center py-1">
+                    <span class="list-group-item list-group-item-info list-group-item-action d-flex justify-content-between align-items-center py-1" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="<?=$title; ?> ➤ <?php echo $objHelp->runner." ".$command." ".$key ?> ➤ <?= $value->description; ?>">
                         <b>
                             <i class="icon-shell me-2"></i>
                             <code><?php echo $objHelp->runner." ".$command." ".$key ?></code>
@@ -289,6 +186,13 @@ $description = $objHelp0000[0]->description;
     }
     toggleThemeMenu();
     const codes = document.querySelectorAll('code');
+    dataUrl('https://redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/',"redis_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
+    dataUrl('https://php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/',"php8_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
+    dataUrl('https://php7.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/',"php7_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
+    const tooltipElements = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    for (const tooltip of tooltipElements) {
+        new bootstrap.Tooltip(tooltip); // eslint-disable-line no-new
+    }  
 
   codes.forEach(code => {
     code.style.cursor = 'pointer';
@@ -320,6 +224,5 @@ $description = $objHelp0000[0]->description;
     });
   });
     </script>
-
 </body>
 </html>
