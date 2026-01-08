@@ -220,8 +220,8 @@ include "./inc/head.php";
                 <li>Open terminal (ej: xterm, tilix, kitty, etc)</li>
                 <li>
                     <ul>
-                        <li>for PHP7, type this command: <code>docker exec -it homelab-php7 bash</code> or <code><?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?> php7-usr</code></li>
-                        <li>for PHP8, type this command: <code>docker exec -it homelab-php8 bash</code> or <code><?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?> php8-usr</code></li>
+                        <li>for PHP7, type this command: <code>docker exec -it homelab-php7 bash</code> or <code><?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?> php7 --user</code></li>
+                        <li>for PHP8, type this command: <code>docker exec -it homelab-php8 bash</code> or <code><?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?> php8 --user</code></li>
                     </ul>
                 </li>
                 <li>exit: <code>exit</code> or <code>ctrl+d</code> </li>
