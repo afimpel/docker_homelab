@@ -16,11 +16,14 @@ if [ -n "$db" ]; then
         echo -e "# Creating database\n" >> create.md
         sed -i "s/DATABASE_ROOT_PASSWORD/${MARIADB_ROOT_PASSWORD}/g" /tmp/sql-create.sql
         sed -i "s/USERNAME/${dbuser}/g" /tmp/sql-create.sql
+        sed -i "s/DATABASE_USER/${MARIADB_USER}/g" /tmp/sql-create.sql
         sed -i "s/DATABASE/${db}/g" /tmp/sql-create.sql
         mariadb -uroot -p$MARIADB_ROOT_PASSWORD -v < /tmp/sql-create.sql
         echo " ⛃  $db :: 👤 USR: ${dbuser}"
-        echo -e "* ⛃  $db :: 👤 USR: ${dbuser}" >> create.md
+        echo -e "* ⛃  $db :: 👤 USR: ${dbuser} / PSW: ${MARIADB_ROOT_PASSWORD}" >> create.md
+        echo -e "* ⛃  $db :: 👤 USR: ${dbuser} / PSW: ${MARIADB_ROOT_PASSWORD}" >> create_dbs.md
         echo -e "\n---\n$(date)" >> create.md
+        chmod 777 *.md
     else
         echo -e " ⛃  Exist DB: $db"          
     fi
