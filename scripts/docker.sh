@@ -145,6 +145,7 @@ docker_down() {
 
 docker_bash() {
   OLDOLDPWD=$OLDPWD
+  pwdOrg=$(pwd)
   openCD $0
   Container=$1
   Command=$(echo "$2" | cut -d ":" -f 1)
@@ -160,8 +161,8 @@ docker_bash() {
       parm3="${@: 3}"
     fi
     workdir=""
-    if [[ $OLDOLDPWD == *"/www"* ]]; then
-      workdir=" -w ${OLDOLDPWD/$PWD/\/var}"
+    if [[ $pwdOrg == *"/www"* ]]; then
+      workdir=" -w ${pwdOrg/$PWD/\/var}"
     fi
     docker exec$workdir -it -u $Usr $Container $Command $parm3
   else
