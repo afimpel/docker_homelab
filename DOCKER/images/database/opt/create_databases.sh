@@ -13,7 +13,10 @@ if [ -n "$db" ]; then
         echo -e "\n ⛃  $db > CREATE"
         cp /opt/db/sql-create.sql /tmp/sql-create.sql
         dbuser=$(echo "$db" | cut -d "_" -f 1)
-        echo -e "# Creating database\n" >> create.md
+        echo -e "# Creating database:\n" >> create.md
+        if [ ! -f "logs/create_dbs.pid" ]; then
+            echo -e "Creating databases:\n" > create_dbs.md
+        fi
         sed -i "s/DATABASE_ROOT_PASSWORD/${MARIADB_ROOT_PASSWORD}/g" /tmp/sql-create.sql
         sed -i "s/USERNAME/${dbuser}/g" /tmp/sql-create.sql
         sed -i "s/DATABASE_USER/${MARIADB_USER}/g" /tmp/sql-create.sql
