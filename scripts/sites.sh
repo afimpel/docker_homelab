@@ -270,7 +270,14 @@ www()
                else
                   urlType="www"
                fi
-               echo "{\"title\": \"${title}\", \"url\": \"${url}\", \"type\": \"${type,,}\", \"urlType\":\"${urlType,,}\"}" >> TEMP/algo1.json
+               haystack=$DOMAINS_EXCLUDE
+               needle="$urlType2"
+               if [[ "$haystack" == *",$needle,"* ]]; then
+                  exclude_domains=true
+               else
+                  exclude_domains=false
+               fi
+               echo "{\"title\": \"${title}\", \"url\": \"${url}\", \"type\": \"${type,,}\", \"urlType\":\"${urlType,,}\", \"exclude\":${exclude_domains,,} }" >> TEMP/algo1.json
             fi
          fi
       done < "$input_file0"
@@ -279,7 +286,7 @@ www()
    jq . TEMP/algo1.json > www/dash/domains.json
    lengthContent=$(jq '.items | length' www/dash/domains.json)
    if [ $lengthContent -eq 0 ]; then
-      if [ -f "${input_file1}" ]; then
+      if [ -f "${input_file0}" ]; then
          rm -v $input_file0
       fi
    fi
@@ -318,7 +325,14 @@ www()
                else
                   urlType="www"
                fi
-               echo "{\"title\": \"${title}\", \"url\": \"${url}\", \"type\": \"${type,,}\", \"urlType\":\"${urlType,,}\"}" >> TEMP/algo2.json
+               haystack=$SUBDOMAINS_EXCLUDE
+               needle=",$urlType2,"
+               if [[ "$haystack" == *",$needle,"* ]]; then
+                  exclude_domains=true
+               else
+                  exclude_domains=false
+               fi
+              echo "{\"title\": \"${title}\", \"url\": \"${url}\", \"type\": \"${type,,}\", \"urlType\":\"${urlType,,}\", \"exclude\":${exclude_domains,,} }" >> TEMP/algo2.json
             fi
          fi
       done < "$input_file1"

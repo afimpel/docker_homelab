@@ -160,8 +160,11 @@ include "./inc/head.php";
                 </h5>
                 <div class="list-group shadow">
                 <?php
-                foreach ($dbs['database'] as $row) { ?>
-                    <a target="_blank" translate="no" class="list-group-item list-group-item-action list-group-item-info py-1" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>&db=<?= $row["Database"]; ?>" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="<?= "⛁ ".$row["Database"]." ➤ ".$row["Chars"]." ➤ ".$row["Collation"].($row["Comment"]!=""?" ".$row["Comment"]:'').""; ?>">
+                foreach ($dbs['database'] as $row) { 
+                    $dbuser = ($row["Comment"]!=""?trim(explode('--', $row["Comment"])[1]):$database_user);
+                    $adminer_server2 = "server=".$database_server."&username=".$dbuser."&password=".$database_pass;
+                    ?>
+                    <a target="_blank" translate="no" class="list-group-item list-group-item-action list-group-item-info py-1" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server2; ?>&db=<?= $row["Database"]; ?>" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="<?= "⛁ ".$row["Database"]." ➤ $dbuser ➤ ".$row["Chars"]." ➤ ".$row["Collation"].($row["Comment"]!=""?" ➤ ".$row["Comment"]:'').""; ?>">
                         <i class="bi bi-database-fill me-2"></i>
                         <?= $row["Database"]; ?>
                     </a>
