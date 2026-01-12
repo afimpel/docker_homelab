@@ -23,27 +23,29 @@ docker_up () {
 }
 
 generate_version() {
-  openCD $0
-  rightH1 $YELLOW 'Generate version file' $WHITE '✔' "."
-  versionPHP7=$(docker_bash "homelab-php7" "php:root" -v | head -1 | cut -d " " -f 2)
-  versionPHP8=$(docker_bash "homelab-php8" "php:root" -v | head -1 | cut -d " " -f 2)
-  composerVersion7=$(docker_bash "homelab-php7" "composer:root" -V | head -1 | cut -d " " -f 3 | sed -E 's/\x1b\[[0-9;]*m//g')
-  composerVersion8=$(docker_bash "homelab-php8" "composer:root" -V | head -1 | cut -d " " -f 3 | sed -E 's/\x1b\[[0-9;]*m//g')
-  checkfile="\"startup.pid\""
-  if [ -f "logs/makealias.pid" ]; then
-    checkfile="$checkfile,\"makealias.pid\""
+  if [ -f "logs/startup.pid" ]; then
+    openCD $0
+    rightH1 $YELLOW 'Generate version file' $WHITE '✔' "."
+    versionPHP7=$(docker_bash "homelab-php7" "php:root" -v | head -1 | cut -d " " -f 2)
+    versionPHP8=$(docker_bash "homelab-php8" "php:root" -v | head -1 | cut -d " " -f 2)
+    composerVersion7=$(docker_bash "homelab-php7" "composer:root" -V | head -1 | cut -d " " -f 3 | sed -E 's/\x1b\[[0-9;]*m//g')
+    composerVersion8=$(docker_bash "homelab-php8" "composer:root" -V | head -1 | cut -d " " -f 3 | sed -E 's/\x1b\[[0-9;]*m//g')
+    checkfile="\"startup.pid\""
+    if [ -f "logs/makealias.pid" ]; then
+      checkfile="$checkfile,\"makealias.pid\""
+    fi
+    dockerVersion=$(docker -v)
+    dockerVersion=${dockerVersion//version/:}
+    dockerVersion=$(echo $dockerVersion | cut -d ":" -f 2 | cut -d "," -f 1)
+    
+    dockerComposeVersion=$(docker compose version)
+    dockerComposeVersion=${dockerComposeVersion//version/:}
+    dockerComposeVersion=$(echo $dockerComposeVersion | cut -d ":" -f 2)
+    gitinfo=$(git log -1 --pretty=format:"%an: %h - %s ( %cr )")
+    startupFile=$(cat logs/startup.pid)
+    echo -e "{ \"startup\":$startupFile,\"gitinfo\":\"$gitinfo\",\"username\":\"$USERNAME\",\"checkfile\":[$checkfile],\"version\":{\"php8\":\"$versionPHP8\", \"composer8\":\"$composerVersion8\", \"php7\":\"$versionPHP7\", \"composer7\":\"$composerVersion7\", \"docker\":\"Ver$dockerVersion\", \"dockerCompose\":\"Ver$dockerComposeVersion\"} }" | jq . > www/dash/version.json
+    chmod 777 www/dash/version.json
   fi
-  dockerVersion=$(docker -v)
-  dockerVersion=${dockerVersion//version/:}
-  dockerVersion=$(echo $dockerVersion | cut -d ":" -f 2 | cut -d "," -f 1)
-  
-  dockerComposeVersion=$(docker compose version)
-  dockerComposeVersion=${dockerComposeVersion//version/:}
-  dockerComposeVersion=$(echo $dockerComposeVersion | cut -d ":" -f 2)
-  gitinfo=$(git log -1 --pretty=format:"%an: %h - %s ( %cr )")
-  startupFile=$(cat logs/startup.pid)
-  echo -e "{ \"startup\":$startupFile,\"gitinfo\":\"$gitinfo\",\"username\":\"$USERNAME\",\"checkfile\":[$checkfile],\"version\":{\"php8\":\"$versionPHP8\", \"composer8\":\"$composerVersion8\", \"php7\":\"$versionPHP7\", \"composer7\":\"$composerVersion7\", \"docker\":\"Ver$dockerVersion\", \"dockerCompose\":\"Ver$dockerComposeVersion\"} }" | jq . > www/dash/version.json
-  chmod 777 www/dash/version.json
 }
 
 docker_up_master () {
