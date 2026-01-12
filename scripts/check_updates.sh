@@ -50,4 +50,6 @@ check_and_pull_updates() {
     gitinfo=$(git log -1 --pretty=format:"%an: %h - %s ( %cr )")
     echo " "
     CUSTOM_RIGHT $WHITE "Git Info:" $LIGHT_GRAY "$gitinfo" $WHITE "✔" "." "✔" 0
+    ln
+    generate_version
 }
