@@ -53,9 +53,6 @@ docker_up_master () {
   goaccess
   ln
   runonce_fn
-  if [ $OPEN_BROWSER_PROJECT_START == true ]; then
-      open "browser"
-  fi
 }
 
 runonce_fn () {

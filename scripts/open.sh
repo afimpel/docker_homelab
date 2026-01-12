@@ -12,9 +12,11 @@ open()
    if [ "$1" == "browser" ] && [ $OPEN_BROWSER == true ]; then
         if [ -f "logs/startup.pid" ]; then
             rightH1 $LIGHT_CYAN "Opening Browser" $WHITE '✔' "."
-            rightH1 $LIGHT_CYAN "List all websites" $WHITE '✔' "."
-            www
-            ln
+            if [ "$2" != "mini" ]; then 
+                rightH1 $LIGHT_CYAN "List all websites" $WHITE '✔' "."
+                www
+                ln
+            fi
             rightH1 $LIGHT_CYAN "Preparing to open websites" $WHITE '✔' "."
             domainsOpens="https://www.${COMPOSE_PROJECT_NAME,,}.local $(jq -r '[.items[] | select(.urlType == "www") | .url] | join(" ")' www/dash/domains.json)"
             local domainsOpens_count=${#domainsOpens}
