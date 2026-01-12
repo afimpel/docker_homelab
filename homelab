@@ -3,6 +3,7 @@ source $(dirname $0)/scripts/libnotify.sh
 source $(dirname $0)/scripts/help.sh
 source $(dirname $0)/scripts/utils.sh
 source $(dirname $0)/scripts/sites.sh
+source $(dirname $0)/scripts/open.sh
 source $(dirname $0)/scripts/supervisor.sh
 source $(dirname $0)/scripts/database.sh
 source $(dirname $0)/scripts/installer.sh
@@ -205,6 +206,12 @@ case "$subcommand" in
     header
     ln
     www
+    footer
+  ;;
+  open)
+    header
+    ln
+    open $@
     footer
   ;;
   newsupervisor)

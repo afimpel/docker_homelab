@@ -92,6 +92,12 @@
           "description": "Show help related to sites",
           "href": "sites"
         },
+        "--open": {
+          "mode": "both",
+          "checkfile": "",
+          "description": "Show help related to open options",
+          "href": "open"
+        },
         "--supervisor": {
           "mode": "on",
           "checkfile": "",
@@ -343,6 +349,35 @@
           "mode": "on",
           "checkfile": "",
           "description": "Delete the SubDomain extist and directory ( [site].COMPOSE_PROJECT_NAME.local )"
+        }
+      }
+    },
+    {
+      "tags": [
+        "open",
+        "all"
+      ],
+      "title": "Open",
+      "href": "open",
+      "description": "Open project in Browser, Code Editor, Terminal",
+      "command": "open",
+      "checkfile": "",
+      "mode": "both",
+      "options": {
+        "browser": {
+          "mode": "on",
+          "checkfile": "",
+          "description": "Open project in Browser"
+        },
+        "code": {
+          "mode": "both",
+          "checkfile": "",
+          "description": "Open project in Code Editor"
+        },
+        "terminal": {
+          "mode": "both",
+          "checkfile": "",
+          "description": "Open project in Terminal"
         }
       }
     },

@@ -265,7 +265,7 @@ www()
                url="${BASH_REMATCH[2]}"
                type="${BASH_REMATCH[3]}"
                urlType2=$(echo "${url}" | sed 's/https\?:\/\///' | sed 's/\/$//' | cut -d'.' -f1)
-               if [[ $urlType2 == "api" ]]; then
+               if [[ $urlType2 == "api" ]] || [[ $urlType2 == "json" ]]; then
                   urlType="api"
                else
                   urlType="www"
@@ -313,7 +313,7 @@ www()
                url="${BASH_REMATCH[2]}"
                type="${BASH_REMATCH[3]}"
                urlType2=$(echo "${url}" | sed 's/https\?:\/\///' | sed 's/\/$//' | cut -d'.' -f1)
-               if [[ $urlType2 == "api" ]]; then
+               if [[ $urlType2 == "api" ]] || [[ $urlType2 == "json" ]]; then
                   urlType="api"
                else
                   urlType="www"
@@ -325,6 +325,7 @@ www()
   fi
   echo "]}" >> TEMP/algo2.json
   jq . TEMP/algo2.json > www/dash/subdomains.json
+  rm -f TEMP/*.json
   lengthContent=$(jq '.items | length' www/dash/subdomains.json)
   if [ $lengthContent -eq 0 ]; then
       if [ -f "${input_file1}" ]; then
