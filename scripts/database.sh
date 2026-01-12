@@ -16,9 +16,7 @@ dumpsdb () {
       CUSTOM_RIGHT $GREEN 'DUMPS in' $LIGHT_CYAN "$OLDPWD/dumpSQL" $WHITE "✔" "." "✔" 0
       docker_bash "homelab-database" "/opt/db/dump_databases.sh $@:root"
     else
-      CUSTOM_RIGHT $GREEN 'Dumps ...' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
-      ln
-      help
+      CUSTOM_RIGHT $NC 'Dumps ...' $LIGHT_RED "The project has not started" $RED "✘" " " "✘" 0
     fi
     ln
     timeExec=$(diffTime "$startExec")
@@ -39,10 +37,8 @@ dropdb () {
         CUSTOM_RIGHT $GREEN 'DUMPS before Drop in' $LIGHT_CYAN "$OLDPWD/dumpSQL/backup" $WHITE "✔" "." "✔" 0
         docker_bash "homelab-database" "/opt/db/drop_databases.sh $@:root"
       else
-        CUSTOM_RIGHT $GREEN 'Drop ...' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
+        CUSTOM_RIGHT $NC 'Drop ...' $LIGHT_RED "The project has not started" $RED "✘" " " "✘" 0
       fi
-    else
-      CUSTOM_RIGHT $GREEN 'Drop ...' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
     fi
 
     ln
@@ -64,10 +60,8 @@ createdb () {
         ln
         docker_bash "homelab-database" "/opt/db/create_databases.sh $@:root"
       else
-        CUSTOM_RIGHT $GREEN 'Create ...' $LIGHT_CYAN "There is nothing to do." $WHITE "☐" " " "☐" 0
+        CUSTOM_RIGHT $NC 'Create ...' $LIGHT_RED "The project has not started." $WHITE "☐" " " "☐" 0
       fi
-    else
-      CUSTOM_RIGHT $GREEN 'Create ...' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
     fi
 
     ln
@@ -86,9 +80,7 @@ importdb () {
       CUSTOM_RIGHT $GREEN 'DUMPS before Import in' $LIGHT_CYAN "$OLDPWD/dumpSQL/backup" $WHITE "✔" "." "✔" 0
       docker_bash "homelab-database" "/opt/db/import_databases.sh $@:root"
     else
-      CUSTOM_RIGHT $NC 'Imported ...' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
-      ln
-      help
+      CUSTOM_RIGHT $NC 'Imported ...' $LIGHT_RED "The project has not started" $RED "✘" " " "✘" 0
     fi
 
     ln

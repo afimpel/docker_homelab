@@ -90,9 +90,7 @@ docker_restart () {
     docker compose restart
     clear
   else
-      CUSTOM_RIGHT $NC 'Restart containers' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
-      ln
-      help
+      CUSTOM_RIGHT $NC 'Restart containers' $LIGHT_RED "The project has not started" $RED "✘" " " "✘" 0
   fi   
   timeExec=$(diffTime "$startExec0000")
   CUSTOM_RIGHT $WHITE "Done all:" $LIGHT_GRAY "$timeExec" $WHITE "✔" "." "✔" 0
@@ -139,9 +137,7 @@ docker_down() {
       cd logs
       colorize $LIGHT_GREEN "✔ $LIGHT_RED$(rm -v startup.pid)"
   else
-      CUSTOM_RIGHT $NC 'Stop & down all containers' $LIGHT_CYAN "There is nothing to do" $WHITE "☐" " " "☐" 0
-      ln
-      help
+      CUSTOM_RIGHT $NC 'Stop & down all containers' $LIGHT_RED "The project has not started" $RED "✘" " " "✘" 0
   fi 
 }
 
