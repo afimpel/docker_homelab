@@ -38,6 +38,9 @@ docker_up () {
   gitinfo=$(git log -1 --pretty=format:"%an: %h - %s ( %cr )")
   echo -e "{ \"startup\":\"$(date)\",\"gitinfo\":\"$gitinfo\",\"username\":\"$USERNAME\",\"checkfile\":[$checkfile],\"version\":{\"php8\":\"$versionPHP8\", \"composer8\":\"$composerVersion8\", \"php7\":\"$versionPHP7\", \"composer7\":\"$composerVersion7\", \"docker\":\"Ver$dockerVersion\", \"dockerCompose\":\"Ver$dockerComposeVersion\"} }" | jq . > www/dash/version.json
   chmod 777 www/dash/version.json
+  if [ $OPEN_BROWSER_PROJECT_START == true ]; then
+      open "browser"
+  fi
 }
 
 docker_up_master () {
