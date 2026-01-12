@@ -1,7 +1,7 @@
 <?php
-include "./config.php";
-include "./dbs.php";
-include "./cache.php";
+include "./inc/config.php";
+include "./inc/dbs.php";
+include "./inc/cache.php";
 
 $dateTime = new DateTime('now');
 $dataArray = array();
