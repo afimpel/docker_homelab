@@ -229,7 +229,7 @@ www()
             title="${BASH_REMATCH[1]}"
             url="${BASH_REMATCH[2]}"
             type="${BASH_REMATCH[3]}"
-            echo "{\"title\": \"${BASH_REMATCH[1]}\", \"url\": \"${BASH_REMATCH[2]}\", \"type\": \"${type,,}\"}" >> TEMP/algo0.json
+            echo "{\"title\": \"${title}\", \"url\": \"${url}\", \"type\": \"${type,,}\"}" >> TEMP/algo0.json
          fi
       fi
    done < "$input_file"
@@ -264,7 +264,13 @@ www()
                title="${BASH_REMATCH[1]}"
                url="${BASH_REMATCH[2]}"
                type="${BASH_REMATCH[3]}"
-               echo "{\"title\": \"${BASH_REMATCH[1]}\", \"url\": \"${BASH_REMATCH[2]}\", \"type\": \"${type,,}\"}" >> TEMP/algo1.json
+               urlType2=$(echo "${url}" | sed 's/https\?:\/\///' | sed 's/\/$//' | cut -d'.' -f1)
+               if [[ $urlType2 == "api" ]]; then
+                  urlType="api"
+               else
+                  urlType="www"
+               fi
+               echo "{\"title\": \"${title}\", \"url\": \"${url}\", \"type\": \"${type,,}\", \"urlType\":\"${urlType,,}\"}" >> TEMP/algo1.json
             fi
          fi
       done < "$input_file0"
@@ -306,7 +312,13 @@ www()
                title="${BASH_REMATCH[1]}"
                url="${BASH_REMATCH[2]}"
                type="${BASH_REMATCH[3]}"
-               echo "{\"title\": \"${BASH_REMATCH[1]}\", \"url\": \"${BASH_REMATCH[2]}\", \"type\": \"${type,,}\"}" >> TEMP/algo2.json
+               urlType2=$(echo "${url}" | sed 's/https\?:\/\///' | sed 's/\/$//' | cut -d'.' -f1)
+               if [[ $urlType2 == "api" ]]; then
+                  urlType="api"
+               else
+                  urlType="www"
+               fi
+               echo "{\"title\": \"${title}\", \"url\": \"${url}\", \"type\": \"${type,,}\", \"urlType\":\"${urlType,,}\"}" >> TEMP/algo2.json
             fi
          fi
       done < "$input_file1"
