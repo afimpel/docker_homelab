@@ -125,6 +125,7 @@ newsite()
          echo -e "# ${siteFile}\n" > "${COMPOSE_PROJECT_NAME,,}${filename}.md"
       fi
       echo -e "* [${sites^^}${subdomainsNAME}](https://${sites_url}.local) :: ${typefileFinal^^}" >> "${COMPOSE_PROJECT_NAME,,}${filename}.md"
+      { head -n 2 ${COMPOSE_PROJECT_NAME,,}${filename}.md; tail -n +3 ${COMPOSE_PROJECT_NAME,,}${filename}.md | sort; } > ${COMPOSE_PROJECT_NAME,,}${filename}.md.tmp && mv ${COMPOSE_PROJECT_NAME,,}${filename}.md.tmp ${COMPOSE_PROJECT_NAME,,}${filename}.md
       docker restart homelab-webserver
       ln
       mkcert -install
@@ -173,6 +174,7 @@ delsite()
       sudo bash -c "mv -v logs/hostsfile.log /etc/hosts"
       cp -v mkcert.csv mkcert_preDelete.csv
       grep -v "${sites_url}.local" ${COMPOSE_PROJECT_NAME,,}${filename}_bk.md > ${COMPOSE_PROJECT_NAME,,}${filename}.md
+      { head -n 2 ${COMPOSE_PROJECT_NAME,,}${filename}.md; tail -n +3 ${COMPOSE_PROJECT_NAME,,}${filename}.md | sort; } > ${COMPOSE_PROJECT_NAME,,}${filename}.md.tmp && mv ${COMPOSE_PROJECT_NAME,,}${filename}.md.tmp ${COMPOSE_PROJECT_NAME,,}${filename}.md
       grep -v "certs_${sites_name}_local" mkcert_preDelete.csv > mkcert.csv
       rm ${COMPOSE_PROJECT_NAME,,}${filename}_bk.md 
       rm -v config/nginx-sites/*-${sites_name}_local.conf
