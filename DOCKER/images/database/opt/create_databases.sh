@@ -14,8 +14,8 @@ if [ -n "$db" ]; then
         cp /opt/db/sql-create.sql /tmp/sql-create.sql
         dbuser=$(echo "$db" | cut -d "_" -f 1)
         echo -e "# Creating database:\n" >> create.md
-        if [ ! -f "logs/create_dbs.pid" ]; then
-            echo -e "Creating databases:\n" > create_dbs.md
+        if [ ! -f "create_${COMPOSE_PROJECT_NAME,,}.pid" ]; then
+            echo -e "Creating databases:\n" > create_${COMPOSE_PROJECT_NAME,,}.md
         fi
         sed -i "s/DATABASE_ROOT_PASSWORD/${MARIADB_ROOT_PASSWORD}/g" /tmp/sql-create.sql
         sed -i "s/USERNAME/${dbuser}/g" /tmp/sql-create.sql
@@ -24,7 +24,7 @@ if [ -n "$db" ]; then
         mariadb -uroot -p$MARIADB_ROOT_PASSWORD -v < /tmp/sql-create.sql
         echo " ⛃  $db :: 👤 USR: ${dbuser}"
         echo -e "* ⛃  $db :: 👤 USR: ${dbuser} / PSW: ${MARIADB_ROOT_PASSWORD}" >> create.md
-        echo -e "* ⛃  $db :: 👤 USR: ${dbuser} / PSW: ${MARIADB_ROOT_PASSWORD}" >> create_dbs.md
+        echo -e "* ⛃  $db :: 👤 USR: ${dbuser} / PSW: ${MARIADB_ROOT_PASSWORD}" >> create_${COMPOSE_PROJECT_NAME,,}.md
         echo -e "\n---\n$(date)" >> create.md
         chmod 777 *.md
     else
