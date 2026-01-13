@@ -48,11 +48,58 @@ generate_version() {
   fi
 }
 
+docker_updates () {
+  if [ "$AUTO_UPDATE_CONTAINERS" = true ] ; then
+    lastUpdateFile="logs/last_update.pid"
+    currentDate=$(date +%s)
+    if [ -f "$lastUpdateFile" ]; then
+      lastUpdate=$(cat "$lastUpdateFile")
+    else
+      lastUpdate=0
+    fi
+    daysDiff=$(( (currentDate - lastUpdate) / 86400 ))
+    if [ $daysDiff -ge $AUTO_UPDATE_DAYS ]; then
+      local CONTENEDORES=(
+        "nginx:alpine|nginx:alpine"
+        "redis/redisinsight:latest|redis/redisinsight:latest"
+        "local:php-$phpVersion8|php:$phpVersion8"
+        "local:php-$phpVersion7|php:$phpVersion7"
+        "afimpelcom/adminer:latest|adminer:latest"
+        "mariadb:latest|mariadb:latest"
+        "valkey:alpine|valkey:alpine"
+        "local:goaccess-$COMPOSE_PROJECT_NAME|alpine:latest"
+      )
+      for item in "${CONTENEDORES[@]}"; do
+        NOMBRE=$(echo "$item" | cut -d'|' -f1)
+        IMAGEN=$(echo "$item" | cut -d'|' -f2)
+        rightH1 $YELLOW "Update image: $NOMBRE" $WHITE '✔' "."
+        FECHA_ACTUAL=$(docker inspect --format='{{.Created}}' "$NOMBRE" 2>/dev/null)
+        docker pull "$IMAGEN"
+        FECHA_NUEVA=$(docker inspect --format='{{.Created}}' "$IMAGEN" 2>/dev/null)
+        if [ "$FECHA_ACTUAL" != "$FECHA_NUEVA" ]; then
+          if [[ "$FECHA_NUEVA" > "$FECHA_ACTUAL" ]]; then
+            rightH1 $YELLOW "Image updated: $NOMBRE" $WHITE '✔' "."
+            if [ "$NOMBRE" != "$IMAGEN" ]; then
+              docker rmi "$NOMBRE"
+            fi
+          fi
+        else
+          rightH1 $YELLOW "Image not updated: $NOMBRE" $WHITE '✔' "."
+        fi
+      done
+      clear
+      date +%s > "$lastUpdateFile"
+    fi
+  fi
+}
+
 docker_up_master () {
   colorize $WHITE "🗑 $LIGHT_RED$(rm -v DOCKER/docker-compose.override.yml)"
   docker_up
   generate-override
   docker_up
+  CUSTOM_RIGHT $WHITE "docker image prune" $LIGHT_GRAY "360h" $WHITE "✔" "." "✔" 0
+  docker image prune -a --filter "until=360h" -f
   timeExec=$(diffTime "$startExec0000")
   CUSTOM_RIGHT $WHITE "Done all:" $LIGHT_GRAY "$timeExec" $WHITE "✔" "." "✔" 0
   clear

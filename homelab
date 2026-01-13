@@ -27,6 +27,7 @@ case "$subcommand" in
     header
     ln
     check_and_pull_updates
+    docker_updates
     docker_up_master
     ln
     www
