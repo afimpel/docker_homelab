@@ -47,6 +47,7 @@ ARG uid
 RUN useradd -G www-data,root -u $uid -d /home/$user $user
 RUN mkdir -p /var/www 
 RUN mkdir -p /home/$user/.composer && \
+mkdir -p /home/$user/.config && \
 chown -R $user:www-data /home/$user && \
 chown -R $user:www-data /var/www 
 

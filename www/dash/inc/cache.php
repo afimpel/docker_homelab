@@ -1,5 +1,5 @@
 <?php
-$cache = ['error' => null, 'keys' => [], 'uptime' => null, 'server'=> ['version' => null, 'name' => 'Valkey', 'icon' => 'icon-redis', 'icon-alt' => 'icon-redis-alt', 'info' => []]];
+$cache = ['error' => null, 'keys' => [], 'uptime' => null, 'server'=> ['version' => null, 'name' => 'Valkey', 'icon' => 'icon-redis', 'icon-alt' => 'icon-redis-alt', 'info' => [], 'dbSize' => null]];
 
 try {
    
@@ -7,6 +7,7 @@ try {
     $redis->connect($cache_server, $cache_port);
     $cache['server']['version'] = $redis->serverVersion()."-".$redis->serverName();
     $cache['server']['info'] = $redis->info();
+    $cache['server']['Keyspace'] = $redis->info('Keyspace');
     $seconds = $redis->info()['uptime_in_seconds'];
     $dtF = new \DateTime('@0');
     $dtT = new \DateTime("@$seconds");
@@ -14,6 +15,7 @@ try {
  
     $cache['uptime'] = $interval->format("%Hh %Im");
     $allKeys = $redis->keys('*');
+    $cache['dbSize'] = $redis->dbSize();
 
     if (!empty($allKeys)) {
         $cache['keys'] = $allKeys;

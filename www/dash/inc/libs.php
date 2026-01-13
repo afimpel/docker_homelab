@@ -69,9 +69,13 @@ function listSitesJSON($typeJSON, $classA, $function, $strReplace){
                 $type="php-alt text-info";
             }
             $site_ID=str_ireplace('://','_',str_ireplace('.','_',$site->url));
-            $onloadFunction=str_replace($strReplace[$key][1],$site->url,$function[$key][0]);
-            $onloadFunction=str_replace($strReplace[$key][0],$site_ID,$onloadFunction);
-            $onloadReplace=str_replace($strReplace[$key][0],$site_ID,$function[$key][1]);
+            $onloadFunction="";
+            $onloadReplace="";
+            if ( $site->urlType=="www" ){
+                $onloadFunction=str_replace($strReplace[$key][1],$site->url,$function[$key][0]);
+                $onloadFunction=str_replace($strReplace[$key][0],$site_ID,$onloadFunction);
+                $onloadReplace=str_replace($strReplace[$key][0],$site_ID,$function[$key][1]);
+            }
             $attrExtras=str_replace($strReplace[$key][0],$site_ID,$function[$key][2]);
             $attrExtras=str_replace($strReplace[$key][4],parse_url($site->url, PHP_URL_HOST),$attrExtras);
             $attrExtras=str_replace($strReplace[$key][1],$site->url,$attrExtras);

@@ -202,7 +202,7 @@ include "./inc/head.php";
                 </h5>
                 <div class="list-group shadow">
                 <?php
-                foreach ($cache['keys'] as $row) { ?>
+                foreach (array_slice($cache['keys'], -12) as $row) { ?>
                     <span class="list-group-item list-group-item-action list-group-item-info py-1" title="<?= $row; ?>">
                         <i class="bi bi-memory me-2"></i>
                         <?= $row; ?>
