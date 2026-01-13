@@ -92,7 +92,7 @@ services:
     image: axllent/mailpit:latest
     container_name: homelab-mailer
     ports:
-      - ${MAILHOG_SMTP_PORT}:1025 # smtp server
+      - ${SMTP_PORT}:1025 # smtp server
       - 8025:8025 # web ui
     networks:
       - homelab-network
@@ -158,6 +158,7 @@ services:
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME}
       REDIS_PORT: ${REDIS_PORT}
+      SMTP_PORT: ${SMTP_PORT}
     container_name: homelab-php7
     image: local:php-${phpVersion7}
     working_dir: /var/www
@@ -207,6 +208,7 @@ services:
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
       COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME}
       REDIS_PORT: ${REDIS_PORT}
+      SMTP_PORT: ${SMTP_PORT}
     container_name: homelab-php8
     image: local:php-${phpVersion8}
     working_dir: /var/www

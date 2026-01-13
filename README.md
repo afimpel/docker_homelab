@@ -11,7 +11,7 @@ Los servicios que levanta son los siguientes:
 - Nginx
 - PHP8 (con composer)
 - PHP7 (con composer)
-- SMTP Server (gui para Mails)
+- SMTP Server / Mailpit (gui y api para Mails)
 - GoAccess (web log analyzer)
 
 ## Configuración e instalación

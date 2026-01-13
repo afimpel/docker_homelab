@@ -5,13 +5,6 @@ backup_file() {
   sudo cp -a -- "$f" "${f}.bak.${TS}"
 }
 replace_mailhog() {
-  set -euo pipefail
-
-  # Cargar .env y exportar variables
-  set -a
-  source DOCKER/.env
-  set +a
-
   local FROM_HOST="mailhog.${COMPOSE_PROJECT_NAME}.local"
   local TO_HOST="mailer.${COMPOSE_PROJECT_NAME}.local"
 
@@ -45,7 +38,7 @@ replace_mailhog() {
   done < <(
     find "$ROOT" \
       \( -type d \( -name ".git" -o -name "node_modules" -o -name "vendor" \) -prune \) -o \
-      \( -type f \( -name "*.csv" -o -name "*.md" -o -name "*.conf" \) -print0 \)
+      \( -type f \( -name "*.csv" -o -name "*.md" -o -name "*.conf" -o  -name ".env" \) -print0 \)
   )
 
   if ((${#FILES[@]} == 0)); then
@@ -64,6 +57,7 @@ replace_mailhog() {
       sed -i -E \
         -e "s/(^|[^A-Za-z0-9_.-])${FROM_HOST}([^A-Za-z0-9_.-]|$)/\1${TO_HOST}\2/g" \
         -e "s/(^|[^A-Za-z0-9_.-])${FROM_HOMELAB}([^A-Za-z0-9_.-]|$)/\1${TO_HOMELAB}\2/g" \
+        -e "s/MAILHOG_SMTP_PORT/SMTP_PORT/g" \
         "$f"
 
       if [[ "$f" == *.md ]]; then

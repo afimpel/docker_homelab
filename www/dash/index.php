@@ -71,9 +71,11 @@ include "./inc/head.php";
                     </a>
                     <?php } ?>
                 </div>
+                <div class="row m-0">
                 <?php
                     if(is_null($dbs['error'])){
                 ?>
+                <div class="col-12 p-2 m-0 col-xxl-4">
                 <a href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>"  data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="<?= "Database Connection: ". $dbs['server']['name']." | Server: $database_server | User: $database_user | Password: $database_pass | Port: $database_port"; ?>" target="_blank" class="w-100 mt-3 shadow btn btn-outline-primary p-1">
                     <h5 class="text-light bg-info py-1 mb-1 rounded"><i class="bi bi-database-fill me-2"></i> Database Connection: <b><?= $dbs['server']['name']; ?></b></h5>
                     <small class="d-flex justify-content-between align-items-center px-1">
@@ -100,11 +102,12 @@ include "./inc/head.php";
                         <?= $database_port; ?>
                         </b>
                     </small>
-                </a>
+                </a></div>
                 <?php } ?>
                 <?php
                     if(is_null($cache['error'])){
                 ?>
+                <div class="col-12 p-2 m-0 col-xxl-4">
                 <a href="//redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" target="_blank" class="w-100 mt-3 shadow btn btn-outline-warning p-1"  data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="<?= "Cache Connection: ". $cache['server']['name']." | Server: $cache_server | Port: $cache_port"; ?>">
                     <h5 class="text-light bg-danger py-1 mb-1 rounded"><i class="<?= $cache['server']['icon']; ?> me-2"></i> Cache Connection: <b><?= $cache['server']['name']; ?></b></h5>
                     <small class="d-flex justify-content-between align-items-center px-1">
@@ -119,8 +122,25 @@ include "./inc/head.php";
                         <?= $cache_port; ?>
                         </b>
                     </small>
-                </a>
+                </a></div>
                 <?php } ?>
+                <div class="col-12 p-2 m-0 col-xxl-4">
+                <a href="//mailer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" target="_blank" class="w-100 mt-3 shadow btn btn-outline-warning p-1"  data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="<?= "SMTP SERVER Connection: ". $mailer['server']['name']." | Server: $mailer_server | Port: $mailer_smtp_port"; ?>">
+                    <h5 class="text-light bg-danger py-1 mb-1 rounded"><i class="<?= $mailer['server']['icon']; ?> me-2"></i> SMTP SERVER Connection: <b><?= $mailer['server']['name']; ?></b></h5>
+                    <small class="d-flex justify-content-between align-items-center px-1">
+                        <span><i class="<?= $mailer['server']['icon']; ?> me-2"></i> Server:</span>
+                        <b class="px-0">
+                        <?= $mailer_server; ?>
+                        </b>
+                    </small>
+                    <small class="d-flex justify-content-between align-items-center px-1">
+                        <span><i class="<?= $mailer['server']['icon']; ?> me-2"></i> Port:</span>
+                        <b class="px-0">
+                        <?= $mailer_smtp_port; ?>
+                        </b>
+                    </small>
+                </a></div>
+                </div>
             </div>
             <div class="col-12 col-xl-5">
 
@@ -142,10 +162,10 @@ include "./inc/head.php";
                     <a name="php8_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local_tooltip" data-bs-toggle="tooltip" data-bs-placement="left" target="_blank" class="list-group-item list-group-item-info list-group-item-action p-1 px-2 d-flex" href="//php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-php-alt mx-2"></i> PHP8 ➤ phpinfo()<small style="font-size: small;" class="badge text-light bg-primary rounded ms-auto my-auto" name="php8_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">-</small></a>
                 </div>
                 <div class="mt-3 list-group shadow">
-                    <a data-bs-toggle="tooltip" data-bs-placement="left" data-bs-original-title="🌐 adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local ➤ Adminer" target="_blank" class="list-group-item list-group-item-primary list-group-item-action p-1 px-2" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-database mx-2"></i> Adminer</a>
+                    <a name="adminer_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local_tooltip" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-original-title="🌐 adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local ➤ Adminer" target="_blank" class="list-group-item list-group-item-primary list-group-item-action p-1 px-2 d-flex" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-database mx-2"></i> Adminer<small style="font-size: small;" class="badge text-light bg-primary rounded ms-auto my-auto" name="adminer_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">-</small></a>
                     <a name="redis_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local_tooltip" data-bs-toggle="tooltip" data-bs-placement="left" target="_blank" class="list-group-item list-group-item-warning list-group-item-action p-1 px-2 d-flex" href="//redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-redis mx-2"></i> Redis<small style="font-size: small;" class="badge text-light bg-warning rounded ms-auto my-auto" name="redis_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">-</small></a>
                     <a data-bs-toggle="tooltip" data-bs-placement="left" data-bs-original-title="🌐 goaccess.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local ➤ GoAccess LOG" target="_blank" class="list-group-item list-group-item-dark list-group-item-action p-1 px-2" href="//goaccess.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="bi bi-journal-text mx-2"></i> GoAccess LOG</a>
-                    <a translate="no" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-original-title="🌐 mailer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local ➤ SMTP Server" target="_blank" class="list-group-item list-group-item-info list-group-item-action p-1 px-2" href="//mailer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class=" icon-bomb mx-2"></i> SMTP Server</a>
+                    <a name="mailer_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local_tooltip" translate="no" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-original-title="🌐 mailer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local ➤ SMTP Server" target="_blank" class="list-group-item list-group-item-info list-group-item-action p-1 px-2 d-flex" href="//mailer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="bi bi-envelope-paper-fill mx-2"></i> SMTP Server<small style="font-size: small;" class="badge text-light bg-primary rounded ms-auto my-auto" name="mailer_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">-</small></a>
                 </div>
             </div>
         </div>
@@ -243,9 +263,11 @@ include "./inc/head.php";
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <script>
     toggleThemeMenu();
-    dataUrl('https://redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/',"redis_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
-    dataUrl('https://php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/',"php8_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
-    dataUrl('https://php7.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/',"php7_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
+    dataUrl("https://adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/","adminer_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
+    dataUrl("https://mailer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/","mailer_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
+    dataUrl("https://redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/","redis_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
+    dataUrl("https://php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/","php8_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
+    dataUrl("https://php7.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/","php7_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
     function recursiveLoop(kkk) {
         dataUptimeUrl('/uptime.php', '<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>');
         setTimeout(recursiveLoop, 15000);
