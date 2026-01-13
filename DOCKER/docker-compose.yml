@@ -88,9 +88,9 @@ services:
   ############################
   # Mailtramp
   ############################
-  homelab-mailhog:
-    image: mailhog/mailhog
-    container_name: homelab-mailhog
+  homelab-mailer:
+    image: axllent/mailpit:latest
+    container_name: homelab-mailer
     ports:
       - ${MAILHOG_SMTP_PORT}:1025 # smtp server
       - 8025:8025 # web ui
@@ -135,6 +135,7 @@ services:
           - homelab-adminer
           - homelab-redisinsight
           - homelab-goaccess
+          - homelab-mailer
 
   ############################
   # Applications
@@ -177,7 +178,7 @@ services:
     depends_on:
       - homelab-database
       - homelab-cache
-      - homelab-mailhog
+      - homelab-mailer
     dns:
       - 8.8.4.4
       - 8.8.8.8
@@ -186,7 +187,7 @@ services:
         aliases:
           - homelab-webserver
           - homelab-php8
-          - homelab-mailhog
+          - homelab-mailer
 
   homelab-php8:
     build:
@@ -226,7 +227,7 @@ services:
     depends_on:
       - homelab-database
       - homelab-cache
-      - homelab-mailhog
+      - homelab-mailer
     dns:
       - 8.8.4.4
       - 8.8.8.8
@@ -235,7 +236,7 @@ services:
         aliases:
           - homelab-webserver
           - homelab-php7
-          - homelab-mailhog
+          - homelab-mailer
 
   ############################
   # Analytics Tool

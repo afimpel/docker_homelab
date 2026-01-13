@@ -112,7 +112,7 @@ newsite()
       sudo bash -c "echo -e '127.0.0.1\t\t${sites_url}.local www.${sites_url}.local nginx-${sites_name}-${COMPOSE_PROJECT_NAME,,}.local' >> /etc/hosts"
 
       dateTime=$(date '+%Y_%m_%d-%s')
-      echo -e "${sites_url}.local www.${sites_url}.local;${sites_name}_local;${sites_url};${typefile}-${sites_name}_local;certs_${sites_name,,}_local;${dateTime};new" >> mkcert.csv
+      echo -e "${sites_url}.local www.${sites_url}.local;${sites_name}_local;${sites_url};${typefile}-${sites_name}_local;certs_${sites_name,,}_local;${dateTime};new" >> mkcert_homelab.csv
       cd DOCKER/certs
 
       mkcert ${sites_url}.local www.${sites_url}.local
@@ -172,10 +172,10 @@ delsite()
       mv -v ${COMPOSE_PROJECT_NAME,,}${filename}.md ${COMPOSE_PROJECT_NAME,,}${filename}_bk.md
       grep -v "${sites_url}.local" /etc/hosts > logs/hostsfile.log 
       sudo bash -c "mv -v logs/hostsfile.log /etc/hosts"
-      cp -v mkcert.csv mkcert_preDelete.csv
+      cp -v mkcert_homelab.csv mkcert_preDelete.csv
       grep -v "${sites_url}.local" ${COMPOSE_PROJECT_NAME,,}${filename}_bk.md > ${COMPOSE_PROJECT_NAME,,}${filename}.md
       { head -n 2 ${COMPOSE_PROJECT_NAME,,}${filename}.md; tail -n +3 ${COMPOSE_PROJECT_NAME,,}${filename}.md | sort; } > ${COMPOSE_PROJECT_NAME,,}${filename}.md.tmp && mv ${COMPOSE_PROJECT_NAME,,}${filename}.md.tmp ${COMPOSE_PROJECT_NAME,,}${filename}.md
-      grep -v "certs_${sites_name}_local" mkcert_preDelete.csv > mkcert.csv
+      grep -v "certs_${sites_name}_local" mkcert_preDelete.csv > mkcert_homelab.csv
       rm ${COMPOSE_PROJECT_NAME,,}${filename}_bk.md 
       rm -v config/nginx-sites/*-${sites_name}_local.conf
       rm -v DOCKER/certs/certs_${sites_name}_local*

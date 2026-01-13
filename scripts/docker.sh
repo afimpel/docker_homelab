@@ -68,6 +68,7 @@ docker_updates () {
         "mariadb:latest|mariadb:latest"
         "valkey:alpine|valkey:alpine"
         "local:goaccess-$COMPOSE_PROJECT_NAME|alpine:latest"
+        "axllent/mailpit:latest|axllent/mailpit:latest"
       )
       for item in "${CONTENEDORES[@]}"; do
         NOMBRE=$(echo "$item" | cut -d'|' -f1)

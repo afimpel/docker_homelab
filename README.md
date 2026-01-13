@@ -11,7 +11,7 @@ Los servicios que levanta son los siguientes:
 - Nginx
 - PHP8 (con composer)
 - PHP7 (con composer)
-- Mailhog (gui para Mails)
+- SMTP Server (gui para Mails)
 - GoAccess (web log analyzer)
 
 ## Configuración e instalación
@@ -33,6 +33,7 @@ sudo apt install mkcert libnss3-tools libnotify-bin -y
 4. para instalar el Proyecto
 
 ```sh
+cd docker_homelab
 # HomeLAB
 bash homelab install
 ```

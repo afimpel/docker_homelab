@@ -28,14 +28,14 @@ installer()
    sed -i "s/COMPOSE_PROJECT_NAME/${COMPOSE_PROJECT_NAME,,}/g" config/nginx-sites/main_${COMPOSE_PROJECT_NAME,,}_local.conf
 
    dateTime=$(date '+%Y_%m_%d-%s')
-   echo -e "${COMPOSE_PROJECT_NAME,,}.local www.${COMPOSE_PROJECT_NAME,,}.local adminer.${COMPOSE_PROJECT_NAME,,}.local goaccess.${COMPOSE_PROJECT_NAME,,}.local mailhog.${COMPOSE_PROJECT_NAME,,}.local redis.${COMPOSE_PROJECT_NAME,,}.local php8.${COMPOSE_PROJECT_NAME,,}.local php7.${COMPOSE_PROJECT_NAME,,}.local localhost 127.0.0.1 ::1;default;${COMPOSE_PROJECT_NAME,,};main_${COMPOSE_PROJECT_NAME,,}_local;certs_default;${dateTime};new" >> mkcert.csv
+   echo -e "${COMPOSE_PROJECT_NAME,,}.local www.${COMPOSE_PROJECT_NAME,,}.local adminer.${COMPOSE_PROJECT_NAME,,}.local goaccess.${COMPOSE_PROJECT_NAME,,}.local mailer.${COMPOSE_PROJECT_NAME,,}.local redis.${COMPOSE_PROJECT_NAME,,}.local php8.${COMPOSE_PROJECT_NAME,,}.local php7.${COMPOSE_PROJECT_NAME,,}.local localhost 127.0.0.1 ::1;default;${COMPOSE_PROJECT_NAME,,};main_${COMPOSE_PROJECT_NAME,,}_local;certs_default;${dateTime};new" >> mkcert_homelab.csv
 
    cd DOCKER/certs
-   mkcert ${COMPOSE_PROJECT_NAME,,}.local www.${COMPOSE_PROJECT_NAME,,}.local adminer.${COMPOSE_PROJECT_NAME,,}.local goaccess.${COMPOSE_PROJECT_NAME,,}.local mailhog.${COMPOSE_PROJECT_NAME,,}.local redis.${COMPOSE_PROJECT_NAME,,}.local php8.${COMPOSE_PROJECT_NAME,,}.local php7.${COMPOSE_PROJECT_NAME,,}.local localhost 127.0.0.1 ::1
+   mkcert ${COMPOSE_PROJECT_NAME,,}.local www.${COMPOSE_PROJECT_NAME,,}.local adminer.${COMPOSE_PROJECT_NAME,,}.local goaccess.${COMPOSE_PROJECT_NAME,,}.local mailer.${COMPOSE_PROJECT_NAME,,}.local redis.${COMPOSE_PROJECT_NAME,,}.local php8.${COMPOSE_PROJECT_NAME,,}.local php7.${COMPOSE_PROJECT_NAME,,}.local localhost 127.0.0.1 ::1
    mv ${COMPOSE_PROJECT_NAME,,}.local*-key.pem certs_default-key.pem
    mv ${COMPOSE_PROJECT_NAME,,}.local*.pem certs_default.pem
    
-   sudo bash -c "echo -e \"127.0.0.1\t\t${COMPOSE_PROJECT_NAME,,}.local www.${COMPOSE_PROJECT_NAME,,}.local adminer.${COMPOSE_PROJECT_NAME,,}.local goaccess.${COMPOSE_PROJECT_NAME,,}.local mailhog.${COMPOSE_PROJECT_NAME,,}.local redis.${COMPOSE_PROJECT_NAME,,}.local php8.${COMPOSE_PROJECT_NAME,,}.local php7.${COMPOSE_PROJECT_NAME,,}.local\" >> /etc/hosts"
+   sudo bash -c "echo -e \"127.0.0.1\t\t${COMPOSE_PROJECT_NAME,,}.local www.${COMPOSE_PROJECT_NAME,,}.local adminer.${COMPOSE_PROJECT_NAME,,}.local goaccess.${COMPOSE_PROJECT_NAME,,}.local mailer.${COMPOSE_PROJECT_NAME,,}.local redis.${COMPOSE_PROJECT_NAME,,}.local php8.${COMPOSE_PROJECT_NAME,,}.local php7.${COMPOSE_PROJECT_NAME,,}.local\" >> /etc/hosts"
 
    openCD $0
    echo -e "# HomeLAB: ${COMPOSE_PROJECT_NAME^^}\n" > ${COMPOSE_PROJECT_NAME,,}.md
@@ -43,7 +43,7 @@ installer()
    echo -e "* [Adminer](https://adminer.${COMPOSE_PROJECT_NAME,,}.local) :: Adminer" >> ${COMPOSE_PROJECT_NAME,,}.md
    echo -e "* [GoAccess LOG](https://goaccess.${COMPOSE_PROJECT_NAME,,}.local) :: GoAccess LOG" >> ${COMPOSE_PROJECT_NAME,,}.md
    echo -e "* [Redis Insight](https://redis.${COMPOSE_PROJECT_NAME,,}.local) :: Redis Insight" >> ${COMPOSE_PROJECT_NAME,,}.md
-   echo -e "* [MailHog](https://mailhog.${COMPOSE_PROJECT_NAME,,}.local) :: MailHog" >> ${COMPOSE_PROJECT_NAME,,}.md
+   echo -e "* [SMTP Server](https://mailer.${COMPOSE_PROJECT_NAME,,}.local) :: SMTP Server" >> ${COMPOSE_PROJECT_NAME,,}.md
    echo -e "* [PHP7](https://php7.${COMPOSE_PROJECT_NAME,,}.local) :: PHP7 info" >> ${COMPOSE_PROJECT_NAME,,}.md
    echo -e "* [PHP8](https://php8.${COMPOSE_PROJECT_NAME,,}.local) :: PHP8 info" >> ${COMPOSE_PROJECT_NAME,,}.md
    leftH1 $LIGHT_GREEN 'DONE' $WHITE '✔' "."

@@ -7,14 +7,19 @@
 recreate-ssl()
 {
    openCD $0
-   touch mkcert_recreate.csv
    echo -e "MKCERT\n" > logs/mkcert.log
-   sudo rm -v DOCKER/certs/*.pem >> logs/mkcert.log
-   rm -v mkcert_recreate.csv >> logs/mkcert.log
    echo -e "\n\t --- Recreating SSL Certificates ---\n" >> logs/mkcert.log
    rightH1 $YELLOW "SSL Certificate Recreation" $LIGHT_GREEN '✔' "." 
    exist 'mkcert'
-   input_file="mkcert.csv"
+   input_file="mkcert_homelab.csv"
+   if [ -z $1 ]; then
+      echo -e "\t --- Using default input file: mkcert_homelab.csv --- \n" >> logs/mkcert.log
+      sudo rm -v DOCKER/certs/*.pem >> logs/mkcert.log
+      touch mkcert_recreate.csv
+      rm -v mkcert_recreate.csv >> logs/mkcert.log
+   else
+      input_file=$(grep -i "$1" mkcert_homelab.csv)
+   fi
    lnline=0
    dateTimeFormat=$(date '+%s')
    while IFS= read -r line; do
@@ -44,12 +49,17 @@ recreate-ssl()
       sed -i "s/${fileSSL,,}/${fileSSLcert,,}/g" config/nginx-sites/${fileConf}.conf
       cat "config/nginx-sites/${fileConf}.conf" | grep "${fileSSL}" >> logs/mkcert.log
       echo -e "\t --- --- --- --- \n" >> logs/mkcert.log
-      echo -e "${URLS};${file};${domain};${fileConf};${fileSSLcert};${dateTime};recreate" >> mkcert_recreate.csv
+      if [ -z $1 ]; then
+         echo -e "${URLS};${file};${domain};${fileConf};${fileSSLcert};${dateTime};recreate" >> mkcert_recreate.csv
+         sleep 2
+      fi
       leftH1 $LIGHT_CYAN " done ... (https://${domain}.local)" $WHITE "✔" "."
    done < "$input_file"
    ln
    docker restart homelab-webserver
    mkcert -install >> logs/mkcert.log
-   mv -v mkcert_recreate.csv mkcert.csv >> logs/mkcert.log
+   if [ -z $1 ]; then
+      mv -v mkcert_recreate.csv mkcert_homelab.csv >> logs/mkcert.log
+   fi
    leftH1 $LIGHT_GREEN 'DONE' $WHITE '✔' "."
 }
