@@ -9,6 +9,7 @@ dumpsdb () {
     startExec=$(date +'%s')
 
     openCD $0 
+    directory_cli=$PWD
     if [ -f "logs/startup.pid" ]; then
       rightH1 $YELLOW "Dump to file from Database" $WHITE '▾' "."
       docker_bash "homelab-database" "mariadb --version:root"
@@ -27,6 +28,7 @@ dropdb () {
     startExec=$(date +'%s')
 
     openCD $0 
+    directory_cli=$PWD
     db="$1"
     if [ -n "$db" ]; then
       openCD $0 
@@ -51,7 +53,7 @@ createdb () {
 
     openCD $0 
     db="$@"
-    
+    directory_cli=$PWD
     if [ -n "$db" ]; then
       openCD $0 
       if [ -f "logs/startup.pid" ]; then
@@ -73,6 +75,7 @@ importdb () {
     startExec=$(date +'%s')
 
     openCD $0 
+    directory_cli=$PWD
     if [ -f "logs/startup.pid" ]; then
       rightH1 $YELLOW "Imported from file to database" $WHITE '▾' "."
       docker_bash "homelab-database" "mariadb --version:root"

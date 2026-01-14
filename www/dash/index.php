@@ -193,21 +193,22 @@ include "./inc/head.php";
                 </div>
             </div>
             <?php }
-            if(count($cache['keys'])>=1){
+            if($cache['counter']>=1){
             ?>
             <div class="col-12 col-xl">
                 <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3">
                     <i class="<?= $cache['server']['icon']; ?> me-2 text-warning"></i> Cache List
-                    <small class="badge text-light bg-primary ms-auto"><?php echo count($cache['keys']);?></small>
+                    <small class="badge text-light bg-primary ms-auto"><?php echo $cache['counter'];?></small>
                 </h5>
                 <div class="list-group shadow">
                 <?php
-                foreach (array_slice($cache['keys'], -12) as $row) { ?>
-                    <span class="list-group-item list-group-item-action list-group-item-info py-1" title="<?= $row; ?>">
+                foreach ($cache['keys'] as $dbV => $row2) {
+                    foreach ($row2 as $row) { ?>
+                    <span class="list-group-item list-group-item-action list-group-item-info py-1" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-original-title="<?= $dbV.": ".$row; ?>">
                         <i class="bi bi-memory me-2"></i>
-                        <?= $row; ?>
+                        <?= $dbV.": ".$row; ?>
                     </span>
-                <?php }
+                <?php }}
                 ?>
                 </div>
             </div>

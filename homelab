@@ -67,6 +67,7 @@ case "$subcommand" in
     header
     startup
     ln
+    directory_cli=$PWD
     docker_bash "homelab-php7" "logs-chmod:root"
     docker_restart
     ln
@@ -79,6 +80,7 @@ case "$subcommand" in
     header
     startup
     ln
+    directory_cli=$PWD
     docker_bash "homelab-php7" "logs-chmod:root"
     clearLogs
     openCD $0 
@@ -247,6 +249,7 @@ case "$subcommand" in
   down)
     clear
     header
+    directory_cli=$PWD
     docker_bash "homelab-php8" "logs-chmod:root"
     docker_bash "homelab-php7" "logs-chmod:root"
     docker_bash "homelab-database" "logs-chmod:root"

@@ -17,14 +17,16 @@ docker_up () {
     docker_down clear
     exit 1
   fi
+  directory_cli=$PWD
   docker_bash "homelab-php8" "logs-chmod:root"
   docker_bash "homelab-php7" "logs-chmod:root"
   docker_bash "homelab-database" "logs-chmod:root"
 }
 
 generate_version() {
+  openCD $0
+  directory_cli=$PWD
   if [ -f "logs/startup.pid" ]; then
-    openCD $0
     rightH1 $YELLOW 'Generate version file' $WHITE '✔' "."
     versionPHP7=$(docker_bash "homelab-php7" "php:root" -v | head -1 | cut -d " " -f 2)
     versionPHP8=$(docker_bash "homelab-php8" "php:root" -v | head -1 | cut -d " " -f 2)
@@ -49,6 +51,7 @@ generate_version() {
 }
 
 docker_updates () {
+  directory_cli=$PWD
   if [ "$AUTO_UPDATE_CONTAINERS" = true ] ; then
     lastUpdateFile="logs/last_update.pid"
     currentDate=$(date +%s)
@@ -95,6 +98,7 @@ docker_updates () {
 }
 
 docker_up_master () {
+  directory_cli=$PWD
   colorize $WHITE "🗑 $LIGHT_RED$(rm -v DOCKER/docker-compose.override.yml)"
   docker_up
   generate-override
@@ -114,6 +118,7 @@ docker_up_master () {
 }
 
 runonce_fn () {
+  directory_cli=$PWD
   startExec0000=$(date +'%s')
   openCD $0
   if [ -f "logs/startup.pid" ]; then
@@ -141,6 +146,7 @@ docker_restart () {
   clear
   startExec0000=$(date +'%s')
   openCD $0
+  directory_cli=$PWD
   if [ -f "logs/startup.pid" ]; then
     rightH1 $YELLOW 'Restart containers' $WHITE '⟳' "."
     date +'%s' > logs/startup.pid
@@ -173,6 +179,7 @@ docker_logs() {
 docker_down() {
   startExec0002=$(date +'%s')
   openCD $0
+  directory_cli=$PWD
   if [ -f "logs/startup.pid" ]; then
       startup
       ln
