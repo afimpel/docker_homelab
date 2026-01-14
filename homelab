@@ -1,7 +1,8 @@
 #!/bin/bash
+source $(dirname $0)/scripts/utils.sh
 source $(dirname $0)/scripts/libnotify.sh
 source $(dirname $0)/scripts/help.sh
-source $(dirname $0)/scripts/utils.sh
+source $(dirname $0)/scripts/cache.sh
 source $(dirname $0)/scripts/sites.sh
 source $(dirname $0)/scripts/open.sh
 source $(dirname $0)/scripts/supervisor.sh
@@ -96,6 +97,12 @@ case "$subcommand" in
     header
     ln
     help "$@"
+    footer
+  ;;
+  cache)
+    header
+    ln
+    cache_cmd "$@"
     footer
   ;;
   install)

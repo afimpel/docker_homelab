@@ -74,6 +74,12 @@
           "description": "Show help related to the database",
           "href": "database"
         },
+        "--cache": {
+          "mode": "on",
+          "checkfile": "",
+          "description": "Show help related to the cache",
+          "href": "cache"
+        },
         "--alias": {
           "mode": "on",
           "checkfile": "makealias.pid",
@@ -285,6 +291,25 @@
           "mode": "on",
           "checkfile": "",
           "description": "The specified mariadb database is backed up and deleted"
+        }
+      }
+    },
+    {
+      "tags": [
+        "cache",
+        "all"
+      ],
+      "title": "Cache",
+      "href": "cache",
+      "description": "Cache TOOLS",
+      "command": "cache",
+      "checkfile": "",
+      "mode": "on",
+      "options": {
+        "FLUSHALL": {
+          "mode": "on",
+          "checkfile": "",
+          "description": "Clear all keys Cache"
         }
       }
     },
