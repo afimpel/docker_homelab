@@ -2,7 +2,7 @@
 include "./inc/head.php";
 ?>
     <h2 class="mx-4 alert alert-danger p-4 shadow" id="display_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">
-        <b><i class="icon-bomb"></i> The project is inactive.</b>
+        <b><i class="icon-docker"></i> The project is inactive.</b>
         <span class="ms-auto">Please start the Docker containers with <code class="px-4"><?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?> up</code> command.</span>
     </h2>
     <?php if ( ! is_null($dbs['error'])){ ?>
@@ -260,7 +260,6 @@ include "./inc/head.php";
             <code class="text-center d-block"><?php echo $objVersion->gitinfo ?? "-"; ?></code>
         </div>
     </div>
-    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <script>
     toggleThemeMenu();
@@ -271,7 +270,7 @@ include "./inc/head.php";
     dataUrl("https://php7.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/","php7_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
     function recursiveLoop(kkk) {
         dataUptimeUrl('/uptime.php', '<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>');
-        setTimeout(recursiveLoop, 15000);
+        setTimeout(recursiveLoop, <?php echo getenv('TIMEUOT_DASHBOARD'); ?>);
     }
     recursiveLoop();
     const tooltipElements = document.querySelectorAll('[data-bs-toggle="tooltip"]');

@@ -158,12 +158,14 @@ clearLogs () {
     startExec0000=$(date +'%s')
     rightH1 $YELLOW 'Clear Logs' $WHITE '🗑' "."
     openCD $0
-    find . -type f -name "*.log" -delete -printf " 🗑  REMOVED:\t $LIGHT_RED \0%p $NC\n" | sort
-    find . -path "*/storage/logs/*" -type d -delete -printf " 🗑  REMOVED:\t $LIGHT_RED \0%p $NC\n" | sort
-    find . -type f -name "*.out" -delete -printf " 🗑  REMOVED:\t $LIGHT_RED \0%p $NC\n" | sort
-    find . -type f -name "debug*.json" -delete -printf " 🗑  REMOVED:\t $LIGHT_RED \0%p $NC\n" | sort
-    find . -type f -name "ci_sessio*" -delete -printf " 🗑  REMOVED:\t $LIGHT_RED \0%p $NC\n" | sort
-    find TEMP -type f ! -name ".gitignore" -delete -printf " 🗑  REMOVED:\t $LIGHT_RED \0%p $NC\n" | sort
+    find . \( \
+        \( -type f -name "*.log" \) -o \
+        \( -type f -name "*.out" \) -o \
+        \( -type f -name "debug*.json" \) -o \
+        \( -type f -name "ci_sessio*" \) -o \
+        \( -path "*/storage/logs/*" -type d \) -o \
+        \( -path "./TEMP/*" -type f ! -name ".gitignore" \) \
+    \) -delete -printf " 🗑  REMOVED:\t ${LIGHT_RED}%p${NC}\n" | sort
     ln
     timeExec=$(diffTime "$startExec0000")
     send_notify "Clear all logs ..." "trash"

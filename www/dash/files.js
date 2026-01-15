@@ -96,7 +96,7 @@ async function obtenerUptimeUrl(url, idAttr) {
         document.getElementById(IDdatabase).dataset.bsOriginalTitle = dataJson.database.server.name + " ➤ Uptime : " + dataJson.database.uptime;
         document.getElementById(IDdatetime).innerHTML = dataJson.datetime;
         document.getElementById(IDdatetime + "_tooltip").dataset.bsOriginalTitle = "DateTime : " + dataJson.datetime;
-        console.log('DateTime : ', dataJson.datetime);
+        console.log('DateTime : ', dataJson.datetime, "|", dataJson.cache.server.name + " ➤ Uptime : " + dataJson.cache.uptime, "|", dataJson.database.server.name + " ➤ Uptime : " + dataJson.database.uptime);
         return "dd";
 
     } catch (error) {
