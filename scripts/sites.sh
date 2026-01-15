@@ -49,7 +49,7 @@ newsite()
       sites_url="${sites}";
       sites_name="${sites//./_}";
    fi
-   examplesiteDir="${sites}.local"
+   examplesiteDir="${sites_url}.local"
 
    if [[ $sites_url == *.* ]]; then
       subdomainsTrue=1;
