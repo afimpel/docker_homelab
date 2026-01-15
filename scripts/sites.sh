@@ -49,25 +49,15 @@ newsite()
       sites_url="${sites}";
       sites_name="${sites//./_}";
    fi
-   examplesiteDir="${sites}"
+   examplesiteDir="${sites}.local"
 
    if [[ $sites_url == *.* ]]; then
       subdomainsTrue=1;
       subdomains=$(echo "$sites_url" | cut -d "." -f 1);
       sites=$(echo "$sites_url" | cut -d "." -f 2);
-      subdir="${subdomains,,}/$subdir"
-      examplesiteDir="${sites}\/${subdomains,,}";
       subdomainsNAME=" | ${subdomains^^}"
    fi
 
-   if [ ! -z "$4" ]; then
-      subdomainsTrue=1;
-      sites_url="${4,,}.${sites}";
-      sites_name="${4,,}_${sites}";
-      subdir="${4,,}/$subdir"
-      examplesiteDir="${sites}\/${4,,}"
-      subdomainsNAME=" | ${4^^}"
-   fi
 
    exist 'mkcert'
    rightH1 $YELLOW "${typefileFinal^^} :: https://${sites_url}.local" $WHITE "⛁" "."
@@ -91,21 +81,21 @@ newsite()
          sed -i "s/.gkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkggkgk././g" config/nginx-sites/${typefileFinal}-${sites_name}_local.conf
          sed -i "s/examplesite/${sites_url}/g" config/nginx-sites/${typefileFinal}-${sites_name}_local.conf
       fi
-      if [ ! -d "www/${siteFile,,}/${sites}/${subdir,,}" ]; then
-         mkdir -p www/${siteFile,,}/${sites}/${subdir,,}
+      if [ ! -d "www/${siteFile,,}/${examplesiteDir,,}/${subdir,,}" ]; then
+         mkdir -p www/${siteFile,,}/${examplesiteDir,,}/${subdir,,}
          indexFile="index.php"
          if [ "$typefile" == "php8" ]; then
-            cp -v DOCKER/examples/php-newsite.php www/${siteFile,,}/${sites}/${subdir,,}/index.php
+            cp -v DOCKER/examples/php-newsite.php www/${siteFile,,}/${examplesiteDir}/${subdir,,}/index.php
          elif [ "$typefile" == "php7" ]; then
-            cp -v DOCKER/examples/php-newsite.php www/${siteFile,,}/${sites}/${subdir,,}/index.php
+            cp -v DOCKER/examples/php-newsite.php www/${siteFile,,}/${examplesiteDir}/${subdir,,}/index.php
          else
             indexFile="index.html"
-            cp -v DOCKER/examples/legacy-newsite.html www/${siteFile,,}/${sites}/${subdir,,}/index.html
+            cp -v DOCKER/examples/legacy-newsite.html www/${siteFile,,}/${examplesiteDir}/${subdir,,}/index.html
          fi
-         sed -i "s/wwwSite/${sites_url}/g" www/${siteFile,,}/${sites}/${subdir,,}/$indexFile
-         sed -i "s/typeSite/${siteFile}/g" www/${siteFile,,}/${sites}/${subdir,,}/$indexFile
-         sed -i "s/COMPOSE_PROJECT_NAME/${COMPOSE_PROJECT_NAME,,}/g" www/${siteFile,,}/${sites}/${subdir,,}/$indexFile
-         sed -i "s/COMPOSE_PROJECT_NAME/${COMPOSE_PROJECT_NAME,,}/g" www/${siteFile,,}/${sites}/${subdir,,}/$indexFile
+         sed -i "s/wwwSite/${sites_url}/g" www/${siteFile,,}/${examplesiteDir}/${subdir,,}/$indexFile
+         sed -i "s/typeSite/${siteFile}/g" www/${siteFile,,}/${examplesiteDir}/${subdir,,}/$indexFile
+         sed -i "s/COMPOSE_PROJECT_NAME/${COMPOSE_PROJECT_NAME,,}/g" www/${siteFile,,}/${examplesiteDir}/${subdir,,}/$indexFile
+         sed -i "s/COMPOSE_PROJECT_NAME/${COMPOSE_PROJECT_NAME,,}/g" www/${siteFile,,}/${examplesiteDir}/${subdir,,}/$indexFile
       fi
       
       
@@ -182,9 +172,9 @@ delsite()
       if [ "$deleteDir" == "yes" ]; then
          ln
          if [ "$subdomainsTrue" == "0" ]; then
-            rm -vrf www/subdomains/${sites}
+            rm -vrf www/subdomains/${sites}.local
          else
-            rm -vrf www/domains/${sites}
+            rm -vrf www/domains/${sites}.local
          fi
       fi
       if [ -x "$(command -v notify-send)" ]; then
