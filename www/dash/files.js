@@ -96,8 +96,8 @@ async function obtenerUptimeUrl(url, idAttr) {
         document.getElementById(IDdatabase).dataset.bsOriginalTitle = dataJson.database.server.name + " ➤ Uptime : " + dataJson.database.uptime;
         document.getElementById(IDdatetime).innerHTML = dataJson.datetime;
         document.getElementById(IDdatetime + "_tooltip").dataset.bsOriginalTitle = "DateTime : " + dataJson.datetime;
-        console.log('DateTime : ', dataJson.datetime, "|", dataJson.cache.server.name + " ➤ Uptime : " + dataJson.cache.uptime, "|", dataJson.database.server.name + " ➤ Uptime : " + dataJson.database.uptime);
-        return "dd";
+        console.log(idAttr,'| DateTime ➤ ', dataJson.datetime, "|", dataJson.cache.server.name + " ➤ Uptime : " + dataJson.cache.uptime, "|", dataJson.database.server.name + " ➤ Uptime : " + dataJson.database.uptime);
+        return dataJson.datetime;
 
     } catch (error) {
         // document.getElementById(idAttr).style.display = 'none';
@@ -111,7 +111,7 @@ function dataUptimeUrl(url, id) {
             document.getElementById("display_" + id + "_local").style.display = 'flex';
             document.getElementById("active_" + id + "_local").style.display = 'none';
             document.getElementById("active2_" + id + "_local").style.display = 'none';
-            console.log('No se pudo obtener el título de la URL inexistente (esperado).');
+            console.error(id, " Offline ...");
         }
     });
 }
