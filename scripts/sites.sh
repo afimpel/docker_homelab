@@ -51,7 +51,7 @@ newsite()
    fi
    examplesiteDir="${sites_url}.local"
 
-   if [[ $sites_url == *.* ]]; then
+   if [[ $sites == *.* ]]; then
       subdomainsTrue=1;
       subdomains=$(echo "$sites_url" | cut -d "." -f 1);
       sites=$(echo "$sites_url" | cut -d "." -f 2);
@@ -67,7 +67,7 @@ newsite()
       filename="_subdomains"
       cp -v DOCKER/examples/examplesite-${typefileFinal}-local.conf config/nginx-sites/${typefileFinal}-${sites_name}_local.conf
       sed -i "s/examplesiteDir/${examplesiteDir,,}/g" config/nginx-sites/${typefileFinal}-${sites_name}_local.conf
-      if [ "$subdomainsTrue" == "0" ]; then
+      if [ $subdomainsTrue == 0 ]; then
          siteFile="SubDomains"
          sed -i "s/examplesite/${sites}/g" config/nginx-sites/${typefileFinal}-${sites_name}_local.conf
          sed -i "s/COMPOSE_PROJECT_NAME/${COMPOSE_PROJECT_NAME,,}/g" config/nginx-sites/${typefileFinal}-${sites_name}_local.conf
@@ -102,7 +102,7 @@ newsite()
       sudo bash -c "echo -e '127.0.0.1\t\t${sites_url}.local www.${sites_url}.local nginx-${sites_name}-${COMPOSE_PROJECT_NAME,,}.local' >> /etc/hosts"
 
       dateTime=$(date '+%Y_%m_%d-%s')
-      echo -e "${sites_url}.local www.${sites_url}.local;${sites_name}_local;${sites_url};${typefile}-${sites_name}_local;certs_${sites_name,,}_local;${dateTime};new" >> mkcert_homelab.csv
+      echo -e "${sites_url}.local www.${sites_url}.local;${sites_name}_local;${sites_url};${typefileFinal}-${sites_name}_local;certs_${sites_name,,}_local;${dateTime};new" >> mkcert_homelab.csv
       cd DOCKER/certs
 
       mkcert ${sites_url}.local www.${sites_url}.local
@@ -110,7 +110,7 @@ newsite()
       mv -v ${sites_url}.local*.pem certs_${sites_name}_local.pem 
 
       openCD $0
-      more config/nginx-sites/${typefile}-${sites_name}_local.conf | grep server_name | head -1
+      more config/nginx-sites/${typefileFinal}-${sites_name}_local.conf | grep server_name | head -1
       if [ ! -f "${COMPOSE_PROJECT_NAME,,}${filename}.md" ]; then
          echo -e "# ${siteFile}\n" > "${COMPOSE_PROJECT_NAME,,}${filename}.md"
       fi
@@ -172,9 +172,9 @@ delsite()
       if [ "$deleteDir" == "yes" ]; then
          ln
          if [ "$subdomainsTrue" == "0" ]; then
-            rm -vrf www/subdomains/${sites}.local
+            rm -vrf www/subdomains/${sites_url}.local
          else
-            rm -vrf www/domains/${sites}.local
+            rm -vrf www/domains/${sites_url}.local
          fi
       fi
       if [ -x "$(command -v notify-send)" ]; then
