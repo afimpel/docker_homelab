@@ -31,6 +31,7 @@ $objVersion = json_decode(file_get_contents('version.json'));
 </head>
 
 <body style="padding-top: 96px;">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <nav class="navbar navbar-expand-xl navbar-dark bg-dark fixed-top shadow">
 
         <div class="container">
@@ -70,10 +71,9 @@ $objVersion = json_decode(file_get_contents('version.json'));
                 </ul>
                 <ul class="navbar-nav ms-xl-auto">
                     <li class="nav-item">
-                        <a target="_blank" rel="noopener" class="nav-link" href="https://github.com/afimpel/docker_homelab"><i class="bi bi-github"></i> GitHub</a>
-                    </li>
-                    <li class="nav-item">
-                        <a target="_blank" rel="noopener" class="nav-link" href="https://twitter.com/afimpel"><i class="bi bi-twitter"></i> Twitter</a>
+                       <button data-bs-placement="bottom" data-bs-original-title="Additional information about the project." class="nav-link d-flex align-items-center toggle_tooltip" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExtraInfo" aria-controls="offcanvasExtraInfo">
+                            <i class="bi bi-layout-text-window"></i>
+                       </button>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="theme-menu" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme">

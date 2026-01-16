@@ -125,8 +125,8 @@ include "./inc/head.php";
                 </a></div>
                 <?php } ?>
                 <div class="col-12 p-2 m-0 col-xxl-4">
-                <a href="//mailer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" target="_blank" class="w-100 mt-3 shadow btn btn-outline-warning p-1"  data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="<?= "SMTP SERVER Connection: ". $mailer['server']['name']." | Server: $mailer_server | Port: $mailer_smtp_port"; ?>">
-                    <h5 class="text-light bg-danger py-1 mb-1 rounded"><i class="<?= $mailer['server']['icon']; ?> me-2"></i> SMTP SERVER Connection: <b><?= $mailer['server']['name']; ?></b></h5>
+                <a href="//mailer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" target="_blank" class="w-100 mt-3 shadow btn btn-outline-success p-1"  data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="<?= "SMTP SERVER Connection: ". $mailer['server']['name']." | Server: $mailer_server | Port: $mailer_smtp_port"; ?>">
+                    <h5 class="text-light bg-success py-1 mb-1 rounded"><i class="<?= $mailer['server']['icon']; ?> me-2"></i> SMTP SERVER Connection: <b><?= $mailer['server']['name']; ?></b></h5>
                     <small class="d-flex justify-content-between align-items-center px-1">
                         <span><i class="<?= $mailer['server']['icon']; ?> me-2"></i> Server:</span>
                         <b class="px-0">
@@ -260,24 +260,13 @@ include "./inc/head.php";
             <code class="text-center d-block"><?php echo $objVersion->gitinfo ?? "-"; ?></code>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <script>
-    toggleThemeMenu();
-    dataUrl("https://adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/","adminer_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
-    dataUrl("https://mailer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/","mailer_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
-    dataUrl("https://redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/","redis_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
-    dataUrl("https://php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/","php8_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
-    dataUrl("https://php7.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/","php7_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
     function recursiveLoop(kkk) {
         dataUptimeUrl('/uptime.php', '<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>');
         setTimeout(recursiveLoop, <?php echo getenv('TIMEUOT_DASHBOARD'); ?>);
     }
     recursiveLoop();
-    const tooltipElements = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-    for (const tooltip of tooltipElements) {
-        new bootstrap.Tooltip(tooltip); // eslint-disable-line no-new
-    }  
     </script>
-
-</body>
-</html>
+<?php
+include "./inc/footer.php";
+?>

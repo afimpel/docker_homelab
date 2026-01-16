@@ -189,16 +189,7 @@ $description = $objHelp0000[0]->description;
             });
         });
     }
-    toggleThemeMenu();
     const codes = document.querySelectorAll('code');
-    dataUrl('https://redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/',"redis_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
-    dataUrl('https://php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/',"php8_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
-    dataUrl('https://php7.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/',"php7_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
-    const tooltipElements = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-    for (const tooltip of tooltipElements) {
-        new bootstrap.Tooltip(tooltip); // eslint-disable-line no-new
-    }  
-
   codes.forEach(code => {
     code.style.cursor = 'pointer';
     const parent = code.parentElement.parentElement;
@@ -229,5 +220,6 @@ $description = $objHelp0000[0]->description;
     });
   });
     </script>
-</body>
-</html>
+<?php
+include "./inc/footer.php";
+?>
