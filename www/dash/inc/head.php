@@ -32,7 +32,7 @@ $objVersion = json_decode(file_get_contents('version.json'));
 
 <body style="padding-top: 96px;">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    <nav class="navbar navbar-expand-xl navbar-dark bg-dark fixed-top shadow">
+    <nav class="navbar navbar-expand-xl bg-body-tertiary fixed-top shadow">
 
         <div class="container">
             <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="LEMP STACK ➤ Compose: <?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?> ➤ Your local development environment in Docker" href="//www.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" class="navbar-brand"><i class="me-2 icon-docker"></i> LEMP</a>
