@@ -21,7 +21,10 @@ open()
             domainsOpens="https://www.${COMPOSE_PROJECT_NAME,,}.local $(jq -r '[.items[] | select(.urlType=="www" and (.exclude==false))] | sort_by(.title) | map(.url) | join(" ")' www/dash/domains.json)"
             local domainsOpens_count=${#domainsOpens}
             domainsOpens_count=$(( domainsOpens_count - 1 ))
-            leftH1 $WHITE "$OPEN_BROWSER_COMMAND $domainsOpens" $LIGHT_CYAN "☑" " " "☑" "4+${domainsOpens_count}"
+            local browserSTR="$OPEN_BROWSER_COMMAND $domainsOpens"
+            local truncarINT=$(tput cols)
+            local browserSTR0=$(truncar "$browserSTR" $(( truncarINT - 16 )) )
+            leftH1 $WHITE "$browserSTR0" $LIGHT_CYAN "☑" " " "☑" "4+${domainsOpens_count}"
             nohup $OPEN_BROWSER_COMMAND $domainsOpens > /dev/null 2>&1 &
         else
             CUSTOM_RIGHT $NC 'Opening Browser' $LIGHT_RED "The project has not started" $RED "✘" " " "✘" 0
