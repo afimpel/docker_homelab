@@ -75,7 +75,7 @@ include "./inc/head.php";
                 <?php
                     if(is_null($dbs['error'])){
                 ?>
-                <div class="col-12 p-2 m-0 col-xxl-4">
+                <div class="col-12 m-0 col-xxl-6">
                 <a href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>"  data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="<?= "Database Connection: ". $dbs['server']['name']." | Server: $database_server | User: $database_user | Password: $database_pass | Port: $database_port"; ?>" target="_blank" class="w-100 mt-3 shadow btn btn-outline-primary p-1">
                     <h5 class="text-light bg-info py-1 mb-1 rounded"><i class="bi bi-database-fill me-2"></i> Database Connection: <b><?= $dbs['server']['name']; ?></b></h5>
                     <small class="d-flex justify-content-between align-items-center px-1">
@@ -104,10 +104,11 @@ include "./inc/head.php";
                     </small>
                 </a></div>
                 <?php } ?>
+                <div class="col-12 m-0 col-xxl-6">
                 <?php
                     if(is_null($cache['error'])){
                 ?>
-                <div class="col-12 p-2 m-0 col-xxl-4">
+                <div class="col-12 p-0 m-0">
                 <a href="//redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" target="_blank" class="w-100 mt-3 shadow btn btn-outline-warning p-1"  data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="<?= "Cache Connection: ". $cache['server']['name']." | Server: $cache_server | Port: $cache_port"; ?>">
                     <h5 class="text-light bg-danger py-1 mb-1 rounded"><i class="<?= $cache['server']['icon']; ?> me-2"></i> Cache Connection: <b><?= $cache['server']['name']; ?></b></h5>
                     <small class="d-flex justify-content-between align-items-center px-1">
@@ -124,7 +125,7 @@ include "./inc/head.php";
                     </small>
                 </a></div>
                 <?php } ?>
-                <div class="col-12 p-2 m-0 col-xxl-4">
+                <div class="col-12 p-0 m-0">
                 <a href="//mailer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" target="_blank" class="w-100 mt-3 shadow btn btn-outline-success p-1"  data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="<?= "SMTP SERVER Connection: ". $mailer['server']['name']." | Server: $mailer_server | Port: $mailer_smtp_port"; ?>">
                     <h5 class="text-light bg-success py-1 mb-1 rounded"><i class="<?= $mailer['server']['icon']; ?> me-2"></i> SMTP SERVER Connection: <b><?= $mailer['server']['name']; ?></b></h5>
                     <small class="d-flex justify-content-between align-items-center px-1">
@@ -140,6 +141,7 @@ include "./inc/head.php";
                         </b>
                     </small>
                 </a></div>
+                </div>
                 </div>
             </div>
             <div class="col-12 col-xl-5">
@@ -170,10 +172,11 @@ include "./inc/head.php";
             </div>
         </div>
         <div class="row my-4 mx-1">
+            <div class="col-12 col-xl">
             <?php
                 if(is_null($dbs['error'])){
             ?>
-            <div class="col-12 col-xl">
+            <div class="mb-4">
                 <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3">
                     <i class="<?= $dbs['server']['icon']; ?> me-2 text-primary"></i> Database List
                     <small class="badge text-light bg-primary ms-auto"><?php echo count($dbs['database']);?></small>
@@ -195,7 +198,7 @@ include "./inc/head.php";
             <?php }
             if($cache['counter']>=1){
             ?>
-            <div class="col-12 col-xl">
+            <div class="mb-4">
                 <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3">
                     <i class="<?= $cache['server']['icon']; ?> me-2 text-warning"></i> Cache List
                     <small class="badge text-light bg-primary ms-auto"><?php echo $cache['counter'];?></small>
@@ -212,7 +215,9 @@ include "./inc/head.php";
                 ?>
                 </div>
             </div>
-            <?php }
+            <?php }?>
+        </div>
+            <?php
             if ($sitesDomain[2] > 0){?>
             <div class="col-12 col-xl">
                 <h5 class="title is-2 has-text-centered border-bottom border-info d-flex py-1 mb-3">
