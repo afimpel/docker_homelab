@@ -75,7 +75,7 @@ include "./inc/head.php";
                 <?php
                     if(is_null($dbs['error'])){
                 ?>
-                <div class="col-12 m-0 col-xxl-6 d-flex px-0 pe-lg-2">
+                <div class="col-12 m-0 col-xxl-6 d-flex px-0 pe-xxl-2">
                 <a href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>"  data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="<?= "Database Connection: ". $dbs['server']['name']." | Server: $database_server | User: $database_user | Password: $database_pass | Port: $database_port"; ?>" target="_blank" class="w-100 mt-3 shadow btn btn-outline-primary p-1">
                     <h5 class="fs-3 text-light bg-info py-1 mb-1 rounded"><i class="bi bi-database-fill me-2"></i> Database Connection: <b><?= $dbs['server']['name']; ?></b></h5>
                     <small class="d-flex justify-content-between align-items-center px-1">
@@ -104,7 +104,7 @@ include "./inc/head.php";
                     </small>
                 </a></div>
                 <?php } ?>
-                <div class="col-12 m-0 col-xxl-6 px-0 ps-lg-2">
+                <div class="col-12 m-0 col-xxl-6 px-0 ps-xxl-2">
                 <?php
                     if(is_null($cache['error'])){
                 ?>
