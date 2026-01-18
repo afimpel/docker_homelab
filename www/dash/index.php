@@ -75,9 +75,9 @@ include "./inc/head.php";
                 <?php
                     if(is_null($dbs['error'])){
                 ?>
-                <div class="col-12 m-0 col-xxl-6">
+                <div class="col-12 m-0 col-xxl-6 d-flex">
                 <a href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>"  data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="<?= "Database Connection: ". $dbs['server']['name']." | Server: $database_server | User: $database_user | Password: $database_pass | Port: $database_port"; ?>" target="_blank" class="w-100 mt-3 shadow btn btn-outline-primary p-1">
-                    <h5 class="text-light bg-info py-1 mb-1 rounded"><i class="bi bi-database-fill me-2"></i> Database Connection: <b><?= $dbs['server']['name']; ?></b></h5>
+                    <h5 class="fs-3 text-light bg-info py-1 mb-1 rounded"><i class="bi bi-database-fill me-2"></i> Database Connection: <b><?= $dbs['server']['name']; ?></b></h5>
                     <small class="d-flex justify-content-between align-items-center px-1">
                         <span><i class="<?= $dbs['server']['icon-alt']; ?> me-2"></i> Server:</span>
                         <b class="px-0">
@@ -110,7 +110,7 @@ include "./inc/head.php";
                 ?>
                 <div class="col-12 p-0 m-0">
                 <a href="//redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" target="_blank" class="w-100 mt-3 shadow btn btn-outline-warning p-1"  data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="<?= "Cache Connection: ". $cache['server']['name']." | Server: $cache_server | Port: $cache_port"; ?>">
-                    <h5 class="text-light bg-danger py-1 mb-1 rounded"><i class="<?= $cache['server']['icon']; ?> me-2"></i> Cache Connection: <b><?= $cache['server']['name']; ?></b></h5>
+                    <h5 class="fs-3 text-light bg-danger py-1 mb-1 rounded"><i class="<?= $cache['server']['icon']; ?> me-2"></i> Cache Connection: <b><?= $cache['server']['name']; ?></b></h5>
                     <small class="d-flex justify-content-between align-items-center px-1">
                         <span><i class="<?= $cache['server']['icon']; ?> me-2"></i> Server:</span>
                         <b class="px-0">
@@ -127,7 +127,7 @@ include "./inc/head.php";
                 <?php } ?>
                 <div class="col-12 p-0 m-0">
                 <a href="//mailer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" target="_blank" class="w-100 mt-3 shadow btn btn-outline-success p-1"  data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="<?= "SMTP SERVER Connection: ". $mailer['server']['name']." | Server: $mailer_server | Port: $mailer_smtp_port"; ?>">
-                    <h5 class="text-light bg-success py-1 mb-1 rounded"><i class="<?= $mailer['server']['icon']; ?> me-2"></i> SMTP SERVER Connection: <b><?= $mailer['server']['name']; ?></b></h5>
+                    <h5 class="fs-3 text-light bg-success py-1 mb-1 rounded"><i class="<?= $mailer['server']['icon']; ?> me-2"></i> SMTP SERVER Connection: <b><?= $mailer['server']['name']; ?></b></h5>
                     <small class="d-flex justify-content-between align-items-center px-1">
                         <span><i class="<?= $mailer['server']['icon']; ?> me-2"></i> Server:</span>
                         <b class="px-0">
@@ -146,7 +146,7 @@ include "./inc/head.php";
             </div>
             <div class="col-12 col-xl-5">
 
-                <div class="list-group shadow mb-3">
+                <div class="list-group shadow mt-lg-0 mt-3 mb-3">
                     <span data-bs-toggle="tooltip" data-bs-placement="left" class="list-group-item d-flex justify-content-between align-items-center py-1 border-primary" id="datetime_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_tooltip">
                         <span><i class="icon-php-alt me-2"></i> DateTime :</span>
                         <b class="px-2" id="datetime_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>">-</b>
