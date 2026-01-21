@@ -257,7 +257,7 @@ www()
                url="${BASH_REMATCH[2]}"
                type="${BASH_REMATCH[3]}"
                urlType2=$(echo "${url}" | sed 's/https\?:\/\///' | sed 's/\/$//' | cut -d'.' -f1)
-               if [[ $urlType2 == "api" ]] || [[ $urlType2 == "json" ]]; then
+               if [[ $urlType2 == *api* ]] || [[ $urlType2 == *json* ]]; then
                   urlType="api"
                else
                   urlType="www"
