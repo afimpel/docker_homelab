@@ -123,21 +123,21 @@ runonce_fn () {
   openCD $0
   if [ -f "logs/startup.pid" ]; then
     rightH1 $YELLOW 'Runonce' $WHITE '☐' "."
-    echo -e "---\t\t ${COMPOSE_PROJECT_NAME^^} ✔ \t\t---" > logs/runonce/ALL.log 
+    echo -e "---\t\t ${COMPOSE_PROJECT_NAME^^} ✔ \t\t---" > logs/runonce/00_ALL.log 
     for script in config/runonce/*.sh ; do
         if [ -r "$script" ] ; then
                 nombre_archivo=$(basename "${script}")
                 nombre_base="${nombre_archivo%.*}"
-                nuevo_nombre="${nombre_base}_bash.log"
+                nuevo_nombre="50_${nombre_base}_bash.log"
                 bash -c "bash $script > logs/runonce/$nuevo_nombre 2>&1"
                 timeExec=$(diffTime "$startExec0000")
-                echo -e "✔\t RUN: \t$script\n➤\t Time: \t$timeExec\n➤\t Size: \t$(du -h logs/runonce/$nuevo_nombre)\n" >> logs/runonce/ALL.log
+                echo -e "✔\t RUN: \t$script\n➤\t Time: \t$timeExec\n➤\t Size: \t$(du -h logs/runonce/$nuevo_nombre)\n" >> logs/runonce/00_ALL.log
                 CUSTOM_LEFT $NC "bash $script" $BLUE "$timeExec" $LIGHT_GREEN "➤" " " "✔" "7"
         fi
     done 
     timeExec=$(diffTime "$startExec0000")
     CUSTOM_RIGHT $WHITE "Runonce Done:" $LIGHT_GRAY "$timeExec" $WHITE "✔" "." "✔" 0
-    echo -e "Time excution: $timeExec." >> logs/runonce/ALL.log
+    echo -e "Time excution: $timeExec." >> logs/runonce/00_ALL.log
   fi
 }
 
