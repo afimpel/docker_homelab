@@ -128,7 +128,7 @@ runonce_fn () {
         if [ -r "$script" ] ; then
                 nombre_archivo=$(basename "${script}")
                 nombre_base="${nombre_archivo%.*}"
-                nuevo_nombre="50_${nombre_base}_bash.log"
+                nuevo_nombre="01_${nombre_base}_bash.log"
                 bash -c "bash $script > logs/runonce/$nuevo_nombre 2>&1"
                 timeExec=$(diffTime "$startExec0000")
                 echo -e "✔\t RUN: \t$script\n➤\t Time: \t$timeExec\n➤\t Size: \t$(du -h logs/runonce/$nuevo_nombre)\n" >> logs/runonce/00_ALL.log
