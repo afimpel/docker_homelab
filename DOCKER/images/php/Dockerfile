@@ -44,7 +44,7 @@ ARG user
 ARG uid
 
 # Create system user to run Composer and Artisan Commands
-RUN useradd -G www-data,root -u $uid -d /home/$user $user
+RUN useradd -g www-data -G root -u $uid -d /home/$user $user
 RUN mkdir -p /var/www 
 RUN mkdir -p /home/$user/.composer && \
 mkdir -p /home/$user/.config && \
