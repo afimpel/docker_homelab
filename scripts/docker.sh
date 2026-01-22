@@ -130,9 +130,10 @@ runonce_fn () {
                 nombre_archivo=$(basename "${script}")
                 nombre_base="${nombre_archivo%.*}"
                 nuevo_nombre="01_${nombre_base}_bash.log"
-                echo -e "---\t\t ✔\t RUN: \t$script\t | \t $(date) \t ✔ \t\t---\n" > logs/runonce/$nuevo_nombre
+                echo -e "---\t\t ✔\t RUN: \t$script\t | \t\t\t\t\t\t\t | \t $(date) \t ✔ \t\t---\n" > logs/runonce/$nuevo_nombre
                 bash -c "bash $script >> logs/runonce/$nuevo_nombre 2>&1"
                 timeExec0=$(diffTime "$startExec0001")
+                echo -e "\n---\t\t ✔\t DONE: \t$script\t | \t Time: \t$timeExec0\t | \t $(date) \t ✔ \t\t---" >> logs/runonce/$nuevo_nombre
                 echo -e "✔\t RUN: \t$script\n➤\t Time: \t$timeExec0\n➤\t Size: \t$(du -h logs/runonce/$nuevo_nombre)\n" >> logs/runonce/00_ALL.log
                 CUSTOM_LEFT $NC "bash $script" $BLUE "$timeExec0" $LIGHT_GREEN "➤" " " "✔" "7"
         fi
