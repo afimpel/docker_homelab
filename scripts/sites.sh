@@ -99,7 +99,7 @@ newsite()
       fi
       
       
-      sudo bash -c "echo -e '127.0.0.1\t\t${sites_url}.local www.${sites_url}.local nginx-${sites_name}-${COMPOSE_PROJECT_NAME,,}.local' >> /etc/hosts"
+      sudo bash -c "echo -e '127.0.1.1\t\t${sites_url}.local www.${sites_url}.local nginx-${sites_name}-${COMPOSE_PROJECT_NAME,,}.local' >> /etc/hosts"
 
       dateTime=$(date '+%Y_%m_%d-%s')
       echo -e "${sites_url}.local www.${sites_url}.local;${sites_name}_local;${sites_url};${typefileFinal}-${sites_name}_local;certs_${sites_name,,}_local;${dateTime};new" >> mkcert_homelab.csv
