@@ -123,14 +123,14 @@ runonce_fn () {
   openCD $0
   if [ -f "logs/startup.pid" ]; then
     rightH1 $YELLOW 'Runonce' $WHITE '☐' "."
-    echo -e "---\t\t ✔ \t${COMPOSE_PROJECT_NAME^^}\t ✔ \t\t---" > logs/runonce/00_ALL.log 
+    echo -e "---\t\t ✔ \t${COMPOSE_PROJECT_NAME^^}\t | \t $(date) \t ✔ \t\t---" > logs/runonce/00_ALL.log 
     for script in config/runonce/*.sh ; do
         if [ -r "$script" ] ; then
                 startExec0001=$(date +'%s')
                 nombre_archivo=$(basename "${script}")
                 nombre_base="${nombre_archivo%.*}"
                 nuevo_nombre="01_${nombre_base}_bash.log"
-                echo -e "---\t\t ✔\t RUN: \t$script\t ✔ \t\t---\n" > logs/runonce/$nuevo_nombre
+                echo -e "---\t\t ✔\t RUN: \t$script\t | \t $(date) \t ✔ \t\t---\n" > logs/runonce/$nuevo_nombre
                 bash -c "bash $script >> logs/runonce/$nuevo_nombre 2>&1"
                 timeExec0=$(diffTime "$startExec0001")
                 echo -e "✔\t RUN: \t$script\n➤\t Time: \t$timeExec0\n➤\t Size: \t$(du -h logs/runonce/$nuevo_nombre)\n" >> logs/runonce/00_ALL.log
