@@ -21,7 +21,10 @@ newSupervisor()
             subdir="";
         ;;
     esac
-    programName="${1,,}_${typeName,,}"
+    base=$(pwd) 
+    sites=$(basename $base)
+    sites_name="${sites//./_}";
+    programName="${typeName,,}_${1,,}_${sites_name}"
 
 
     CUSTOM_RIGHT $GREEN "SUPERVISOR: ${typeName^^}" $YELLOW "program:${programName}" $WHITE "⛁" "." "⛁" 0
@@ -30,7 +33,6 @@ newSupervisor()
         leftH1 $LIGHT_CYAN "Not laravel Project ... (artisan)" $WHITE "⛁" "."
     else
         ruta="$OLDPWD"
-        base=$(pwd) 
         cambiar="/var"
         rutaPwd="${ruta/${base}/${cambiar}}"
         openCD $0
@@ -44,7 +46,7 @@ newSupervisor()
                 echo -e "# SUPERVISOR\n" > "${COMPOSE_PROJECT_NAME,,}_supervisor.md"
             fi
             echo -e "* php artisan ${subcommand} :: ${typeName^^} => program:$programName" >> "${COMPOSE_PROJECT_NAME,,}_supervisor.md"
-            docker exec -t homelab-${typeName,,} nohup /usr/sbin/service supervisor start > /dev/null & date
+            docker restart homelab-${typeName,,}
             # ln
             # mkcert -install
             leftH1 $LIGHT_CYAN " done ... ( SUPERVISOR: program:${programName} )" $WHITE "⛁" "."
@@ -64,7 +66,7 @@ delSupervisor()
       rm ${COMPOSE_PROJECT_NAME,,}_supervisor_bk.md 
       rm -v config/supervisor/*/${programName}.conf
       typeName=$(echo ${programName} | cut -d '_' -f2);
-      docker exec -t homelab-${typeName,,} nohup /usr/sbin/service supervisor start > /dev/null & date
+      docker restart homelab-${typeName,,}
    else
       leftH1 $LIGHT_CYAN " The supervisor not exists ... (program:${programName})" $WHITE "⛁" "."
    fi
@@ -99,7 +101,7 @@ listSupervisor()
 startedSupervisor()
 {
     rightH1 $YELLOW "Start :: SUPERVISOR" $LIGHT_GREEN '✔' "." 
-    docker exec -t homelab-php7 nohup /usr/sbin/service supervisor start > /dev/null & echo -e "\t✔ service supervisor start | PHP7"
-    docker exec -t homelab-php8 nohup /usr/sbin/service supervisor start > /dev/null & echo -e "\t✔ service supervisor start | PHP8"
+    docker restart homelab-php7
+    docker restart homelab-php8
     ln
 }

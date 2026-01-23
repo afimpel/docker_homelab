@@ -47,19 +47,25 @@ ARG uid
 RUN useradd -g www-data -G root -u $uid -d /home/$user $user
 RUN mkdir -p /var/www 
 RUN mkdir -p /home/$user/.composer && \
-mkdir -p /home/$user/.config && \
-chown -R $user:www-data /home/$user && \
-chown -R $user:www-data /var/www 
+    mkdir -p /home/$user/.config && \
+    chown -R $user:www-data /home/$user && \
+    chown -R $user:www-data /var/www 
 
 COPY ./php/* /usr/local/etc/php-fpm.d/
 
 COPY ./bash.bashrc /etc/bash.bashrc
-RUN apt-get install net-tools iputils-ping bash-completion ca-certificates -y
+RUN apt-get install net-tools iputils-ping bash-completion ca-certificates iproute2 -y
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Supervisor
 COPY ./supervisord.conf /etc/supervisor/supervisord.conf
+RUN mkdir -p /var/log/supervisor /var/run
+
 ARG port=9000
 RUN echo "$user:docker" | chpasswd
+
+# Tus reemplazos tal cual
 RUN sed -i "s/USERNAME/${user}/g" /etc/supervisor/supervisord.conf
 RUN sed -i "s/9000/${port}/g" /etc/supervisor/supervisord.conf
 RUN sed -i "s/900/php/g" /etc/supervisor/supervisord.conf
@@ -71,4 +77,3 @@ COPY ./bash/* /usr/bin/
 
 EXPOSE ${port}
 CMD [ "runonce" ]
-#CMD ["php-fpm", "-R"]

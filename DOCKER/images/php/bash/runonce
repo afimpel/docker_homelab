@@ -4,5 +4,5 @@ echo -e "----------" >> /var/log/php/startup-$(hostname).log
 date >> /var/log/php/startup-$(hostname).log
 echo -e "----------" >> /var/log/php/startup-$(hostname).log
 hostname >> /var/log/php/startup-$(hostname).log
-nohup /usr/sbin/service supervisor start & date
-/usr/local/sbin/php-fpm -R
+grep '^PRETTY_NAME' /etc/os-release | cut -d '"' -f 2 >> /var/log/php/startup-$(hostname).log 2>&1
+/usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf
