@@ -25,7 +25,7 @@ newSupervisor()
     sites=$(basename $base)
     sites_name="${sites//./_}";
     programName="${typeName,,}_${1,,}_${sites_name}"
-
+    processName="${typeName,,}_${1,,}"
 
     CUSTOM_RIGHT $GREEN "SUPERVISOR: ${typeName^^}" $YELLOW "program:${programName}" $WHITE "⛁" "." "⛁" 0
     ln
@@ -39,6 +39,7 @@ newSupervisor()
         if [ ! -f config/supervisor/${typeName,,}/${programName}.conf ]; then
             cp -v DOCKER/examples/supervisor-artisan.conf config/supervisor/${typeName,,}/${programName}.conf
             sed -i "s|programName|${programName}|g" config/supervisor/${typeName,,}/${programName}.conf
+            sed -i "s|processName|${processName}|g" config/supervisor/${typeName,,}/${programName}.conf
             sed -i "s|USERNAME|${USERNAME,,}|g" config/supervisor/${typeName,,}/${programName}.conf
             sed -i "s|artisanCmd|${subcommand}|g" config/supervisor/${typeName,,}/${programName}.conf
             sed -i "s|rutapwd|${rutaPwd}|g" config/supervisor/${typeName,,}/${programName}.conf
