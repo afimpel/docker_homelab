@@ -5,4 +5,5 @@ echo -e "----------" >> /var/log/php/$(hostname)_startup.log
 date >> /var/log/php/$(hostname)_startup.log
 echo -e "----------" >> /var/log/php/$(hostname)_startup.log
 php -v >> /var/log/php/$(hostname)_startup.log
+echo -e "\n\n\n" >> /var/log/php/$(hostname)_startup.log
 /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf
