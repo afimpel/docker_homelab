@@ -25,6 +25,13 @@ subcommand=$1; shift
 case "$subcommand" in
   up)
     clear
+    if [ -f "logs/startup.pid" ]; then
+      header
+      send_notify "Containers already started" 'process-working-symbolic'
+      rightH1 $YELLOW 'Containers already started' $WHITE '☐' "."
+      footer
+      exit 1
+    fi
     startExec0000=$(date +'%s')
     header
     ln
