@@ -1,8 +1,8 @@
 #!/bin/bash
-php -v > /var/log/php/startup-$(hostname).log
-echo -e "----------" >> /var/log/php/startup-$(hostname).log
-date >> /var/log/php/startup-$(hostname).log
-echo -e "----------" >> /var/log/php/startup-$(hostname).log
-hostname >> /var/log/php/startup-$(hostname).log
-grep '^PRETTY_NAME' /etc/os-release | cut -d '"' -f 2 >> /var/log/php/startup-$(hostname).log 2>&1
+hostname >> /var/log/php/$(hostname)_startup.log
+grep '^PRETTY_NAME' /etc/os-release | cut -d '"' -f 2 >> /var/log/php/$(hostname)_startup.log 2>&1
+echo -e "----------" >> /var/log/php/$(hostname)_startup.log
+date >> /var/log/php/$(hostname)_startup.log
+echo -e "----------" >> /var/log/php/$(hostname)_startup.log
+php -v > /var/log/php/$(hostname)_startup.log
 /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf
