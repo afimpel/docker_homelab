@@ -267,6 +267,7 @@ case "$subcommand" in
     docker_bash "homelab-php8" "logs-chmod:root"
     docker_bash "homelab-php7" "logs-chmod:root"
     docker_bash "homelab-database" "logs-chmod:root"
+    cache_cmd "FLUSHALL"
     docker_down "$@"
     footer
   ;;
