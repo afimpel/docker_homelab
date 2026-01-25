@@ -6,22 +6,27 @@ function listSitesURL(itemsite, itemsiteURL) {
 function toggleThemeMenu() {
     let themeMenu = document.querySelector('#theme-menu');
     var bsTheme = localStorage.getItem("bsTheme");
-    let prevCss = "bi-sun-fill";
+    var bsThemeCss = localStorage.getItem("bsThemeCss");
+    console.log(bsTheme, bsThemeCss);
+    if (bsThemeCss == null) {
+        localStorage.setItem("bsThemeCss", "bi-sun-fill");
+    }
     if (bsTheme) {
         document.documentElement.setAttribute('data-bs-theme', bsTheme);
         if (bsTheme == "dark") {
-            themeMenu.children[0].classList.replace(prevCss, 'bi-moon-stars-fill');
+            themeMenu.children[0].classList.replace("bi-sun-fill", bsThemeCss);
         }
     }
     if (!themeMenu) return;
 
     document.querySelectorAll('[data-bs-theme-value]').forEach(value => {
         value.addEventListener('click', () => {
+            var bsThemeCss = localStorage.getItem("bsThemeCss");
             const theme = value.getAttribute('data-bs-theme-value');
             const themeCss = value.getAttribute('data-bs-theme-style');
-            themeMenu.children[0].classList.replace(prevCss, themeCss);
+            themeMenu.children[0].classList.replace(bsThemeCss, themeCss);
             localStorage.setItem("bsTheme", theme);
-            prevCss = themeCss;
+            localStorage.setItem("bsThemeCss", themeCss);
             document.documentElement.setAttribute('data-bs-theme', theme);
         });
     });
@@ -96,7 +101,7 @@ async function obtenerUptimeUrl(url, idAttr) {
         document.getElementById(IDdatabase).dataset.bsOriginalTitle = dataJson.database.server.name + " ➤ Uptime : " + dataJson.database.uptime;
         document.getElementById(IDdatetime).innerHTML = dataJson.datetime;
         document.getElementById(IDdatetime + "_tooltip").dataset.bsOriginalTitle = "DateTime : " + dataJson.datetime;
-        console.log(idAttr,'| DateTime ➤ ', dataJson.datetime, "|", dataJson.cache.server.name + " ➤ Uptime : " + dataJson.cache.uptime, "|", dataJson.database.server.name + " ➤ Uptime : " + dataJson.database.uptime);
+        console.log(idAttr, '| DateTime ➤ ', dataJson.datetime, "|", dataJson.cache.server.name + " ➤ Uptime : " + dataJson.cache.uptime, "|", dataJson.database.server.name + " ➤ Uptime : " + dataJson.database.uptime);
         return dataJson.datetime;
 
     } catch (error) {
