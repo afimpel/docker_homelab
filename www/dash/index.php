@@ -179,7 +179,7 @@ include "./inc/head.php";
             <div class="mb-4">
                 <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3">
                     <i class="<?= $dbs['server']['icon']; ?> me-2 text-primary"></i> Database List
-                    <small class="badge text-light bg-primary ms-auto"><?php echo count($dbs['database']);?></small>
+                    <b class="px-2 border border-info ms-auto rounded"><?php echo count($dbs['database']);?></b>
                 </h5>
                 <div class="list-group shadow">
                 <?php
@@ -201,7 +201,7 @@ include "./inc/head.php";
             <div class="mb-4">
                 <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3">
                     <i class="<?= $cache['server']['icon']; ?> me-2 text-warning"></i> Cache List
-                    <small class="badge text-light bg-primary ms-auto"><?php echo $cache['counter'];?></small>
+                    <b class="px-2 border border-info ms-auto rounded"><?php echo $cache['counter'];?></b>
                 </h5>
                 <div class="list-group shadow">
                 <?php
@@ -222,7 +222,7 @@ include "./inc/head.php";
             <div class="col-12 col-xl">
                 <h5 class="title is-2 has-text-centered border-bottom border-info d-flex py-1 mb-3">
                     <i class="text-success icon-nginx me-2"></i> Domain Sites List (<em> .local </em>)
-                    <small class="badge text-light bg-info rounded ms-auto"><?php echo $sitesDomain[2];?></small>
+                    <b class="px-2 border border-info rounded ms-auto"><?php echo $sitesDomain[2];?></b>
                 </h5>
                 <div class="list-group shadow">
                     <?php echo $sitesDomain[1];?>
@@ -233,7 +233,7 @@ include "./inc/head.php";
             <div class="col-12 col-xl">
                 <h5 class="title is-2 has-text-centered border-bottom border-info d-flex py-1 mb-3">
                     <i class="text-success icon-nginx me-2"></i> SubDomain Sites List (<em> .<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local </em>)
-                    <small class="badge text-light bg-info rounded ms-auto"><?php echo $sitesSubdomain[2];?></small>
+                    <b class="px-2 border border-info rounded ms-auto"><?php echo $sitesSubdomain[2];?></b>
                 </h5>
                 <div class="list-group shadow">
                     <?php echo $sitesSubdomain[1];?>
