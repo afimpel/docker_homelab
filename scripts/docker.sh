@@ -131,7 +131,8 @@ runonce_fn () {
                 startExec0001=$(date +'%s')
                 nombre_archivo=$(basename "${script}")
                 nombre_base="${nombre_archivo%.*}"
-                nuevo_nombre="01_${nombre_base}_bash.log"
+                DATETIME="$(date +%Y%m%d)"
+                nuevo_nombre="${nombre_base}-BASH_${DATETIME}.log"
                 echo -e "---\t\t ✔\t RUN: \t$script\t | \t\t\t\t\t\t\t | \t $(date) \t ✔ \t\t---\n" > logs/runonce/$nuevo_nombre
                 bash -c "bash $script > logs/runonce/int_$nuevo_nombre 2>&1"
                 echo -e "✔\t RUN: \t$script ➤\n" >> logs/runonce/00_ALL.log
