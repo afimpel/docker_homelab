@@ -133,13 +133,13 @@ runonce_fn () {
                 nombre_base="${nombre_archivo%.*}"
                 DATETIME="$(date +%Y%m%d)"
                 nuevo_nombre="${nombre_base}-BASH_${DATETIME}.log"
-                echo -e "---\t\t ✔\t RUN: \t$script\t | \t\t\t\t\t\t\t | \t $(date) \t ✔ \t\t---\n" > logs/runonce/$nuevo_nombre
+                echo -e "---\t\t ✔\t RUN: \t$script\t | \t $(date) \t ✔ \t\t---\n" > logs/runonce/$nuevo_nombre
                 bash -c "bash $script > logs/runonce/int_$nuevo_nombre 2>&1"
                 echo -e "----------- $(date '+%Y-%m-%d %H:%M:%S') -----------\n✔\t RUN: \t$script ➤\n" >> logs/runonce/00_ALL.log
                 cat logs/runonce/int_$nuevo_nombre >> logs/runonce/00_ALL.log
                 cat logs/runonce/int_$nuevo_nombre >> logs/runonce/$nuevo_nombre
                 timeExec0=$(diffTime "$startExec0001")
-                echo -e "\n---\t\t ✔\t DONE: \t$script\t | \t Time: \t$timeExec0\t | \t $(date) \t ✔ \t\t---" >> logs/runonce/$nuevo_nombre
+                echo -e "\n➤\t Time:\t\t$timeExec0\n---\t\t ✔\t DONE: \t$script\t | \t $(date) \t ✔ \t\t---" >> logs/runonce/$nuevo_nombre
                 echo " " >> logs/runonce/00_ALL.log
                 rm -v logs/runonce/int_$nuevo_nombre >> logs/runonce/00_ALL.log 2>&1
                 echo -e "➤\t Time: \t$timeExec0\n➤\t Size: \t$(du -h logs/runonce/$nuevo_nombre)\n----------- $(date '+%Y-%m-%d %H:%M:%S') -----------\n" >> logs/runonce/00_ALL.log
