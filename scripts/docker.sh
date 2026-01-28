@@ -134,7 +134,7 @@ runonce_fn () {
                 nuevo_nombre="01_${nombre_base}_bash.log"
                 echo -e "---\t\t ✔\t RUN: \t$script\t | \t\t\t\t\t\t\t | \t $(date) \t ✔ \t\t---\n" > logs/runonce/$nuevo_nombre
                 bash -c "bash $script > logs/runonce/int_$nuevo_nombre 2>&1"
-                echo -e "✔\t RUN: \t$script ➤ " >> logs/runonce/00_ALL.log
+                echo -e "✔\t RUN: \t$script ➤\n" >> logs/runonce/00_ALL.log
                 cat logs/runonce/int_$nuevo_nombre >> logs/runonce/00_ALL.log
                 cat logs/runonce/int_$nuevo_nombre >> logs/runonce/$nuevo_nombre
                 timeExec0=$(diffTime "$startExec0001")
