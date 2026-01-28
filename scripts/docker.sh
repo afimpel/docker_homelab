@@ -125,7 +125,7 @@ runonce_fn () {
   openCD $0
   if [ -f "logs/startup.pid" ]; then
     rightH1 $YELLOW 'Runonce' $WHITE '☐' "."
-    echo -e "---\t\t ✔ \t${COMPOSE_PROJECT_NAME^^}\t | \t $(date) \t ✔ \t\t---" > logs/runonce/00_ALL.log 
+    echo -e "---\t\t ✔ \t${COMPOSE_PROJECT_NAME^^}\t | \t $(date) \t ✔ \t\t---\n" > logs/runonce/00_ALL.log 
     for script in config/runonce/*.sh ; do
         if [ -r "$script" ] ; then
                 startExec0001=$(date +'%s')
@@ -133,16 +133,22 @@ runonce_fn () {
                 nombre_base="${nombre_archivo%.*}"
                 nuevo_nombre="01_${nombre_base}_bash.log"
                 echo -e "---\t\t ✔\t RUN: \t$script\t | \t\t\t\t\t\t\t | \t $(date) \t ✔ \t\t---\n" > logs/runonce/$nuevo_nombre
-                bash -c "bash $script >> logs/runonce/$nuevo_nombre 2>&1"
+                bash -c "bash $script > logs/runonce/int_$nuevo_nombre 2>&1"
+                echo -e "✔\t RUN: \t$script ➤ " >> logs/runonce/00_ALL.log
+                cat logs/runonce/int_$nuevo_nombre >> logs/runonce/00_ALL.log
+                cat logs/runonce/int_$nuevo_nombre >> logs/runonce/$nuevo_nombre
                 timeExec0=$(diffTime "$startExec0001")
                 echo -e "\n---\t\t ✔\t DONE: \t$script\t | \t Time: \t$timeExec0\t | \t $(date) \t ✔ \t\t---" >> logs/runonce/$nuevo_nombre
-                echo -e "✔\t RUN: \t$script\n➤\t Time: \t$timeExec0\n➤\t Size: \t$(du -h logs/runonce/$nuevo_nombre)\n" >> logs/runonce/00_ALL.log
+                echo " " >> logs/runonce/00_ALL.log
+                rm -v logs/runonce/int_$nuevo_nombre >> logs/runonce/00_ALL.log 2>&1
+                echo -e "➤\t Time: \t$timeExec0\n➤\t Size: \t$(du -h logs/runonce/$nuevo_nombre)\n----------- $(date '+%Y-%m-%d %H:%M:%S') -----------\n" >> logs/runonce/00_ALL.log
                 CUSTOM_LEFT $NC "bash $script" $BLUE "$timeExec0" $LIGHT_GREEN "➤" " " "✔" "7"
         fi
     done 
     timeExec=$(diffTime "$startExec0000")
     CUSTOM_RIGHT $WHITE "Runonce Done:" $LIGHT_GRAY "$timeExec" $WHITE "✔" "." "✔" 0
     echo -e "Time excution: $timeExec." >> logs/runonce/00_ALL.log
+    echo -e "➤\t Size: \t$(du -h logs/runonce/00_ALL.log)" >> logs/runonce/00_ALL.log
   fi
 }
 
