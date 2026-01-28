@@ -14,7 +14,7 @@ docker_up () {
   docker compose up -d
   if [ $? -ne 0 ]; then
     send_notify "Error: On start, docker compose up." "error" 16000 "critical"
-    docker_down clear
+    docker_down
     exit 1
   fi
   directory_cli=$PWD

@@ -24,11 +24,11 @@ installer()
    mkdir DOCKER/certs/mkcert
    mkcert -install
    sudo cp -v $HOME/.local/share/mkcert/rootCA* DOCKER/certs/mkcert
-   cp -v DOCKER/examples/installer-homelab-local.conf config/nginx-sites/main_${COMPOSE_PROJECT_NAME,,}_local.conf
-   sed -i "s/COMPOSE_PROJECT_NAME/${COMPOSE_PROJECT_NAME,,}/g" config/nginx-sites/main_${COMPOSE_PROJECT_NAME,,}_local.conf
+   cp -v DOCKER/examples/0000_installer-homelab-local.conf config/nginx-sites/0000_main_${COMPOSE_PROJECT_NAME,,}_local.conf
+   sed -i "s/COMPOSE_PROJECT_NAME/${COMPOSE_PROJECT_NAME,,}/g" config/nginx-sites/0000_main_${COMPOSE_PROJECT_NAME,,}_local.conf
 
    dateTime=$(date '+%Y_%m_%d-%s')
-   echo -e "${COMPOSE_PROJECT_NAME,,}.local www.${COMPOSE_PROJECT_NAME,,}.local adminer.${COMPOSE_PROJECT_NAME,,}.local goaccess.${COMPOSE_PROJECT_NAME,,}.local mailer.${COMPOSE_PROJECT_NAME,,}.local redis.${COMPOSE_PROJECT_NAME,,}.local php8.${COMPOSE_PROJECT_NAME,,}.local php7.${COMPOSE_PROJECT_NAME,,}.local localhost 127.0.0.1 ::1;default;${COMPOSE_PROJECT_NAME,,};main_${COMPOSE_PROJECT_NAME,,}_local;certs_default;${dateTime};new" >> mkcert_homelab.csv
+   echo -e "${COMPOSE_PROJECT_NAME,,}.local www.${COMPOSE_PROJECT_NAME,,}.local adminer.${COMPOSE_PROJECT_NAME,,}.local goaccess.${COMPOSE_PROJECT_NAME,,}.local mailer.${COMPOSE_PROJECT_NAME,,}.local redis.${COMPOSE_PROJECT_NAME,,}.local php8.${COMPOSE_PROJECT_NAME,,}.local php7.${COMPOSE_PROJECT_NAME,,}.local localhost 127.0.0.1 ::1;default;${COMPOSE_PROJECT_NAME,,};0000_main_${COMPOSE_PROJECT_NAME,,}_local;certs_default;${dateTime};new" >> mkcert_homelab.csv
 
    cd DOCKER/certs
    mkcert ${COMPOSE_PROJECT_NAME,,}.local www.${COMPOSE_PROJECT_NAME,,}.local adminer.${COMPOSE_PROJECT_NAME,,}.local goaccess.${COMPOSE_PROJECT_NAME,,}.local mailer.${COMPOSE_PROJECT_NAME,,}.local redis.${COMPOSE_PROJECT_NAME,,}.local php8.${COMPOSE_PROJECT_NAME,,}.local php7.${COMPOSE_PROJECT_NAME,,}.local localhost 127.0.0.1 ::1

@@ -108,7 +108,8 @@ services:
       TZ: ${TIMEZONE}
     ports:
       - "80:80"
-      - "443:443"
+      - "443:443/tcp"
+      - "443:443/udp"
     volumes:
       - ../logs/nginx:/var/log/nginx:rw
       - ../www:/var/www:rw
