@@ -135,7 +135,7 @@ runonce_fn () {
                 nuevo_nombre="${nombre_base}-BASH_${DATETIME}.log"
                 echo -e "---\t\t ✔\t RUN: \t$script\t | \t\t\t\t\t\t\t | \t $(date) \t ✔ \t\t---\n" > logs/runonce/$nuevo_nombre
                 bash -c "bash $script > logs/runonce/int_$nuevo_nombre 2>&1"
-                echo -e "✔\t RUN: \t$script ➤\n" >> logs/runonce/00_ALL.log
+                echo -e "----------- $(date '+%Y-%m-%d %H:%M:%S') -----------\n✔\t RUN: \t$script ➤\n" >> logs/runonce/00_ALL.log
                 cat logs/runonce/int_$nuevo_nombre >> logs/runonce/00_ALL.log
                 cat logs/runonce/int_$nuevo_nombre >> logs/runonce/$nuevo_nombre
                 timeExec0=$(diffTime "$startExec0001")
@@ -148,8 +148,8 @@ runonce_fn () {
     done 
     timeExec=$(diffTime "$startExec0000")
     CUSTOM_RIGHT $WHITE "Runonce Done:" $LIGHT_GRAY "$timeExec" $WHITE "✔" "." "✔" 0
-    echo -e "Time excution: $timeExec." >> logs/runonce/00_ALL.log
-    echo -e "➤\t Size: \t$(du -h logs/runonce/00_ALL.log)" >> logs/runonce/00_ALL.log
+    echo -e "\nTime excution: $timeExec." >> logs/runonce/00_ALL.log
+    echo -e "➤\t Size: \t$(du -h logs/runonce/00_ALL.log)\n----------- $(date '+%Y-%m-%d %H:%M:%S') -----------" >> logs/runonce/00_ALL.log
   fi
 }
 
