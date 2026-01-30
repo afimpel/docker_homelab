@@ -21,8 +21,8 @@
         $directory = './*.php'; // Matches all files ending with .php in the current directory
         $php_files = glob($directory);
         if (count($php_files)>4){ ?>
-        <h4 class="mt-4">Extra Files.</h4>
-        <div class="mt-3 list-group shadow fs-6">
+        <h4 class="mt-3 mb-0 py-1">Extra Files.</h4>
+        <div class="mt-1 list-group shadow fs-6">
         <?php
         $not_files = ['./phpinfo.php', './uptime.php', './manual.php', './index.php'];
         foreach ($php_files as $file ) {
