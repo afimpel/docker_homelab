@@ -21,7 +21,7 @@ goaccess () {
             sites_name="${hostname//./_}";
             echo "$hostname > $sites_name.out" >> logs/goaccess/lists-serverData.log
             # Si hay hostnames adicionales en la misma línea
-            curl -silent "https://$hostname" -o "logs/goaccess/site-${sites_name}.out"
+            curl --http3 -silent "https://$hostname" -o "logs/goaccess/site-${sites_name}.out"
             for extra in $extras; do
                 URLSnginx=$(echo "$extra" | cut -d "-" -f 1)
                 URLSnginx0=$(echo "$extra" | cut -d "." -f 1)
@@ -30,7 +30,7 @@ goaccess () {
                 fi
                 if [ "$URLSnginx" != "nginx" ]; then
                     sites_name2="${extra//./_}";
-                    curl -silent "https://$extra" -o "logs/goaccess/site-${sites_name}-${sites_name2}.out"
+                    curl --http3 -silent "https://$extra" -o "logs/goaccess/site-${sites_name}-${sites_name2}.out"
                     echo "$hostname > $extra > $sites_name2.out" >> logs/goaccess/lists-serverData.log
                 fi
             done
