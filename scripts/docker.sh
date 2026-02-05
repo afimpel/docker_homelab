@@ -47,7 +47,8 @@ generate_version() {
     dockerComposeVersion=$(echo $dockerComposeVersion | cut -d ":" -f 2)
     gitinfo=$(git log -1 --pretty=format:"%an: %s ( %h / %cr )")
     startupFile=$(cat logs/startup.pid)
-    echo -e "{ \"startup\":$startupFile,\"gitinfo\":\"$gitinfo\",\"username\":\"$USERNAME\",\"checkfile\":[$checkfile],\"version\":{\"php8\":\"$versionPHP8\", \"composer8\":\"$composerVersion8\", \"supervisord8\":\"$supervisordVersion8\", \"php7\":\"$versionPHP7\", \"composer7\":\"$composerVersion7\", \"supervisord7\":\"$supervisordVersion7\", \"docker\":\"Ver$dockerVersion\", \"dockerCompose\":\"Ver$dockerComposeVersion\"} }" | jq . > www/dash/version.json
+    echo -e "{ \"startup\":$startupFile,\"gitinfo\":\"$gitinfo\",\"username\":\"$USERNAME\",\"checkfile\":[$checkfile],\"version\":{\"php8\":\"$versionPHP8\", \"composer8\":\"$composerVersion8\", \"supervisord8\":\"$supervisordVersion8\", \"php7\":\"$versionPHP7\", \"composer7\":\"$composerVersion7\", \"supervisord7\":\"$supervisordVersion7\", \"docker\":\"Ver$dockerVersion\", \"dockerCompose\":\"Ver$dockerComposeVersion\"} }" > TEMP/version.json
+    jq . TEMP/version.json > www/dash/version.json
     chmod 777 www/dash/version.json
   fi
 }
