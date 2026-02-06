@@ -196,6 +196,7 @@ www()
 {
    openCD $0
    rightH1 $YELLOW "WWW ( ${COMPOSE_PROJECT_NAME,,}.md )" $WHITE '✔' "." 
+   write_message "WWW ( ${COMPOSE_PROJECT_NAME,,} ) ✔" "website" 
    input_file="$(dirname $0)/${COMPOSE_PROJECT_NAME,,}.md"
    lnline=0
    first=1
@@ -211,6 +212,7 @@ www()
          rightH1 $NC "${title}:" $LIGHT_GREEN '☐' " "
       elif [[ ! -z  $line0 ]]; then
          url=$(echo "$line0" |grep -Eo 'https://[^ )]+'|head -1)
+         write_message "${COMPOSE_PROJECT_NAME,,} ➤ URL: $url" "website" 
          echo -e "\t➤ ${LIGHT_CYAN}$url${NC}"
          if [[ $first == 0 ]]; then
             echo "," >> TEMP/algo0.json
@@ -227,6 +229,8 @@ www()
    done < "$input_file"
    echo "]}" >> TEMP/algo0.json
    jq . TEMP/algo0.json > www/dash/home.json
+   lengthContent=$(jq '.items | length' www/dash/home.json)
+   write_message "${COMPOSE_PROJECT_NAME,,} ➤ length: $lengthContent\n " "website" 
 
    input_file0="$(dirname $0)/${COMPOSE_PROJECT_NAME,,}_domains.md"
    echo "{\"datetime\":\"$(date)\",\"items\":[" > TEMP/algo1.json
@@ -269,6 +273,7 @@ www()
                else
                   exclude_domains=false
                fi
+               write_message "domains ➤ URL: $url / needle: $needle / exclude: $haystack / type: $urlType / $exclude_domains" "website" 
                echo "{\"title\": \"${title}\", \"url\": \"${url}\", \"type\": \"${type,,}\", \"urlType\":\"${urlType,,}\", \"exclude\":${exclude_domains,,} }" >> TEMP/algo1.json
             fi
          fi
@@ -277,6 +282,7 @@ www()
    echo "]}" >> TEMP/algo1.json
    jq . TEMP/algo1.json > www/dash/domains.json
    lengthContent=$(jq '.items | length' www/dash/domains.json)
+   write_message "domains ➤ length: $lengthContent\n " "website" 
    if [ $lengthContent -eq 0 ]; then
       if [ -f "${input_file0}" ]; then
          rm -v $input_file0
@@ -324,15 +330,18 @@ www()
                else
                   exclude_domains=false
                fi
-              echo "{\"title\": \"${title}\", \"url\": \"${url}\", \"type\": \"${type,,}\", \"urlType\":\"${urlType,,}\", \"exclude\":${exclude_domains,,} }" >> TEMP/algo2.json
+               write_message "subdomains ➤ URL: $url / needle: $needle / exclude: $haystack / type: $urlType / $exclude_domains" "website" 
+               echo "{\"title\": \"${title}\", \"url\": \"${url}\", \"type\": \"${type,,}\", \"urlType\":\"${urlType,,}\", \"exclude\":${exclude_domains,,} }" >> TEMP/algo2.json
             fi
          fi
       done < "$input_file1"
   fi
   echo "]}" >> TEMP/algo2.json
   jq . TEMP/algo2.json > www/dash/subdomains.json
-  rm -f TEMP/*.json
+
   lengthContent=$(jq '.items | length' www/dash/subdomains.json)
+  write_message "subdomains ➤ length: $lengthContent\n " "website" 
+  write_message "DELETE: \n$(rm -fv TEMP/*.json)\n\n\t---\t\t $(date) \t\t---" "website" 
   if [ $lengthContent -eq 0 ]; then
       if [ -f "${input_file1}" ]; then
          rm -v $input_file1

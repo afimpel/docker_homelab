@@ -153,6 +153,14 @@ completeLine() {
         echo "$output_string"
     fi
 }
+write_message () {
+    timestamp=$(date "+%Y-%m-%d %H:%M:%S")
+    names=${2:-INFO}
+    base_name=$(basename $0)
+    if [ $DEBUG_MODE == true ]; then
+        echo -e "[ $$ | $timestamp ] $1" >> logs/various/${names}-$$-${base_name}.log
+    fi
+}
 
 clearLogs () {
     startExec0000=$(date +'%s')
