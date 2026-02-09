@@ -63,23 +63,23 @@ newsite()
    rightH1 $YELLOW "${typefileFinal^^} :: https://${sites_url}.local" $WHITE "⛁" "."
    ln
    openCD $0
-   if [ ! -f "config/nginx-sites/${typefileFinal}-${sites_name}_local.conf" ]; then
+   if [ ! -f "config/nginx-sites/${sites_name}_local-${typefileFinal}.conf" ]; then
       filename="_subdomains"
-      cp -v DOCKER/examples/examplesite-${typefileFinal}-local.conf config/nginx-sites/${typefileFinal}-${sites_name}_local.conf
-      sed -i "s/examplesiteDir/${examplesiteDir,,}/g" config/nginx-sites/${typefileFinal}-${sites_name}_local.conf
+      cp -v DOCKER/examples/examplesite-${typefileFinal}-local.conf config/nginx-sites/${sites_name}_local-${typefileFinal}.conf
+      sed -i "s/examplesiteDir/${examplesiteDir,,}/g" config/nginx-sites/${sites_name}_local-${typefileFinal}.conf
       if [ $subdomainsTrue == 0 ]; then
          siteFile="SubDomains"
-         sed -i "s/examplesite/${sites}/g" config/nginx-sites/${typefileFinal}-${sites_name}_local.conf
-         sed -i "s/COMPOSE_PROJECT_NAME/${COMPOSE_PROJECT_NAME,,}/g" config/nginx-sites/${typefileFinal}-${sites_name}_local.conf
+         sed -i "s/examplesite/${sites}/g" config/nginx-sites/${sites_name}_local-${typefileFinal}.conf
+         sed -i "s/COMPOSE_PROJECT_NAME/${COMPOSE_PROJECT_NAME,,}/g" config/nginx-sites/${sites_name}_local-${typefileFinal}.conf
       else
          filename="_domains"
          siteFile="Domains"
-         sed -i "s/subdomains/domains/g" config/nginx-sites/${typefileFinal}-${sites_name}_local.conf
-         sed -i "s/examplesite_COMPOSE_PROJECT_NAME/${sites_name}/g" config/nginx-sites/${typefileFinal}-${sites_name}_local.conf
-         sed -i "s/examplesite.COMPOSE_PROJECT_NAME/${sites_url}/g" config/nginx-sites/${typefileFinal}-${sites_name}_local.conf
-         sed -i "s/COMPOSE_PROJECT_NAME./gkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkggkgk/g" config/nginx-sites/${typefileFinal}-${sites_name}_local.conf
-         sed -i "s/.gkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkggkgk././g" config/nginx-sites/${typefileFinal}-${sites_name}_local.conf
-         sed -i "s/examplesite/${sites_url}/g" config/nginx-sites/${typefileFinal}-${sites_name}_local.conf
+         sed -i "s/subdomains/domains/g" config/nginx-sites/${sites_name}_local-${typefileFinal}.conf
+         sed -i "s/examplesite_COMPOSE_PROJECT_NAME/${sites_name}/g" config/nginx-sites/${sites_name}_local-${typefileFinal}.conf
+         sed -i "s/examplesite.COMPOSE_PROJECT_NAME/${sites_url}/g" config/nginx-sites/${sites_name}_local-${typefileFinal}.conf
+         sed -i "s/COMPOSE_PROJECT_NAME./gkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkggkgk/g" config/nginx-sites/${sites_name}_local-${typefileFinal}.conf
+         sed -i "s/.gkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkggkgk././g" config/nginx-sites/${sites_name}_local-${typefileFinal}.conf
+         sed -i "s/examplesite/${sites_url}/g" config/nginx-sites/${sites_name}_local-${typefileFinal}.conf
       fi
       if [ ! -d "www/${siteFile,,}/${examplesiteDir,,}/${subdir,,}" ]; then
          mkdir -p www/${siteFile,,}/${examplesiteDir,,}/${subdir,,}
@@ -102,7 +102,7 @@ newsite()
       sudo bash -c "echo -e '127.0.1.1\t\t${sites_url}.local www.${sites_url}.local nginx-${sites_name}-${COMPOSE_PROJECT_NAME,,}.local' >> /etc/hosts"
 
       dateTime=$(date '+%Y_%m_%d-%s')
-      echo -e "${sites_url}.local www.${sites_url}.local;${sites_name}_local;${sites_url};${typefileFinal}-${sites_name}_local;certs_${sites_name,,}_local;${dateTime};new" >> mkcert_homelab.csv
+      echo -e "${sites_url}.local www.${sites_url}.local;${sites_name}_local;${sites_url};${sites_name}_local-${typefileFinal};certs_${sites_name,,}_local;${dateTime};new" >> mkcert_homelab.csv
       cd DOCKER/certs
 
       mkcert ${sites_url}.local www.${sites_url}.local
@@ -110,7 +110,7 @@ newsite()
       mv -v ${sites_url}.local*.pem certs_${sites_name}_local.pem 
 
       openCD $0
-      more config/nginx-sites/${typefileFinal}-${sites_name}_local.conf | grep server_name | head -1
+      more config/nginx-sites/${sites_name}_local-${typefileFinal}.conf | grep server_name | head -1
       if [ ! -f "${COMPOSE_PROJECT_NAME,,}${filename}.md" ]; then
          echo -e "# ${siteFile}\n" > "${COMPOSE_PROJECT_NAME,,}${filename}.md"
       fi
@@ -157,7 +157,7 @@ delsite()
       sites_name="${4,,}_${sites}";
    fi      
 
-   if [ -f config/nginx-sites/*-${sites_name}_local.conf ]; then
+   if [ -f config/nginx-sites/${sites_name}_local-*.conf ]; then
       rightH1 $LIGHT_RED "DELETE :: https://${sites_url}.local" $WHITE "⛁" "."  
       mv -v ${COMPOSE_PROJECT_NAME,,}${filename}.md ${COMPOSE_PROJECT_NAME,,}${filename}_bk.md
       grep -v "${sites_url}.local" /etc/hosts > logs/hostsfile.log 
@@ -167,7 +167,7 @@ delsite()
       { head -n 2 ${COMPOSE_PROJECT_NAME,,}${filename}.md; tail -n +3 ${COMPOSE_PROJECT_NAME,,}${filename}.md | sort; } > ${COMPOSE_PROJECT_NAME,,}${filename}.md.tmp && mv ${COMPOSE_PROJECT_NAME,,}${filename}.md.tmp ${COMPOSE_PROJECT_NAME,,}${filename}.md
       grep -v "certs_${sites_name}_local" mkcert_preDelete.csv > mkcert_homelab.csv
       rm ${COMPOSE_PROJECT_NAME,,}${filename}_bk.md 
-      rm -v config/nginx-sites/*-${sites_name}_local.conf
+      rm -v config/nginx-sites/${sites_name}_local-*.conf
       rm -v DOCKER/certs/certs_${sites_name}_local*
       if [ "$deleteDir" == "yes" ]; then
          ln
