@@ -15,11 +15,13 @@ generate-override()
             echo;
         elif [ ! -z "$hostname" ]; then
             echo "      - \"$hostname:$NGINX_IP\"" >> DOCKER/dockerDATA.yml
+            echo "      - \"$hostname:127.0.0.1\"" >> DOCKER/dockerDATA_webserver.yml
             # Si hay hostnames adicionales en la misma línea
             for extra in $extras; do
                 URLSnginx=$(echo "$extra" | cut -d "-" -f 1)
                 if [ "$URLSnginx" != "nginx" ]; then
                     echo "      - \"$extra:$NGINX_IP\"" >> DOCKER/dockerDATA.yml
+                    echo "      - \"$extra:127.0.0.1\"" >> DOCKER/dockerDATA_webserver.yml
                 fi
             done
         fi
@@ -41,4 +43,13 @@ cat << EOF >> DOCKER/docker-compose.override.yml
 EOF
 sort DOCKER/dockerDATA.yml | uniq >> DOCKER/docker-compose.override.yml
 rm DOCKER/dockerDATA.yml
+
+cat << EOF >> DOCKER/docker-compose.override.yml
+
+  homelab-webserver:
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+EOF
+sort DOCKER/dockerDATA_webserver.yml | uniq >> DOCKER/docker-compose.override.yml
+rm DOCKER/dockerDATA_webserver.yml
 }
