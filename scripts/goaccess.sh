@@ -10,7 +10,6 @@ goaccess () {
     unix=$(date '+%Y_%m_%d-%s')
     rightH1 $YELLOW 'GoAccess' $WHITE '☐' "."
     more /etc/hosts | grep "homelab" | sort | uniq > hostsfile.conf
-    rm -v logs/goaccess/*.out > logs/goaccess/del-serverData.log
     echo "# goaccess Sites" > logs/goaccess/lists-serverData.log
     more hostsfile.conf | while read -r ip hostname extras; do
         datesss=$(date)
