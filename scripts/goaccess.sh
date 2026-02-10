@@ -9,18 +9,8 @@ goaccess () {
     openCD $0
     unix=$(date '+%Y_%m_%d-%s')
     rightH1 $YELLOW 'GoAccess' $WHITE '☐' "."
-    grep -i homelab /etc/hosts | awk '
-  $1 ~ /^[0-9]/ {
-    ip=$1
-    for (i=2; i<=NF; i++) {
-      h=tolower($i)
-      n=split(h,a,".")
-      if (n>=2) dom=a[n-1]"."a[n]
-      else dom=h
-      print dom "\t" h "\t" ip
-    }
-  }
-' | grep -vi 'nginx-' | grep -vi 'www.' | sort -k1,1 -k2,2 | uniq > hostsfile.conf
+    more /etc/hosts | grep "homelab" | sort | uniq > hostsfile.conf
+    rm -v logs/goaccess/*.out > logs/goaccess/del-serverData.log
     echo "# goaccess Sites" > logs/goaccess/lists-serverData.log
     more hostsfile.conf | while read -r ip hostname extras; do
         datesss=$(date)
