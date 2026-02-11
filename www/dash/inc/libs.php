@@ -49,16 +49,18 @@ function listSites($files, $directory, $classA, $domain = "", $prefix=""){
     return $output;
 }
 
-function listSitesJSON($typeJSON, $classA, $function, $strReplace){ 
+function listSitesJSON($typeJSON, $typeITEMS, $classA, $function, $strReplace){ 
     $sites=[];
     $sitesLinks = array();
+    $grupedSites = [];
     $listSitesOBJ = json_decode(file_get_contents($typeJSON.'.json'));
     $output = ["","",count($listSitesOBJ->items)];
     usort($listSitesOBJ->items, function($a, $b) {
         return strcmp($a->title, $b->title);
     });
     foreach ($listSitesOBJ->items as $site) {
-        foreach ($classA as $key => $class) {
+        foreach ($typeITEMS as $key => $typeITEM) {
+            $class=$classA[$key];
             $typeStr=strtoupper($site->type);
             $type = "nginx-alt text-success";
             if (str_contains($site->type, 'build')){
@@ -82,13 +84,46 @@ function listSitesJSON($typeJSON, $classA, $function, $strReplace){
             $attrExtras=str_replace($strReplace[$key][2],$typeStr,$attrExtras);
             $attrExtras=str_replace($strReplace[$key][3],$site->title,$attrExtras);
 
-            #errorLogger([$strReplace[$key], $site_ID, $function[$key], [$onloadFunction, $onloadReplace, $attrExtras]]);
-            $sitesLinks[$key][]="<a translate='no' $attrExtras target='_blank' class='$class' href='$site->url' style='min-width: 15vw;'><i class='icon-$type me-2'></i>$onloadFunction $site->title ➤ $typeStr $onloadReplace</a>";
+            if ( $typeITEM == "group" ) {              
+                $urlHost=parse_url($site->url, PHP_URL_HOST);
+                $urlHostParts=explode('.',$urlHost);
+                $urlDomain=implode('.', array_slice($urlHostParts, -2));
+                $grupedSites[$urlDomain][]="<a translate='no' $attrExtras target='_blank' class='$class' href='$site->url' style='min-width: 15vw;'><i class='icon-$type me-2'></i>$onloadFunction $site->title ➤ $typeStr $onloadReplace</a>";
+            } else {
+                #errorLogger([$strReplace[$key], $site_ID, $function[$key], [$onloadFunction, $onloadReplace, $attrExtras]]);
+                $sitesLinks[$key][]="<a translate='no' $attrExtras target='_blank' class='$class' href='$site->url' style='min-width: 15vw;'><i class='icon-$type me-2'></i>$onloadFunction $site->title ➤ $typeStr $onloadReplace</a>";
+            }
         }
     }
 
     foreach ($sitesLinks as $key => $class) {
         $output[$key] = implode("\n",$class);
     }
+    $output[]=$grupedSites;
     return $output;
+}
+
+function saveJsonFile(string $path, array $data): void
+{
+    $dir = dirname($path);
+    if (!is_dir($dir)) {
+        if (!@mkdir($dir, 0775, true) && !is_dir($dir)) {
+            throw new RuntimeException("No pude crear dir: {$dir}");
+        }
+    }
+
+    $json = json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+    if ($json === false) {
+        throw new RuntimeException("No pude serializar JSON: " . json_last_error_msg());
+    }
+
+    $tmp = $path . '.tmp';
+    if (@file_put_contents($tmp, $json . PHP_EOL, LOCK_EX) === false) {
+        throw new RuntimeException("No pude escribir tmp: {$tmp}");
+    }
+
+    if (!@rename($tmp, $path)) {
+        @unlink($tmp);
+        throw new RuntimeException("No pude renombrar tmp a destino: {$path}");
+    }
 }

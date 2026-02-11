@@ -187,9 +187,10 @@ include "./inc/head.php";
                     $dbuser = ($row["Comment"]!=""?trim(explode('--', $row["Comment"])[1]):$database_user);
                     $adminer_server2 = "server=".$database_server."&username=".$dbuser."&password=".$database_pass;
                     ?>
-                    <a target="_blank" translate="no" class="list-group-item list-group-item-action list-group-item-info py-1" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server2; ?>&db=<?= $row["Database"]; ?>" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="<?= "⛁ ".$row["Database"]." ➤ $dbuser ➤ ".$row["Chars"]." ➤ ".$row["Collation"].($row["Comment"]!=""?" ➤ ".$row["Comment"]:'').""; ?>">
+                    <a target="_blank" translate="no" class="list-group-item list-group-item-action list-group-item-info py-1 d-flex" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server2; ?>&db=<?= $row["Database"]; ?>" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="<?= "⛁ ".$row["Database"]." ➤ $dbuser ➤ ".$row["Chars"]." ➤ ".$row["Collation"].($row["Comment"]!=""?" ➤ ".$row["Comment"]:'').""; ?>">
                         <i class="bi bi-database-fill me-2"></i>
                         <?= $row["Database"]; ?>
+                        <span style="font-size: x-small;" class="small my-auto px-2 ms-auto badge bg-primary"><?php echo $dbuser;?></span>                    
                     </a>
                 <?php }
                 ?>
@@ -224,8 +225,26 @@ include "./inc/head.php";
                     <i class="text-success icon-nginx me-2"></i> Domain Sites List (<em> .local </em>)
                     <b class="px-2 border border-info rounded ms-auto"><?php echo $sitesDomain[2];?></b>
                 </h5>
-                <div class="list-group shadow">
-                    <?php echo $sitesDomain[1];?>
+                <div class="accordion" id="accordionDomain">
+                <?php
+                foreach ($sitesDomain[3] as $domain => $sites) {?>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading-<?= str_replace([".","-"], "", $domain); ?>">
+                            <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-<?= str_replace([".","-"], "", $domain); ?>" aria-expanded="true" aria-controls="collapse-<?= str_replace([".","-"], "", $domain); ?>">
+                                <?= $domain; ?>
+                                <span style="font-size: x-small;" class="small my-auto px-2 ms-auto badge bg-primary"><?php echo count($sites);?></span>
+                            </button>
+                        </h2>
+                        <div id="collapse-<?= str_replace([".","-"], "", $domain); ?>" class="accordion-collapse collapse" aria-labelledby="heading-<?= str_replace([".","-"], "", $domain); ?>" data-bs-parent="#accordionExample">
+                            <div class="accordion-body p-2">
+                                <div class="list-group shadow">
+                                    <?php echo implode("\n",$sites);?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php }
+                ?>
                 </div>
             </div>
             <?php }
@@ -235,8 +254,26 @@ include "./inc/head.php";
                     <i class="text-success icon-nginx me-2"></i> SubDomain Sites List (<em> .<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local </em>)
                     <b class="px-2 border border-info rounded ms-auto"><?php echo $sitesSubdomain[2];?></b>
                 </h5>
-                <div class="list-group shadow">
-                    <?php echo $sitesSubdomain[1];?>
+                <div class="accordion" id="accordionDomain">
+                <?php
+                foreach ($sitesSubdomain[3] as $domain => $sites) {?>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading-<?= str_replace([".","-"], "", $domain); ?>">
+                            <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-<?= str_replace([".","-"], "", $domain); ?>" aria-expanded="true" aria-controls="collapse-<?= str_replace([".","-"], "", $domain); ?>">
+                                <?= $domain; ?>
+                                <b class="px-2 border border-info rounded ms-auto"><?php echo count($sites);?></b>
+                            </button>
+                        </h2>
+                        <div id="collapse-<?= str_replace([".","-"], "", $domain); ?>" class="accordion-collapse collapse" aria-labelledby="heading-<?= str_replace([".","-"], "", $domain); ?>" data-bs-parent="#accordionExample">
+                            <div class="accordion-body p-2">
+                                <div class="list-group shadow">
+                                    <?php echo implode("\n",$sites);?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php }
+                ?>
                 </div>
             </div>
             <?php }?>
