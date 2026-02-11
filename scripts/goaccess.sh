@@ -9,7 +9,7 @@ goaccess () {
     openCD $0
     unix=$(date '+%Y_%m_%d-%s')
     rightH1 $YELLOW 'GoAccess' $WHITE '☐' "."
-    more /etc/hosts | grep "homelab" | sort | uniq > hostsfile.conf
+    more /etc/hosts | grep "${COMPOSE_PROJECT_NAME,,}" | sort | uniq > hostsfile.conf
     echo "# goaccess Sites" > logs/goaccess/lists-serverData.log
     more hostsfile.conf | while read -r ip hostname extras; do
         datesss=$(date)
