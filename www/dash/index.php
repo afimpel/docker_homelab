@@ -229,13 +229,14 @@ include "./inc/head.php";
                 <?php
                 foreach ($sitesDomain[3] as $domain => $sites) {?>
                     <div class="accordion-item">
+                        
                         <h2 class="accordion-header" id="heading-<?= str_replace([".","-"], "", $domain); ?>">
                             <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-<?= str_replace([".","-"], "", $domain); ?>" aria-expanded="true" aria-controls="collapse-<?= str_replace([".","-"], "", $domain); ?>">
                                 <?= $domain; ?>
                                 <span style="font-size: x-small;" class="small my-auto px-2 ms-auto badge bg-primary"><?php echo count($sites);?></span>
                             </button>
                         </h2>
-                        <div id="collapse-<?= str_replace([".","-"], "", $domain); ?>" class="accordion-collapse collapse" aria-labelledby="heading-<?= str_replace([".","-"], "", $domain); ?>" data-bs-parent="#accordionExample">
+                        <div id="collapse-<?= str_replace([".","-"], "", $domain); ?>" class="accordion-collapse collapse" aria-labelledby="heading-<?= str_replace([".","-"], "", $domain); ?>" data-bs-parent="#accordionDomain">
                             <div class="accordion-body p-2">
                                 <div class="list-group shadow">
                                     <?php echo implode("\n",$sites);?>
@@ -254,7 +255,7 @@ include "./inc/head.php";
                     <i class="text-success icon-nginx me-2"></i> SubDomain Sites List (<em> .<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local </em>)
                     <b class="px-2 border border-info rounded ms-auto"><?php echo $sitesSubdomain[2];?></b>
                 </h5>
-                <div class="accordion" id="accordionDomain">
+                <div class="accordion" id="accordionSubdomain">
                 <?php
                 foreach ($sitesSubdomain[3] as $domain => $sites) {?>
                     <div class="accordion-item">
@@ -264,7 +265,7 @@ include "./inc/head.php";
                                 <b class="px-2 border border-info rounded ms-auto"><?php echo count($sites);?></b>
                             </button>
                         </h2>
-                        <div id="collapse-<?= str_replace([".","-"], "", $domain); ?>" class="accordion-collapse collapse" aria-labelledby="heading-<?= str_replace([".","-"], "", $domain); ?>" data-bs-parent="#accordionExample">
+                        <div id="collapse-<?= str_replace([".","-"], "", $domain); ?>" class="accordion-collapse collapse" aria-labelledby="heading-<?= str_replace([".","-"], "", $domain); ?>" data-bs-parent="#accordionSubdomain">
                             <div class="accordion-body p-2">
                                 <div class="list-group shadow">
                                     <?php echo implode("\n",$sites);?>
