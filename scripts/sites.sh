@@ -92,6 +92,8 @@ newsite()
             indexFile="index.html"
             cp -v DOCKER/examples/legacy-newsite.html www/${siteFile,,}/${examplesiteDir}/${subdir,,}/index.html
          fi
+         datesSite=$(date '+%Y-%m-%d %X')
+         sed -i "s/datesSite/${datesSite}/g" www/${siteFile,,}/${examplesiteDir}/${subdir,,}/$indexFile
          sed -i "s/wwwSite/${sites_url}/g" www/${siteFile,,}/${examplesiteDir}/${subdir,,}/$indexFile
          sed -i "s/typeSite/${siteFile}/g" www/${siteFile,,}/${examplesiteDir}/${subdir,,}/$indexFile
          sed -i "s/COMPOSE_PROJECT_NAME/${COMPOSE_PROJECT_NAME,,}/g" www/${siteFile,,}/${examplesiteDir}/${subdir,,}/$indexFile
