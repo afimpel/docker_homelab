@@ -28,7 +28,7 @@ $out3 = explode("<body>", $out1[0]);
 
 echo $out3[0]."\n \n";
 echo "<body>\n";
-echo "<h1>Welcome to new typeSite: wwwSite.local ( ⛁ COMPOSE_PROJECT_NAME )</h1> <hr />";
+echo "<h1>Welcome to new typeSite: ".$_SERVER['HTTP_HOST']." ( ⛁ COMPOSE_PROJECT_NAME )</h1> <hr />";
 echo $out3[1]."\n \n";
 echo "<h1> Site information </h1>\n\n<h2> Connection details </h2>\n\n \n<table>\n\t";
 echo "<tr>\n\t\t<td class='e'>SERVER NAME</td>\n\t\t<td class='v'>".php_uname('n')." / ".($_SERVER['HTTP_X_FORWARDED_FOR'] ?? "-")." / ".$_SERVER['HTTP_HOST']." ( ⛁ homelab )"."</td>\n\t</tr>\n";
@@ -65,7 +65,7 @@ foreach (get_declared_classes() as $c ) {
 	echo implode(", ", get_class_methods($c));
 	echo "</td>\n\t</tr>";
 }
-echo "\n</table>\n \n";
+echo "\n</table>\n \n <b>wwwSite.local</b>\n";
 
 $__out__ = explode('<h2>PHP License</h2>',$out1[2]);
 echo $__out__[0];
