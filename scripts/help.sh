@@ -1,8 +1,8 @@
 #!/bin/bash
 
 RUNNER_NAME="./homelab"
-JSON_FILE="www/dash/json-help.json"
-JSON_FILE_Version="www/dash/version.json"
+JSON_FILE="web-dash/json-help.json"
+JSON_FILE_Version="web-dash/version.json"
 
 ############################################################
 # Help                                                     #

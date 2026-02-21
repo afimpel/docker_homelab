@@ -7,7 +7,7 @@
 docker_up () {
   clear
   openCD $0
-  touch www/dash/version.json
+  touch web-dash/version.json
   rightH1 $YELLOW 'Startup containers' $WHITE '✔' "."
   date +'%s' > logs/startup.pid
   cd DOCKER/
@@ -48,8 +48,8 @@ generate_version() {
     gitinfo=$(git log -1 --pretty=format:"%an: %s ( %h / %cr )")
     startupFile=$(cat logs/startup.pid)
     echo -e "{ \"startup\":$startupFile,\"gitinfo\":\"$gitinfo\",\"username\":\"$USERNAME\",\"checkfile\":[$checkfile],\"version\":{\"php8\":\"$versionPHP8\", \"composer8\":\"$composerVersion8\", \"supervisord8\":\"$supervisordVersion8\", \"php7\":\"$versionPHP7\", \"composer7\":\"$composerVersion7\", \"supervisord7\":\"$supervisordVersion7\", \"docker\":\"Ver$dockerVersion\", \"dockerCompose\":\"Ver$dockerComposeVersion\"} }" > TEMP/version.json
-    jq . TEMP/version.json > www/dash/version.json
-    chmod 777 www/dash/version.json
+    jq . TEMP/version.json > web-dash/version.json
+    chmod 777 web-dash/version.json
   fi
 }
 

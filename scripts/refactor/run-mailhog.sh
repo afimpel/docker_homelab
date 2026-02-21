@@ -70,3 +70,5 @@ replace_mailhog() {
   done
   recreate-ssl "$TO_HOST"
 }
+
+replace_mailhog

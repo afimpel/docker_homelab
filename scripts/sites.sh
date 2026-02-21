@@ -74,30 +74,29 @@ newsite()
       else
          filename="_domains"
          siteFile="Domains"
-         sed -i "s/subdomains/domains/g" config/nginx-sites/${sites_name}_local-${typefileFinal}.conf
          sed -i "s/examplesite_COMPOSE_PROJECT_NAME/${sites_name}/g" config/nginx-sites/${sites_name}_local-${typefileFinal}.conf
          sed -i "s/examplesite.COMPOSE_PROJECT_NAME/${sites_url}/g" config/nginx-sites/${sites_name}_local-${typefileFinal}.conf
          sed -i "s/COMPOSE_PROJECT_NAME./gkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkggkgk/g" config/nginx-sites/${sites_name}_local-${typefileFinal}.conf
          sed -i "s/.gkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkgkggkgk././g" config/nginx-sites/${sites_name}_local-${typefileFinal}.conf
          sed -i "s/examplesite/${sites_url}/g" config/nginx-sites/${sites_name}_local-${typefileFinal}.conf
       fi
-      if [ ! -d "www/${siteFile,,}/${examplesiteDir,,}/${subdir,,}" ]; then
-         mkdir -p www/${siteFile,,}/${examplesiteDir,,}/${subdir,,}
+      if [ ! -d "www/${examplesiteDir,,}/${subdir,,}" ]; then
+         mkdir -p www/${examplesiteDir,,}/${subdir,,}
          indexFile="index.php"
          if [ "$typefile" == "php8" ]; then
-            cp -v DOCKER/examples/php-newsite.php www/${siteFile,,}/${examplesiteDir}/${subdir,,}/index.php
+            cp -v DOCKER/examples/php-newsite.php www/${examplesiteDir}/${subdir,,}/index.php
          elif [ "$typefile" == "php7" ]; then
-            cp -v DOCKER/examples/php-newsite.php www/${siteFile,,}/${examplesiteDir}/${subdir,,}/index.php
+            cp -v DOCKER/examples/php-newsite.php www/${examplesiteDir}/${subdir,,}/index.php
          else
             indexFile="index.html"
-            cp -v DOCKER/examples/legacy-newsite.html www/${siteFile,,}/${examplesiteDir}/${subdir,,}/index.html
+            cp -v DOCKER/examples/legacy-newsite.html www/${examplesiteDir}/${subdir,,}/index.html
          fi
          datesSite=$(date '+%Y-%m-%d %X')
-         sed -i "s/datesSite/${datesSite}/g" www/${siteFile,,}/${examplesiteDir}/${subdir,,}/$indexFile
-         sed -i "s/wwwSite/${sites_url}/g" www/${siteFile,,}/${examplesiteDir}/${subdir,,}/$indexFile
-         sed -i "s/typeSite/${siteFile}/g" www/${siteFile,,}/${examplesiteDir}/${subdir,,}/$indexFile
-         sed -i "s/COMPOSE_PROJECT_NAME/${COMPOSE_PROJECT_NAME,,}/g" www/${siteFile,,}/${examplesiteDir}/${subdir,,}/$indexFile
-         sed -i "s/COMPOSE_PROJECT_NAME/${COMPOSE_PROJECT_NAME,,}/g" www/${siteFile,,}/${examplesiteDir}/${subdir,,}/$indexFile
+         sed -i "s/datesSite/${datesSite}/g" www/${examplesiteDir}/${subdir,,}/$indexFile
+         sed -i "s/wwwSite/${sites_url}/g" www/${examplesiteDir}/${subdir,,}/$indexFile
+         sed -i "s/typeSite/${siteFile}/g" www/${examplesiteDir}/${subdir,,}/$indexFile
+         sed -i "s/COMPOSE_PROJECT_NAME/${COMPOSE_PROJECT_NAME,,}/g" www/${examplesiteDir}/${subdir,,}/$indexFile
+         sed -i "s/COMPOSE_PROJECT_NAME/${COMPOSE_PROJECT_NAME,,}/g" www/${examplesiteDir}/${subdir,,}/$indexFile
       fi
       
       
@@ -174,9 +173,9 @@ delsite()
       if [ "$deleteDir" == "yes" ]; then
          ln
          if [ "$subdomainsTrue" == "0" ]; then
-            rm -vrf www/subdomains/${sites_url}.local
+            rm -vrf www/${sites_url}.local
          else
-            rm -vrf www/domains/${sites_url}.local
+            rm -vrf www/${sites_url}.local
          fi
       fi
       if [ -x "$(command -v notify-send)" ]; then
@@ -230,8 +229,8 @@ www()
       fi
    done < "$input_file"
    echo "]}" >> TEMP/algo0.json
-   jq . TEMP/algo0.json > www/dash/home.json
-   lengthContent=$(jq '.items | length' www/dash/home.json)
+   jq . TEMP/algo0.json > web-dash/home.json
+   lengthContent=$(jq '.items | length' web-dash/home.json)
    write_message "${COMPOSE_PROJECT_NAME,,} ➤ length: $lengthContent\n " "website" 
 
    input_file0="$(dirname $0)/${COMPOSE_PROJECT_NAME,,}_domains.md"
@@ -282,8 +281,8 @@ www()
       done < "$input_file0"
    fi
    echo "]}" >> TEMP/algo1.json
-   jq . TEMP/algo1.json > www/dash/domains.json
-   lengthContent=$(jq '.items | length' www/dash/domains.json)
+   jq . TEMP/algo1.json > web-dash/domains.json
+   lengthContent=$(jq '.items | length' web-dash/domains.json)
    write_message "domains ➤ length: $lengthContent\n " "website" 
    if [ $lengthContent -eq 0 ]; then
       if [ -f "${input_file0}" ]; then
@@ -339,9 +338,9 @@ www()
       done < "$input_file1"
   fi
   echo "]}" >> TEMP/algo2.json
-  jq . TEMP/algo2.json > www/dash/subdomains.json
+  jq . TEMP/algo2.json > web-dash/subdomains.json
 
-  lengthContent=$(jq '.items | length' www/dash/subdomains.json)
+  lengthContent=$(jq '.items | length' web-dash/subdomains.json)
   write_message "subdomains ➤ length: $lengthContent\n " "website" 
   write_message "DELETE: \n$(rm -fv TEMP/*.json)\n\n\t---\t\t $(date) \t\t---" "website" 
   if [ $lengthContent -eq 0 ]; then

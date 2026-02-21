@@ -113,6 +113,7 @@ services:
     volumes:
       - ../logs/nginx:/var/log/nginx:rw
       - ../www:/var/www:rw
+      - ../web-dash:/var/www-dash:rw
       - goaccessVol:/var/report-html:rw
       - ./images/nginx/entrypoint:/docker-entrypoint.d:rw
       - ./images/nginx/nginx.conf:/etc/nginx/nginx.conf
@@ -170,6 +171,7 @@ services:
       - ../logs/php7:/var/log/php:rw
       - ../logs/sites-logs:/var/log/sites-logs:rw
       - ../www:/var/www:rw
+      - ../web-dash:/var/www-dash:rw
       - ../logs/supervisor:/var/log/supervisor:rw
       - ../config/supervisor/php7:/etc/supervisor/conf.d:rw
       - ../config/composer/php7/root:/root/.config/composer:rw
@@ -222,6 +224,7 @@ services:
       - ../logs/sites-logs:/var/log/sites-logs:rw
       - ../logs/supervisor:/var/log/supervisor:rw
       - ../www:/var/www:rw
+      - ../web-dash:/var/www-dash:rw
       - ../config/supervisor/php8:/etc/supervisor/conf.d:rw
       - ../config/composer/php8/root:/root/.config/composer:rw
       - ../config/composer/php8/${USERNAME}:/home/${USERNAME}/.config/composer:rw

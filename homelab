@@ -13,7 +13,6 @@ source $(dirname $0)/scripts/backup.sh
 source $(dirname $0)/scripts/goaccess.sh
 source $(dirname $0)/scripts/generate-override.sh
 source $(dirname $0)/scripts/recreate-ssl.sh
-source $(dirname $0)/scripts/replace_mailhog.sh
 source $(dirname $0)/scripts/check_updates.sh
 openCD $0
 agentData=$RANDOM
@@ -35,7 +34,7 @@ case "$subcommand" in
     startExec0000=$(date +'%s')
     header
     ln
-    replace_mailhog
+    refactor_fn
     check_and_pull_updates
     docker_updates
     docker_up_master
