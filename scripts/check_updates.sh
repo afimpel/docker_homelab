@@ -44,6 +44,7 @@ check_and_pull_updates() {
         else
             rightH1 $WHITE "'git pull' operation cancelled. Your local branch has not been updated." $LIGHT_RED '✘' " "
         fi
+        exit 0
     else
         rightH1 $WHITE "Your local branch is up to date with the remote branch '$upstream_branch'. No new commits." $LIGHT_GREEN '✔' " "
     fi
