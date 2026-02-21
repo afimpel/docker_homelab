@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
-source $(dirname $0)/../utils.sh
 
-openCD $0
+cd $(dirname $0)/../../
+pwd
 if [ -d "www/domains" ]; then
     for configFiles in config/nginx-sites/*.conf ; do
         DATETIME="$(date +%Y%m%d)"
@@ -25,5 +25,3 @@ if [ -d "www/subdomains" ]; then
     mv -rvf subdomains/* .
     cd ..
 fi
-
-echo -e "➤\t Done ...\t\t\t\t⏲ $(date '+%Y-%m-%d %H:%M:%S')\n"
