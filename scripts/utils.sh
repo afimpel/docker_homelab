@@ -233,7 +233,7 @@ refactor_fn () {
                 rm -v logs/refactor/int_$nuevo_nombre >> logs/refactor/${DATETIME}-00_ALL.log 2>&1
                 echo -e "➤\t Done ...\t\t\t\t⏲ $(date '+%Y-%m-%d %H:%M:%S')\n" >> logs/refactor/${DATETIME}-00_ALL.log
                 echo -e "➤\t Time: \t$timeExec0\n----------- $(date '+%Y-%m-%d %H:%M:%S') -----------\n" >> logs/refactor/${DATETIME}-00_ALL.log
-                CUSTOM_LEFT $NC "LOG: $nuevo_nombre" $BLUE "Time: $timeExec0 / Size: $(du -sh logs/refactor/$nuevo_nombre | awk '{print $1}')" $LIGHT_GREEN "➤" " " "✔" 12
+                CUSTOM_LEFT $NC "LOG: $nuevo_nombre" $BLUE "Time: $timeExec0" $LIGHT_GREEN "➤" " " "✔" 12
                 echo " "
         fi
     done 
