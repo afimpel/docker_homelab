@@ -8,8 +8,8 @@ if [ -d "www/domains" ]; then
         if [ -r "$configFiles" ] ; then
             nombre_archivo=$(basename "${configFiles}")
             echo -e "➤\t $nombre_archivo\t\t\t⏲ $(date '+%Y-%m-%d %H:%M:%S')\n"
-            sed -i 's|/var/log/nginx/\(domains\|subdomains\)|/var/log/nginx/sites|g' $configFiles
-            sed -i 's|/var/www/\(domains\|subdomains\)|/var/www|g' $configFiles
+            sed -i 's|/var/log/nginx/domains|/var/log/nginx/sites|g; s|/var/log/nginx/subdomains|/var/log/nginx/sites|g' $configFiles
+            sed -i 's|/var/www/domains|/var/www|g; s|/var/www/subdomains|/var/www|g' $configFiles
             sed -i 's|/var/www/dash|/var/www-dash|g' $configFiles
         fi
     done
