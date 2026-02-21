@@ -16,11 +16,16 @@ if [ -d "www/domains" ]; then
     echo -e "➤\t Move: domains\t\t\t⏲ $(date '+%Y-%m-%d %H:%M:%S')\n"
     cd www
     mv -vf domains/* .
+    rm -vr domains
     cd ..
 fi
 if [ -d "www/subdomains" ]; then
     echo -e "➤\t Move: domains\t\t\t⏲ $(date '+%Y-%m-%d %H:%M:%S')\n"
     cd www
     mv -vf subdomains/* .
+    rm -vr subdomains
     cd ..
+fi
+if [ -d "www/dash" ]; then
+    rm -vr www/dash
 fi
