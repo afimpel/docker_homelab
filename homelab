@@ -34,8 +34,8 @@ case "$subcommand" in
     startExec0000=$(date +'%s')
     header
     ln
-    refactor_fn
     check_and_pull_updates
+    refactor_fn
     docker_updates
     docker_up_master
     ln
@@ -50,6 +50,7 @@ case "$subcommand" in
     header
     ln
     check_and_pull_updates
+    refactor_fn
     footer
   ;;
   ps)
