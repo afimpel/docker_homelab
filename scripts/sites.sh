@@ -236,6 +236,8 @@ www()
    input_file0="$(dirname $0)/${COMPOSE_PROJECT_NAME,,}_domains.md"
    echo "{\"datetime\":\"$(date)\",\"items\":[" > TEMP/algo1.json
    if [ -f "${input_file0}" ]; then
+      { echo "# Domains"; echo; grep '^\*' $input_file0 | sed '/|/!s/\[\([^]]*\)\]/[\1 | !]/' | awk -F'[][]' '{printf "%s\t%s\n", $2, $0}' | sort -k1,1 -t"	" | cut -f2- | sed 's/ | !]/]/'; } > TEMP/algo1.md
+      mv TEMP/algo1.md $input_file0
       ln
       rightH1 $YELLOW "Domains ( ${COMPOSE_PROJECT_NAME,,}_domains.md )" $WHITE '✔' "." 
       lnline=0
@@ -293,6 +295,8 @@ www()
    input_file1="$(dirname $0)/${COMPOSE_PROJECT_NAME,,}_subdomains.md"
    echo "{\"datetime\":\"$(date)\",\"items\":[" > TEMP/algo2.json
    if [ -f "${input_file1}" ]; then
+      { echo "# Domains"; echo; grep '^\*' $input_file1 | sed '/|/!s/\[\([^]]*\)\]/[\1 | !]/' | awk -F'[][]' '{printf "%s\t%s\n", $2, $0}' | sort -k1,1 -t"	" | cut -f2- | sed 's/ | !]/]/'; } > TEMP/algo2.md
+      mv TEMP/algo2.md $input_file1
       ln
       rightH1 $YELLOW "SubDomains ( ${COMPOSE_PROJECT_NAME,,}_subdomains.md )" $WHITE '✔' "." 
       lnline=0
