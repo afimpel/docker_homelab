@@ -96,6 +96,10 @@ function listSitesJSON($typeJSON, $typeITEMS, $classA, $function, $strReplace){
         }
     }
 
+    uasort($grupedSites, function($a, $b) {
+        return count($b) - count($a);
+    });
+
     foreach ($sitesLinks as $key => $class) {
         $output[$key] = implode("\n",$class);
     }

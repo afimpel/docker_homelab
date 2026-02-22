@@ -255,24 +255,10 @@ include "./inc/head.php";
                     <i class="text-success icon-nginx me-2"></i> SubDomain Sites List (<em> .<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local </em>)
                     <b class="px-2 border border-info rounded ms-auto"><?php echo $sitesSubdomain[2];?></b>
                 </h5>
-                <div class="accordion" id="accordionSubdomain">
+                <div class="list-group shadow">
                 <?php
                 foreach ($sitesSubdomain[3] as $domain => $sites) {?>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="heading-<?= str_replace([".","-"], "", $domain); ?>">
-                            <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-<?= str_replace([".","-"], "", $domain); ?>" aria-expanded="true" aria-controls="collapse-<?= str_replace([".","-"], "", $domain); ?>">
-                                <?= $domain; ?>
-                                <b class="px-2 border border-info rounded ms-auto"><?php echo count($sites);?></b>
-                            </button>
-                        </h2>
-                        <div id="collapse-<?= str_replace([".","-"], "", $domain); ?>" class="accordion-collapse collapse" aria-labelledby="heading-<?= str_replace([".","-"], "", $domain); ?>" data-bs-parent="#accordionSubdomain">
-                            <div class="accordion-body p-2">
-                                <div class="list-group shadow">
-                                    <?php echo implode("\n",$sites);?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <?php echo implode("\n",$sites);?>
                     <?php }
                 ?>
                 </div>
