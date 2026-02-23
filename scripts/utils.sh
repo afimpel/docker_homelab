@@ -243,3 +243,13 @@ refactor_fn () {
     echo -e "\nTime excution: $timeExec." >> logs/refactor/${DATETIME}-00_ALL.log
     echo -e "➤\t Size: \t$(du -h logs/refactor/${DATETIME}-00_ALL.log)\n----------- $(date '+%Y-%m-%d %H:%M:%S') -----------" >> logs/refactor/${DATETIME}-00_ALL.log
 }
+
+get_hostfiles () {
+    grep "${COMPOSE_PROJECT_NAME,,}" /etc/hosts | awk '{
+    n = split($2, parts, ".")
+    base = parts[n-1] "." parts[n]
+    dots = gsub(/\./,".",$2)
+    split($1, ip, ".")
+    printf "%03d.%03d.%03d.%03d %s %d %s\n", ip[1], ip[2], ip[3], ip[4], base, dots, $0
+    }' | sort -k1,1 -k2,2 -k3,3n | sed 's/^[^ ]* [^ ]* [^ ]* //' > hostsfile.conf
+}
