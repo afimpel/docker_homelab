@@ -33,6 +33,10 @@ open()
         rightH1 $LIGHT_CYAN "Opening editor" $WHITE '✔' "."
         leftH1 $WHITE "$OPEN_CODE_COMMAND $(pwd)/" $LIGHT_CYAN "☑" " " "☑" "4+1"
         nohup $OPEN_CODE_COMMAND $(pwd)/ > /dev/null 2>&1 &
+   elif [ "$1" == "filemanager" ] && [ $OPEN_FILEMANAGER == true ]; then
+        rightH1 $LIGHT_CYAN "Opening File Manager" $WHITE '✔' "."
+        leftH1 $WHITE "$OPEN_FILEMANAGER_COMMAND $(pwd)/" $LIGHT_CYAN "☑" " " "☑" "4+1"
+        nohup $OPEN_FILEMANAGER_COMMAND $(pwd)/ > /dev/null 2>&1 &
    elif [ "$1" == "terminal" ] && [ $OPEN_TERMINAL == true ]; then
         rightH1 $LIGHT_CYAN "Opening Terminal" $WHITE '✔' "."
         if [ $OPEN_TERMINAL_COMMAND == "tilix" ]; then
