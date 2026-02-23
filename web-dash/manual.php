@@ -130,7 +130,7 @@ $description = $objHelp0000[0]->description;
                                 continue;
                             }
                     ?>
-                    <a href="manual.php?tags=<?= $href; ?>" class="m-2 shadow btn btn-outline-secondary text-decoration-none fs-4 title is-3 has-text-centered d-flex py-1">
+                    <a href="manual.php?tags=<?= $href; ?>" class="m-2 shadow btn btn-outline-secondary text-decoration-none fs-4 title is-3 has-text-centered d-flex py-1" translate="no" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="<?=$title; ?> ➤ <?php echo $description; ?>">
                         <span class="pe-4 me-auto"><i class="icon-script-alt me-2"></i> <?=$title; ?>: </span>
                         <small class="small rounded-pill px-2" style="font-size: small;"> <?=$description; ?> </small>
                     </a>

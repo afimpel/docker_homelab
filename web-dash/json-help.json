@@ -384,7 +384,7 @@
       ],
       "title": "Open",
       "href": "open",
-      "description": "Open project in Browser, Code Editor, Terminal",
+      "description": "Open project in Browser, File Manager, Code Editor, Terminal",
       "command": "open",
       "checkfile": "",
       "mode": "both",

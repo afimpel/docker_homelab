@@ -43,7 +43,7 @@ $objVersion = json_decode(file_get_contents('version.json'));
     <style>
         small::before{ margin-right: .5rem;}
         .btn::before{ margin-right: .5rem;}
-        .tooltip-inner { max-width: 90vw; font-family: monospace; }
+        .tooltip-inner { max-width: 90vw; font-family: monospace; padding-right: 1rem; padding-left: 1rem; }
         .accordion-button::after { margin-left: 1rem; }
     </style>
 </head>
