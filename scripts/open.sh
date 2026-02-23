@@ -18,7 +18,7 @@ open()
                 ln
             fi
             rightH1 $LIGHT_CYAN "Preparing to open websites" $WHITE '✔' "."
-            domainsOpens="https://www.${COMPOSE_PROJECT_NAME,,}.local $(jq -r '[.items[] | select(.urlType=="www" and (.exclude==false))] | sort_by(.title) | map(.url) | join(" ")' web-dash/domains.json)"
+            domainsOpens="https://${COMPOSE_PROJECT_NAME,,}.local $(jq -r '[.items[] | select(.urlType=="www" and (.exclude==false))] | sort_by(.title) | map(.url) | join(" ")' web-dash/domains.json) $(jq -r '[.items[] | select(.urlType=="www" and (.exclude==false))] | sort_by(.title) | map(.url) | join(" ")' web-dash/subdomains.json)"
             local domainsOpens_count=${#domainsOpens}
             domainsOpens_count=$(( domainsOpens_count - 1 ))
             local browserSTR="$OPEN_BROWSER_COMMAND $domainsOpens"
