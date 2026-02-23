@@ -52,7 +52,7 @@ $description = $objHelp0000[0]->description;
     <div class="container-fluid py-2">
         <div class="row m-1">
             <div class="col-12 mb-3">
-                <h3 class="title is-3 has-text-centered border-bottom border-primary d-flex p-1 shadow" >
+                <h3 class="title is-3 has-text-centered border-bottom border-primary d-flex p-1 shadow" translate="no" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-original-title="Manual Homelab">
                     <span><i class="icon-docker me-2"></i> Manual Homelab</span>
                     <a href="./" style="font-size: small;" class="me-2 ms-auto my-auto px-4 py-0 shadow btn btn-outline-secondary btn-sm">back to HOME</a>
                 </h3>
@@ -91,7 +91,7 @@ $description = $objHelp0000[0]->description;
                 </div>
                 <div class="card border-info my-2 shadow">
                     <div class="card-header py-1 bg-primary text-light"><i class="icon-git me-4"></i> <b>the latest commit on GitHub:</b></div>
-                    <div class="card-body text-center">
+                    <div class="card-body text-center" translate="no" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="GitHub: <?php echo $objVersion->gitinfo ?? "-"; ?>">
                         <span class="card-text font-monospace"><?php echo $objVersion->gitinfo ?? "-"; ?></span>
                     </div>
                 </div>
@@ -100,7 +100,7 @@ $description = $objHelp0000[0]->description;
             </div>
             <div class="col-12 col-xl-9">
                 <div class="border border-primary rounded p-2 m-0 shadow">
-                    <div class="border border-primary rounded p-2 m-4 shadow">
+                    <div class="border border-primary rounded p-2 m-2 shadow">
                         <h3 class="text-center py-1 border bg-dark text-light rounded"><i class="icon-shell me-4"></i> USE:</h3>
                         <ol>
                             <li>Open terminal (ej: xterm, tilix, kitty, etc)</li>
@@ -130,11 +130,11 @@ $description = $objHelp0000[0]->description;
                                 continue;
                             }
                     ?>
-                    <a href="manual.php?tags=<?= $href; ?>" class="mx-4 mt-4 shadow btn btn-outline-secondary text-decoration-none fs-4 title is-3 has-text-centered d-flex py-1">
+                    <a href="manual.php?tags=<?= $href; ?>" class="m-2 shadow btn btn-outline-secondary text-decoration-none fs-4 title is-3 has-text-centered d-flex py-1">
                         <span class="pe-4 me-auto"><i class="icon-script-alt me-2"></i> <?=$title; ?>: </span>
                         <small class="small rounded-pill px-2" style="font-size: small;"> <?=$description; ?> </small>
                     </a>
-                    <div class="mx-4 my-2 list-group shadow">
+                    <div class="mx-2 mb-4 list-group shadow">
                     <?php
                             foreach ($value00->options as $key => $value) {
                                 if ( 

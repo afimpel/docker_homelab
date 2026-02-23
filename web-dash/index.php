@@ -230,7 +230,7 @@ include "./inc/head.php";
                 foreach ($sitesDomain[3] as $domain => $sites) {?>
                     <div class="accordion-item">
                         
-                        <h2 class="accordion-header" id="heading-<?= str_replace([".","-"], "", $domain); ?>">
+                        <h2 class="accordion-header toggle_tooltip" data-bs-original-title="<?= $domain.' ( '.count($sites).' Sites )'; ?>" id="heading-<?= str_replace([".","-"], "", $domain); ?>">
                             <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-<?= str_replace([".","-"], "", $domain); ?>" aria-expanded="true" aria-controls="collapse-<?= str_replace([".","-"], "", $domain); ?>">
                                 <?= $domain; ?>
                                 <span style="font-size: x-small;" class="small my-auto px-2 ms-auto badge bg-primary"><?php echo count($sites);?></span>
@@ -286,7 +286,7 @@ include "./inc/head.php";
     <div class="container-fluid pb-2" id="git_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">
         <div class="container border border-primary rounded p-2 my-1 shadow">
             <h6 class="text-center py-1 border bg-dark text-light rounded"><i class="icon-git me-4"></i> the latest commit on GitHub:</h6>
-            <code class="text-center d-block"><?php echo $objVersion->gitinfo ?? "-"; ?></code>
+            <code class="text-center d-block" translate="no" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="GitHub: <?php echo $objVersion->gitinfo ?? "-"; ?>"><?php echo $objVersion->gitinfo ?? "-"; ?></code>
         </div>
     </div>
     <script>

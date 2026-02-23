@@ -2,7 +2,7 @@
     <div class="container">
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-0 my-2">
             <div class="col-md-4 d-flex align-items-center">
-                <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="LEMP STACK ➤ Compose: <?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?> ➤ Your local development environment in Docker" href="//www.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" href="/" class="mb-3 me-2 mb-md-0 px-1 py-0 text-decoration-none lh-1" aria-label="Bootstrap">
+                <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="LEMP STACK ➤ Compose: <?php echo strtoupper(getenv('COMPOSE_PROJECT_NAME')); ?> ➤ Your local development environment in Docker" href="//www.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" href="/" class="mb-3 me-2 mb-md-0 px-1 py-0 text-decoration-none lh-1" aria-label="Bootstrap">
                     <i class="icon-docker"></i> LEMP STACK -- <?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local
                 </a>
             </div>

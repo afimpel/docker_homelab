@@ -47,6 +47,6 @@
     <div class="p-2 mb-4">
         <p class="d-flex">Theme used in the dashboard:<a id="select_bootswatch_www" class="ms-auto text-decoration-none" href="//bootswatch.com/spacelab/" target="_blank"><i class="bi bi-bootstrap-fill mx-2"></i><span id="select_bootswatch_text"></span></a></p>
         <h6 class="text-center py-1 border bg-dark text-light rounded"><i class="icon-git me-4"></i> the latest commit on GitHub:</h6>
-        <code class="text-center d-block"><?php echo $objVersion->gitinfo ?? "-"; ?></code>
+        <code class="text-center d-block" translate="no" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-original-title="GitHub: <?php echo $objVersion->gitinfo ?? "-"; ?>"><?php echo $objVersion->gitinfo ?? "-"; ?></code>
     </div>
 </div>
