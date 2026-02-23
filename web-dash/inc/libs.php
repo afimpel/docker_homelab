@@ -53,6 +53,7 @@ function listSitesJSON($typeJSON, $typeITEMS, $classA, $function, $strReplace){
     $sites=[];
     $sitesLinks = array();
     $grupedSites = [];
+    $grupedSites0 = [];
     $listSitesOBJ = json_decode(file_get_contents($typeJSON.'.json'));
     $output = ["","",count($listSitesOBJ->items)];
     usort($listSitesOBJ->items, function($a, $b) {
@@ -83,15 +84,17 @@ function listSitesJSON($typeJSON, $typeITEMS, $classA, $function, $strReplace){
             $attrExtras=str_replace($strReplace[$key][1],$site->url,$attrExtras);
             $attrExtras=str_replace($strReplace[$key][2],$typeStr,$attrExtras);
             $attrExtras=str_replace($strReplace[$key][3],$site->title,$attrExtras);
-
+            
+            $urlHost=parse_url($site->url, PHP_URL_HOST);
+            $urlHostParts=explode('.',$urlHost);
+            $urlDomain=implode('.', array_slice($urlHostParts, -2));
+            
             if ( $typeITEM == "group" ) {              
-                $urlHost=parse_url($site->url, PHP_URL_HOST);
-                $urlHostParts=explode('.',$urlHost);
-                $urlDomain=implode('.', array_slice($urlHostParts, -2));
                 $grupedSites[$urlDomain][]="<a translate='no' $attrExtras target='_blank' class='$class' href='$site->url' style='min-width: 15vw;'><i class='icon-$type me-2'></i>$onloadFunction $site->title ➤ $typeStr $onloadReplace</a>";
             } else {
                 #errorLogger([$strReplace[$key], $site_ID, $function[$key], [$onloadFunction, $onloadReplace, $attrExtras]]);
-                $sitesLinks[$key][]="<a translate='no' $attrExtras target='_blank' class='$class' href='$site->url' style='min-width: 15vw;'><i class='icon-$type me-2'></i>$onloadFunction $site->title ➤ $typeStr $onloadReplace</a>";
+                #$sitesLinks[$key][]="<a translate='no' $attrExtras target='_blank' class='$class' href='$site->url' style='min-width: 15vw;'><i class='icon-$type me-2'></i>$onloadFunction $site->title ➤ $typeStr $onloadReplace</a>";
+                $grupedSites0[$urlDomain][$key][]="<a translate='no' $attrExtras target='_blank' class='$class' href='$site->url' style='min-width: 15vw;'><i class='icon-$type me-2'></i>$onloadFunction $site->title ➤ $typeStr $onloadReplace</a>";
             }
         }
     }
@@ -100,6 +103,14 @@ function listSitesJSON($typeJSON, $typeITEMS, $classA, $function, $strReplace){
         return count($b) - count($a);
     });
 
+    uasort($grupedSites0, function($a, $b) {
+        return count($b[0]) - count($a[0]);
+    });
+    foreach ($grupedSites0 as $keySite => $listSite) {
+        foreach ($listSite as $key => $class) {
+            $sitesLinks[$key][] = implode("\n",$class);
+        }
+    }
     foreach ($sitesLinks as $key => $class) {
         $output[$key] = implode("\n",$class);
     }
