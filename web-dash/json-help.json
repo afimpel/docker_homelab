@@ -394,7 +394,7 @@
           "checkfile": "",
           "description": "Open project in Browser"
         },
-        "filemanger": {
+        "filemanager": {
           "mode": "both",
           "checkfile": "",
           "description": "Open project in File Manager"
