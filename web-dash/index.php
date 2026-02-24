@@ -177,7 +177,7 @@ include "./inc/head.php";
                 if(is_null($dbs['error'])){
             ?>
             <div class="mb-4">
-                <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3">
+                <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Database List ( <?php echo count($dbs['database']);?> dbs )">
                     <i class="<?= $dbs['server']['icon']; ?> me-2 text-primary"></i> Database List
                     <b class="px-2 border border-info ms-auto rounded"><?php echo count($dbs['database']);?></b>
                 </h5>
@@ -200,7 +200,7 @@ include "./inc/head.php";
             if($cache['counter']>=1){
             ?>
             <div class="mb-4">
-                <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3">
+                <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Cache List ( <?php echo $cache['counter'];?> keys )">
                     <i class="<?= $cache['server']['icon']; ?> me-2 text-warning"></i> Cache List
                     <b class="px-2 border border-info ms-auto rounded"><?php echo $cache['counter'];?></b>
                 </h5>
