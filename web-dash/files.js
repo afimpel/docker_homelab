@@ -87,22 +87,14 @@ async function obtenerUptimeUrl(url, idAttr) {
             console.error(`Error al obtener la URL: ${response.status} ${response.statusText}`);
             return null;
         }
-        let responseJson = await response.json();
-        let IDdatetime = 'datetime_' + idAttr;
-        let IDdatabase = 'database_' + idAttr;
-        let IDcache = 'cache_' + idAttr;
-        let dataJson = responseJson.data;
-        document.getElementById("active_" + idAttr + "_local").style.display = '';
-        document.getElementById("active2_" + idAttr + "_local").style.display = '';
-        document.getElementById("display_" + idAttr + "_local").style.display = 'none';
-        document.getElementById(IDcache).innerHTML = dataJson.cache.uptime;
-        document.getElementById(IDcache).dataset.bsOriginalTitle = dataJson.cache.server.name + " ➤ Uptime : " + dataJson.cache.uptime;
-        document.getElementById(IDdatabase).innerHTML = dataJson.database.uptime;
-        document.getElementById(IDdatabase).dataset.bsOriginalTitle = dataJson.database.server.name + " ➤ Uptime : " + dataJson.database.uptime;
-        document.getElementById(IDdatetime).innerHTML = dataJson.datetime;
-        document.getElementById(IDdatetime + "_tooltip").dataset.bsOriginalTitle = "DateTime : " + dataJson.datetime;
-        console.log(idAttr, '| DateTime ➤ ', dataJson.datetime, "|", dataJson.cache.server.name + " ➤ Uptime : " + dataJson.cache.uptime, "|", dataJson.database.server.name + " ➤ Uptime : " + dataJson.database.uptime);
-        return dataJson.datetime;
+        let responseJSON = await response.json();
+        try {
+            datetimeID(idAttr, responseJSON);
+            responseID(idAttr, responseJSON);
+        } catch (error) {
+            console.error('error :>> ', error);
+        }
+        return responseJSON.data.datetime;
 
     } catch (error) {
         // document.getElementById(idAttr).style.display = 'none';
@@ -110,6 +102,28 @@ async function obtenerUptimeUrl(url, idAttr) {
         return null;
     }
 }
+function responseID(idAttr, responseJSON) {
+    let IDcache = 'cache_' + idAttr;
+    let IDdatabase = 'database_' + idAttr;
+    let dataJson = responseJSON.data;
+    document.getElementById("active_" + idAttr + "_local").style.display = '';
+    document.getElementById("active2_" + idAttr + "_local").style.display = '';
+    document.getElementById("display_" + idAttr + "_local").style.display = 'none';
+    document.getElementById(IDcache).innerHTML = dataJson.cache.uptime;
+    document.getElementById(IDcache).dataset.bsOriginalTitle = dataJson.cache.server.name + " ➤ Uptime : " + dataJson.cache.uptime;
+    document.getElementById(IDdatabase).innerHTML = dataJson.database.uptime;
+    document.getElementById(IDdatabase).dataset.bsOriginalTitle = dataJson.database.server.name + " ➤ Uptime : " + dataJson.database.uptime;
+    console.log('Response ➤ ', idAttr, "|", dataJson.cache.server.name + " ➤ Uptime : " + dataJson.cache.uptime, "|", dataJson.database.server.name + " ➤ Uptime : " + dataJson.database.uptime);
+}
+
+function datetimeID(idAttr, responseJSON) {
+    let IDdatetime = 'datetime_' + idAttr;
+    let dataJson = responseJSON.data;
+    document.getElementById(IDdatetime).innerHTML = dataJson.datetime;
+    document.getElementById(IDdatetime + "_tooltip").dataset.bsOriginalTitle = "DateTime : " + dataJson.datetime;
+    console.log('DATE ➤ ', idAttr, '| DateTime ➤ ', dataJson.datetime);
+}
+
 function dataUptimeUrl(url, id) {
     obtenerUptimeUrl(url, id).then(title => {
         if (!title) {

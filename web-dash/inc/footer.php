@@ -28,6 +28,11 @@
     include "./inc/offcanvasExtraInfo.php";
 ?>
     <script>
+        function recursiveLoop(kkk) {
+            dataUptimeUrl('/uptime.php', '<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>');
+            setTimeout(recursiveLoop, <?php echo getenv('TIMEUOT_DASHBOARD'); ?>);
+        }
+        recursiveLoop();
         toggleThemeMenu();
         dataUrl("https://adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/","adminer_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
         dataUrl("https://mailer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/","mailer_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");

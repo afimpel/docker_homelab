@@ -289,13 +289,6 @@ include "./inc/head.php";
             <code class="text-center d-block" translate="no" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="GitHub: <?php echo $objVersion->gitinfo ?? "-"; ?>"><?php echo $objVersion->gitinfo ?? "-"; ?></code>
         </div>
     </div>
-    <script>
-    function recursiveLoop(kkk) {
-        dataUptimeUrl('/uptime.php', '<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>');
-        setTimeout(recursiveLoop, <?php echo getenv('TIMEUOT_DASHBOARD'); ?>);
-    }
-    recursiveLoop();
-    </script>
 <?php
 include "./inc/footer.php";
 ?>
