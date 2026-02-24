@@ -92,7 +92,7 @@ async function obtenerUptimeUrl(url, idAttr) {
             datetimeID(idAttr, responseJSON);
             responseID(idAttr, responseJSON);
         } catch (error) {
-            console.error('error :>> ', error);
+            console.error({ error });
         }
         return responseJSON.data.datetime;
 
