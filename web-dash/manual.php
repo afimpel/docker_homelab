@@ -52,19 +52,19 @@ $description = $objHelp0000[0]->description;
     <div class="container-fluid py-2">
         <div class="row m-1">
             <div class="col-12 mb-3">
-                <h3 class="title is-3 has-text-centered border-bottom border-primary d-flex p-1 shadow" translate="no" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-original-title="Manual Homelab">
+                <h3 class="title is-3 has-text-centered border-bottom border-primary d-flex p-1 shadow" translate="no" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Manual Homelab">
                     <span><i class="icon-docker me-2"></i> Manual Homelab</span>
                     <a href="./" style="font-size: small;" class="me-2 ms-auto my-auto px-4 py-0 shadow btn btn-outline-secondary btn-sm">back to HOME</a>
                 </h3>
             </div>
             <div class="col-12 col-xl">
                 <div class="list-group shadow">
-                    <a href="manual.php" class="list-group-item list-group-item-info list-group-item-action d-flex justify-content-between align-items-center py-1">
+                    <a href="manual.php" class="list-group-item list-group-item-info list-group-item-action d-flex justify-content-between align-items-center py-1" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="GO to HOME">
                         <span><i class="icon-shell me-2"></i> <b>HOME :</b></span>
                     </a>
                 </div>
                 <small class="small mx-auto text-center my-2 d-block"><?=$title.": ".$description; ?></small>
-                <div class="mt-3 list-group shadow">
+                <div class="mt-4 list-group shadow">
                     <?php
                         foreach ($objHelp0000[0]->options as $key => $value) {
                             if ( 
@@ -89,29 +89,32 @@ $description = $objHelp0000[0]->description;
                     ?>
 
                 </div>
-                <div class="card border-info my-2 shadow">
+                <div class="card border-info my-4 shadow">
                     <div class="card-header py-1 bg-primary text-light"><i class="icon-git me-4"></i> <b>the latest commit on GitHub:</b></div>
-                    <div class="card-body text-center" translate="no" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="GitHub: <?php echo $objVersion->gitinfo ?? "-"; ?>">
+                    <div class="card-body text-center" translate="no" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="GitHub: <?php echo $objVersion->gitinfo ?? "-"; ?>">
                         <span class="card-text font-monospace"><?php echo $objVersion->gitinfo ?? "-"; ?></span>
                     </div>
                 </div>
-
+                <div class="list-group shadow mb-4">
+                    <span data-bs-toggle="tooltip" data-bs-placement="right" class="list-group-item d-flex justify-content-between align-items-center py-1 border-primary" id="datetime_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_tooltip">
+                        <span><i class="icon-php-alt me-2"></i> DateTime :</span>
+                        <b class="px-2" id="datetime_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>">-</b>
+                    </span>
+                </div>
 
             </div>
             <div class="col-12 col-xl-9">
-                <div class="border border-primary rounded p-2 m-0 shadow">
-                    <div class="border border-primary rounded p-2 m-2 shadow">
-                        <h3 class="text-center py-1 border bg-dark text-light rounded"><i class="icon-shell me-4"></i> USE:</h3>
-                        <ol>
-                            <li>Open terminal (ej: xterm, tilix, kitty, etc)</li>
-                            <li>copy and paste the following command. ( ex: <code><?php echo $objHelp->runner." status" ?></code>)</li>
-                            <li>exit: <code>exit</code> or <code>ctrl+d</code> </li>
-                        </ol>
-                    </div>
-                    
-                    <hr class="my-2 mx-4">
+                <div class="border border-primary rounded p-2 mx-0 mb-4 shadow">
+                    <h3 class="text-center py-1 border bg-dark text-light rounded"><i class="icon-shell me-4"></i> USE:</h3>
+                    <ol>
+                        <li>Open terminal (ej: xterm, tilix, kitty, etc)</li>
+                        <li>copy and paste the following command. ( ex: <code><?php echo $objHelp->runner." status" ?></code>)</li>
+                        <li>exit: <code>exit</code> or <code>ctrl+d</code> </li>
+                    </ol>
+                </div>
 
-                    <figure class="text-center">
+                <div class="border border-primary rounded px-2 py-0 mx-0 my-2 shadow">
+                    <figure class="mt-4 text-center">
                         <blockquote class="blockquote">
                             <p class="mb-0">Commands are listed here:</p>
                         </blockquote>
@@ -130,11 +133,12 @@ $description = $objHelp0000[0]->description;
                                 continue;
                             }
                     ?>
-                    <a href="manual.php?tags=<?= $href; ?>" class="m-2 shadow btn btn-outline-secondary text-decoration-none fs-4 title is-3 has-text-centered d-flex py-1" translate="no" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="<?=$title; ?> ➤ <?php echo $description; ?>">
+                    <div class="border border-primary rounded p-2 mt-2 mx-2 mb-4 shadow">
+                    <a href="manual.php?tags=<?= $href; ?>" class="mx-0 mt-0 mb-2 shadow btn btn-outline-secondary text-decoration-none fs-4 title is-3 has-text-centered d-flex py-1" translate="no" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="<?=$title; ?> ➤ <?php echo $description; ?>">
                         <span class="pe-4 me-auto"><i class="icon-script-alt me-2"></i> <?=$title; ?>: </span>
                         <small class="small rounded-pill px-2" style="font-size: small;"> <?=$description; ?> </small>
                     </a>
-                    <div class="mx-2 mb-4 list-group shadow">
+                    <div class="my-0 mx-1 list-group shadow">
                     <?php
                             foreach ($value00->options as $key => $value) {
                                 if ( 
@@ -156,6 +160,7 @@ $description = $objHelp0000[0]->description;
                     <?php
                             }
                     ?>
+                    </div>
                     </div>
                     <?php
                         }

@@ -221,7 +221,7 @@ include "./inc/head.php";
             <?php
             if ($sitesDomain[2] > 0){?>
             <div class="col-12 col-xl">
-                <h5 class="title is-2 has-text-centered border-bottom border-info d-flex py-1 mb-3">
+                <h5 class="title is-2 has-text-centered border-bottom border-info d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Domain Sites List ( <?php echo $sitesDomain[2];?> Sites )">
                     <i class="text-success icon-nginx me-2"></i> Domain Sites List (<em> .local </em>)
                     <b class="px-2 border border-info rounded ms-auto"><?php echo $sitesDomain[2];?></b>
                 </h5>
@@ -251,8 +251,8 @@ include "./inc/head.php";
             <?php }
             if ($sitesSubdomain[2] > 0){?>
             <div class="col-12 col-xl">
-                <h5 class="title is-2 has-text-centered border-bottom border-info d-flex py-1 mb-3">
-                    <i class="text-success icon-nginx me-2"></i> SubDomain Sites List (<em> .<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local </em>)
+                <h5 class="title is-2 has-text-centered border-bottom border-info d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Subdomain Sites List ( <?php echo $sitesSubdomain[2];?> Sites )">
+                    <i class="text-success icon-nginx me-2"></i> Subdomain Sites List (<em> .<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local </em>)
                     <b class="px-2 border border-info rounded ms-auto"><?php echo $sitesSubdomain[2];?></b>
                 </h5>
                 <div class="list-group shadow">

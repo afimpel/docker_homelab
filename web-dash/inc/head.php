@@ -69,7 +69,7 @@ $objVersion = json_decode(file_get_contents('version.json'));
                     </li>
                     <?php if ($sitesDomain[2] > 1){?>          
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle toggle_tooltip" data-bs-original-title="Domain (<?php echo $sitesDomain[2];?>)" data-bs-toggle="dropdown" data-bs-auto-close="true" role="button" aria-haspopup="true" aria-expanded="false" href="#" id="domains"><i class="me-2 text-success icon-nginx"></i> Domain (<?php echo $sitesDomain[2];?>)</a>
+                        <a class="nav-link dropdown-toggle toggle_tooltip" data-bs-placement="bottom" data-bs-original-title="Domain Sites List ( <?php echo $sitesDomain[2];?> Sites )" data-bs-toggle="dropdown" data-bs-auto-close="true" role="button" aria-haspopup="true" aria-expanded="false" href="#" id="domains"><i class="me-2 text-success icon-nginx"></i> Domain (<?php echo $sitesDomain[2];?>)</a>
                         <div class="dropdown-menu shadow" aria-labelledby="domains">
                             <?php
                             echo $sitesDomain[0]; ?>
@@ -78,7 +78,7 @@ $objVersion = json_decode(file_get_contents('version.json'));
                     <?php }
                     if ($sitesSubdomain[2] > 1){?>
                      <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle toggle_tooltip" data-bs-original-title="SubDomain (<?php echo $sitesSubdomain[2];?>)" data-bs-toggle="dropdown"  data-bs-auto-close="true" role="button" aria-haspopup="true" aria-expanded="false" href="#" id="subdomains"><i class="me-2 text-success icon-nginx"></i> SubDomain (<?php echo $sitesSubdomain[2];?>)</a>
+                        <a class="nav-link dropdown-toggle toggle_tooltip" data-bs-placement="bottom" data-bs-original-title="Subdomain Sites List ( <?php echo $sitesSubdomain[2];?> Sites )" data-bs-toggle="dropdown"  data-bs-auto-close="true" role="button" aria-haspopup="true" aria-expanded="false" href="#" id="subdomains"><i class="me-2 text-success icon-nginx"></i> Subdomain (<?php echo $sitesSubdomain[2];?>)</a>
                         <div class="dropdown-menu shadow" aria-labelledby="subdomains">
                             <?php
                             echo $sitesSubdomain[0]; ?>
