@@ -3,6 +3,7 @@ include "./inc/config.php";
 include "./inc/libs.php";
 include "./inc/dbs.php";
 include "./inc/cache.php";
+include "./inc/mailer.php";
 $funtionsITEMS=[
     ['','',"name='ITEMNODESITEID_tooltip' data-bs-toggle='tooltip' data-bs-placement='right' data-bs-original-title='🌐 ITEMNODESITETITLE ➤ ITEMNODESITETYPE ➤ ITEMNODESITEURLSHORT' data-title='ITEMNODESITETITLE ➤ ITEMNODESITETYPE'"],
     ['<script>listSitesURL(\'ITEMNODESITEID\',\'ITEMNODESITEURL\');</script>','<small style=\'font-size: xx-small;\' class=\'badge text-light bg-primary rounded ms-auto my-auto\' name=\'ITEMNODESITEID\'>-</small>',"name='ITEMNODESITEID_tooltip' data-bs-toggle='tooltip' data-bs-placement='left' data-bs-original-title='🌐 ITEMNODESITETITLE ➤ ITEMNODESITETYPE ➤ ITEMNODESITEURLSHORT' data-title='ITEMNODESITETITLE ➤ ITEMNODESITETYPE'"],

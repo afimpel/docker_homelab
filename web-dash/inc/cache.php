@@ -36,6 +36,6 @@ try {
     $redis->close();
 
 } catch (RedisException $e) {
-    $cache['error'] = "Error al conectar o interactuar con Redis: " . $e->getMessage();
+    $cache['error'] = "Redis: " . $e->getMessage();
 }
 ?>

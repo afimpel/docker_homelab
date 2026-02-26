@@ -105,14 +105,22 @@ async function obtenerUptimeUrl(url, idAttr) {
 function responseID(idAttr, responseJSON) {
     let IDcache = 'cache_' + idAttr;
     let IDdatabase = 'database_' + idAttr;
+    let IDmailer = 'mailer_' + idAttr;
     let dataJson = responseJSON.data;
     document.getElementById("active_" + idAttr + "_local").style.display = '';
     document.getElementById("active2_" + idAttr + "_local").style.display = '';
     document.getElementById("display_" + idAttr + "_local").style.display = 'none';
     document.getElementById(IDcache).innerHTML = dataJson.cache.uptime;
-    document.getElementById(IDcache).dataset.bsOriginalTitle = dataJson.cache.server.name + " ➤ Uptime : " + dataJson.cache.uptime;
+    document.getElementById(IDcache).dataset.bsOriginalTitle = dataJson.cache.server.name + " " + dataJson.cache.server.version + " ➤ Uptime : " + dataJson.cache.uptime + " ➤ Total : " + dataJson.cache.counter + " keys";
     document.getElementById(IDdatabase).innerHTML = dataJson.database.uptime;
-    document.getElementById(IDdatabase).dataset.bsOriginalTitle = dataJson.database.server.name + " ➤ Uptime : " + dataJson.database.uptime;
+    document.getElementById(IDdatabase).dataset.bsOriginalTitle = dataJson.database.server.name + " " + dataJson.database.server.version + " ➤ Uptime : " + dataJson.database.uptime + " ➤ Total : " + dataJson.database.counter + " dbs";
+    if (dataJson.mailer.unread == 0){
+        document.getElementById(IDmailer).innerHTML = dataJson.mailer.uptime;
+    }else{
+        document.getElementById(IDmailer).innerHTML = dataJson.mailer.uptime + " / "+dataJson.mailer.unread+" New";
+    }
+
+    document.getElementById(IDmailer).dataset.bsOriginalTitle = dataJson.mailer.server.name + " " + dataJson.mailer.server.version + " ➤ Uptime : " + dataJson.mailer.uptime + " ➤ Total : " + dataJson.mailer.messages + " mails";
     console.log('Response ➤ ', idAttr, "|", dataJson.cache.server.name + " ➤ Uptime : " + dataJson.cache.uptime, "|", dataJson.database.server.name + " ➤ Uptime : " + dataJson.database.uptime);
 }
 

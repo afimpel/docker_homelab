@@ -21,9 +21,16 @@ include "./inc/head.php";
                 <h3 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 px-3 shadow">
                     <i class="icon-docker me-2 text-primary"></i> Environment
                     <?php
+                        if(!is_null($mailer['uptime'])){
+                    ?>
+                    <a style="font-size: small;" id="mailer_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>" target="_blank" class="btn btn-outline-info btn-sm ms-auto my-auto py-0 <?= $mailer['server']['icon']; ?>" href="//mailer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" data-bs-toggle="tooltip" data-bs-placement="left">mailer</a>
+                    <?php
+                        }
+                    ?>
+                    <?php
                         if(!is_null($cache['uptime'])){
                     ?>
-                    <a style="font-size: small;" id="cache_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>" target="_blank" class="btn btn-outline-warning btn-sm ms-auto my-auto py-0 <?= $cache['server']['icon']; ?>" href="//redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" data-bs-toggle="tooltip" data-bs-placement="left">redis</a>
+                    <a style="font-size: small;" id="cache_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>" target="_blank" class="btn btn-outline-warning btn-sm ms-2 my-auto py-0 <?= $cache['server']['icon']; ?>" href="//redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" data-bs-toggle="tooltip" data-bs-placement="left">redis</a>
                     <?php
                         }
                     ?>
@@ -67,6 +74,16 @@ include "./inc/head.php";
                         <span><i class="<?= $cache['server']['icon']; ?> me-2"></i> <b><?= $cache['server']['name']; ?> :</b></span>
                         <small class="badge text-light bg-primary rounded-pill px-2">
                             <?= $cache['server']['version']; ?>
+                        </small>
+                    </a>
+                    <?php
+                        }
+                        if(is_null($mailer['error'])){
+                    ?>
+                    <a href="//mailer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/" target="_blank" class="list-group-item list-group-item-info list-group-item-action d-flex justify-content-between align-items-center py-1" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="SMTP <?= $mailer['server']['name']." : ".$mailer['server']['version']; ?>">
+                        <span><i class="<?= $mailer['server']['icon']; ?> me-2"></i> <b><?= $mailer['server']['name']; ?> :</b></span>
+                        <small class="badge text-light bg-primary rounded-pill px-2">
+                            <?= $mailer['server']['version']; ?>
                         </small>
                     </a>
                     <?php } ?>

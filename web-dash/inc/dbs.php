@@ -1,5 +1,5 @@
 <?php
-$dbs = ['error' => null, 'database' => [], 'uptime' => null, 'server'=> ['version' => null, 'name' => 'MariaDB', 'icon' => 'icon-mariadb', 'icon-alt' => 'icon-mysql-alt' ] ];
+$dbs = ['error' => null, 'database' => [], 'uptime' => null, 'counter' => null, 'server'=> ['version' => null, 'name' => 'MariaDB', 'icon' => 'icon-mariadb', 'icon-alt' => 'icon-mysql-alt' ] ];
 try {
     $mysqli = new mysqli("homelab-database", getenv('DATABASE_USER'), getenv('DATABASE_PASSWORD'), NULL, getenv('DATABASE_PORT'));
 
@@ -14,6 +14,7 @@ try {
 
     if ($result) {
         $dbs['database'] = $result->fetch_all(MYSQLI_ASSOC);
+        $dbs['counter'] = count($dbs['database']);
         $result->close();
     } else {
         $dbs['error'] = $mysqli->error;
