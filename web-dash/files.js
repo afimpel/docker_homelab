@@ -114,10 +114,10 @@ function responseID(idAttr, responseJSON) {
     document.getElementById(IDcache).dataset.bsOriginalTitle = dataJson.cache.server.name + " " + dataJson.cache.server.version + " ➤ Uptime : " + dataJson.cache.uptime + " ➤ Total : " + dataJson.cache.counter + " keys";
     document.getElementById(IDdatabase).innerHTML = dataJson.database.uptime;
     document.getElementById(IDdatabase).dataset.bsOriginalTitle = dataJson.database.server.name + " " + dataJson.database.server.version + " ➤ Uptime : " + dataJson.database.uptime + " ➤ Total : " + dataJson.database.counter + " dbs";
-    if (dataJson.mailer.unread == 0){
+    if (dataJson.mailer.unread == 0) {
         document.getElementById(IDmailer).innerHTML = dataJson.mailer.uptime;
-    }else{
-        document.getElementById(IDmailer).innerHTML = dataJson.mailer.uptime + " / "+dataJson.mailer.unread+" New";
+    } else {
+        document.getElementById(IDmailer).innerHTML = dataJson.mailer.unread + " New ➤ " + dataJson.mailer.uptime;
     }
 
     document.getElementById(IDmailer).dataset.bsOriginalTitle = dataJson.mailer.server.name + " " + dataJson.mailer.server.version + " ➤ Uptime : " + dataJson.mailer.uptime + " ➤ Total : " + dataJson.mailer.messages + " mails";
