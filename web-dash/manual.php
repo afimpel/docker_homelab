@@ -1,4 +1,5 @@
 <?php
+$titleNavs="Manual Homelab";
 include "./inc/head.php";
 $jsonString = file_get_contents('json-help.json');
 $objVersion = json_decode(file_get_contents('version.json'));
