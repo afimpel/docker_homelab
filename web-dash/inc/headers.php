@@ -44,7 +44,9 @@ $objVersion = json_decode(file_get_contents('version.json'));
         .btn::before{ margin-right: .5rem;}
         .tooltip-inner { max-width: 90vw; font-family: monospace; padding-right: 1rem; padding-left: 1rem; }
         .accordion-button::after { margin-left: 1rem; }
+        .bg-body-tertiary { --bs-bg-opacity: 0.85 !important; backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); }
     </style>
+    <script src="https://<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/files.js" crossorigin="anonymous"></script>
 </head>
 
 <body style="padding-top: 96px;">

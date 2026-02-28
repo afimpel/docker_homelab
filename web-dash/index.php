@@ -165,7 +165,7 @@ include "./inc/head.php";
 
                 <div class="list-group shadow mt-lg-0 mt-3 mb-3">
                     <span data-bs-toggle="tooltip" data-bs-placement="left" class="list-group-item d-flex justify-content-between align-items-center py-1 border-primary" id="datetime_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_tooltip">
-                        <span><i class="icon-php-alt me-2"></i> DateTime :</span>
+                        <span><i class="bi bi-clock me-2"></i> DateTime :</span>
                         <b class="px-2" id="datetime_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>">-</b>
                     </span>
                 </div>
@@ -189,11 +189,11 @@ include "./inc/head.php";
             </div>
         </div>
         <div class="row my-4 mx-1">
-            <div class="col-12 col-xl">
+            <div class="col-12 col-xl-6 row">
             <?php
                 if(is_null($dbs['error'])){
             ?>
-            <div class="mb-4">
+            <div class="mb-4 col p-0">
                 <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Database List ( <?php echo count($dbs['database']);?> dbs )">
                     <i class="<?= $dbs['server']['icon']; ?> me-2 text-primary"></i> Database List
                     <b class="px-2 border border-info ms-auto rounded"><?php echo count($dbs['database']);?></b>
@@ -204,7 +204,7 @@ include "./inc/head.php";
                     $dbuser = ($row["Comment"]!=""?trim(explode('--', $row["Comment"])[1]):$database_user);
                     $adminer_server2 = "server=".$database_server."&username=".$dbuser."&password=".$database_pass;
                     ?>
-                    <a target="_blank" translate="no" class="list-group-item list-group-item-action list-group-item-info py-1 d-flex" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server2; ?>&db=<?= $row["Database"]; ?>" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="<?= "⛁ ".$row["Database"]." ➤ $dbuser ➤ ".$row["Chars"]." ➤ ".$row["Collation"].($row["Comment"]!=""?" ➤ ".$row["Comment"]:'').""; ?>">
+                    <a target="_blank" translate="no" class="list-group-item list-group-item-action list-group-item-info py-2 d-flex" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server2; ?>&db=<?= $row["Database"]; ?>" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="<?= "⛁ ".$row["Database"]." ➤ $dbuser ➤ ".$row["Chars"]." ➤ ".$row["Collation"].($row["Comment"]!=""?" ➤ ".$row["Comment"]:'').""; ?>">
                         <i class="bi bi-database-fill me-2"></i>
                         <?= $row["Database"]; ?>
                         <span style="font-size: x-small;" class="small my-auto px-2 ms-auto badge bg-primary"><?php echo $dbuser;?></span>                    
@@ -216,7 +216,7 @@ include "./inc/head.php";
             <?php }
             if($cache['counter']>=1){
             ?>
-            <div class="mb-4">
+            <div class="mb-4 col ps-3 p-0">
                 <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Cache List ( <?php echo $cache['counter'];?> keys )">
                     <i class="<?= $cache['server']['icon']; ?> me-2 text-warning"></i> Cache List
                     <b class="px-2 border border-info ms-auto rounded"><?php echo $cache['counter'];?></b>
@@ -225,7 +225,7 @@ include "./inc/head.php";
                 <?php
                 foreach ($cache['keys'] as $dbV => $row2) {
                     foreach ($row2 as $row) { ?>
-                    <span class="list-group-item list-group-item-action list-group-item-info py-1" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-original-title="<?= $dbV.": ".$row; ?>">
+                    <span class="list-group-item list-group-item-action list-group-item-info py-2" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-original-title="<?= $dbV.": ".$row; ?>">
                         <i class="bi bi-memory me-2"></i>
                         <?= $dbV.": ".$row; ?>
                     </span>
@@ -249,6 +249,7 @@ include "./inc/head.php";
                         
                         <h2 class="accordion-header toggle_tooltip" data-bs-original-title="<?= $domain.' ( '.count($sites).' Sites )'; ?>" id="heading-<?= str_replace([".","-"], "", $domain); ?>">
                             <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-<?= str_replace([".","-"], "", $domain); ?>" aria-expanded="true" aria-controls="collapse-<?= str_replace([".","-"], "", $domain); ?>">
+                                <i class="bi bi-diagram-3-fill me-4" style="margin-bottom: 0.125rem;margin-top: 0.125rem;"></i>
                                 <?= $domain; ?>
                                 <span style="font-size: x-small;" class="small my-auto px-2 ms-auto badge bg-primary"><?php echo count($sites);?></span>
                             </button>

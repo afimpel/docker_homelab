@@ -1,7 +1,7 @@
 <?php
 include "./inc/headers.php";
 ?>
-    <nav class="navbar navbar-expand-xl bg-body-tertiary fixed-top shadow">
+    <nav class="navbar navbar-expand-xl bg-body-tertiary fixed-top shadow border-bottom border-secondary">
 
         <div class="container">
             <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="LEMP STACK ➤ Compose: <?php echo strtoupper(getenv('COMPOSE_PROJECT_NAME')); ?> ➤ Your local development environment in Docker" href="//www.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local" class="navbar-brand"><i class="me-2 icon-docker"></i> LEMP</a>
