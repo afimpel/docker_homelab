@@ -89,6 +89,8 @@ async function obtenerUptimeUrl(url, idAttr) {
         }
         let responseJSON = await response.json();
         try {
+            renderRows('cacheList_' + idAttr, responseJSON.data.cache.rows, responseJSON.data.cache, renderCache);
+            renderRows('mailsList_' + idAttr, responseJSON.data.mailer.rows, responseJSON.data.mailer, renderMail);
             datetimeID(idAttr, responseJSON);
             responseID(idAttr, responseJSON);
         } catch (error) {
@@ -120,7 +122,7 @@ function responseID(idAttr, responseJSON) {
         document.getElementById(IDmailer).innerHTML = dataJson.mailer.unread + " New ➤ " + dataJson.mailer.uptime;
     }
 
-    document.getElementById(IDmailer).dataset.bsOriginalTitle = dataJson.mailer.server.name + " " + dataJson.mailer.server.version + " ➤ Uptime : " + dataJson.mailer.uptime + " ➤ Total : " + dataJson.mailer.messages + " mails";
+    document.getElementById(IDmailer).dataset.bsOriginalTitle = dataJson.mailer.server.name + " " + dataJson.mailer.server.version + " ➤ Uptime : " + dataJson.mailer.uptime + " ➤ Total : " + dataJson.mailer.counter + " mails";
     console.log('Response ➤ ', idAttr, "|", dataJson.cache.server.name + " ➤ Uptime : " + dataJson.cache.uptime, "|", dataJson.database.server.name + " ➤ Uptime : " + dataJson.database.uptime);
 }
 
@@ -143,3 +145,147 @@ function dataUptimeUrl(url, id) {
     });
 }
 
+function renderCache(item, clone, index, extraJSON) {
+    clone.querySelector('.nombre').textContent = item;
+}
+
+function renderMail(item, clone, index, extraJSON) {
+    const btn = clone.querySelector('button');
+    const mails_icon = clone.querySelector('.mails_icon');
+    const mails_icon2 = clone.querySelector('.mails_icon2');
+    const mails_fecha = clone.querySelector('.mails_fecha');
+    if (item.Read) {
+        mails_icon.classList.add(`bi-envelope-open-fill`);
+        mails_icon2.classList.add(`bi-envelope-open-fill`);
+    } else {
+        mails_icon.classList.add(`bi-envelope-fill`);
+        mails_icon2.classList.add(`bi-envelope-fill`);
+    }
+    //https://mailer.homelab.local/view/m3vHQvfVQ6JbYEK8Uy2JD4
+    mails_icon2.parentNode.setAttribute("href", extraJSON.link + "view/" + item.ID);
+    mails_fecha.textContent = formatDate(item.Created);
+    const mails_form = clone.querySelector('.mails_form');
+    const mails_to = clone.querySelector('.mails_to');
+    const mails_cc = clone.querySelector('.mails_cc');
+    const mails_bcc = clone.querySelector('.mails_bcc');
+    const mails_replayto = clone.querySelector('.mails_replayto');
+    const mails_content = clone.querySelector('.mails_content');
+    mails_content.textContent = item.Snippet;
+    //mails_content
+    if (item.From.Name == "") {
+        mails_form.textContent = item.From.Address;
+    } else {
+        mails_form.textContent = `${item.From.Name} <${item.From.Address}>`;
+    }
+    let mails_tos = [];
+    let addrs = null;
+    item.To.forEach((data, i) => {
+        if (data.Name == "") {
+            mails_tos.push(data.Address);
+        } else {
+            mails_tos.push(`${data.Name} <${data.Address}>`);
+        }
+    });
+    mails_to.textContent = mails_tos.join(", ");
+    if (item.Cc === null) {
+        mails_cc.style.display = "none";
+    } else {
+        addrs = mails_cc.querySelector('.addrs');
+        mails_tos = [];
+        item.Cc.forEach((data, i) => {
+            if (data.Name == "") {
+                mails_tos.push(data.Address);
+            } else {
+                mails_tos.push(`${data.Name} <${data.Address}>`);
+            }
+        });
+        addrs.textContent = mails_tos.join(", ");
+    }
+    if (item.Bcc === null) {
+        mails_bcc.style.display = "none";
+    } else {
+        addrs = mails_bcc.querySelector('.addrs');
+        mails_tos = [];
+        item.Bcc.forEach((data, i) => {
+            if (data.Name == "") {
+                mails_tos.push(data.Address);
+            } else {
+                mails_tos.push(`${data.Name} <${data.Address}>`);
+            }
+        });
+        addrs.textContent = mails_tos.join(", ");
+    }
+    if (item.ReplyTo.length == 0) {
+        mails_replayto.style.display = "none";
+    } else {
+        addrs = mails_replayto.querySelector('.addrs');
+        mails_tos = [];
+        item.ReplyTo.forEach((data, i) => {
+            if (data.Name == "") {
+                mails_tos.push(data.Address);
+            } else {
+                mails_tos.push(`${data.Name} <${data.Address}>`);
+            }
+        });
+        addrs.textContent = mails_tos.join(", ");
+    }
+
+    btn.setAttribute('data-bs-target', `#collapse_${index}`);
+    btn.setAttribute('aria-controls', `collapse_${index}`);
+    const panel = clone.querySelector('.collapse');
+    if (panel) panel.id = `collapse_${index}`;
+    clone.querySelector('.nombre').textContent = item.Subject;
+}
+
+function renderRows(idAttr, responseJSON, extraJSON, func) {
+
+    const containerDiv = document.getElementById(idAttr + '_div');
+    if (responseJSON.length == 0) {
+        containerDiv.style.display = "none";
+    } else {
+        containerDiv.style.display = "";
+        const container = document.getElementById(idAttr + '_rows');
+        const template = document.getElementById(idAttr + '_clone');
+        const counter = document.getElementById(idAttr + '_counter');
+        counter.textContent = responseJSON.length;
+        container.querySelectorAll(`.${idAttr}-item`).forEach(el => el.remove());
+
+        responseJSON.forEach((item, index) => {
+            const clone = template.cloneNode(true);
+            clone.id = `${idAttr}_clone_${index}`;
+            clone.classList.add(`${idAttr}-item`);
+            clone.style.display = '';
+            func(item, clone, index, extraJSON);
+            container.appendChild(clone);
+        });
+    }
+
+}
+
+function formatDate(fechaString) {
+    const dateOrigin = new Date(fechaString);
+
+    const nowDate = new Date();
+
+    const esMismoDia =
+        dateOrigin.getDate() === nowDate.getDate() &&
+        dateOrigin.getMonth() === nowDate.getMonth() &&
+        dateOrigin.getFullYear() === nowDate.getFullYear();
+
+    const locale = navigator.language || 'en-US';
+
+    if (esMismoDia) {
+        const todayHours = dateOrigin.toLocaleTimeString(locale, {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: false
+        });
+        return `${todayHours}`;
+    } else {
+        const dateFormated = dateOrigin.toLocaleDateString(locale, {
+            day: '2-digit',
+            month: '2-digit'
+        });
+        return `${dateFormated}`;
+    }
+}

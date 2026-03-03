@@ -19,7 +19,7 @@ class HomeLAB extends Plugin
         echo "<p style='position: fixed; bottom: 0.5em; left: 19%; border: none;padding: 1px;font-size: 10px;right: 3%;text-align: right;'>
             <a href='/phpinfo.php' target='_blank' style='margin-right: 1em;' title='PHP Info'>PHP ".phpversion()."</a>";
             if (getenv('COMPOSE_PROJECT_NAME')){
-                echo "<a href='//www.".strtolower(getenv('COMPOSE_PROJECT_NAME')).".local' target='_blank' title='HomeLAB: ".getenv('COMPOSE_PROJECT_NAME')."'>back to HomeLAB</a>";
+                echo "<a href='//".strtolower(getenv('COMPOSE_PROJECT_NAME')).".local' target='_blank' title='HomeLAB: ".getenv('COMPOSE_PROJECT_NAME')."'>back to HomeLAB</a>";
             }
         echo "</p>";
     }

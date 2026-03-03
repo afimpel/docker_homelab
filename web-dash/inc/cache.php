@@ -1,5 +1,5 @@
 <?php
-$cache = ['error' => null, 'keys' => [], "counter" => 0, 'database' => [], 'uptime' => null, 'server'=> ['version' => null, 'name' => 'Valkey', 'icon' => 'icon-redis', 'icon-alt' => 'icon-redis-alt', 'info' => [], 'dbSize' => null]];
+$cache = ['error' => null, 'keys' => [], 'rows' => [], "counter" => 0, 'database' => [], 'uptime' => null, 'server'=> ['version' => null, 'name' => 'Valkey', 'icon' => 'icon-redis', 'icon-alt' => 'icon-redis-alt', 'info' => [], 'dbSize' => null]];
 
 try {
    
@@ -27,9 +27,14 @@ try {
         $cache['database'][$key]['dbSize'] = $redis->dbSize();
         $cache['dbSize']=$cache['dbSize']+$redis->dbSize();
         $cache['database'][$key]['code'] = $key;
-        $cache['database'][$key]['keys'] = $keys;
+        $cache['database'][$key]['keys'] = $keys[$key];
     }
     if (!empty($allKeys)) {
+        foreach ($allKeys as $dbV => $row2) {
+            foreach ($row2 as $row) {
+                $cache['rows'][] = $dbV.": ".$row;                
+            }
+        }
         $cache['keys'] = $allKeys;
     } 
    

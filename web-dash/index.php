@@ -181,7 +181,7 @@ include "./inc/head.php";
                     <a name="php8_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local_tooltip" data-bs-toggle="tooltip" data-bs-placement="left" target="_blank" class="list-group-item list-group-item-info list-group-item-action p-1 px-2 d-flex" href="//php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-php-alt mx-2"></i> PHP8 ➤ phpinfo()<small style="font-size: small;" class="badge text-light bg-primary rounded ms-auto my-auto" name="php8_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">-</small></a>
                 </div>
                 <div class="mt-3 list-group shadow">
-                    <a name="adminer_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local_tooltip" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-original-title="🌐 adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local ➤ Adminer" target="_blank" class="list-group-item list-group-item-primary list-group-item-action p-1 px-2 d-flex" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-database mx-2"></i> Adminer<small style="font-size: small;" class="badge text-light bg-primary rounded ms-auto my-auto" name="adminer_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">-</small></a>
+                    <a name="adminer_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local_tooltip" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-original-title="🌐 adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local ➤ Adminer" target="_blank" class="list-group-item list-group-item-primary list-group-item-action p-1 px-2 d-flex" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>"><i class="icon-database mx-2"></i> Adminer<small style="font-size: small;" class="badge text-light bg-primary rounded ms-auto my-auto" name="adminer_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">-</small></a>
                     <a name="redis_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local_tooltip" data-bs-toggle="tooltip" data-bs-placement="left" target="_blank" class="list-group-item list-group-item-warning list-group-item-action p-1 px-2 d-flex" href="//redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-redis mx-2"></i> Redis<small style="font-size: small;" class="badge text-light bg-warning rounded ms-auto my-auto" name="redis_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">-</small></a>
                     <a data-bs-toggle="tooltip" data-bs-placement="left" data-bs-original-title="🌐 goaccess.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local ➤ GoAccess LOG" target="_blank" class="list-group-item list-group-item-dark list-group-item-action p-1 px-2" href="//goaccess.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="bi bi-journal-text mx-2"></i> GoAccess LOG</a>
                     <a name="mailer_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local_tooltip" translate="no" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-original-title="🌐 mailer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local ➤ SMTP Server" target="_blank" class="list-group-item list-group-item-info list-group-item-action p-1 px-2 d-flex" href="//mailer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="bi bi-envelope-paper-fill mx-2"></i> SMTP Server<small style="font-size: small;" class="badge text-light bg-primary rounded ms-auto my-auto" name="mailer_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">-</small></a>
@@ -189,52 +189,6 @@ include "./inc/head.php";
             </div>
         </div>
         <div class="row my-4 mx-1">
-            <div class="col-12 col-xl-6 row">
-            <?php
-                if(is_null($dbs['error'])){
-            ?>
-            <div class="mb-4 col p-0">
-                <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Database List ( <?php echo count($dbs['database']);?> dbs )">
-                    <i class="<?= $dbs['server']['icon']; ?> me-2 text-primary"></i> Database List
-                    <b class="px-2 border border-info ms-auto rounded"><?php echo count($dbs['database']);?></b>
-                </h5>
-                <div class="list-group shadow">
-                <?php
-                foreach ($dbs['database'] as $row) { 
-                    $dbuser = ($row["Comment"]!=""?trim(explode('--', $row["Comment"])[1]):$database_user);
-                    $adminer_server2 = "server=".$database_server."&username=".$dbuser."&password=".$database_pass;
-                    ?>
-                    <a target="_blank" translate="no" class="list-group-item list-group-item-action list-group-item-info py-2 d-flex" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server2; ?>&db=<?= $row["Database"]; ?>" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="<?= "⛁ ".$row["Database"]." ➤ $dbuser ➤ ".$row["Chars"]." ➤ ".$row["Collation"].($row["Comment"]!=""?" ➤ ".$row["Comment"]:'').""; ?>">
-                        <i class="bi bi-database-fill me-2"></i>
-                        <?= $row["Database"]; ?>
-                        <span style="font-size: x-small;" class="small my-auto px-2 ms-auto badge bg-primary"><?php echo $dbuser;?></span>                    
-                    </a>
-                <?php }
-                ?>
-                </div>
-            </div>
-            <?php }
-            if($cache['counter']>=1){
-            ?>
-            <div class="mb-4 col ps-3 p-0">
-                <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Cache List ( <?php echo $cache['counter'];?> keys )">
-                    <i class="<?= $cache['server']['icon']; ?> me-2 text-warning"></i> Cache List
-                    <b class="px-2 border border-info ms-auto rounded"><?php echo $cache['counter'];?></b>
-                </h5>
-                <div class="list-group shadow">
-                <?php
-                foreach ($cache['keys'] as $dbV => $row2) {
-                    foreach ($row2 as $row) { ?>
-                    <span class="list-group-item list-group-item-action list-group-item-info py-2" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-original-title="<?= $dbV.": ".$row; ?>">
-                        <i class="bi bi-memory me-2"></i>
-                        <?= $dbV.": ".$row; ?>
-                    </span>
-                <?php }}
-                ?>
-                </div>
-            </div>
-            <?php }?>
-        </div>
             <?php
             if ($sitesDomain[2] > 0){?>
             <div class="col-12 col-xl">
@@ -282,6 +236,98 @@ include "./inc/head.php";
                 </div>
             </div>
             <?php }?>
+        </div>
+        <div class="row my-4 mx-1">
+            <?php
+                if(is_null($dbs['error'])){
+            ?>
+            <div class="mb-4 col">
+                <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Database List ( <?php echo count($dbs['database']);?> dbs )">
+                    <i class="<?= $dbs['server']['icon']; ?> me-2 text-primary"></i> Database List
+                    <b class="px-2 border border-info ms-auto rounded"><?php echo count($dbs['database']);?></b>
+                </h5>
+                <div class="list-group shadow">
+                <?php
+                foreach ($dbs['database'] as $row) { 
+                    $dbuser = $row['User'];
+                    $adminer_server2 = "server=".$database_server."&username=".$dbuser."&password=".$database_pass;
+                    ?>
+                    <a target="_blank" translate="no" class="list-group-item list-group-item-action list-group-item-info py-2 d-flex" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server2; ?>&db=<?= $row["Database"]; ?>" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="<?= "⛁ ".$row["Database"]." ➤ $dbuser ➤ ".$row["Chars"]." ➤ ".$row["Collation"].($row["Comment"]!=""?" ➤ ".$row["Comment"]:'').""; ?>">
+                        <i class="bi bi-database-fill me-2"></i>
+                        <?= $row["Database"]; ?>
+                        <span style="font-size: x-small;" class="small my-auto px-2 ms-auto badge bg-primary"><?php echo $dbuser;?></span>                    
+                    </a>
+                <?php }
+                ?>
+                </div>
+            </div>
+            <?php }
+            ?>
+            <div class="mb-4 col" id="cacheList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_div">
+                <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Cache List ( <?php echo $cache['counter'];?> keys )">
+                    <i class="<?= $cache['server']['icon']; ?> me-2 text-warning"></i> Cache List
+                    <b class="px-2 border border-info ms-auto rounded" id="cacheList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_counter"><?php echo $cache['counter'];?></b>
+                </h5>
+                <span style="display: none;" class="list-group-item list-group-item-action list-group-item-info py-2" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-original-title="--"  id="cacheList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_clone">
+                    <i class="bi bi-memory me-2"></i>
+                    <span class="nombre">--</span>
+                </span>
+                <div class="list-group shadow" id="cacheList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_rows">
+                </div>
+            </div>
+            <div class="mb-4 col" id="mailsList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_div">
+                <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Cache List ( <?php echo $mailer['counter'];?> keys )">
+                    <i class="<?= $mailer['server']['icon']; ?> me-2 text-info"></i> Mail List
+                    <b class="px-2 border border-info ms-auto rounded" id="mailsList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_counter"><?php echo $mailer['counter'];?></b>
+                </h5>
+                <div id="mailsList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_clone" style="display: none;" class="accordion-item">    
+                    <h2 class="accordion-header toggle_tooltip" data-bs-original-title="--" id="heading-<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>">
+                        <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>" aria-expanded="true" aria-controls="collapse-<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>">
+                            <i class="bi me-4 mails_icon" style="margin-bottom: 0.125rem;margin-top: 0.125rem;"></i>
+                            <span class="nombre me-auto">--</span>
+                            <span style="font-size: x-small;" class="mails_fecha small my-auto px-2 border border-info rounded">12/02</span>
+                        </button>
+                    </h2>
+                    <div id="collapse-<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>" class="accordion-collapse collapse" aria-labelledby="heading-<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>" data-bs-parent="#mailsList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_rows">
+                        <div class="accordion-body row p-1 m-0">
+                            <a class="col-2 d-flex p-0 m-0 btn btn-outline-info" href="/" target="_blank">
+                                <i class="bi m-auto mails_icon2" style="font-size: xxx-large;"></i>
+                            </a>
+                            <div class="col p-0 m-0 ms-1 row">
+                                <table class="table my-1" style="font-size: xx-small;">
+                                    <tbody>
+                                        <tr>
+                                            <td class="p-0 col-3"><i class="bi bi-box-arrow-right mx-3"></i>FROM:</td>
+                                            <td class="p-0 mails_form">@fat</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-0 col-3"><i class="bi bi-box-arrow-in-right mx-3"></i>TO:</td>
+                                            <td class="p-0 mails_to">@fat</td>
+                                        </tr>
+                                        <tr class="mails_cc">
+                                            <td class="p-0 col-3"><i class="bi bi-box-arrow-in-right mx-3"></i>CC:</td>
+                                            <td class="p-0 addrs">@fat</td>
+                                        </tr>
+                                        <tr class="mails_bcc">
+                                            <td class="p-0 col-3"><i class="bi bi-box-arrow-in-right mx-3"></i>BCC:</td>
+                                            <td class="p-0 addrs">@fat</td>
+                                        </tr>
+                                        <tr class="mails_replayto">
+                                            <td class="p-0 col-3"><i class="bi bi-arrow-90deg-left mx-3"></i></i>replayTo:</td>
+                                            <td class="p-0 addrs">@fat</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-0 mails_content" colspan="2">Thornton</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion shadow" id="mailsList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_rows">
+                </div>
+            </div>
         </div>
     </div>
     <div class="container-fluid py-2" id="active2_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">

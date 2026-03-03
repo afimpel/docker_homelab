@@ -9,7 +9,35 @@ try {
     }
 
     $dbs['server']['version'] = $mysqli->server_info;
-    $query = "SELECT SCHEMA_NAME Database, DEFAULT_CHARACTER_SET_NAME Chars,DEFAULT_COLLATION_NAME Collation,SCHEMA_COMMENT Comment FROM information_schema.SCHEMATA WHERE `SCHEMA_NAME` NOT IN ('information_schema','sys','mysql','performance_schema');";
+
+    $query = "SELECT 
+    IFNULL(GROUP_CONCAT(DISTINCT 
+        CASE 
+            WHEN REPLACE(REPLACE(d.Db, '_%', ''), '\\\\', '') LIKE d.User 
+            THEN d.User 
+            ELSE NULL 
+        END SEPARATOR ', '),'".getenv('DATABASE_USER')."') AS User,
+    s.SCHEMA_NAME AS `Database`,
+    s.DEFAULT_CHARACTER_SET_NAME AS Chars,
+    s.DEFAULT_COLLATION_NAME AS Collation,
+    s.SCHEMA_COMMENT AS Comment,
+    GROUP_CONCAT(DISTINCT d.User SEPARATOR ', ') AS allUsers
+    FROM 
+        information_schema.SCHEMATA s
+        LEFT JOIN mysql.db d ON 
+            s.SCHEMA_NAME LIKE CONCAT(REPLACE(REPLACE(d.Db, '_%', ''), '\\\\', ''), '%')
+            OR d.Db = s.SCHEMA_NAME
+    WHERE 
+        s.SCHEMA_NAME NOT IN ('information_schema', 'sys', 'mysql', 'performance_schema')
+        AND (d.Db IS NULL OR d.Db NOT IN ('information_schema', 'sys', 'mysql', 'performance_schema'))
+    GROUP BY 
+        s.SCHEMA_NAME, 
+        s.DEFAULT_CHARACTER_SET_NAME, 
+        s.DEFAULT_COLLATION_NAME, 
+        s.SCHEMA_COMMENT
+    ORDER BY 
+        s.SCHEMA_NAME;";
+    
     $result = $mysqli->query($query);
 
     if ($result) {
