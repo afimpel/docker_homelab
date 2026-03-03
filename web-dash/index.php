@@ -294,7 +294,7 @@ include "./inc/head.php";
                                 <i class="bi m-auto mails_icon2" style="font-size: xxx-large;"></i>
                             </a>
                             <div class="col p-0 m-0 ms-1 row">
-                                <table class="table my-1" style="font-size: xx-small;">
+                                <table class="table my-1 table-hover" style="font-size: xx-small;">
                                     <tbody>
                                         <tr>
                                             <td class="p-0 col-3"><i class="bi bi-box-arrow-right mx-3"></i>FROM:</td>
