@@ -268,7 +268,7 @@ include "./inc/head.php";
                     <i class="<?= $cache['server']['icon']; ?> me-2 text-warning"></i> Cache List
                     <b class="px-2 border border-info ms-auto rounded" id="cacheList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_counter"><?php echo $cache['counter'];?></b>
                 </h5>
-                <span style="display: none;" class="list-group-item list-group-item-action list-group-item-info py-2" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-original-title="--"  id="cacheList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_clone">
+                <span style="display: none;" class="list-group-item list-group-item-action list-group-item-info py-2" id="cacheList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_clone">
                     <i class="bi bi-memory me-2"></i>
                     <span class="nombre">--</span>
                 </span>
@@ -280,8 +280,8 @@ include "./inc/head.php";
                     <i class="<?= $mailer['server']['icon']; ?> me-2 text-info"></i> Mail List
                     <b class="px-2 border border-info ms-auto rounded" id="mailsList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_counter"><?php echo $mailer['counter'];?></b>
                 </h5>
-                <div id="mailsList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_clone" style="display: none;" class="accordion-item">    
-                    <h2 class="accordion-header toggle_tooltip" data-bs-original-title="--" id="heading-<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>">
+                <div id="mailsList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_clone" style="display: none;" class="accordion-item">
+                    <h2 class="accordion-header" id="heading-<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>">
                         <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>" aria-expanded="true" aria-controls="collapse-<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>">
                             <i class="bi me-4 mails_icon" style="margin-bottom: 0.125rem;margin-top: 0.125rem;"></i>
                             <span class="nombre me-auto">--</span>

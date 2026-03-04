@@ -161,7 +161,7 @@ function renderMail(item, clone, index, extraJSON) {
         mails_icon.classList.add(`bi-envelope-fill`);
         mails_icon2.classList.add(`bi-envelope-fill`);
     }
-    //https://mailer.homelab.local/view/m3vHQvfVQ6JbYEK8Uy2JD4
+
     mails_icon2.parentNode.setAttribute("href", extraJSON.link + "view/" + item.ID);
     mails_fecha.textContent = formatDate(item.Created);
     const mails_form = clone.querySelector('.mails_form');
@@ -171,7 +171,7 @@ function renderMail(item, clone, index, extraJSON) {
     const mails_replayto = clone.querySelector('.mails_replayto');
     const mails_content = clone.querySelector('.mails_content');
     mails_content.textContent = item.Snippet;
-    //mails_content
+
     if (item.From.Name == "") {
         mails_form.textContent = item.From.Address;
     } else {
@@ -234,6 +234,7 @@ function renderMail(item, clone, index, extraJSON) {
     btn.setAttribute('aria-controls', `collapse_${index}`);
     const panel = clone.querySelector('.collapse');
     if (panel) panel.id = `collapse_${index}`;
+    clone.title = "    ✉️ " + formatDate(item.Created) + " :: " + item.Subject + " ✉️";
     clone.querySelector('.nombre').textContent = item.Subject;
 }
 
