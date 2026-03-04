@@ -17,6 +17,10 @@ cache_cmd () {
             timeExec=$(diffTime "$startExec000044444")
             CUSTOM_RIGHT $WHITE "Done: Clear" $LIGHT_GRAY "$timeExec" $WHITE "✔" "." "✔" 0
         ;;
+        cli)
+            leftH1 $WHITE "CLI" $LIGHT_CYAN '☐' "."
+            docker_bash "homelab-cache" "redis-cli:root" 
+        ;;
         *)
             help "--cache"
         ;;

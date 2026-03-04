@@ -310,6 +310,11 @@
           "mode": "on",
           "checkfile": "",
           "description": "Clear all keys Cache"
+        },
+        "cli": {
+          "mode": "on",
+          "checkfile": "",
+          "description": "Opens the Redis console directly"
         }
       }
     },
