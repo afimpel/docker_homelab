@@ -89,10 +89,10 @@ async function obtenerUptimeUrl(url, idAttr) {
         }
         let responseJSON = await response.json();
         try {
-            renderRows('cacheList_' + idAttr, responseJSON.data.cache.rows, responseJSON.data.cache, renderCache);
-            renderRows('mailsList_' + idAttr, responseJSON.data.mailer.rows, responseJSON.data.mailer, renderMail);
             datetimeID(idAttr, responseJSON);
             responseID(idAttr, responseJSON);
+            renderRows('cacheList_' + idAttr, responseJSON.data.cache.rows, responseJSON.data.cache, renderCache);
+            renderRows('mailsList_' + idAttr, responseJSON.data.mailer.rows, responseJSON.data.mailer, renderMail);
         } catch (error) {
             console.error({ error });
         }
