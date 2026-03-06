@@ -146,13 +146,13 @@ function dataUptimeUrl(url, id) {
 }
 
 function renderCache(item, clone, index, extraJSON, container) {
-    container.querySelector('.title').dataset.bsOriginalTitle = extraJSON.server.name + " " + extraJSON.server.version + ": " + "Cache List: ( " + extraJSON.counter + " Keys )";
+    container.querySelector('.title').dataset.bsOriginalTitle = extraJSON.server.name + " " + extraJSON.server.version + " ➤ " + "Cache List: ( " + extraJSON.counter + " Keys )";
     clone.querySelector('.nombre').textContent = item;
     clone.title = "    " + extraJSON.server.name + ": " + item;
 }
 
 function renderMail(item, clone, index, extraJSON, container) {
-    container.querySelector('.title').dataset.bsOriginalTitle = extraJSON.server.name + " " + extraJSON.server.version + ": " + "Mails List: ( " + extraJSON.unread + " Unread / " + extraJSON.counter + " Total )";
+    container.querySelector('.title').dataset.bsOriginalTitle = extraJSON.server.name + " " + extraJSON.server.version + " ➤ " + "Mails List: ( " + extraJSON.unread + " Unread / " + extraJSON.counter + " Total )";
     const btn = clone.querySelector('button');
     const mails_icon = clone.querySelector('.mails_icon');
     const mails_icon2 = clone.querySelector('.mails_icon2');

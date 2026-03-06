@@ -242,7 +242,7 @@ include "./inc/head.php";
                 if(is_null($dbs['error'])){
             ?>
             <div class="mb-4 col">
-                <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="<?php echo $dbs['server']['name']." ".$dbs['server']['version'] ?>: Database List ( <?php echo count($dbs['database']);?> dbs )">
+                <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="<?php echo $dbs['server']['name']." ".$dbs['server']['version'] ?> ➤  Database List ( <?php echo count($dbs['database']);?> dbs )">
                     <i class="<?= $dbs['server']['icon']; ?> me-2 text-primary"></i> Database List
                     <b class="px-2 border border-info ms-auto rounded"><?php echo count($dbs['database']);?></b>
                 </h5>
