@@ -242,7 +242,7 @@ include "./inc/head.php";
                 if(is_null($dbs['error'])){
             ?>
             <div class="mb-4 col">
-                <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Database List ( <?php echo count($dbs['database']);?> dbs )">
+                <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="<?php echo $dbs['server']['name']." ".$dbs['server']['version'] ?>: Database List ( <?php echo count($dbs['database']);?> dbs )">
                     <i class="<?= $dbs['server']['icon']; ?> me-2 text-primary"></i> Database List
                     <b class="px-2 border border-info ms-auto rounded"><?php echo count($dbs['database']);?></b>
                 </h5>
@@ -252,7 +252,7 @@ include "./inc/head.php";
                     $dbuser = $row['User'];
                     $adminer_server2 = "server=".$database_server."&username=".$dbuser."&password=".$database_pass;
                     ?>
-                    <a target="_blank" translate="no" class="list-group-item list-group-item-action list-group-item-info py-2 d-flex" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server2; ?>&db=<?= $row["Database"]; ?>" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="<?= "⛁ ".$row["Database"]." ➤ $dbuser ➤ ".$row["Chars"]." ➤ ".$row["Collation"].($row["Comment"]!=""?" ➤ ".$row["Comment"]:'').""; ?>">
+                    <a target="_blank" translate="no" class="list-group-item list-group-item-action list-group-item-info py-2 d-flex" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server2; ?>&db=<?= $row["Database"]; ?>" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="<?= $dbs['server']['name'].": ⛁ ".$row["Database"]." ➤ $dbuser ➤ ".$row["Chars"]." ➤ ".$row["Collation"].($row["Comment"]!=""?" ➤ ".$row["Comment"]:'').""; ?>">
                         <i class="bi bi-database-fill me-2"></i>
                         <?= $row["Database"]; ?>
                         <span style="font-size: x-small;" class="small my-auto px-2 ms-auto badge bg-primary"><?php echo $dbuser;?></span>                    
@@ -264,9 +264,9 @@ include "./inc/head.php";
             <?php }
             ?>
             <div class="mb-4 col" id="cacheList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_div">
-                <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Cache List ( <?php echo $cache['counter'];?> keys )">
+                <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title=" ">
                     <i class="<?= $cache['server']['icon']; ?> me-2 text-warning"></i> Cache List
-                    <b class="px-2 border border-info ms-auto rounded" id="cacheList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_counter"><?php echo $cache['counter'];?></b>
+                    <b class="px-2 border border-info ms-auto rounded" id="cacheList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_counter">0</b>
                 </h5>
                 <span style="display: none;" class="list-group-item list-group-item-action list-group-item-info py-2" id="cacheList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_clone">
                     <i class="bi bi-memory me-2"></i>
@@ -276,9 +276,9 @@ include "./inc/head.php";
                 </div>
             </div>
             <div class="mb-4 col" id="mailsList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_div">
-                <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Cache List ( <?php echo $mailer['counter'];?> keys )">
+                <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title=" ">
                     <i class="<?= $mailer['server']['icon']; ?> me-2 text-info"></i> Mail List
-                    <b class="px-2 border border-info ms-auto rounded" id="mailsList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_counter"><?php echo $mailer['counter'];?></b>
+                    <b class="px-2 border border-info ms-auto rounded" id="mailsList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_counter">0</b>
                 </h5>
                 <div id="mailsList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_clone" style="display: none;" class="accordion-item">
                     <h2 class="accordion-header" id="heading-<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>">
@@ -337,11 +337,11 @@ include "./inc/head.php";
                 <li>Open terminal (ej: xterm, tilix, kitty, etc)</li>
                 <li>
                     <ul>
-                        <li>for <b>PHP7</b>, type this command: <code>docker exec -it homelab-php7 bash</code> or <code><?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?> php7 --user</code></li>
-                        <li>for <b>PHP8</b>, type this command: <code>docker exec -it homelab-php8 bash</code> or <code><?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?> php8 --user</code></li>
+                        <li>for <b class="ms-1">PHP7</b>, type this command: <code class="mx-2" style="font-size: larger;">docker exec -it homelab-php7 bash</code> or <code class="mx-2" style="font-size: larger;"><?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?> php7 --user</code></li>
+                        <li>for <b class="ms-1">PHP8</b>, type this command: <code class="mx-2" style="font-size: larger;">docker exec -it homelab-php8 bash</code> or <code class="mx-2" style="font-size: larger;"><?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?> php8 --user</code></li>
                     </ul>
                 </li>
-                <li>exit: <code>exit</code> or <code>ctrl+d</code> </li>
+                <li>exit: <code class="mx-2" style="font-size: larger;">exit</code> or <code class="mx-2" style="font-size: larger;">ctrl+d</code> </li>
             </ol>
 
         </div>

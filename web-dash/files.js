@@ -145,11 +145,14 @@ function dataUptimeUrl(url, id) {
     });
 }
 
-function renderCache(item, clone, index, extraJSON) {
+function renderCache(item, clone, index, extraJSON, container) {
+    container.querySelector('.title').dataset.bsOriginalTitle = extraJSON.server.name + " " + extraJSON.server.version + ": " + "Cache List: ( " + extraJSON.counter + " Keys )";
     clone.querySelector('.nombre').textContent = item;
+    clone.title = "    " + extraJSON.server.name + ": " + item;
 }
 
-function renderMail(item, clone, index, extraJSON) {
+function renderMail(item, clone, index, extraJSON, container) {
+    container.querySelector('.title').dataset.bsOriginalTitle = extraJSON.server.name + " " + extraJSON.server.version + ": " + "Mails List: ( " + extraJSON.unread + " Unread / " + extraJSON.counter + " Total )";
     const btn = clone.querySelector('button');
     const mails_icon = clone.querySelector('.mails_icon');
     const mails_icon2 = clone.querySelector('.mails_icon2');
@@ -171,11 +174,14 @@ function renderMail(item, clone, index, extraJSON) {
     const mails_replayto = clone.querySelector('.mails_replayto');
     const mails_content = clone.querySelector('.mails_content');
     mails_content.textContent = item.Snippet;
+    let to_from = "";
 
     if (item.From.Name == "") {
         mails_form.textContent = item.From.Address;
+        to_from = " | FROM: " + item.From.Address;
     } else {
         mails_form.textContent = `${item.From.Name} <${item.From.Address}>`;
+        to_from = "| FROM: " + `${item.From.Name} <${item.From.Address}>`;
     }
     let mails_tos = [];
     let addrs = null;
@@ -187,6 +193,7 @@ function renderMail(item, clone, index, extraJSON) {
         }
     });
     mails_to.textContent = mails_tos.join(", ");
+    to_from = to_from + " | TO: " + mails_tos.join(", ");
     if (item.Cc === null) {
         mails_cc.style.display = "none";
     } else {
@@ -234,7 +241,7 @@ function renderMail(item, clone, index, extraJSON) {
     btn.setAttribute('aria-controls', `collapse_${index}`);
     const panel = clone.querySelector('.collapse');
     if (panel) panel.id = `collapse_${index}`;
-    clone.title = "    ✉️ " + formatDate(item.Created) + " :: " + item.Subject + " ✉️";
+    clone.title = "    " + extraJSON.server.name + ": ✉️ " + formatDate(item.Created) + " :: " + item.Subject + to_from;
     clone.querySelector('.nombre').textContent = item.Subject;
 }
 
@@ -256,7 +263,7 @@ function renderRows(idAttr, responseJSON, extraJSON, func) {
             clone.id = `${idAttr}_clone_${index}`;
             clone.classList.add(`${idAttr}-item`);
             clone.style.display = '';
-            func(item, clone, index, extraJSON);
+            func(item, clone, index, extraJSON, containerDiv);
             container.appendChild(clone);
         });
     }
