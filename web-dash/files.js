@@ -248,7 +248,7 @@ function renderRows(idAttr, responseJSON, extraJSON, func) {
         const container = document.getElementById(idAttr + '_rows');
         const template = document.getElementById(idAttr + '_clone');
         const counter = document.getElementById(idAttr + '_counter');
-        counter.textContent = responseJSON.length;
+        counter.textContent = extraJSON.unread ?? responseJSON.length;
         container.querySelectorAll(`.${idAttr}-item`).forEach(el => el.remove());
 
         responseJSON.forEach((item, index) => {
