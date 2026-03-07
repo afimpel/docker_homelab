@@ -204,7 +204,7 @@ include "./inc/head.php";
                         <h2 class="accordion-header toggle_tooltip" data-bs-original-title="<?= $domain.' ( '.count($sites).' Sites )'; ?>" id="heading-<?= str_replace([".","-"], "", $domain); ?>">
                             <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-<?= str_replace([".","-"], "", $domain); ?>" aria-expanded="true" aria-controls="collapse-<?= str_replace([".","-"], "", $domain); ?>">
                                 <i class="bi bi-diagram-3-fill me-4" style="margin-bottom: 0.125rem;margin-top: 0.125rem;"></i>
-                                <?= $domain; ?>
+                                <span class="me-auto"><?= $domain; ?></span>
                                 <span style="font-size: x-small;" class="small my-auto px-2 ms-auto badge bg-primary"><?php echo count($sites);?></span>
                             </button>
                         </h2>
