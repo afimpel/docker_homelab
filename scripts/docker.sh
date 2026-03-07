@@ -46,7 +46,8 @@ generate_version() {
     dockerComposeVersion=${dockerComposeVersion//version v/:}
     dockerComposeVersion=$(echo $dockerComposeVersion | cut -d ":" -f 2)
     gitinfo=$(git log -1 --pretty=format:"%an: %s ( %h / %cr )")
-    gitinfoArray=$(git log -20 --pretty=format:"%H%x09%an%x09%cr%x09%s%x09%h" --date=short --no-merges | jq --compact-output -R '[ inputs | split("\t") | { hash_short: .[4], hash: .[0], author: .[1], date: .[2], message: .[3] } ]')
+    git log -25 --pretty=format:'{%n  "commit": "%H",%n  "abbreviated_commit": "%h",%n  "parent": "%P",%n  "abbreviated_parent": "%p",%n  "subject": "%s",%n  "author": {%n    "name": "%aN",%n    "email": "%aE",%n    "date": "%aD"%n  },%n  "commiter": {%n    "name": "%cN",%n    "email": "%cE",%n    "date": "%cD"%n  },%n    "date_short": "%cr"%n},' | sed "$ s/,$//" | sed ':a;N;$!ba;s/\r\n\([^{]\)/\\n\1/g'| awk 'BEGIN { print("[") } { print($0) } END { print("]") }' | jq . -c > TEMP/version-array.json
+    gitinfoArray=$(cat TEMP/version-array.json)
     startupFile=$(cat logs/startup.pid)
     echo -e "{ \"startup\":$startupFile,\"gitinfo\":\"$gitinfo\",\"gitArray\":$gitinfoArray,\"username\":\"$USERNAME\",\"checkfile\":[$checkfile],\"version\":{\"php8\":\"$versionPHP8\", \"composer8\":\"$composerVersion8\", \"supervisord8\":\"$supervisordVersion8\", \"php7\":\"$versionPHP7\", \"composer7\":\"$composerVersion7\", \"supervisord7\":\"$supervisordVersion7\", \"docker\":\"Ver$dockerVersion\", \"dockerCompose\":\"Ver $dockerComposeVersion\"} }" > TEMP/version.json
     jq . TEMP/version.json > web-dash/version.json
