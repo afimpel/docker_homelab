@@ -203,10 +203,14 @@ docker_down() {
   if [ -f "logs/startup.pid" ]; then
       startup
       ln
+      docker_bash "homelab-php8" "logs-chmod:root"
+      docker_bash "homelab-php7" "logs-chmod:root"
+      docker_bash "homelab-database" "logs-chmod:root"
+      cache_cmd "FLUSHALL"
+      ln
       rightH1 $YELLOW 'Stop & down all containers' $WHITE "☐" "."
       cd DOCKER/
       docker compose down --remove-orphans
-      clear
       openCD $0
       startup=$(cat logs/startup.pid)
       cd logs
