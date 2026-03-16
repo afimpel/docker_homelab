@@ -346,7 +346,7 @@ www()
 
   lengthContent=$(jq '.items | length' web-dash/subdomains.json)
   write_message "subdomains ➤ length: $lengthContent\n " "website" 
-  write_message "DELETE: \n$(rm -fv TEMP/*.json)\n\n\t---\t\t $(date) \t\t---" "website" 
+  write_message "DELETE: \n$(rm -fv TEMP/*.json)\n\n\t---\t\t $(date) \t\t---\n\n" "website" 
   if [ $lengthContent -eq 0 ]; then
       if [ -f "${input_file1}" ]; then
          rm -v $input_file1
