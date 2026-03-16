@@ -245,11 +245,71 @@ refactor_fn () {
 }
 
 get_hostfiles () {
-    grep "${COMPOSE_PROJECT_NAME,,}" /etc/hosts | awk '{
+    HOSTS_FILE="/etc/hosts"
+    OUTPUT_FILE="logs/various/hosts_order.log"
+    OUTPUT_FILE_INT="logs/various/hosts_order_INT.log"
+    OUTPUT_FILE00="hostsfile.conf"
+    COMPOSE_PROJECT=${COMPOSE_PROJECT_NAME,,}
+    TEMP=$(mktemp)
+    total_reads=0
+    total_OK=0
+    while IFS= read -r line; do
+        ((total_reads++))
+        
+        if [[ "$line" =~ ^# || -z "$line" ]]; then
+            continue
+        fi
+    
+        if [[ -n "$COMPOSE_PROJECT" ]]; then
+            if ! echo "$line" | grep -qi "$COMPOSE_PROJECT"; then
+                continue
+            fi
+        fi
+        
+        ip=$(echo "$line" | awk '{print $1}')
+        domain=$(echo "$line" | awk '{print $2}')
+        
+        base=$(echo "$domain" | sed 's/^www\.//' | awk -F'.' '{if(NF>2){print $(NF-1)"."$NF}else{print $0}}')
+        level=$(echo "$domain" | grep -o "\." | wc -l)
+        
+        echo "$ip|$base|$level|$domain|$line" >> "$TEMP"
+        ((total_OK++))
+
+    done < "$HOSTS_FILE"
+    {
+        echo "# -- $(date) -- $$"
+        echo "# HOSTS: $HOSTS_FILE"
+        [[ -n "$COMPOSE_PROJECT" ]] && echo "# COMPOSE_PROJECT: '$COMPOSE_PROJECT'"
+        echo "# OK: $total_OK ( TOTAL: $total_reads )"
+        echo "#"
+        if [[ $total_OK -eq 0 ]]; then
+            echo "# ⚠️  NO hosts ..."
+        else
+            echo -e "# $COMPOSE_PROJECT \t\t$(date) \t\t--\t\t $$ \t -- #" > "${OUTPUT_FILE00}"
+            sort -t'|' -k1,1V -k2,2 -k3,3n -k4,4 "$TEMP" | cut -d'|' -f5 | uniq
+            sort -t'|' -k1,1V -k2,2 -k3,3n -k4,4 "$TEMP" | cut -d'|' -f5 | uniq >> "${OUTPUT_FILE00}"
+        fi
+    } > "$OUTPUT_FILE.tmp" && mv "$OUTPUT_FILE.tmp" "$OUTPUT_FILE"
+
+    # Limpiar
+    rm -f "$TEMP"
+    
+    more hostsfile.conf | grep -v "^#" | awk '{
     n = split($2, parts, ".")
     base = parts[n-1] "." parts[n]
-    dots = gsub(/\./,".",$2)
-    split($1, ip, ".")
-    printf "%03d.%03d.%03d.%03d %s %d %s\n", ip[1], ip[2], ip[3], ip[4], base, dots, $0
-    }' | sort -k1,1 -k2,2 -k3,3n | sed 's/^[^ ]* [^ ]* [^ ]* //' > hostsfile.conf
+        if (!(base in data)) {
+            data[base] = $1 " " $2
+            for (i=2; i<=NF; i++) {
+                data[base] = data[base] " " $i
+            }
+        } else {
+            for (i=2; i<=NF; i++) {
+                data[base] = data[base] " " $i
+            }
+        }
+    } END {
+        for (base in data) {
+            print data[base]
+        }
+    }' | sort -k1,1 -k2,2 -k3,3n > TEMP/hostsfile_domains.conf
 }
