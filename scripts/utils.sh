@@ -158,7 +158,7 @@ write_message () {
     names=${2:-INFO}
     base_name=$(basename $0)
     if [ $DEBUG_MODE == true ]; then
-        echo -e "[ $$ | $timestamp ] $1" >> logs/various/${names}-$$-${base_name}.log
+        echo -e "[ $$ | $timestamp ] $1" >> logs/various/${names}-${base_name}.log
     fi
 }
 
