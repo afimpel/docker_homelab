@@ -15,7 +15,7 @@ try {
 
 function load(data) {
     const themes = data.themes;
-    const validIds = [25,24,22,21,20,18,16,15,11,8,7,5,1].sort((a, b) => a - b);
+    const validIds = [25,22,21,20,18,16,15,11,8,7,5,1].sort((a, b) => a - b);
     const filteredThemes = validIds.map(id => themes[id]);
     const select = document.querySelector('#select_bootswatch');
     filteredThemes.forEach((value, index) => {
