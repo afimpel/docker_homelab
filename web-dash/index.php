@@ -194,7 +194,7 @@ include "./inc/head.php";
             <div class="col-12 col-xl">
                 <h5 class="title is-2 has-text-centered border-bottom border-info d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Domain Sites List ( <?php echo $sitesDomain[2];?> Sites )">
                     <i class="text-success icon-nginx me-2"></i> Domain Sites List (<em> .local </em>)
-                    <b class="px-2 border border-info rounded ms-auto"><?php echo $sitesDomain[2];?></b>
+                    <b class="px-3 border border-info rounded ms-auto"><?php echo $sitesDomain[2];?></b>
                 </h5>
                 <div class="accordion" id="accordionDomain">
                 <?php
@@ -225,7 +225,7 @@ include "./inc/head.php";
             <div class="col-12 col-xl">
                 <h5 class="title is-2 has-text-centered border-bottom border-info d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Subdomain Sites List ( <?php echo $sitesSubdomain[2];?> Sites )">
                     <i class="text-success icon-nginx me-2"></i> Subdomain Sites List (<em> .<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local </em>)
-                    <b class="px-2 border border-info rounded ms-auto"><?php echo $sitesSubdomain[2];?></b>
+                    <b class="px-3 border border-info rounded ms-auto"><?php echo $sitesSubdomain[2];?></b>
                 </h5>
                 <div class="list-group shadow">
                 <?php
@@ -244,7 +244,7 @@ include "./inc/head.php";
             <div class="mb-4 col">
                 <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="<?php echo $dbs['server']['name']." ".$dbs['server']['version'] ?> ➤  Database List ( <?php echo count($dbs['database']);?> dbs )">
                     <i class="<?= $dbs['server']['icon']; ?> me-2 text-primary"></i> Database List
-                    <b class="px-2 border border-info ms-auto rounded"><?php echo count($dbs['database']);?></b>
+                    <b class="px-3 border border-info rounded ms-auto"><?php echo count($dbs['database']);?></b>
                 </h5>
                 <div class="list-group shadow">
                 <?php
@@ -266,7 +266,7 @@ include "./inc/head.php";
             <div class="mb-4 col" id="cacheList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_div">
                 <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title=" ">
                     <i class="<?= $cache['server']['icon']; ?> me-2 text-warning"></i> Cache List
-                    <b class="px-2 border border-info ms-auto rounded" id="cacheList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_counter">0</b>
+                    <b class="px-3 border border-info rounded ms-auto" id="cacheList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_counter">0</b>
                 </h5>
                 <span style="display: none;" class="list-group-item list-group-item-action list-group-item-info py-2" id="cacheList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_clone">
                     <i class="bi bi-memory me-2"></i>
@@ -278,7 +278,7 @@ include "./inc/head.php";
             <div class="mb-4 col" id="mailsList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_div">
                 <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title=" ">
                     <i class="<?= $mailer['server']['icon']; ?> me-2 text-info"></i> Mail List
-                    <b class="px-2 border border-info ms-auto rounded" id="mailsList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_counter">0</b>
+                    <b class="px-3 border border-info rounded ms-auto" id="mailsList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_counter">0</b>
                 </h5>
                 <div id="mailsList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_clone" style="display: none;" class="accordion-item">
                     <h2 class="accordion-header" id="heading-<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>">
