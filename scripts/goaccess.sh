@@ -14,7 +14,7 @@ goaccess () {
     echo -e "[ 0\t ] GoAccess Sites \t --- $datesss ---" > logs/goaccess/lists-serverData.log
     datesss=$(date)
     echo -e "\n[ 0\t ] \tDelete\t\t\t --- $datesss ---" >> logs/goaccess/lists-serverData.log
-    rm -v logs/goaccess/site-* >> logs/goaccess/lists-serverData.log 2>&1
+    find logs/goaccess \( -type f -name "*.out" \) -delete -printf "[ 🗑  ]\tREMOVED:\t\t  %p\n" | sort >> logs/goaccess/lists-serverData.log 2>&1
     echo -e "\n[ 0\t ] \tSitios\t\t\t --- $datesss ---" >> logs/goaccess/lists-serverData.log
     cat TEMP/hostsfile_domains.conf >> logs/goaccess/lists-serverData.log
     counter00=-1
@@ -25,7 +25,7 @@ goaccess () {
         if [ "$ip" == "#" ]; then
             echo "" > /dev/null;
         elif [ ! -z "$hostname" ]; then
-            echo -e "\n[ $counter00\t ] \t$ip\t\t--- $datesss --- URL: https://$hostname ---" >> logs/goaccess/lists-serverData.log
+            echo -e "\n[ $counter00\t ] \t$ip\t\t--- $datesss --- https://$hostname ---" >> logs/goaccess/lists-serverData.log
             colorize $LIGHT_GREEN "✔ $WHITE $hostname"
             sites_name="${hostname//./_}";
             # Si hay hostnames adicionales en la misma línea
@@ -34,7 +34,7 @@ goaccess () {
             sleep 1s
             cat logs/goaccess/site-${counter00}-${sites_name}-000-int.out >> logs/goaccess/site-${counter00}-${sites_name}-000.out
             sizeOUT=$(du -h logs/goaccess/site-${counter00}-${sites_name}-000.out)
-            echo -e "[info] \t$hostname ➤ $sizeOUT" >> logs/goaccess/lists-serverData.log
+            echo -e "[info] \thttps://$hostname ➤ $sizeOUT" >> logs/goaccess/lists-serverData.log
             echo -e "\n\n[SIZE] $sizeOUT" >> logs/goaccess/site-${counter00}-${sites_name}-000.out
             write_message "GoAccess ➤ URL: https://$hostname" "goaccess"
             for extra in $extras; do
@@ -55,7 +55,7 @@ goaccess () {
                     sleep 1s
                     cat logs/goaccess/site-${counter00}-${sites_name}-${counter}00-${sites_name2}-int.out >> logs/goaccess/site-${counter00}-${sites_name}-${counter}00-${sites_name2}.out
                     sizeOUT=$(du -h logs/goaccess/site-${counter00}-${sites_name}-${counter}00-$sites_name2.out)
-                    echo -e "[info] \t$hostname | $extra ➤ $sizeOUT" >> logs/goaccess/lists-serverData.log
+                    echo -e "[info] \thttps://$hostname | https://$extra ➤ $sizeOUT" >> logs/goaccess/lists-serverData.log
                     echo -e "\n\n[SIZE] $sizeOUT" >> logs/goaccess/site-${counter00}-${sites_name}-${counter}00-$sites_name2.out
                 fi
             done
@@ -64,7 +64,8 @@ goaccess () {
     sleep 4s
     datesss=$(date)
     echo -e "\n[ 99 ] \tDelete\t\t\t --- $datesss ---" >> logs/goaccess/lists-serverData.log
-    rm -v logs/goaccess/site-*-int.out >> logs/goaccess/lists-serverData.log 2>&1
+    find logs/goaccess \( -type f -name "*int.out" \) -delete -printf "[ 🗑  ]\tREMOVED:\t\t  %p\n" | sort >> logs/goaccess/lists-serverData.log 2>&1
+    ###rm -v logs/goaccess/site-*-int.out >> logs/goaccess/lists-serverData.log 2>&1
     sleep 2s
     datesss=$(date)
     echo -e "\n[ 99 ] Docker stop\t\t --- $datesss ---" >> logs/goaccess/lists-serverData.log
