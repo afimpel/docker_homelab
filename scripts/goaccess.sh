@@ -50,13 +50,13 @@ goaccess () {
                     counter=$(( counter + 1 )) 
                     sites_name2="${extra//./_}";
                     write_message "GoAccess ➤ URL: https://$extra" "goaccess" 
-                    echo -e "URL:\t https://$extra " > logs/goaccess/site-${counter00}-${sites_name}-00${counter}-${sites_name2}.out
-                    curl --http3 -H 'Accept: application/json' -silent "https://$extra" -o "logs/goaccess/site-${counter00}-${sites_name}-00${counter}-${sites_name2}-int.out"
+                    echo -e "URL:\t https://$extra " > logs/goaccess/site-${counter00}-${sites_name}-${counter}00-${sites_name2}.out
+                    curl --http3 -H 'Accept: application/json' -silent "https://$extra" -o "logs/goaccess/site-${counter00}-${sites_name}-${counter}00-${sites_name2}-int.out"
                     sleep 1s
-                    cat logs/goaccess/site-${counter00}-${sites_name}-00${counter}-${sites_name2}-int.out >> logs/goaccess/site-${counter00}-${sites_name}-00${counter}-${sites_name2}.out
-                    sizeOUT=$(du -h logs/goaccess/site-${counter00}-${sites_name}-00${counter}-$sites_name2.out)
+                    cat logs/goaccess/site-${counter00}-${sites_name}-${counter}00-${sites_name2}-int.out >> logs/goaccess/site-${counter00}-${sites_name}-${counter}00-${sites_name2}.out
+                    sizeOUT=$(du -h logs/goaccess/site-${counter00}-${sites_name}-${counter}00-$sites_name2.out)
                     echo -e "[info] \t$hostname | $extra ➤ $sizeOUT" >> logs/goaccess/lists-serverData.log
-                    echo -e "\n\n[SIZE] $sizeOUT" >> logs/goaccess/site-${counter00}-${sites_name}-00${counter}-$sites_name2.out
+                    echo -e "\n\n[SIZE] $sizeOUT" >> logs/goaccess/site-${counter00}-${sites_name}-${counter}00-$sites_name2.out
                 fi
             done
         fi
