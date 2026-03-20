@@ -35,6 +35,7 @@ goaccess () {
             cat logs/goaccess/site-${counter00}-${sites_name}-000-int.out >> logs/goaccess/site-${counter00}-${sites_name}-000.out
             sizeOUT=$(du -h logs/goaccess/site-${counter00}-${sites_name}-000.out)
             echo -e "[info] \t$hostname ➤ $sizeOUT" >> logs/goaccess/lists-serverData.log
+            echo -e "\n\n[SIZE] $sizeOUT" >> logs/goaccess/site-${counter00}-${sites_name}-000.out
             write_message "GoAccess ➤ URL: https://$hostname" "goaccess"
             for extra in $extras; do
                 URLSnginx=$(echo "$extra" | cut -d "-" -f 1)
