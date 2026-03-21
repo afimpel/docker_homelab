@@ -36,7 +36,7 @@ $objVersion = json_decode(file_get_contents('version.json'));
     <link rel="icon" href="./favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title><?php echo isset($titleNavs) ? $titleNavs." ➤ " : ""; ?>LEMP STACK ➤ <?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local </title>
-    <link id="theme_bootswatch" rel="stylesheet" href="https://bootswatch.com/5/spacelab/bootstrap.min.css">
+    <link id="theme_bootswatch" rel="stylesheet" href="https://bootswatch.com/5/spacelab/bootstrap.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-mfizz/2.4.1/font-mfizz.min.css" integrity="sha512-Cdvnk1SFWqcb3An6gMyqDRH40Js8qmsWcSK10I2gSifCe2LilaPMsHd6DldEvQ3uIlCb1qdRUrNeAFFleOu4xQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.min.css" integrity="sha256-pdY4ejLKO67E0CM2tbPtq1DJ3VGDVVdqAR6j3ZwdiE4=" crossorigin="anonymous">
     <style>
