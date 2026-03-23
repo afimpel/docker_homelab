@@ -42,9 +42,12 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 ARG user
 ARG uid
+RUN apt-get install net-tools iputils-ping bash-completion ca-certificates iproute2 -y
 
 # Create system user to run Composer and Artisan Commands
-RUN useradd -g www-data -G root -u $uid -d /home/$user $user
+RUN addgroup ${user}-1000
+RUN addgroup ${user}-1001
+RUN useradd -g www-data -G root,${user}-1000,${user}-1001 -u $uid -d /home/$user $user
 RUN mkdir -p /var/www 
 RUN mkdir -p /home/$user/.composer && \
     mkdir -p /home/$user/.config && \
@@ -55,7 +58,6 @@ COPY ./php/* /usr/local/etc/php-fpm.d/
 
 COPY ./bash.bashrc /etc/bash.bashrc
 COPY ./root.bashrc /root/.bashrc
-RUN apt-get install net-tools iputils-ping bash-completion ca-certificates iproute2 -y
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
