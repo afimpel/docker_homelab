@@ -54,6 +54,7 @@ RUN mkdir -p /home/$user/.composer && \
 COPY ./php/* /usr/local/etc/php-fpm.d/
 
 COPY ./bash.bashrc /etc/bash.bashrc
+COPY ./root.bashrc /root/.bashrc
 RUN apt-get install net-tools iputils-ping bash-completion ca-certificates iproute2 -y
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
