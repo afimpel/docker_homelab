@@ -25,9 +25,10 @@ goaccess () {
         if [ "$ip" == "#" ]; then
             echo "" > /dev/null;
         elif [ ! -z "$hostname" ]; then
+            sites_name="${hostname//./_}";
+            touch logs/goaccess/site-${counter00}-${sites_name}-000-int.out
             echo -e "\n[ $counter00\t ] \t$ip\t\t--- $datesss --- https://$hostname ---" >> logs/goaccess/lists-serverData.log
             colorize $LIGHT_GREEN "✔ $WHITE $hostname"
-            sites_name="${hostname//./_}";
             # Si hay hostnames adicionales en la misma línea
             echo -e "URL:\t https://$hostname " > logs/goaccess/site-${counter00}-${sites_name}-000.out
             curl --http3 -H 'Accept: application/json' -silent "https://$hostname" -o "logs/goaccess/site-${counter00}-${sites_name}-000-int.out"
