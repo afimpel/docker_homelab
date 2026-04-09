@@ -44,6 +44,7 @@ $objVersion = json_decode(file_get_contents('version.json'));
         .btn::before{ margin-right: .5rem;}
         .tooltip-inner { max-width: 90vw; font-family: monospace; padding-right: 1rem; padding-left: 1rem; }
         .accordion-button::after { margin-left: 1rem;  filter: drop-shadow(2px 2px 2px var(--bs-info));}
+        .git-info::after { margin-left: auto !important; }
         .accordion-button:hover > * { color: var(--bs-info-text-emphasis) !important; }
         .bg-body-tertiary { --bs-bg-opacity: 0.85 !important; backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); }
     </style>

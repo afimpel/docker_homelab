@@ -24,7 +24,7 @@
         <h4 class="mt-3 mb-0 py-1">Extra Files.</h4>
         <div class="mt-1 list-group shadow fs-6">
         <?php
-        $not_files = ['./phpinfo.php', './uptime.php', './manual.php', './index.php'];
+        $not_files = ['./phpinfo.php', './uptime.php', './manual.php', './index.php', './git-info.php'];
         foreach ($php_files as $file ) {
         	if (!in_array($file, $not_files)) {?>
                 <a translate="no" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-original-title="<?=mime_content_type($file); ?>" class="list-group-item list-group-item-info list-group-item-action p-1 px-2" href="<?=$file; ?>" target="_blank" style="font-size: 0.6rem !important;"><i class=" icon-php mx-2"></i><?=$file; ?></a>
@@ -46,7 +46,13 @@
 
     <div class="p-2 mb-4">
         <p class="d-flex">Theme used in the dashboard:<a id="select_bootswatch_www" class="ms-auto text-decoration-none" href="//bootswatch.com/spacelab/" target="_blank"><i class="bi bi-bootstrap-fill mx-2"></i><span id="select_bootswatch_text"></span></a></p>
-        <h6 class="text-center py-1 border bg-dark text-light rounded"><i class="icon-git me-4"></i> the latest commit on GitHub:</h6>
+        <h6 class="d-flex py-1 border bg-dark text-light rounded px-3">
+            <i class="bi bi-git me-3"></i> The latest commit on GitHub:
+            <a class="ms-auto text-decoration-none" href="/git-info.php">
+                <i class="bi bi-github me-1"></i>
+                <span>GIT Info</span>
+            </a>
+        </h6>
         <code class="text-center d-block" translate="no" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-original-title="GitHub: <?php echo $objVersion->gitinfo ?? "-"; ?>"><?php echo $objVersion->gitinfo ?? "-"; ?></code>
     </div>
 </div>
