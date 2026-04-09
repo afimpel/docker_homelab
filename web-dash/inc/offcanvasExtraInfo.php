@@ -46,7 +46,7 @@
 
     <div class="p-2 mb-4">
         <p class="d-flex">Theme used in the dashboard:<a id="select_bootswatch_www" class="ms-auto text-decoration-none" href="//bootswatch.com/spacelab/" target="_blank"><i class="bi bi-bootstrap-fill mx-2"></i><span id="select_bootswatch_text"></span></a></p>
-        <h6 class="d-flex py-1 border bg-dark text-light rounded px-3">
+        <h6 class="d-flex py-2 border bg-dark text-light rounded px-3">
             <i class="bi bi-git me-3"></i> The latest commit on GitHub:
             <a class="ms-auto text-decoration-none" href="/git-info.php">
                 <i class="bi bi-github me-1"></i>

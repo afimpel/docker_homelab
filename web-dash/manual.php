@@ -91,7 +91,7 @@ $description = $objHelp0000[0]->description;
 
                 </div>
                 <div class="card border-info my-4 shadow">
-                    <div class="card-header py-1 bg-primary text-light d-flex px-3">
+                    <div class="card-header py-2 bg-primary text-light d-flex px-3">
                         <i class="bi bi-git me-3"></i> The latest commit on GitHub:
                         <a class="ms-auto text-decoration-none" href="/git-info.php">
                             <i class="bi bi-github me-1"></i>

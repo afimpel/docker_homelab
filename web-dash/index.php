@@ -349,7 +349,7 @@ include "./inc/head.php";
     
     <div class="container-fluid pb-2" id="git_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">
         <div class="container border border-primary rounded p-2 my-1 shadow">
-            <h6 class="d-flex py-1 border bg-dark text-light rounded px-3">
+            <h6 class="d-flex py-2 border bg-dark text-light rounded px-3">
                 <i class="bi bi-git me-3"></i> The latest commit on GitHub:
                 <a class="ms-auto text-decoration-none" href="/git-info.php">
                     <i class="bi bi-github me-1"></i>
