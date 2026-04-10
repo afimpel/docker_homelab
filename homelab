@@ -272,6 +272,11 @@ case "$subcommand" in
     backup
     footer
   ;;
+  generate)
+    header
+    generate_version
+    footer
+  ;;
   status)
     header
     status
