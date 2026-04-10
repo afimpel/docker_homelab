@@ -175,6 +175,7 @@ include "./inc/head.php";
                 </h3>
                 <div class="mt-3 list-group shadow">
                     <a translate="no" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-original-title="Manual Homelab" class="list-group-item list-group-item-info list-group-item-action p-1 px-2" href="/manual.php" target="_blank"><i class=" icon-php mx-2"></i> Manual Homelab</a>
+                    <a translate="no" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-original-title="Git Information" class="list-group-item list-group-item-info list-group-item-action p-1 px-2" href="/git-info.php" target="_blank"><i class="bi bi-git mx-2"></i> Git Information</a>
                 </div>
                 <div class="mt-3 list-group shadow">
                     <a name="php7_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local_tooltip" data-bs-toggle="tooltip" data-bs-placement="left" target="_blank" class="list-group-item list-group-item-info list-group-item-action p-1 px-2 d-flex" href="//php7.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="icon-php-alt mx-2"></i> PHP7 ➤ phpinfo()<small style="font-size: small;" class="badge text-light bg-primary rounded ms-auto my-auto" name="php7_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">-</small></a>
@@ -351,7 +352,7 @@ include "./inc/head.php";
         <div class="container border border-primary rounded p-2 my-1 shadow">
             <h6 class="d-flex py-2 border bg-dark text-light rounded px-3">
                 <i class="bi bi-git me-3"></i> The latest commit on GitHub:
-                <a class="ms-auto text-decoration-none" href="/git-info.php">
+                <a class="ms-auto text-decoration-none" href="/git-info.php" target="_blank">
                     <i class="bi bi-github me-1"></i>
                     <span>GIT Info</span>
                 </a>

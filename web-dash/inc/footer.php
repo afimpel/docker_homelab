@@ -19,6 +19,9 @@
                 <li class="nav-item px-1">
                      <a translate="no" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Manual Homelab" class="nav-link px-1 py-0" href="/manual.php" target="_blank"><i class=" icon-php mx-2"></i> Manual</a>
                 </li>
+                <li class="nav-item px-1">
+                     <a translate="no" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Git Information" class="nav-link px-1 py-0" href="/git-info.php" target="_blank"><i class="bi bi-git mx-2"></i> Git</a>
+                </li>
             </ul>
         </footer>
     </div>
