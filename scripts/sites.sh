@@ -1,5 +1,21 @@
 #!/bin/bash
 
+is_excluded() {
+    local domain="$1"
+    IFS=',' read -ra patterns <<< "$DOMAINS_EXCLUDE"
+    
+    for pattern in "${patterns[@]}"; do
+        [[ -z "$pattern" ]] && continue
+        
+        local regex=$(echo "$pattern" | sed 's/\./\\./g' | sed 's/\*/.*/g')
+        
+        if [[ "$domain" =~ ^$regex$ ]]; then
+            return 0  # Excluido
+        fi
+    done
+    return 1  # Incluido
+}
+
 ############################################################
 # newsite                                                  #
 ############################################################
@@ -271,12 +287,13 @@ www()
                fi
                haystack=$DOMAINS_EXCLUDE
                needle="$urlType2"
-               if [[ "$haystack" == *",$needle,"* ]]; then
+               urlType3=$(echo "${url}" | sed 's/https\?:\/\///' | sed 's/\/$//')
+               if is_excluded "$urlType3"; then
                   exclude_domains=true
                else
                   exclude_domains=false
                fi
-               write_message "domains ➤ URL: $url / needle: $needle / exclude: $haystack / type: $urlType / $exclude_domains" "website" 
+               write_message "domains ➤ URL: $url / $urlType3 / exclude: $haystack / type: $urlType / $exclude_domains" "website" 
                echo "{\"title\": \"${title}\", \"url\": \"${url}\", \"type\": \"${type,,}\", \"urlType\":\"${urlType,,}\", \"exclude\":${exclude_domains,,} }" >> TEMP/algo1.json
             fi
          fi

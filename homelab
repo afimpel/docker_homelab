@@ -282,6 +282,11 @@ case "$subcommand" in
     status
     footer
   ;;
+  hostfiles)
+    header
+    get_hostfiles
+    footer
+  ;;
   makealias)
     header
     makealias
