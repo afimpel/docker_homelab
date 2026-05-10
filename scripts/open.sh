@@ -43,6 +43,8 @@ open()
             OPEN_TERMINAL_COMMAND="tilix --working-directory=$(pwd)"
         elif [ $OPEN_TERMINAL_COMMAND == "uxterm" ]; then
             OPEN_TERMINAL_COMMAND="uxterm -e 'cd $(pwd); $SHELL'"
+        elif [ $OPEN_TERMINAL_COMMAND == "kitty" ]; then
+            OPEN_TERMINAL_COMMAND="kitty @ launch --type=tab --title=${COMPOSE_PROJECT_NAME} --cwd=$(pwd)"
         else
             OPEN_TERMINAL_COMMAND="$OPEN_TERMINAL_COMMAND $(pwd)"
         fi
