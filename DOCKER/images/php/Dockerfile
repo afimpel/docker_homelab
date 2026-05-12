@@ -12,6 +12,8 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libwebp-dev \
     libjpeg-dev \
+    libavif-dev \
+    libxpm-dev \
     libonig-dev \
     libsodium-dev \
     libargon2-dev \
@@ -28,11 +30,11 @@ RUN apt-get update && apt-get install -y \
     sendmail \
     supervisor
 
+RUN docker-php-ext-configure gd --with-jpeg --with-webp --with-freetype --with-xpm
 RUN docker-php-ext-install mbstring mysqli pdo_mysql gd zip calendar gettext
 RUN docker-php-ext-install exif pcntl shmop soap sockets 
 RUN docker-php-ext-install bcmath intl pdo
 RUN docker-php-ext-install sysvmsg sysvsem sysvshm xsl 
-
 
 RUN pecl install apcu igbinary redis \
     && docker-php-ext-enable apcu --ini-name 10-docker-php-ext-apcu.ini igbinary redis
