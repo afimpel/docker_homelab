@@ -1,5 +1,5 @@
 #!/bin/bash
-hostname > /var/log/php/$(hostname)_startup.log
+hostname >> /var/log/php/$(hostname)_startup.log
 grep '^PRETTY_NAME' /etc/os-release | cut -d '"' -f 2 >> /var/log/php/$(hostname)_startup.log 2>&1
 echo -e "----------" >> /var/log/php/$(hostname)_startup.log
 date >> /var/log/php/$(hostname)_startup.log
@@ -11,5 +11,5 @@ echo -e "----------" >> /var/log/php/$(hostname)_startup.log
 php -m >> /var/log/php/$(hostname)_startup.log
 echo -e "----------" >> /var/log/php/$(hostname)_startup.log
 echo -e "supervisord: $(supervisord -v)" >> /var/log/php/$(hostname)_startup.log
-echo -e "\n\n\n" >> /var/log/php/$(hostname)_startup.log
+cat /tmp/php_* > /var/log/php/$(hostname)_release.log 2>&1
 /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf

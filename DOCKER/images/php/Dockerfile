@@ -1,6 +1,8 @@
 ARG phpVersion="8-fpm"
 FROM php:${phpVersion}
 WORKDIR /var/www
+COPY ./bash/* /usr/bin/
+RUN get-release
 
 RUN apt-get update && apt-get install -y \
     libmcrypt-dev \
@@ -36,8 +38,10 @@ RUN docker-php-ext-install exif pcntl shmop soap sockets
 RUN docker-php-ext-install bcmath intl pdo
 RUN docker-php-ext-install sysvmsg sysvsem sysvshm xsl 
 
-RUN pecl install apcu igbinary redis \
-    && docker-php-ext-enable apcu --ini-name 10-docker-php-ext-apcu.ini igbinary redis
+RUN pecl install apcu igbinary redis
+RUN docker-php-ext-enable igbinary
+RUN docker-php-ext-enable redis
+RUN docker-php-ext-enable apcu
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -78,7 +82,6 @@ RUN sed -i "s/USERNAME/${user}/g" /usr/local/etc/php-fpm.d/www.conf
 RUN sed -i "s/USERNAME/${user}/g" /usr/local/etc/php-fpm.d/zz-docker.conf
 RUN sed -i "s/9000/${port}/g" /usr/local/etc/php-fpm.d/www.conf
 RUN sed -i "s/9000/${port}/g" /usr/local/etc/php-fpm.d/zz-docker.conf
-COPY ./bash/* /usr/bin/
 
 EXPOSE ${port}
 CMD [ "runonce" ]

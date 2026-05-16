@@ -1,0 +1,11 @@
+#!/bin/sh
+hostname >> /tmp/php_$(hostname)_release.log
+echo "----------" >> /tmp/php_$(hostname)_release.log
+cat /etc/os-release >> /tmp/php_$(hostname)_release.log 2>&1
+echo "----------" >> /tmp/php_$(hostname)_release.log
+date >> /tmp/php_$(hostname)_release.log
+echo "----------" >> /tmp/php_$(hostname)_release.log
+grep '^PRETTY_NAME' /etc/os-release | cut -d '"' -f 2 >> /tmp/php_$(hostname)_release.log 2>&1
+uname -a >> /tmp/php_$(hostname)_release.log 2>&1
+php -v >> /tmp/php_$(hostname)_release.log 2>&1
+echo "----------" >> /tmp/php_$(hostname)_release.log
