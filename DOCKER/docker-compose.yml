@@ -55,7 +55,7 @@ services:
   # Caches
   ############################
   homelab-cache:
-    image: valkey/valkey:alpine
+    image: valkey/valkey:latest
     container_name: homelab-cache
     ports:
       - ${REDIS_PORT}:6379
