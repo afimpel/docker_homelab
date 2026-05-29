@@ -17,7 +17,7 @@ include "./inc/headers.php";
                         <a name="php8_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local_tooltip" data-bs-toggle="tooltip" data-bs-placement="bottom" class="nav-link" target="_blank" href="//php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="me-2 text-info icon-php"></i> PHP8</a>
                     </li>
                     <li class="nav-item">
-                        <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="🌐 adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local ➤ Adminer" class="nav-link" target="_blank" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="me-2 text-primary icon-database"></i> Adminer</a>
+                        <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="🌐 adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local ➤ Adminer" class="nav-link" target="_blank" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>"><i class="me-2 text-primary icon-database"></i> Adminer</a>
                     </li>
                     <?php if ($sitesDomain[2] > 1){?>          
                     <li class="nav-item dropdown">

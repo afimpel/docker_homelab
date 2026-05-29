@@ -14,7 +14,7 @@
                     <a name="php8_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local_tooltip" data-bs-toggle="tooltip" data-bs-placement="top" class="nav-link px-1 py-0" target="_blank" href="//php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="me-2 text-info icon-php"></i> PHP8</a>
                 </li>
                 <li class="nav-item px-1">
-                    <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="🌐 adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local ➤ Adminer" class="nav-link px-1 py-0" target="_blank" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="me-2 icon-database"></i> Adminer</a>
+                    <a data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="🌐 adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local ➤ Adminer" class="nav-link px-1 py-0" target="_blank" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>"><i class="me-2 icon-database"></i> Adminer</a>
                 </li>
                 <li class="nav-item px-1">
                      <a translate="no" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-original-title="Manual Homelab" class="nav-link px-1 py-0" href="/manual.php" target="_blank"><i class=" icon-php mx-2"></i> Manual</a>
