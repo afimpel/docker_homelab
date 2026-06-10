@@ -75,7 +75,7 @@ docker_updates () {
         "local:php-$phpVersion7|php:$phpVersion7"
         "afimpelcom/adminer:latest|adminer:latest"
         "mariadb:latest|mariadb:latest"
-        "valkey:alpine|valkey:alpine"
+        "valkey:latest|valkey:latest"
         "local:goaccess-$COMPOSE_PROJECT_NAME|alpine:latest"
         "axllent/mailpit:latest|axllent/mailpit:latest"
       )
