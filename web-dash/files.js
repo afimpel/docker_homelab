@@ -77,6 +77,8 @@ function dataUrl(url, id) {
     obtenerTituloDeUrl(url, id).then(title => {
         if (!title) {
             console.log('No se pudo obtener el título de la URL inexistente (esperado).');
+        }else{
+            console.log("🌐 " + url + " ➤ " + title);
         }
     });
 }
