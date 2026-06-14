@@ -174,6 +174,7 @@ docker_restart () {
     date +'%s' > logs/startup.pid
     cd DOCKER/
     docker compose restart
+    docker restart homelab-webserver
     clear
   else
       CUSTOM_RIGHT $NC 'Restart containers' $LIGHT_RED "The project has not started" $RED "✘" " " "✘" 0
