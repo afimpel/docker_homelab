@@ -264,7 +264,7 @@ include "./inc/head.php";
             </div>
             <?php }
             ?>
-            <div class="mb-4 col" id="cacheList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_div">
+            <div class="mb-4 col" id="cacheList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_div"  style="display: none;">
                 <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title=" ">
                     <i class="<?= $cache['server']['icon']; ?> me-2 text-warning"></i> Cache List
                     <b class="px-3 border border-info rounded ms-auto" id="cacheList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_counter">0</b>
@@ -274,6 +274,44 @@ include "./inc/head.php";
                     <span class="nombre">--</span>
                 </span>
                 <div class="list-group shadow" id="cacheList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_rows">
+                </div>
+            </div>
+            <div class="mb-4 col" id="cacheListV2_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_div"  style="display: none;">
+                <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title=" ">
+                    <i class="<?= $cache['server']['icon']; ?> me-2 text-warning"></i> Cache List
+                    <b class="px-3 border border-info rounded ms-auto" id="cacheListV2_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_counter">0</b>
+                </h5>
+                <div class="accordion-item" style="display: none;" id="cacheListV2_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_clone">
+                    <h2 class="accordion-header toggle_tooltip titleH2" data-bs-original-title="-"
+                        id="heading-doesntworks_000">
+                        <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapse-doesntworks_000" aria-expanded="false"
+                            aria-controls="collapse-doesntworks_000">
+                            <i class="bi bi-diagram-3-fill me-4" style="margin-bottom: 0.125rem;margin-top: 0.125rem;"></i>
+                            <span class="me-auto" id="sub_title">-</span>
+                            <span style="font-size: x-small;" class="small my-auto px-2 ms-auto badge bg-primary" id="sub_counter">2</span>
+                        </button>
+                    </h2>
+                    <div id="collapse-doesntworks_000" class="accordion-collapse collapse"
+                        aria-labelledby="heading-doesntworks_000" data-bs-parent="#cacheListV2_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_accordion">
+                        <div class="accordion-body p-2">
+                            <span 
+                                translate="no"
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="left"
+                                data-bs-original-title="-"
+                                data-title="-"
+                                style="display: none;"
+                                class="list-group-item list-group-item-action list-group-item-secondary py-1"
+                                id="sub_clone">
+                                    DOESNT-WORKS ➤ BUILD
+                            </span>
+                            <div class="list-group shadow" id="sub_lists">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion" id="cacheListV2_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_accordion">
                 </div>
             </div>
             <div class="mb-4 col" id="mailsList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_div">

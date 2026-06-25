@@ -77,7 +77,7 @@ function dataUrl(url, id) {
     obtenerTituloDeUrl(url, id).then(title => {
         if (!title) {
             console.log('No se pudo obtener el título de la URL inexistente (esperado).');
-        }else{
+        } else {
             console.log("🌐 " + url + " ➤ " + title);
         }
     });
@@ -93,8 +93,9 @@ async function obtenerUptimeUrl(url, idAttr) {
         try {
             datetimeID(idAttr, responseJSON);
             responseID(idAttr, responseJSON);
-            renderRows('cacheList_' + idAttr, responseJSON.data.cache.rows, responseJSON.data.cache, renderCache);
+            //renderRows('cacheList_' + idAttr, responseJSON.data.cache.rows, responseJSON.data.cache, renderCache);
             renderRows('mailsList_' + idAttr, responseJSON.data.mailer.rows, responseJSON.data.mailer, renderMail);
+            renderRowsV2('cacheListV2_' + idAttr, Object.entries(responseJSON.data.cache.keys), responseJSON.data.cache, renderCacheV2);
         } catch (error) {
             console.error({ error });
         }
@@ -247,8 +248,59 @@ function renderMail(item, clone, index, extraJSON, container) {
     clone.querySelector('.nombre').textContent = item.Subject;
 }
 
-function renderRows(idAttr, responseJSON, extraJSON, func) {
+function renderCacheV2(item, clone, index, extraJSON, container) {
+    container.querySelector('.title').dataset.bsOriginalTitle = extraJSON.server.name + " " + extraJSON.server.version + " ➤ " + "Cache List: ( " + extraJSON.counter + " Keys )";
+    clone.title = item[0] + ": " + item[1].length + " keys";
+    clone.querySelector('.titleH2').dataset.bsOriginalTitle = item[0] + ": " + item[1].length + " keys";
+    if (item[1].length >= 1) {
+        template = clone.querySelector('#sub_clone');
+        sub_lists = clone.querySelector('#sub_lists');
+        item[1].forEach((itemC, indexC) => {
+            const subclone = template.cloneNode(true);
+            subclone.style.display = '';
+            subclone.dataset.bsOriginalTitle = itemC;
+            subclone.title = itemC;
+            subclone.id = `id_${indexC}_${index}`;
+            subclone.textContent = itemC;
+            sub_lists.appendChild(subclone);
+        });
+    }
+}
 
+
+function renderRowsV2(idAttr, responseJSON, extraJSON, func) {
+    const containerDiv = document.getElementById(idAttr + '_div');
+    if (responseJSON.length == 0) {
+        containerDiv.style.display = "none";
+    } else {
+        containerDiv.style.display = "";
+        const container = document.getElementById(idAttr + '_accordion');
+        const template = document.getElementById(idAttr + '_clone');
+        const counter = document.getElementById(idAttr + '_counter');
+        counter.textContent = extraJSON.rows.length;
+        container.querySelectorAll(`.${idAttr}-item`).forEach(el => el.remove());
+
+        responseJSON.forEach((item, index) => {
+            const clone = template.cloneNode(true);
+            clone.querySelector('.titleH2').id = `heading-${idAttr}_${index}`;
+            clone.querySelector('.collapse').id = `collapse-${idAttr}_${index}`;
+            clone.querySelector('.collapse').setAttribute('aria-labelledby', `heading-${idAttr}_${index}`);
+            button = clone.querySelector('button');
+            button.setAttribute('data-bs-target', `#collapse-${idAttr}_${index}`);
+            button.setAttribute('aria-controls', `collapse-${idAttr}_${index}`);
+            clone.querySelector('#sub_title').textContent = item[0];
+            clone.querySelector('#sub_counter').textContent = item[1].length;
+            clone.id = `${idAttr}_clone_${index}`;
+            clone.classList.add(`${idAttr}-item`);
+            clone.style.display = '';
+            func(item, clone, index, extraJSON, containerDiv);
+            container.appendChild(clone);
+        });
+    }
+
+}
+
+function renderRows(idAttr, responseJSON, extraJSON, func) {
     const containerDiv = document.getElementById(idAttr + '_div');
     if (responseJSON.length == 0) {
         containerDiv.style.display = "none";
