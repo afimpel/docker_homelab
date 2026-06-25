@@ -96,6 +96,7 @@ async function obtenerUptimeUrl(url, idAttr) {
             //renderRows('cacheList_' + idAttr, responseJSON.data.cache.rows, responseJSON.data.cache, renderCache);
             renderRows('mailsList_' + idAttr, responseJSON.data.mailer.rows, responseJSON.data.mailer, renderMail);
             renderRowsV2('cacheListV2_' + idAttr, Object.entries(responseJSON.data.cache.keys), responseJSON.data.cache, renderCacheV2);
+            refreshTooltips();
         } catch (error) {
             console.error({ error });
         }
@@ -244,13 +245,12 @@ function renderMail(item, clone, index, extraJSON, container) {
     btn.setAttribute('aria-controls', `collapse_${index}`);
     const panel = clone.querySelector('.collapse');
     if (panel) panel.id = `collapse_${index}`;
-    clone.title = "    " + extraJSON.server.name + ": ✉️ " + formatDate(item.Created) + " :: " + item.Subject + to_from;
+    btn.dataset.bsOriginalTitle = formatDate(item.Created) + " :: " + item.Subject + " " + to_from;
     clone.querySelector('.nombre').textContent = item.Subject;
 }
 
 function renderCacheV2(item, clone, index, extraJSON, container) {
     container.querySelector('.title').dataset.bsOriginalTitle = extraJSON.server.name + " " + extraJSON.server.version + " ➤ " + "Cache List: ( " + extraJSON.counter + " Keys )";
-    clone.title = item[0] + ": " + item[1].length + " keys";
     clone.querySelector('.titleH2').dataset.bsOriginalTitle = item[0] + ": " + item[1].length + " keys";
     if (item[1].length >= 1) {
         template = clone.querySelector('#sub_clone');
@@ -258,8 +258,7 @@ function renderCacheV2(item, clone, index, extraJSON, container) {
         item[1].forEach((itemC, indexC) => {
             const subclone = template.cloneNode(true);
             subclone.style.display = '';
-            subclone.dataset.bsOriginalTitle = itemC;
-            subclone.title = itemC;
+            subclone.dataset.bsOriginalTitle = item[0] + ": " + itemC;
             subclone.id = `id_${indexC}_${index}`;
             subclone.textContent = itemC;
             sub_lists.appendChild(subclone);
@@ -349,5 +348,12 @@ function formatDate(fechaString) {
             month: '2-digit'
         });
         return `${dateFormated}`;
+    }
+}
+
+function refreshTooltips() {
+    const tooltipElements = document.querySelectorAll('[data-bs-toggle="tooltip"], .toggle_tooltip');
+    for (const tooltip of tooltipElements) {
+        new bootstrap.Tooltip(tooltip); // eslint-disable-line no-new
     }
 }

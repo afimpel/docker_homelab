@@ -253,10 +253,11 @@ include "./inc/head.php";
                     $dbuser = $row['User'];
                     $adminer_server2 = "server=".$database_server."&username=".$dbuser."&password=".$database_pass;
                     ?>
-                    <a target="_blank" translate="no" class="list-group-item list-group-item-action list-group-item-info py-2 d-flex" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server2; ?>&db=<?= $row["Database"]; ?>" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="<?= $dbs['server']['name'].": ⛁ ".$row["Database"]." ➤ $dbuser ➤ ".$row["Chars"]." ➤ ".$row["Collation"].($row["Comment"]!=""?" ➤ ".$row["Comment"]:'').""; ?>">
+                    <a target="_blank" translate="no" class="list-group-item list-group-item-action list-group-item-info py-2 d-flex" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server2; ?>&db=<?= $row["Database"]; ?>" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="<?= $dbs['server']['name'].": ⛁ ".$row["Database"]." ➤ $dbuser ➤ ".$row["Chars"]." ➤ ".$row["Collation"].($row["Comment"]!=""?" ➤ ".$row["Comment"]:'')." ➤ ".$row["TableCount"]." Tables"; ?>">
                         <i class="bi bi-database-fill me-2"></i>
                         <?= $row["Database"]; ?>
                         <span style="font-size: x-small;" class="small my-auto px-2 ms-auto badge bg-primary"><?php echo $dbuser;?></span>                    
+                        <span style="font-size: x-small;" class="small my-auto px-2 ms-1 badge bg-info"><?php echo $row["TableCount"];?></span>    
                     </a>
                 <?php }
                 ?>
@@ -298,7 +299,7 @@ include "./inc/head.php";
                             <span 
                                 translate="no"
                                 data-bs-toggle="tooltip"
-                                data-bs-placement="left"
+                                data-bs-placement="top"
                                 data-bs-original-title="-"
                                 data-title="-"
                                 style="display: none;"
@@ -321,7 +322,7 @@ include "./inc/head.php";
                 </h5>
                 <div id="mailsList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_clone" style="display: none;" class="accordion-item">
                     <h2 class="accordion-header" id="heading-<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>">
-                        <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>" aria-expanded="true" aria-controls="collapse-<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>">
+                        <button class="accordion-button collapsed py-2 toggle_tooltip" type="button" data-bs-placement="top" data-bs-toggle="collapse" data-bs-target="#collapse-<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>" aria-expanded="true" aria-controls="collapse-<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>">
                             <i class="bi me-4 mails_icon" style="margin-bottom: 0.125rem;margin-top: 0.125rem;"></i>
                             <span class="nombre me-auto">--</span>
                             <span style="font-size: x-small;" class="mails_fecha small my-auto px-2 border border-info rounded">12/02</span>

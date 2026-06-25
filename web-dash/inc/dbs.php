@@ -21,7 +21,8 @@ try {
     s.DEFAULT_CHARACTER_SET_NAME AS Chars,
     s.DEFAULT_COLLATION_NAME AS Collation,
     s.SCHEMA_COMMENT AS Comment,
-    GROUP_CONCAT(DISTINCT d.User SEPARATOR ', ') AS allUsers
+    GROUP_CONCAT(DISTINCT d.User SEPARATOR ', ') AS allUsers,
+    (SELECT COUNT(*) FROM information_schema.TABLES t WHERE t.TABLE_SCHEMA = s.SCHEMA_NAME AND t.TABLE_TYPE = 'BASE TABLE') AS TableCount
     FROM 
         information_schema.SCHEMATA s
         LEFT JOIN mysql.db d ON 
@@ -36,7 +37,7 @@ try {
         s.DEFAULT_COLLATION_NAME, 
         s.SCHEMA_COMMENT
     ORDER BY 
-        s.SCHEMA_NAME;";
+        TableCount DESC, s.SCHEMA_NAME;";
     
     $result = $mysqli->query($query);
 
