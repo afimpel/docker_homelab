@@ -250,7 +250,7 @@ include "./inc/head.php";
                         <button class="accordion-button collapsed py-2 toggle_tooltip" type="button" data-bs-placement="top" data-bs-toggle="collapse" data-bs-target="#collapse-<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>" aria-expanded="true" aria-controls="collapse-<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>">
                             <i class="bi bi-database me-4" style="margin-bottom: 0.125rem;margin-top: 0.125rem;"></i>
                             <span class="nombre me-auto">--</span>
-                            <span style="font-size: x-small;" class="counter small my-auto px-2 border border-info rounded">0</span>
+                            <span style="font-size: x-small;" class="counter small my-auto px-2 ms-auto badge bg-primary">0</span>
                         </button>
                     </h2>
                     <div id="collapse-<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>" class="accordion-collapse collapse" aria-labelledby="heading-<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>" data-bs-parent="#dbsList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_rows">
