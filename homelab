@@ -93,6 +93,7 @@ case "$subcommand" in
     clearLogs
     openCD $0 
     if [ -f "logs/startup.pid" ]; then
+      cache_cmd "FLUSHALL"
       ln
       docker_restart
       ln
