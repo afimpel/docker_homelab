@@ -93,9 +93,9 @@ async function obtenerUptimeUrl(url, idAttr) {
         try {
             datetimeID(idAttr, responseJSON);
             responseID(idAttr, responseJSON);
-            //renderRows('cacheList_' + idAttr, responseJSON.data.cache.rows, responseJSON.data.cache, renderCache);
             renderRows('mailsList_' + idAttr, responseJSON.data.mailer.rows, responseJSON.data.mailer, renderMail);
-            renderRowsV2('cacheListV2_' + idAttr, Object.entries(responseJSON.data.cache.keys), responseJSON.data.cache, renderCacheV2);
+            renderRows('dbsList_' + idAttr, responseJSON.data.database.database, responseJSON.data.database, renderDatabase);
+            renderRows('cacheListV2_' + idAttr, Object.entries(responseJSON.data.cache.keys), responseJSON.data.cache, renderCacheV2);
             refreshTooltips();
         } catch (error) {
             console.error({ error });
@@ -149,13 +149,32 @@ function dataUptimeUrl(url, id) {
     });
 }
 
-function renderCache(item, clone, index, extraJSON, container) {
-    container.querySelector('.title').dataset.bsOriginalTitle = extraJSON.server.name + " " + extraJSON.server.version + " ➤ " + "Cache List: ( " + extraJSON.counter + " Keys )";
-    clone.querySelector('.nombre').textContent = item;
-    clone.title = "    " + extraJSON.server.name + ": " + item;
+function renderDatabase(index, idAttr, item, clone, extraJSON, container) {
+    container.querySelector('.title').dataset.bsOriginalTitle = extraJSON.server.name + " " + extraJSON.server.version + " ➤ " + "Database List: ( " + extraJSON.counter + " dbs )";
+    const btn = clone.querySelector('button');
+    const dbserver = extraJSON.server.server;
+    const dbuser = item.User;
+    const dbpass = extraJSON.server.password;
+    let dbs = item.Database;
+    const dbs_linker = clone.querySelector('.dbs_linker');
+
+    btn.setAttribute('data-bs-target', `#collapse_${idAttr}_${index}`);
+    btn.setAttribute('aria-controls', `collapse_${idAttr}_${index}`);
+    const panel = clone.querySelector('.collapse');
+    if (panel) panel.id = `collapse_${idAttr}_${index}`;
+    dbs_linker.setAttribute("href", extraJSON.link + `?server=${dbserver}&username=${dbuser}&password=${dbpass}&db=${dbs}`);
+    btn.dataset.bsOriginalTitle = extraJSON.server.name + ": ⛁ " + dbs + " ➤ " + dbuser + " | " + item.Charset + " " + item.Collation + " | " + item.tableCount + " Tables | " + item.Comment;
+    clone.querySelector('.nombre').textContent = item.Database;
+    clone.querySelector('.User').textContent = item.User;
+    clone.querySelector('.Charset').textContent = item.Charset;
+    clone.querySelector('.Collation').textContent = item.Collation;
+    clone.querySelector('.allUsers').textContent = item.allUsers;
+    clone.querySelector('.Comment').textContent = item.Comment;
+    clone.querySelector('.counter').textContent = item.tableCount;
 }
 
-function renderMail(item, clone, index, extraJSON, container) {
+
+function renderMail(index, idAttr, item, clone, extraJSON, container) {
     container.querySelector('.title').dataset.bsOriginalTitle = extraJSON.server.name + " " + extraJSON.server.version + " ➤ " + "Mails List: ( " + extraJSON.unread + " Unread / " + extraJSON.counter + " Total )";
     const btn = clone.querySelector('button');
     const mails_icon = clone.querySelector('.mails_icon');
@@ -241,17 +260,26 @@ function renderMail(item, clone, index, extraJSON, container) {
         addrs.textContent = mails_tos.join(", ");
     }
 
-    btn.setAttribute('data-bs-target', `#collapse_${index}`);
-    btn.setAttribute('aria-controls', `collapse_${index}`);
+    btn.setAttribute('data-bs-target', `#collapse_${idAttr}_${index}`);
+    btn.setAttribute('aria-controls', `collapse_${idAttr}_${index}`);
     const panel = clone.querySelector('.collapse');
-    if (panel) panel.id = `collapse_${index}`;
+    if (panel) panel.id = `collapse_${idAttr}_${index}`;
     btn.dataset.bsOriginalTitle = formatDate(item.Created) + " :: " + item.Subject + " " + to_from;
     clone.querySelector('.nombre').textContent = item.Subject;
 }
 
-function renderCacheV2(item, clone, index, extraJSON, container) {
+function renderCacheV2(index, idAttr, item, clone, extraJSON, container) {
     container.querySelector('.title').dataset.bsOriginalTitle = extraJSON.server.name + " " + extraJSON.server.version + " ➤ " + "Cache List: ( " + extraJSON.counter + " Keys )";
     clone.querySelector('.titleH2').dataset.bsOriginalTitle = item[0] + ": " + item[1].length + " keys";
+    clone.querySelector('.titleH2').id = `heading-${idAttr}_${index}`;
+    clone.querySelector('.collapse').id = `collapse-${idAttr}_${index}`;
+    clone.querySelector('.collapse').setAttribute('aria-labelledby', `heading-${idAttr}_${index}`);
+    button = clone.querySelector('button');
+    button.setAttribute('data-bs-target', `#collapse-${idAttr}_${index}`);
+    button.setAttribute('aria-controls', `collapse-${idAttr}_${index}`);
+    clone.querySelector('#sub_title').textContent = item[0];
+    clone.querySelector('#sub_counter').textContent = item[1].length;
+
     if (item[1].length >= 1) {
         template = clone.querySelector('#sub_clone');
         sub_lists = clone.querySelector('#sub_lists');
@@ -264,39 +292,6 @@ function renderCacheV2(item, clone, index, extraJSON, container) {
             sub_lists.appendChild(subclone);
         });
     }
-}
-
-
-function renderRowsV2(idAttr, responseJSON, extraJSON, func) {
-    const containerDiv = document.getElementById(idAttr + '_div');
-    if (responseJSON.length == 0) {
-        containerDiv.style.display = "none";
-    } else {
-        containerDiv.style.display = "";
-        const container = document.getElementById(idAttr + '_accordion');
-        const template = document.getElementById(idAttr + '_clone');
-        const counter = document.getElementById(idAttr + '_counter');
-        counter.textContent = extraJSON.rows.length;
-        container.querySelectorAll(`.${idAttr}-item`).forEach(el => el.remove());
-
-        responseJSON.forEach((item, index) => {
-            const clone = template.cloneNode(true);
-            clone.querySelector('.titleH2').id = `heading-${idAttr}_${index}`;
-            clone.querySelector('.collapse').id = `collapse-${idAttr}_${index}`;
-            clone.querySelector('.collapse').setAttribute('aria-labelledby', `heading-${idAttr}_${index}`);
-            button = clone.querySelector('button');
-            button.setAttribute('data-bs-target', `#collapse-${idAttr}_${index}`);
-            button.setAttribute('aria-controls', `collapse-${idAttr}_${index}`);
-            clone.querySelector('#sub_title').textContent = item[0];
-            clone.querySelector('#sub_counter').textContent = item[1].length;
-            clone.id = `${idAttr}_clone_${index}`;
-            clone.classList.add(`${idAttr}-item`);
-            clone.style.display = '';
-            func(item, clone, index, extraJSON, containerDiv);
-            container.appendChild(clone);
-        });
-    }
-
 }
 
 function renderRows(idAttr, responseJSON, extraJSON, func) {
@@ -316,7 +311,7 @@ function renderRows(idAttr, responseJSON, extraJSON, func) {
             clone.id = `${idAttr}_clone_${index}`;
             clone.classList.add(`${idAttr}-item`);
             clone.style.display = '';
-            func(item, clone, index, extraJSON, containerDiv);
+            func(index, idAttr, item, clone, extraJSON, containerDiv);
             container.appendChild(clone);
         });
     }

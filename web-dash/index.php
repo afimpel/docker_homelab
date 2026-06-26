@@ -242,41 +242,57 @@ include "./inc/head.php";
             <?php
                 if(is_null($dbs['error'])){
             ?>
-            <div class="mb-4 col">
-                <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="<?php echo $dbs['server']['name']." ".$dbs['server']['version'] ?> ➤  Database List ( <?php echo count($dbs['database']);?> dbs )">
-                    <i class="<?= $dbs['server']['icon']; ?> me-2 text-primary"></i> Database List
-                    <b class="px-3 border border-info rounded ms-auto"><?php echo count($dbs['database']);?></b>
+            <div class="mb-4 col" id="dbsList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_div" style="display: none;">
+                <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title=" ">
+                    <i class="<?= $dbs['server']['icon']; ?> me-2 text-info"></i> Database List
+                    <b class="px-3 border border-info rounded ms-auto" id="dbsList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_counter">0</b>
                 </h5>
-                <div class="list-group shadow">
-                <?php
-                foreach ($dbs['database'] as $row) { 
-                    $dbuser = $row['User'];
-                    $adminer_server2 = "server=".$database_server."&username=".$dbuser."&password=".$database_pass;
-                    ?>
-                    <a target="_blank" translate="no" class="list-group-item list-group-item-action list-group-item-info py-2 d-flex" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server2; ?>&db=<?= $row["Database"]; ?>" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="<?= $dbs['server']['name'].": ⛁ ".$row["Database"]." ➤ $dbuser ➤ ".$row["Chars"]." ➤ ".$row["Collation"].($row["Comment"]!=""?" ➤ ".$row["Comment"]:'')." ➤ ".$row["TableCount"]." Tables"; ?>">
-                        <i class="bi bi-database-fill me-2"></i>
-                        <?= $row["Database"]; ?>
-                        <span style="font-size: x-small;" class="small my-auto px-2 ms-auto badge bg-primary"><?php echo $dbuser;?></span>                    
-                        <span style="font-size: x-small;" class="small my-auto px-2 ms-1 badge bg-info"><?php echo $row["TableCount"];?></span>    
-                    </a>
-                <?php }
-                ?>
+                <div id="dbsList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_clone" style="display: none;" class="accordion-item">
+                    <h2 class="accordion-header" id="heading-<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>">
+                        <button class="accordion-button collapsed py-2 toggle_tooltip" type="button" data-bs-placement="top" data-bs-toggle="collapse" data-bs-target="#collapse-<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>" aria-expanded="true" aria-controls="collapse-<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>">
+                            <i class="bi bi-database me-4" style="margin-bottom: 0.125rem;margin-top: 0.125rem;"></i>
+                            <span class="nombre me-auto">--</span>
+                            <span style="font-size: x-small;" class="counter small my-auto px-2 border border-info rounded">0</span>
+                        </button>
+                    </h2>
+                    <div id="collapse-<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>" class="accordion-collapse collapse" aria-labelledby="heading-<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>" data-bs-parent="#dbsList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_rows">
+                        <div class="accordion-body row p-1 m-0">
+                            <a class="col-2 d-flex p-0 m-0 btn btn-outline-info dbs_linker" href="/" target="_blank">
+                                <i class="bi bi-database-gear m-auto" style="font-size: xxx-large;"></i>
+                            </a>
+                            <div class="col p-0 m-0 ms-1 row">
+                                <table class="table my-1 table-hover" style="font-size: xx-small;">
+                                    <tbody>
+                                        <tr>
+                                            <td class="p-0 col-3"><i class="bi bi-people-fill mx-3"></i>All Users:</td>
+                                            <td class="p-0 allUsers">@fat</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-0 col-3"><i class="bi bi-person-check mx-3"></i>User:</td>
+                                            <td class="p-0 User">@fat</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-0 col-3"><i class="bi bi-paragraph mx-3"></i>Charset:</td>
+                                            <td class="p-0 Charset">@fat</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-0 col-3"><i class="bi bi-paragraph mx-3"></i>Collation:</td>
+                                            <td class="p-0 Collation">@fat</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="p-0 Comment text-center" colspan="2">Thornton</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion shadow" id="dbsList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_rows">
                 </div>
             </div>
             <?php }
             ?>
-            <div class="mb-4 col" id="cacheList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_div"  style="display: none;">
-                <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title=" ">
-                    <i class="<?= $cache['server']['icon']; ?> me-2 text-warning"></i> Cache List
-                    <b class="px-3 border border-info rounded ms-auto" id="cacheList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_counter">0</b>
-                </h5>
-                <span style="display: none;" class="list-group-item list-group-item-action list-group-item-info py-2" id="cacheList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_clone">
-                    <i class="bi bi-memory me-2"></i>
-                    <span class="nombre">--</span>
-                </span>
-                <div class="list-group shadow" id="cacheList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_rows">
-                </div>
-            </div>
             <div class="mb-4 col" id="cacheListV2_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_div"  style="display: none;">
                 <h5 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title=" ">
                     <i class="<?= $cache['server']['icon']; ?> me-2 text-warning"></i> Cache List
@@ -288,13 +304,13 @@ include "./inc/head.php";
                         <button class="accordion-button collapsed py-2" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapse-doesntworks_000" aria-expanded="false"
                             aria-controls="collapse-doesntworks_000">
-                            <i class="bi bi-diagram-3-fill me-4" style="margin-bottom: 0.125rem;margin-top: 0.125rem;"></i>
+                            <i class="bi bi-hash me-4" style="margin-bottom: 0.125rem;margin-top: 0.125rem;"></i>
                             <span class="me-auto" id="sub_title">-</span>
                             <span style="font-size: x-small;" class="small my-auto px-2 ms-auto badge bg-primary" id="sub_counter">2</span>
                         </button>
                     </h2>
                     <div id="collapse-doesntworks_000" class="accordion-collapse collapse"
-                        aria-labelledby="heading-doesntworks_000" data-bs-parent="#cacheListV2_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_accordion">
+                        aria-labelledby="heading-doesntworks_000" data-bs-parent="#cacheListV2_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_rows">
                         <div class="accordion-body p-2">
                             <span 
                                 translate="no"
@@ -312,7 +328,7 @@ include "./inc/head.php";
                         </div>
                     </div>
                 </div>
-                <div class="accordion" id="cacheListV2_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_accordion">
+                <div class="accordion" id="cacheListV2_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_rows">
                 </div>
             </div>
             <div class="mb-4 col" id="mailsList_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_div">

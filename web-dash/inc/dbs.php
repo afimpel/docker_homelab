@@ -1,5 +1,5 @@
 <?php
-$dbs = ['error' => null, 'database' => [], 'uptime' => null, 'counter' => null, 'server'=> ['version' => null, 'name' => 'MariaDB', 'icon' => 'icon-mariadb', 'icon-alt' => 'icon-mysql-alt' ] ];
+$dbs = ['error' => null, 'link' => null, 'database' => [], 'uptime' => null, 'counter' => null, 'server'=> [ 'server' => 'homelab-database', 'user' => getenv('DATABASE_USER'), 'password' => getenv('DATABASE_PASSWORD'), 'version' => null, 'name' => 'MariaDB', 'icon' => 'icon-mariadb', 'icon-alt' => 'icon-mysql-alt' ] ];
 try {
     $mysqli = new mysqli("homelab-database", getenv('DATABASE_USER'), getenv('DATABASE_PASSWORD'), NULL, getenv('DATABASE_PORT'));
 
@@ -9,6 +9,7 @@ try {
     }
 
     $dbs['server']['version'] = $mysqli->server_info;
+    $dbs['link'] = "//adminer.".strtolower(getenv('COMPOSE_PROJECT_NAME')).".local/";
 
     $query = "SELECT 
     IFNULL(GROUP_CONCAT(DISTINCT 
@@ -18,11 +19,11 @@ try {
             ELSE NULL 
         END SEPARATOR ', '),'".getenv('DATABASE_USER')."') AS User,
     s.SCHEMA_NAME AS `Database`,
-    s.DEFAULT_CHARACTER_SET_NAME AS Chars,
+    s.DEFAULT_CHARACTER_SET_NAME AS Charset,
     s.DEFAULT_COLLATION_NAME AS Collation,
     s.SCHEMA_COMMENT AS Comment,
     GROUP_CONCAT(DISTINCT d.User SEPARATOR ', ') AS allUsers,
-    (SELECT COUNT(*) FROM information_schema.TABLES t WHERE t.TABLE_SCHEMA = s.SCHEMA_NAME AND t.TABLE_TYPE = 'BASE TABLE') AS TableCount
+    (SELECT COUNT(*) FROM information_schema.TABLES t WHERE t.TABLE_SCHEMA = s.SCHEMA_NAME AND t.TABLE_TYPE = 'BASE TABLE') AS tableCount
     FROM 
         information_schema.SCHEMATA s
         LEFT JOIN mysql.db d ON 
@@ -37,7 +38,7 @@ try {
         s.DEFAULT_COLLATION_NAME, 
         s.SCHEMA_COMMENT
     ORDER BY 
-        TableCount DESC, s.SCHEMA_NAME;";
+        tableCount DESC, s.SCHEMA_NAME;";
     
     $result = $mysqli->query($query);
 
