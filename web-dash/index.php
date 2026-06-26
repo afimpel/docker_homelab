@@ -191,15 +191,15 @@ include "./inc/head.php";
         </div>
         <div class="row my-4 mx-1">
             <?php
-            if ($sitesDomain[2] > 0){?>
+            if ($sitesDomain['total'] > 0){?>
             <div class="col-12 col-xl">
-                <h5 class="title is-2 has-text-centered border-bottom border-info d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Domain Sites List ( <?php echo $sitesDomain[2];?> Sites )">
+                <h5 class="title is-2 has-text-centered border-bottom border-info d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Domain Sites List ( <?php echo $sitesDomain['total'];?> Sites )">
                     <i class="text-success icon-nginx me-2"></i> Domain Sites List (<em> .local </em>)
-                    <b class="px-3 border border-info rounded ms-auto"><?php echo $sitesDomain[2];?></b>
+                    <b class="px-3 border border-info rounded ms-auto"><?php echo $sitesDomain['total'];?></b>
                 </h5>
                 <div class="accordion" id="accordionDomain">
                 <?php
-                foreach ($sitesDomain[3] as $domain => $sites) {?>
+                foreach ($sitesDomain['rows'][2] as $domain => $sites) {?>
                     <div class="accordion-item">
                         
                         <h2 class="accordion-header toggle_tooltip" data-bs-original-title="<?= $domain.' ( '.count($sites).' Sites )'; ?>" id="heading-<?= str_replace([".","-"], "", $domain); ?>">
@@ -222,17 +222,15 @@ include "./inc/head.php";
                 </div>
             </div>
             <?php }
-            if ($sitesSubdomain[2] > 0){?>
+            if ($sitesSubdomain['total'] > 0){?>
             <div class="col-12 col-xl">
-                <h5 class="title is-2 has-text-centered border-bottom border-info d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Subdomain Sites List ( <?php echo $sitesSubdomain[2];?> Sites )">
+                <h5 class="title is-2 has-text-centered border-bottom border-info d-flex py-1 mb-3" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="Subdomain Sites List ( <?php echo $sitesSubdomain['total'];?> Sites )">
                     <i class="text-success icon-nginx me-2"></i> Subdomain Sites List (<em> .<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local </em>)
-                    <b class="px-3 border border-info rounded ms-auto"><?php echo $sitesSubdomain[2];?></b>
+                    <b class="px-3 border border-info rounded ms-auto"><?php echo $sitesSubdomain['total'];?></b>
                 </h5>
                 <div class="list-group shadow">
                 <?php
-                foreach ($sitesSubdomain[3] as $domain => $sites) {?>
-                    <?php echo implode("\n",$sites);?>
-                    <?php }
+                    echo implode("\n",$sitesSubdomain['rows'][1]);
                 ?>
                 </div>
             </div>

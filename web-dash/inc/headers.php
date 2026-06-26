@@ -7,9 +7,11 @@ include "./inc/mailer.php";
 $funtionsITEMS=[
     ['','',"name='ITEMNODESITEID_tooltip' data-bs-toggle='tooltip' data-bs-placement='right' data-bs-original-title='🌐 ITEMNODESITETITLE ➤ ITEMNODESITETYPE ➤ ITEMNODESITEURLSHORT' data-title='ITEMNODESITETITLE ➤ ITEMNODESITETYPE'"],
     ['<script>listSitesURL(\'ITEMNODESITEID\',\'ITEMNODESITEURL\');</script>','<small style=\'font-size: xx-small;\' class=\'badge text-light bg-primary rounded ms-auto my-auto\' name=\'ITEMNODESITEID\'>-</small>',"name='ITEMNODESITEID_tooltip' data-bs-toggle='tooltip' data-bs-placement='left' data-bs-original-title='🌐 ITEMNODESITETITLE ➤ ITEMNODESITETYPE ➤ ITEMNODESITEURLSHORT' data-title='ITEMNODESITETITLE ➤ ITEMNODESITETYPE'"],
-    ['<script>listSitesURL(\'ITEMNODESITEID\',\'ITEMNODESITEURL\');</script>','<small style=\'font-size: xx-small;\' class=\'badge text-light bg-primary rounded ms-auto my-auto\' name=\'ITEMNODESITEID\'>-</small>',"name='ITEMNODESITEID_tooltip' data-bs-toggle='tooltip' data-bs-placement='left' data-bs-original-title='🌐 ITEMNODESITETITLE ➤ ITEMNODESITETYPE ➤ ITEMNODESITEURLSHORT' data-title='ITEMNODESITETITLE ➤ ITEMNODESITETYPE'"]
+    ['<script>listSitesURL(\'ITEMNODESITEID\',\'ITEMNODESITEURL\');</script>','<small style=\'font-size: xx-small;\' class=\'badge text-light bg-primary rounded ms-auto my-auto\' name=\'ITEMNODESITEID\'>-</small>',"name='ITEMNODESITEID_tooltip' data-bs-toggle='tooltip' data-bs-placement='left' data-bs-original-title='🌐 ITEMNODESITETITLE ➤ ITEMNODESITETYPE ➤ ITEMNODESITEURLSHORT' data-title='ITEMNODESITETITLE ➤ ITEMNODESITETYPE'"],
+    ['','',"name='ITEMNODESITEID_tooltip' data-bs-toggle='tooltip' data-bs-placement='right' data-bs-original-title='🌐 ITEMNODESITETITLE ➤ ITEMNODESITETYPE ➤ ITEMNODESITEURLSHORT' data-title='ITEMNODESITETITLE ➤ ITEMNODESITETYPE'"]
 ];
 $replaceITEMS=[
+    ['ITEMNODESITEID','ITEMNODESITEURL','ITEMNODESITETYPE','ITEMNODESITETITLE','ITEMNODESITEURLSHORT'],
     ['ITEMNODESITEID','ITEMNODESITEURL','ITEMNODESITETYPE','ITEMNODESITETITLE','ITEMNODESITEURLSHORT'],
     ['ITEMNODESITEID','ITEMNODESITEURL','ITEMNODESITETYPE','ITEMNODESITETITLE','ITEMNODESITEURLSHORT'],
     ['ITEMNODESITEID','ITEMNODESITEURL','ITEMNODESITETYPE','ITEMNODESITETITLE','ITEMNODESITEURLSHORT']
@@ -17,15 +19,18 @@ $replaceITEMS=[
 $classITEMS=[
     "dropdown-item",
     "list-group-item list-group-item-action list-group-item-secondary py-1 d-flex", 
-    "list-group-item list-group-item-action list-group-item-secondary py-1 d-flex"
+    "list-group-item list-group-item-action list-group-item-secondary py-1 d-flex",
+    "dropdown-item"
 ];
 $typeITEMS=[
     "navbar",
     "gral",
+    'group',
     'group'
 ];
 $sitesDomain = listSitesJSON("domains", $typeITEMS, $classITEMS, $funtionsITEMS, $replaceITEMS);
 $sitesSubdomain = listSitesJSON("subdomains", $typeITEMS, $classITEMS, $funtionsITEMS, $replaceITEMS);
+
 $objVersion = json_decode(file_get_contents('version.json'));
 ?>
 <!DOCTYPE html>

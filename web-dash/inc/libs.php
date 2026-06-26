@@ -50,12 +50,8 @@ function listSites($files, $directory, $classA, $domain = "", $prefix=""){
 }
 
 function listSitesJSON($typeJSON, $typeITEMS, $classA, $function, $strReplace){ 
-    $sites=[];
-    $sitesLinks = array();
-    $grupedSites = [];
-    $grupedSites0 = [];
     $listSitesOBJ = json_decode(file_get_contents($typeJSON.'.json'));
-    $output = ["","",count($listSitesOBJ->items)];
+    $outputV2=[];
     usort($listSitesOBJ->items, function($a, $b) {
         return strcmp($a->title, $b->title);
     });
@@ -89,33 +85,18 @@ function listSitesJSON($typeJSON, $typeITEMS, $classA, $function, $strReplace){
             $urlHostParts=explode('.',$urlHost);
             $urlDomain=implode('.', array_slice($urlHostParts, -2));
             
-            if ( $typeITEM == "group" ) {              
-                $grupedSites[$urlDomain][]="<a translate='no' $attrExtras target='_blank' class='$class' href='$site->url' style='min-width: 15vw;'><i class='icon-$type me-2'></i>$onloadFunction $site->title ➤ $typeStr $onloadReplace</a>";
+            $url = "<a translate='no' $attrExtras target='_blank' class='$class' href='$site->url' style='min-width: 15vw;'><i class='icon-$type me-2'></i>$onloadFunction $site->title ➤ $typeStr $onloadReplace</a>";
+            if ( $typeITEM == "group" ) {
+                $outputV2[$key][$urlDomain][]=$url;
+                uasort($outputV2[$key], function($a, $b) {
+                    return count($b) - count($a);
+                });
             } else {
-                #errorLogger([$strReplace[$key], $site_ID, $function[$key], [$onloadFunction, $onloadReplace, $attrExtras]]);
-                #$sitesLinks[$key][]="<a translate='no' $attrExtras target='_blank' class='$class' href='$site->url' style='min-width: 15vw;'><i class='icon-$type me-2'></i>$onloadFunction $site->title ➤ $typeStr $onloadReplace</a>";
-                $grupedSites0[$urlDomain][$key][]="<a translate='no' $attrExtras target='_blank' class='$class' href='$site->url' style='min-width: 15vw;'><i class='icon-$type me-2'></i>$onloadFunction $site->title ➤ $typeStr $onloadReplace</a>";
+                $outputV2[$key][]=$url;
             }
         }
     }
-
-    uasort($grupedSites, function($a, $b) {
-        return count($b) - count($a);
-    });
-
-    uasort($grupedSites0, function($a, $b) {
-        return count($b[0]) - count($a[0]);
-    });
-    foreach ($grupedSites0 as $keySite => $listSite) {
-        foreach ($listSite as $key => $class) {
-            $sitesLinks[$key][] = implode("\n",$class);
-        }
-    }
-    foreach ($sitesLinks as $key => $class) {
-        $output[$key] = implode("\n",$class);
-    }
-    $output[]=$grupedSites;
-    return $output;
+    return ['rows'=>$outputV2, 'total' => count($listSitesOBJ->items), 'styles' => count($typeITEMS)];
 }
 
 function saveJsonFile(string $path, array $data): void

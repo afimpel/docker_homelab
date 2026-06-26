@@ -19,21 +19,30 @@ include "./inc/headers.php";
                     <li class="nav-item">
                         <a data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-original-title="🌐 adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local ➤ Adminer" class="nav-link" target="_blank" href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>"><i class="me-2 text-primary icon-database"></i> Adminer</a>
                     </li>
-                    <?php if ($sitesDomain[2] > 1){?>          
+                    
+                    <?php if ($sitesDomain['total'] > 1){?>          
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="true" role="button" aria-haspopup="true" aria-expanded="false" href="#" id="domains"><i class="me-2 text-success icon-nginx"></i> Domain (<?php echo $sitesDomain[2];?>)</a>
-                        <div class="dropdown-menu shadow" aria-labelledby="domains">
-                            <?php
-                            echo $sitesDomain[0]; ?>
-                        </div>
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-haspopup="true" aria-expanded="false" href="#" id="domains"><i class="me-2 text-success icon-nginx"></i> Domain (<?php echo $sitesDomain['total'];?>)</a>
+                        <ul class="dropdown-menu shadow">
+                            <?php foreach($sitesDomain['rows'][3] as $sites => $linksites){?>
+                            <li class="dropend">
+                                <a href="#" class="dropdown-item dropdown-toggle" data-bs-toggle="dropdown" data-bs-auto-close="outside"><i class="me-2 text-success icon-nginx"></i><?php echo $sites; ?> (<?php echo count($linksites);?>)</a>
+                                <ul class="dropdown-menu shadow">
+                                    <li>
+                                    <?php echo implode("</li>\n<li>",$linksites); ?>
+                                    </li>
+                                </ul>
+                            </li>
+                            <?php } ?>
+                        </ul>
                     </li>
                     <?php }
-                    if ($sitesSubdomain[2] > 1){?>
+                    if ($sitesSubdomain['total'] > 1){?>
                      <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown"  data-bs-auto-close="true" role="button" aria-haspopup="true" aria-expanded="false" href="#" id="subdomains"><i class="me-2 text-success icon-nginx"></i> Subdomain (<?php echo $sitesSubdomain[2];?>)</a>
+                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown"  data-bs-auto-close="true" role="button" aria-haspopup="true" aria-expanded="false" href="#" id="subdomains"><i class="me-2 text-success icon-nginx"></i> Subdomain (<?php echo $sitesSubdomain['total'];?>)</a>
                         <div class="dropdown-menu shadow" aria-labelledby="subdomains">
                             <?php
-                            echo $sitesSubdomain[0]; ?>
+                            echo implode("\n",$sitesSubdomain['rows'][0]); ?>
                         </div>
                     </li>
                     <?php } ?>
