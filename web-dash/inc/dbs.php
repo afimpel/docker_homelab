@@ -45,6 +45,7 @@ try {
     if ($result) {
         $dbs['database'] = $result->fetch_all(MYSQLI_ASSOC);
         $dbs['counter'] = count($dbs['database']);
+        $dbs['counterData'] = count($dbs['database']);
         $result->close();
     } else {
         $dbs['error'] = $mysqli->error;

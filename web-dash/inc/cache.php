@@ -37,7 +37,7 @@ try {
         }
         $cache['keys'] = $allKeys;
     } 
-   
+    $cache['counterData'] = $cache['dbSize'];
     $redis->close();
 
 } catch (RedisException $e) {

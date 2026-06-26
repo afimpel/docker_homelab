@@ -6,6 +6,7 @@ try {
     $messagesOBJ = getData('messages');
     $mailer['link'] = "//mailer.".strtolower(getenv('COMPOSE_PROJECT_NAME')).".local/";
     $mailer['unread'] = $obj->Unread;
+    $mailer['counterData'] = $obj->Unread;
     $mailer['counter'] = $obj->Messages;
     $mailer['rows'] = $messagesOBJ->messages;
     $mailer['uptime'] = segToHuman($obj->RuntimeStats->Uptime);
