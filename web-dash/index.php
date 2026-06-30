@@ -189,7 +189,7 @@ include "./inc/head.php";
                 </div>
             </div>
         </div>
-        <div class="row my-4 mx-1">
+        <div class="row m-1">
             <?php
             if ($sitesDomain['total'] > 0){?>
             <div class="col-12 col-xl">
@@ -236,7 +236,7 @@ include "./inc/head.php";
             </div>
             <?php }?>
         </div>
-        <div class="row my-4 mx-1">
+        <div class="row m-1">
             <?php
                 if(is_null($dbs['error'])){
             ?>
