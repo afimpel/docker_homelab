@@ -15,8 +15,8 @@ include "./inc/head.php";
     </div>
     <?php } ?>
 
-    <div class="container-fluid py-2" id="active_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">
-        <div class="row m-1">
+    <div class="container-fluid py-1" id="active_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">
+        <div class="row mx-1 mt-1 mb-4">
             <div class="col-12 mb-3">
                 <h3 class="title is-3 has-text-centered border-bottom border-primary d-flex py-1 px-3 shadow">
                     <i class="icon-docker me-2 text-primary"></i> Environment
@@ -189,7 +189,7 @@ include "./inc/head.php";
                 </div>
             </div>
         </div>
-        <div class="row m-1">
+        <div class="row mx-1 mt-1 mb-4">
             <?php
             if ($sitesDomain['total'] > 0){?>
             <div class="col-12 col-xl">
@@ -236,7 +236,7 @@ include "./inc/head.php";
             </div>
             <?php }?>
         </div>
-        <div class="row m-1">
+        <div class="row mx-1 my-1">
             <?php
                 if(is_null($dbs['error'])){
             ?>
@@ -384,7 +384,7 @@ include "./inc/head.php";
             </div>
         </div>
     </div>
-    <div class="container-fluid py-2" id="active2_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">
+    <div class="container-fluid py-1" id="active2_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local">
         <div class="container border border-primary rounded p-2 my-1 shadow">
             <h3 class="text-center py-1 border bg-dark text-light rounded"><i class="icon-shell me-4"></i> access to php composer:</h3>
             <ol>
