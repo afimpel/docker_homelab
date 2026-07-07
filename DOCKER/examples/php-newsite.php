@@ -34,15 +34,17 @@ echo "<h1> Site information </h1>\n\n<h2> Connection details </h2>\n\n \n<table>
 echo "<tr>\n\t\t<td class='e'>SERVER NAME</td>\n\t\t<td class='v'>".php_uname('n')." / ".($_SERVER['HTTP_X_FORWARDED_FOR'] ?? "-")." / ".$_SERVER['HTTP_HOST']." ( ⛁ homelab )"."</td>\n\t</tr>\n";
 echo "<tr>\n\t\t<td class='e'>REMOTE NAME</td>\n\t\t<td class='v'>".gethostbyaddr($_SERVER['REMOTE_ADDR'])." / ".$_SERVER['REMOTE_ADDR']."</td>\n\t</tr>\n";
 echo "</table>\n";
-echo "<h2> List of files </h2>\n<table>\n\t<tr class='h'>\n\t\t<th>File</th>\n\t\t<th>Size</th>\n\t\t<th>Type</th>\n\t</tr>";
+echo "<h2> List of files </h2>\n<table>\n\t<tr class='h'>\n\t\t<th>File</th>\n\t\t<th>Size</th>\n\t\t<th>Type</th>\n\t\t<th>Date</th>\n\t</tr>";
 foreach (scandir("./") as $ext ) {
-	if ($ext != "." && $ext != ".."){
+	if ($ext != "." && $ext != ".." && $ext != "php-newsite.php" && $ext != "index.php" && $ext != "README.md") {
 		echo "\n\t<tr>\n\t\t<td class='e'><a href='$ext' target='_blank'>".$ext."</a></td>";
 		echo "\n\t\t<td class='v'>";
 		echo human_filesize(filesize($ext));
 		echo "</td>";
 		echo "\n\t\t<td class='v'>";
 		echo mime_content_type($ext);
+		echo "</td>\n\t\t<td class='v'>";
+		echo date("Y-m-d H:i:s", filemtime($ext));
 		echo "</td>\n\t</tr>";
 	}
 }
