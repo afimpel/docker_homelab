@@ -170,6 +170,7 @@ clearLogs () {
         \( -type f -name "*.log" \) -o \
         \( -type f -name "*.out" \) -o \
         \( -type f -name "debug*.xml" \) -o \
+        \( -type f -name "debug*.txt" \) -o \
         \( -type f -name "debug*.json" \) -o \
         \( -type f -name "ci_sessio*" \) -o \
         \( -path "*/storage/logs/*" -type d \) -o \
