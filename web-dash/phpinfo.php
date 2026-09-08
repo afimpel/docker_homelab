@@ -1,5 +1,6 @@
 <?php 
 #include "./libs.php";
+date_default_timezone_set($_SERVER["TZ"]);
 $diassemana = array("Domingo","Lunes","Martes","Miercoles","Jueves","Viernes","Sábado");
 $meses = array("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
 ob_start();
@@ -20,7 +21,7 @@ errorLogger(
 	], 
 	true
 );
-
+$out2 = str_replace("<title>phpinfo", "<title>PHP ".phpversion()." - phpinfo", $out2);
 $out2 = str_replace(".e {", ".e { text-align: right; vertical-align: middle; ", $out2);
 $out2 = str_replace(".v {", ".v { white-space: pre-line; ", $out2);
 $out2 = str_replace("150%", "220%", $out2);

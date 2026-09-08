@@ -9,8 +9,9 @@ Los servicios que levanta son los siguientes:
 - Adminer (gui para MariaDB)
 - Redis Insight (gui para Redis/Valkey)
 - Nginx
-- PHP8 (con composer)
+- PHP5 (con composer)
 - PHP7 (con composer)
+- PHP8 (con composer)
 - SMTP Server / Mailpit (gui y api para Mails)
 - GoAccess (web log analyzer)
 

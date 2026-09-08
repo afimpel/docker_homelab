@@ -27,6 +27,13 @@ generate-override()
 
 cat << EOF > DOCKER/docker-compose.override.yml
 services:
+  homelab-php5:
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+EOF
+sort DOCKER/dockerDATA.yml | uniq >> DOCKER/docker-compose.override.yml
+
+cat << EOF >> DOCKER/docker-compose.override.yml
   homelab-php7:
     extra_hosts:
       - "host.docker.internal:host-gateway"

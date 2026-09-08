@@ -69,7 +69,7 @@ status()
 show_general_help() 
 {
    if [ ! -f "$JSON_FILE_Version" ]; then
-      echo -e "{ \"startup\":\"$(date)\",\"username\":\"$(whoami)\",\"checkfile\":[],\"version\":{\"php8\":\"8.0\", \"composer8\":\"2.0\", \"php7\":\"7.0\", \"composer7\":\"2.0\", \"dockerCompose\":\"$(docker compose version)\", \"docker\":\"$(docker -v)\"} }" | jq . > $JSON_FILE_Version
+      echo -e "{ \"startup\":\"$(date)\",\"username\":\"$(whoami)\",\"checkfile\":[],\"version\":{\"php8\":\"8.0\", \"composer8\":\"2.0\", \"php7\":\"7.0\", \"composer7\":\"2.0\", \"php5\":\"5.0\", \"composer5\":\"2.0\", \"dockerCompose\":\"$(docker compose version)\", \"docker\":\"$(docker -v)\"} }" | jq . > $JSON_FILE_Version
    fi
    local filter_tag="${1}"
    local tag_data="$2"
@@ -79,6 +79,8 @@ show_general_help()
    local composerVersion8=$(jq -r '.version.composer8' "$JSON_FILE_Version")
    local versionPHP7=$(jq -r '.version.php7' "$JSON_FILE_Version")
    local composerVersion7=$(jq -r '.version.composer7' "$JSON_FILE_Version")
+   local versionPHP5=$(jq -r '.version.php5' "$JSON_FILE_Version")
+   local composerVersion5=$(jq -r '.version.composer5' "$JSON_FILE_Version")
    local docker_version=$(jq -r '.version.docker' "$JSON_FILE_Version")
    local docker_compose_version=$(jq -r '.version.dockerCompose' "$JSON_FILE_Version")
 
@@ -106,6 +108,8 @@ show_general_help()
         cmd_block="${cmd_block//versionPHP8/$versionPHP8}"
         cmd_block="${cmd_block//composerVersion7/$composerVersion7}"
         cmd_block="${cmd_block//versionPHP7/$versionPHP7}"
+        cmd_block="${cmd_block//composerVersion5/$composerVersion5}"
+        cmd_block="${cmd_block//versionPHP5/$versionPHP5}"
 
         local title=$(echo "$cmd_block" | jq -r '.title')
         local description=$(echo "$cmd_block" | jq -r '.description')

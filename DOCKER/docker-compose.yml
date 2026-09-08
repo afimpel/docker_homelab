@@ -122,6 +122,7 @@ services:
     hostname: webserver-${COMPOSE_PROJECT_NAME}
     depends_on:
       - homelab-database
+      - homelab-php5
       - homelab-php7
       - homelab-php8
       - homelab-adminer
@@ -132,6 +133,7 @@ services:
     networks:
       homelab-network:
         aliases:
+          - homelab-php5
           - homelab-php7
           - homelab-php8
           - homelab-adminer
@@ -142,11 +144,65 @@ services:
   ############################
   # Applications
   ############################
+  homelab-php5:
+    build:
+      context: ./images/php/
+      dockerfile: Dockerfile-php5
+      args:
+        user: ${USERNAME}
+        uid: ${USER_UID}
+        port: 9005
+        phpVersion: ${phpVersion5}
+        COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME}
+    environment:
+      TIMEUOT_DASHBOARD: ${TIMEUOT_DASHBOARD:-15000}
+      TZ: ${TIMEZONE}
+      DATABASE_ROOT_PASSWORD: ${DATABASE_ROOT_PASSWORD}
+      DATABASE_DATABASE: ${DATABASE_DATABASE}
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME}
+      REDIS_PORT: ${REDIS_PORT}
+      SMTP_PORT: ${SMTP_PORT}
+    container_name: homelab-php5
+    image: ${COMPOSE_PROJECT_NAME}:php-${phpVersion5}-${imageMonth}
+    working_dir: /var/www
+    tty: true
+    hostname: php5-${COMPOSE_PROJECT_NAME}
+    volumes:
+      - ../logs/php5:/var/log/php:rw
+      - ../logs/sites-logs:/var/log/sites-logs:rw
+      - ../www:/var/www:rw
+      - ../web-dash:/var/www-dash:rw
+      - ../logs/supervisor:/var/log/supervisor:rw
+      - ../config/supervisor/php5:/etc/supervisor/conf.d:rw
+      - ../config/composer/php5/root:/root/.config/composer:rw
+      - ../config/composer/php5/${USERNAME}:/home/${USERNAME}/.config/composer:rw
+      - ./images/php/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - ./images/php/ini/defaults.ini:/usr/local/etc/php/conf.d/defaults.ini
+      - ./certs/mkcert:/root/.local/share/mkcert
+      - "./images/php/logs-chmod.sh:/usr/bin/logs-chmod"
+    depends_on:
+      - homelab-database
+      - homelab-cache
+      - homelab-mailer
+    dns:
+      - 8.8.4.4
+      - 8.8.8.8
+    networks:
+      homelab-network:
+        aliases:
+          - homelab-webserver
+          - homelab-php7
+          - homelab-php8
+          - homelab-mailer
   homelab-php7:
     build:
       context: ./images/php/
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-php7
       args:
+        COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME}
         user: ${USERNAME}
         uid: ${USER_UID}
         port: 9007
@@ -163,7 +219,7 @@ services:
       REDIS_PORT: ${REDIS_PORT}
       SMTP_PORT: ${SMTP_PORT}
     container_name: homelab-php7
-    image: local:php-${phpVersion7}
+    image: ${COMPOSE_PROJECT_NAME}:php-${phpVersion7}-${imageMonth}
     working_dir: /var/www
     tty: true
     hostname: php7-${COMPOSE_PROJECT_NAME}
@@ -192,6 +248,7 @@ services:
         aliases:
           - homelab-webserver
           - homelab-php8
+          - homelab-php5
           - homelab-mailer
 
   homelab-php8:
@@ -199,6 +256,7 @@ services:
       context: ./images/php/
       dockerfile: Dockerfile
       args:
+        COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME}
         user: ${USERNAME}
         uid: ${USER_UID}
         port: 9008
@@ -215,7 +273,7 @@ services:
       REDIS_PORT: ${REDIS_PORT}
       SMTP_PORT: ${SMTP_PORT}
     container_name: homelab-php8
-    image: local:php-${phpVersion8}
+    image: ${COMPOSE_PROJECT_NAME}:php-${phpVersion8}-${imageMonth}
     working_dir: /var/www
     hostname: php8-${COMPOSE_PROJECT_NAME}
     tty: true
@@ -244,6 +302,7 @@ services:
         aliases:
           - homelab-webserver
           - homelab-php7
+          - homelab-php5
           - homelab-mailer
 
   ############################
@@ -259,7 +318,7 @@ services:
         uid: ${USER_UID}
     environment:
       COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME}
-    image: local:goaccess-${COMPOSE_PROJECT_NAME}
+    image: ${COMPOSE_PROJECT_NAME}:goaccess-${imageMonth}
     container_name: homelab-goaccess
     volumes:
       - goaccessVol:/usr/share/nginx/html:rw

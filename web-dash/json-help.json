@@ -213,6 +213,26 @@
           "checkfile": "",
           "description": "Docker bash in container. ( ♟ USERNAME )"
         },
+       "php5": {
+          "mode": "on",
+          "checkfile": "",
+          "description": "Docker bash in versionPHP5 ( ♚ root )"
+        },
+        "php5 --user": {
+          "mode": "on",
+          "checkfile": "",
+          "description": "Docker bash in versionPHP5 ( ♟ USERNAME )"
+        },
+        "php5-cli [command]": {
+          "mode": "on",
+          "checkfile": "",
+          "description": "Docker CLI in versionPHP5 ( ♚ root )"
+        },
+        "php5-composer [command]": {
+          "mode": "on",
+          "checkfile": "",
+          "description": "Docker CLI in versionPHP5 ➤ Composer composerVersion5 ( ♚ root )"
+        },
         "php7": {
           "mode": "on",
           "checkfile": "",
@@ -343,22 +363,22 @@
         "legacydomain [site] [type]": {
           "mode": "on",
           "checkfile": "",
-          "description": "Create the New Domain. (Legacy Code) ( [site].local ) type: ( build, php7 & php8 )"
+          "description": "Create the New Domain. (Legacy Code) ( [site].local ) type: ( build, php5, php7 & php8 )"
         },
         "legacysubdomain [site] [type]": {
           "mode": "on",
           "checkfile": "",
-          "description": "Create the New SubDomain. (Legacy Code) ( [site].COMPOSE_PROJECT_NAME.local ) type: ( build, php7 & php8 )"
+          "description": "Create the New SubDomain. (Legacy Code) ( [site].COMPOSE_PROJECT_NAME.local ) type: ( build, php5, php7 & php8 )"
         },
         "newdomain [site] [type]": {
           "mode": "on",
           "checkfile": "",
-          "description": "Create the New Domain. (Framework Code) ( [site].local ) type: ( build, php7 & php8 )"
+          "description": "Create the New Domain. (Framework Code) ( [site].local ) type: ( build, php5, php7 & php8 )"
         },
         "newsubdomain [site] [type]": {
           "mode": "on",
           "checkfile": "",
-          "description": "Create the New SubDomain. (Framework Code) ( [site].COMPOSE_PROJECT_NAME.local ) type: ( build, php7 & php8 )"
+          "description": "Create the New SubDomain. (Framework Code) ( [site].COMPOSE_PROJECT_NAME.local ) type: ( build, php5, php7 & php8 )"
         },
         "deldomain [site]": {
           "mode": "on",
@@ -441,7 +461,7 @@
         "newsupervisor [programName] [type] `cmd`": {
           "mode": "on",
           "checkfile": "",
-          "description": "Create the New Supervisor artisan. (Framework Code) ( [programName] ) type: ( php7 & php8 ) cmd: ( Command artisan )"
+          "description": "Create the New Supervisor artisan. (Framework Code) ( [programName] ) type: ( php5, php7 & php8 ) cmd: ( Command artisan )"
         },
         "delsupervisor [programName]": {
           "mode": "on",

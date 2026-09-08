@@ -1,11 +1,18 @@
-ARG phpVersion="8-fpm"
+ARG phpVersion="7-fpm"
 FROM php:${phpVersion}
 WORKDIR /var/www
 COPY ./bash/* /usr/bin/
 RUN get-release
 
-RUN apt-get update && apt-get install -y \
-    libmcrypt-dev \
+# Configurar repositorios (sin security para evitar 404)
+RUN echo "deb http://deb.debian.org/debian bullseye main contrib non-free" > /etc/apt/sources.list && \
+    echo "deb http://deb.debian.org/debian bullseye-updates main contrib non-free" >> /etc/apt/sources.list
+
+# Actualizar (con opciones robustas)
+RUN apt-get update -y --allow-releaseinfo-change -o Acquire::Check-Valid-Until=false
+
+# Bloque 1: Paquetes base (con --fix-missing)
+RUN apt-get install -y --no-install-recommends --fix-missing \
     libxml2-dev \
     libssl-dev \
     libsqlite3-dev \
@@ -13,24 +20,27 @@ RUN apt-get update && apt-get install -y \
     libcurl4-gnutls-dev \
     libpng-dev \
     libwebp-dev \
-    libjpeg-dev \
-    libavif-dev \
-    libxpm-dev \
+    libjpeg62-turbo-dev \
     libonig-dev \
     libsodium-dev \
-    libargon2-dev \
     libxslt1-dev \
     libfreetype6-dev \
     libicu-dev \
     libzip-dev \
-    libxslt-dev \
-    unzip \
-    ffmpeg \
+    unzip
+# Bloque 2: Paquetes sospechosos (con --fix-missing)
+RUN apt-get install -y --no-install-recommends --fix-missing \
+    libxpm-dev \
+    libargon2-dev \
+    ffmpeg 
+
+# Bloque 3: Utilidades y servicios (con --fix-missing y noninteractive)
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends --fix-missing \
     mc \
     nano \
     htop \
     sendmail \
-    supervisor
+    supervisor 
 
 RUN docker-php-ext-configure gd --with-jpeg --with-webp --with-freetype --with-xpm
 RUN docker-php-ext-install mbstring mysqli pdo_mysql gd zip calendar gettext

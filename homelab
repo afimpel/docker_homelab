@@ -76,7 +76,9 @@ case "$subcommand" in
     startup
     ln
     directory_cli=$PWD
+    docker_bash "homelab-php5" "logs-chmod:root"
     docker_bash "homelab-php7" "logs-chmod:root"
+    docker_bash "homelab-php8" "logs-chmod:root"
     docker_restart
     ln
     runonce_fn
@@ -89,7 +91,9 @@ case "$subcommand" in
     startup
     ln
     directory_cli=$PWD
+    docker_bash "homelab-php5" "logs-chmod:root"
     docker_bash "homelab-php7" "logs-chmod:root"
+    docker_bash "homelab-php8" "logs-chmod:root"
     clearLogs
     openCD $0 
     if [ -f "logs/startup.pid" ]; then
@@ -164,6 +168,13 @@ case "$subcommand" in
       docker_bash "homelab-php8" "bash:root"
     fi
   ;;
+  php5)
+    if [ "$1" == '--user' ]; then
+      docker_bash "homelab-php5" "bash:${USERNAME}"
+    else
+      docker_bash "homelab-php5" "bash:root"
+    fi
+  ;;
   php7)
     if [ "$1" == '--user' ]; then
       docker_bash "homelab-php7" "bash:${USERNAME}"
@@ -174,11 +185,17 @@ case "$subcommand" in
   php8-cli)
     docker_bash "homelab-php8" "php:${USERNAME}" $@
   ;;
+  php5-cli)
+    docker_bash "homelab-php5" "php:${USERNAME}" $@
+  ;;
   php7-cli)
     docker_bash "homelab-php7" "php:${USERNAME}" $@
   ;;
   php8-composer)
     docker_bash "homelab-php8" "composer:${USERNAME}" $@
+  ;;
+  php5-composer)
+    docker_bash "homelab-php5" "composer:${USERNAME}" $@
   ;;
   php7-composer)
     docker_bash "homelab-php7" "composer:${USERNAME}" $@

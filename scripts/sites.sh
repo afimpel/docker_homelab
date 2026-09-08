@@ -29,6 +29,10 @@ newsite()
          typefile="php8";
          subdir="public";
       ;;
+      php5)
+         typefile="php5";
+         subdir="public";
+      ;;
       php7)
          typefile="php7";
          subdir="public";

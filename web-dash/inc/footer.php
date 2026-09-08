@@ -8,6 +8,9 @@
             </div>
             <ul class="nav col-md-8 justify-content-end list-unstyled d-flex">
                 <li class="nav-item px-1">
+                    <a name="php5_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local_tooltip" data-bs-toggle="tooltip" data-bs-placement="top" class="nav-link px-1 py-0" target="_blank" href="//php5.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="me-2 text-info icon-php"></i> PHP5</a>
+                </li>
+                <li class="nav-item px-1">
                     <a name="php7_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local_tooltip" data-bs-toggle="tooltip" data-bs-placement="top" class="nav-link px-1 py-0" target="_blank" href="//php7.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/"><i class="me-2 text-info icon-php"></i> PHP7</a>
                 </li>
                 <li class="nav-item px-1">
@@ -42,6 +45,7 @@
         dataUrl("https://mailer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/","mailer_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
         dataUrl("https://redis.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/","redis_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
         dataUrl("https://php8.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/","php8_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
+        dataUrl("https://php5.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/","php5_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
         dataUrl("https://php7.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/","php7_<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>_local");
         const tooltipElements = document.querySelectorAll('[data-bs-toggle="tooltip"], .toggle_tooltip');
         

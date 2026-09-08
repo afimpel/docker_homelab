@@ -1,8 +1,15 @@
-ARG phpVersion="8-fpm"
+ARG phpVersion="5.6-fpm"
 FROM php:${phpVersion}
 WORKDIR /var/www
 COPY ./bash/* /usr/bin/
 RUN get-release
+RUN sed -i 's/deb.debian.org/archive.debian.org/g' /etc/apt/sources.list && \
+    sed -i 's/security.debian.org/archive.debian.org/g' /etc/apt/sources.list && \
+    # remove stretch-updates line if it exists
+    sed -i '/stretch-updates/d' /etc/apt/sources.list && \
+    apt-get update -o Acquire::AllowInsecureRepositories=yes -o Acquire::AllowDowngradeToInsecureRepositories=yes && \
+    apt-get install -y --allow-unauthenticated debian-archive-keyring && \
+    apt-get update
 
 RUN apt-get update && apt-get install -y \
     libmcrypt-dev \
@@ -14,11 +21,9 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libwebp-dev \
     libjpeg-dev \
-    libavif-dev \
     libxpm-dev \
     libonig-dev \
     libsodium-dev \
-    libargon2-dev \
     libxslt1-dev \
     libfreetype6-dev \
     libicu-dev \
@@ -32,16 +37,13 @@ RUN apt-get update && apt-get install -y \
     sendmail \
     supervisor
 
+
 RUN docker-php-ext-configure gd --with-jpeg --with-webp --with-freetype --with-xpm
 RUN docker-php-ext-install mbstring mysqli pdo_mysql gd zip calendar gettext
 RUN docker-php-ext-install exif pcntl shmop soap sockets 
 RUN docker-php-ext-install bcmath intl pdo
 RUN docker-php-ext-install sysvmsg sysvsem sysvshm xsl 
 
-RUN pecl install apcu igbinary redis
-RUN docker-php-ext-enable igbinary
-RUN docker-php-ext-enable redis
-RUN docker-php-ext-enable apcu
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -71,7 +73,7 @@ RUN apt-get clean && rm -rfv /var/lib/apt/lists/*
 COPY ./supervisord.conf /etc/supervisor/supervisord.conf
 RUN mkdir -p /var/log/supervisor /var/run
 
-ARG port=9000
+ARG port=9005
 RUN echo "$user:docker" | chpasswd
 
 # Tus reemplazos tal cual

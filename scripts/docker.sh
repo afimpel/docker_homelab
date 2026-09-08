@@ -3,6 +3,7 @@
 ############################################################
 # Docker functions                                         #
 ############################################################
+export imageMonth=$(date +%b%Y)
 
 docker_up () {
   clear
@@ -20,6 +21,7 @@ docker_up () {
   directory_cli=$PWD
   docker_bash "homelab-php8" "logs-chmod:root"
   docker_bash "homelab-php7" "logs-chmod:root"
+  docker_bash "homelab-php5" "logs-chmod:root"
   docker_bash "homelab-database" "logs-chmod:root"
 }
 
@@ -28,10 +30,13 @@ generate_version() {
   directory_cli=$PWD
   if [ -f "logs/startup.pid" ]; then
     rightH1 $YELLOW 'Generate version file' $WHITE '✔' "."
+    versionPHP5=$(docker_bash "homelab-php5" "php:root" -v | head -1 | cut -d " " -f 2)
     versionPHP7=$(docker_bash "homelab-php7" "php:root" -v | head -1 | cut -d " " -f 2)
     versionPHP8=$(docker_bash "homelab-php8" "php:root" -v | head -1 | cut -d " " -f 2)
+    supervisordVersion5=$(docker_bash "homelab-php5" "supervisord:root" -v | head -1 | sed 's/[[:space:]]*$//')
     supervisordVersion7=$(docker_bash "homelab-php7" "supervisord:root" -v | head -1 | sed 's/[[:space:]]*$//')
     supervisordVersion8=$(docker_bash "homelab-php8" "supervisord:root" -v | head -1 | sed 's/[[:space:]]*$//')
+    composerVersion5=$(docker_bash "homelab-php5" "composer:root" -V | head -1 | cut -d " " -f 3 | sed -E 's/\x1b\[[0-9;]*m//g')
     composerVersion7=$(docker_bash "homelab-php7" "composer:root" -V | head -1 | cut -d " " -f 3 | sed -E 's/\x1b\[[0-9;]*m//g')
     composerVersion8=$(docker_bash "homelab-php8" "composer:root" -V | head -1 | cut -d " " -f 3 | sed -E 's/\x1b\[[0-9;]*m//g')
     checkfile="\"startup.pid\""
@@ -50,7 +55,7 @@ generate_version() {
     gitinfoArray=$(cat TEMP/version-array.json)
     startupFile=$(cat logs/startup.pid)
     startupDate=$(diffTime "$startupFile")
-    echo -e "{ \"startup\":$startupFile, \"startupDate\":\"$startupDate\", \"gitinfo\":\"$gitinfo\", \"gitArray\":$gitinfoArray, \"username\":\"$USERNAME\",\"checkfile\":[$checkfile],\"version\":{\"php8\":\"$versionPHP8\", \"composer8\":\"$composerVersion8\", \"supervisord8\":\"$supervisordVersion8\", \"php7\":\"$versionPHP7\", \"composer7\":\"$composerVersion7\", \"supervisord7\":\"$supervisordVersion7\", \"docker\":\"Ver$dockerVersion\", \"dockerCompose\":\"Ver $dockerComposeVersion\"} }" > TEMP/version.json
+    echo -e "{ \"startup\":$startupFile, \"startupDate\":\"$startupDate\", \"gitinfo\":\"$gitinfo\", \"gitArray\":$gitinfoArray, \"username\":\"$USERNAME\",\"checkfile\":[$checkfile],\"version\":{\"php8\":\"$versionPHP8\", \"composer8\":\"$composerVersion8\", \"supervisord8\":\"$supervisordVersion8\", \"php7\":\"$versionPHP7\", \"composer7\":\"$composerVersion7\", \"supervisord7\":\"$supervisordVersion7\", \"php5\":\"$versionPHP5\", \"composer5\":\"$composerVersion5\", \"supervisord5\":\"$supervisordVersion5\", \"docker\":\"Ver$dockerVersion\", \"dockerCompose\":\"Ver $dockerComposeVersion\"} }" > TEMP/version.json
     jq . TEMP/version.json > web-dash/version.json
     chmod 777 web-dash/version.json
   fi
@@ -208,6 +213,7 @@ docker_down() {
       ln
       docker_bash "homelab-php8" "logs-chmod:root"
       docker_bash "homelab-php7" "logs-chmod:root"
+      docker_bash "homelab-php5" "logs-chmod:root"
       docker_bash "homelab-database" "logs-chmod:root"
       cache_cmd "FLUSHALL"
       ln
