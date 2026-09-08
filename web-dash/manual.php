@@ -5,19 +5,23 @@ $jsonString = file_get_contents('json-help.json');
 $objVersion = json_decode(file_get_contents('version.json'));
 $changeArrayOrigin = array(
     "COMPOSE_PROJECT_NAME",
+    "versionPHP5", 
     "versionPHP7", 
     "versionPHP8", 
     "USERNAME",
+    "composerVersion5", 
     "composerVersion7", 
     "composerVersion8",
     "docker_version",
     "docker_compose_version"
 );
 $changeArrayEND = array(
-    strtolower(getenv('COMPOSE_PROJECT_NAME')), 
-    $objVersion->version->php7, 
+    strtolower(getenv('COMPOSE_PROJECT_NAME')),
+    $objVersion->version->php5, 
+    $objVersion->version->php7,
     $objVersion->version->php8, 
     $objVersion->username, 
+    $objVersion->version->composer5,
     $objVersion->version->composer7, 
     $objVersion->version->composer8,
     $objVersion->version->docker,
