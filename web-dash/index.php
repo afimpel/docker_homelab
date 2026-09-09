@@ -60,11 +60,17 @@ include "./inc/head.php";
                     <?php
                         if(is_null($dbs['error'])){
                     ?>
-                    <a href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>" target="_blank" class="list-group-item list-group-item-primary list-group-item-action d-flex justify-content-between align-items-center py-1" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Database <?= $dbs['server']['name']." : ".$dbs['server']['version']; ?>">
+                    <a href="//adminer.<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/?<?= $adminer_server; ?>" target="_blank" class="list-group-item list-group-item-primary list-group-item-action d-flex justify-content-between align-items-center py-1" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Database <?= $dbs['server']['name']." : ".$dbs['server']['version']." | Client: ".$dbs['server']['client_info']; ?>">
                         <span><i class="<?= $dbs['server']['icon']; ?> me-2"></i> <b><?= $dbs['server']['name']; ?> :</b></span>
-                        <small class="badge text-light bg-primary rounded-pill px-2">
-                            <?= $dbs['server']['version']; ?>
-                        </small>
+                        <span class="p-0" style="text-align: end;">
+                            <small class="badge text-light bg-primary rounded-pill px-2">
+                                <?= $dbs['server']['version']; ?>
+                            </small>
+                            <br>
+                            <small class="badge text-light bg-primary rounded-pill px-2 mt-1">
+                                <?= $dbs['server']['client_info']; ?>
+                            </small>
+                        </span>
                     </a>
                     <?php
                         }
