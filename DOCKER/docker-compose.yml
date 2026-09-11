@@ -15,6 +15,7 @@ services:
       MARIADB_USER: ${DATABASE_USER}
       MARIADB_PASSWORD: ${DATABASE_PASSWORD}
       COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME}
+    command: --event-scheduler=ON
     volumes:
       - MariadbVol:/var/lib/mysql
       - "../logs/database:/var/log/mysql:rw"
