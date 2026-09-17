@@ -32,7 +32,7 @@ services:
       context: ./images/adminer
       dockerfile: Dockerfile
     container_name: homelab-adminer
-    image: afimpelcom/adminer:latest
+    image: ${COMPOSE_PROJECT_NAME}:adminer-${imageMonth}
     hostname: adminer-client
     ports:
       - 8080
