@@ -76,13 +76,13 @@ docker_updates () {
       local CONTENEDORES=(
         "nginx:alpine|nginx:alpine"
         "redis/redisinsight:latest|redis/redisinsight:latest"
-        "local:php-$phpVersion8|php:$phpVersion8"
-        "local:php-$phpVersion7|php:$phpVersion7"
-        "local:php-$phpVersion5|php:$phpVersion5"
-        "adminer:latest"
+        "$COMPOSE_PROJECT_NAME:php-${phpVersion8}-$imageMonth|php:$phpVersion8"
+        "$COMPOSE_PROJECT_NAME:php-${phpVersion7}-$imageMonth|php:$phpVersion7"
+        "$COMPOSE_PROJECT_NAME:php-${phpVersion5}-$imageMonth|php:$phpVersion5"
+        "$COMPOSE_PROJECT_NAME:adminer-$imageMonth|:adminer:latest"
         "mariadb:latest|mariadb:latest"
         "valkey:latest|valkey:latest"
-        "local:goaccess-$COMPOSE_PROJECT_NAME|alpine:latest"
+        "$COMPOSE_PROJECT_NAME:goaccess-$imageMonth|alpine:latest"
         "axllent/mailpit:latest|axllent/mailpit:latest"
       )
       for item in "${CONTENEDORES[@]}"; do
