@@ -81,7 +81,7 @@ docker_updates () {
         "$COMPOSE_PROJECT_NAME:php-${phpVersion5}-$imageMonth|php:$phpVersion5"
         "$COMPOSE_PROJECT_NAME:adminer-$imageMonth|:adminer:latest"
         "mariadb:latest|mariadb:latest"
-        "valkey:latest|valkey:latest"
+        "valkey/valkey:alpine|valkey/valkey:alpine"
         "$COMPOSE_PROJECT_NAME:goaccess-$imageMonth|alpine:latest"
         "axllent/mailpit:latest|axllent/mailpit:latest"
       )
