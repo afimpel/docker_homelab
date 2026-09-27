@@ -50,7 +50,7 @@ case "$subcommand" in
     header
     ln
     directory_cli=$PWD
-    AUTO_UPDATE_DAYS=0
+    AUTO_UPDATE_DAYS=-1
     AUTO_UPDATE_CONTAINERS=true
     docker_down
     docker_updates

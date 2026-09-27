@@ -74,29 +74,31 @@ docker_updates () {
     daysDiff=$(( (currentDate - lastUpdate) / 86400 ))
     if [ $daysDiff -ge $AUTO_UPDATE_DAYS ]; then
       local CONTENEDORES=(
-        "nginx:alpine|nginx:alpine"
-        "redis/redisinsight:latest|redis/redisinsight:latest"
+        "$COMPOSE_PROJECT_NAME:nginx-$imageMonth|nginx:alpine"
+        "$COMPOSE_PROJECT_NAME:redisinsight-$imageMonth|redis/redisinsight:latest"
         "$COMPOSE_PROJECT_NAME:php-${phpVersion8}-$imageMonth|php:$phpVersion8"
         "$COMPOSE_PROJECT_NAME:php-${phpVersion7}-$imageMonth|php:$phpVersion7"
         "$COMPOSE_PROJECT_NAME:php-${phpVersion5}-$imageMonth|php:$phpVersion5"
         "$COMPOSE_PROJECT_NAME:adminer-$imageMonth|adminer:latest"
-        "mariadb:latest|mariadb:latest"
-        "valkey/valkey:alpine|valkey/valkey:alpine"
+        "$COMPOSE_PROJECT_NAME:mariadb-$imageMonth|mariadb:latest"
+        "$COMPOSE_PROJECT_NAME:valkey-$imageMonth|valkey/valkey:alpine"
         "$COMPOSE_PROJECT_NAME:goaccess-$imageMonth|alpine:latest"
-        "axllent/mailpit:latest|axllent/mailpit:latest"
+        "$COMPOSE_PROJECT_NAME:mailpit-$imageMonth|axllent/mailpit:latest"
       )
       for item in "${CONTENEDORES[@]}"; do
         NOMBRE=$(echo "$item" | cut -d'|' -f1)
         IMAGEN=$(echo "$item" | cut -d'|' -f2)
         rightH1 $YELLOW "Update image: $NOMBRE" $WHITE '✔' "."
         FECHA_ACTUAL=$(docker inspect --format='{{.Created}}' "$NOMBRE" 2>/dev/null)
+        docker rmi -f "$IMAGEN"
         docker pull "$IMAGEN"
         FECHA_NUEVA=$(docker inspect --format='{{.Created}}' "$IMAGEN" 2>/dev/null)
         if [ "$FECHA_ACTUAL" != "$FECHA_NUEVA" ]; then
           if [[ "$FECHA_NUEVA" > "$FECHA_ACTUAL" ]]; then
             rightH1 $YELLOW "Image updated: $NOMBRE" $WHITE '✔' "."
             if [ "$NOMBRE" != "$IMAGEN" ]; then
-              docker rmi "$NOMBRE"
+              docker rmi -f "$NOMBRE"
+              docker tag "$IMAGEN" "$NOMBRE-image"
             fi
           fi
         else
