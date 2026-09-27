@@ -51,7 +51,6 @@ RUN docker-php-ext-install sysvmsg sysvsem sysvshm xsl
 RUN pecl install apcu igbinary redis
 RUN docker-php-ext-enable igbinary
 RUN docker-php-ext-enable redis
-RUN docker-php-ext-enable apcu
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer

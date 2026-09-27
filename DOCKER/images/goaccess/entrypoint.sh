@@ -1,4 +1,5 @@
 #!/bin/sh
+cat /tmp/goaccess_* > /var/log/goaccess/$(hostname)_release.log 2>&1
 set -eu
 WS_ARG=""
 if [ -n "${GOACCESS_WS_URL:-}" ]; then

@@ -1,0 +1,11 @@
+#!/bin/sh
+hostname >> /tmp/goaccess_$(hostname)_release.log
+echo "----------" >> /tmp/goaccess_$(hostname)_release.log
+cat /etc/os-release >> /tmp/goaccess_$(hostname)_release.log 2>&1
+echo "----------" >> /tmp/goaccess_$(hostname)_release.log
+date >> /tmp/goaccess_$(hostname)_release.log
+echo "----------" >> /tmp/goaccess_$(hostname)_release.log
+grep '^PRETTY_NAME' /etc/os-release | cut -d '"' -f 2 >> /tmp/goaccess_$(hostname)_release.log 2>&1
+uname -a >> /tmp/goaccess_$(hostname)_release.log 2>&1
+goaccess --version >> /tmp/goaccess_$(hostname)_release.log 2>&1
+echo "----------" >> /tmp/goaccess_$(hostname)_release.log

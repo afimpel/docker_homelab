@@ -332,6 +332,7 @@ services:
     volumes:
       - goaccessVol:/usr/share/nginx/html:rw
       - ../logs/nginx:/host_logs_var:ro
+      - ../logs/goaccess:/var/log/goaccess:rw
     restart: unless-stopped
     networks:
       homelab-network:
