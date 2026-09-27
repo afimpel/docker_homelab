@@ -86,23 +86,26 @@ docker_updates () {
         "$COMPOSE_PROJECT_NAME:mailpit-$imageMonth|axllent/mailpit:latest"
       )
       for item in "${CONTENEDORES[@]}"; do
-        NOMBRE=$(echo "$item" | cut -d'|' -f1)
+        NOMBRE_item=$(echo "$item" | cut -d'|' -f1)
+        NOMBRE="image-org-$NOMBRE_item"
+        NOMBRE_COMP="$NOMBRE_item"
         IMAGEN=$(echo "$item" | cut -d'|' -f2)
-        rightH1 $YELLOW "Update image: $NOMBRE" $WHITE '✔' "."
+        rightH1 $YELLOW "Update image: $IMAGEN" $WHITE '✔' "."
         FECHA_ACTUAL=$(docker inspect --format='{{.Created}}' "$NOMBRE" 2>/dev/null)
         docker rmi -f "$IMAGEN"
         docker pull "$IMAGEN"
         FECHA_NUEVA=$(docker inspect --format='{{.Created}}' "$IMAGEN" 2>/dev/null)
         if [ "$FECHA_ACTUAL" != "$FECHA_NUEVA" ]; then
           if [[ "$FECHA_NUEVA" > "$FECHA_ACTUAL" ]]; then
-            rightH1 $YELLOW "Image updated: $NOMBRE" $WHITE '✔' "."
+            rightH1 $YELLOW "Image updated: $IMAGEN" $WHITE '✔' "."
             if [ "$NOMBRE" != "$IMAGEN" ]; then
               docker rmi -f "$NOMBRE"
-              docker tag "$IMAGEN" "$NOMBRE-image"
+              docker rmi -f "$NOMBRE_COMP"
+              docker tag "$IMAGEN" "$NOMBRE"
             fi
           fi
         else
-          rightH1 $YELLOW "Image not updated: $NOMBRE" $WHITE '✔' "."
+          rightH1 $YELLOW "Image not updated: $IMAGEN" $WHITE '✔' "."
         fi
         ln
       done
