@@ -46,6 +46,20 @@ case "$subcommand" in
     footer
     send_notify "Startup containers" 'process-working-symbolic'
   ;;
+  force-docker-updates)
+    header
+    ln
+    directory_cli=$PWD
+    AUTO_UPDATE_DAYS=0
+    AUTO_UPDATE_CONTAINERS=true
+    docker_down
+    docker_updates
+    docker_up_master
+    docker_bash "homelab-php5" "logs-chmod:root"
+    docker_bash "homelab-php7" "logs-chmod:root"
+    docker_bash "homelab-php8" "logs-chmod:root"
+    footer
+  ;;
   check-updates)
     header
     ln

@@ -79,7 +79,7 @@ docker_updates () {
         "$COMPOSE_PROJECT_NAME:php-${phpVersion8}-$imageMonth|php:$phpVersion8"
         "$COMPOSE_PROJECT_NAME:php-${phpVersion7}-$imageMonth|php:$phpVersion7"
         "$COMPOSE_PROJECT_NAME:php-${phpVersion5}-$imageMonth|php:$phpVersion5"
-        "$COMPOSE_PROJECT_NAME:adminer-$imageMonth|:adminer:latest"
+        "$COMPOSE_PROJECT_NAME:adminer-$imageMonth|adminer:latest"
         "mariadb:latest|mariadb:latest"
         "valkey/valkey:alpine|valkey/valkey:alpine"
         "$COMPOSE_PROJECT_NAME:goaccess-$imageMonth|alpine:latest"
@@ -102,6 +102,7 @@ docker_updates () {
         else
           rightH1 $YELLOW "Image not updated: $NOMBRE" $WHITE '✔' "."
         fi
+        ln
       done
       clear
       date +%s > "$lastUpdateFile"

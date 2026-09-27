@@ -38,6 +38,11 @@
           "checkfile": "",
           "description": "Shows project status whether it is active or not"
         },
+        "force-docker-updates": {
+          "mode": "both",
+          "checkfile": "",
+          "description": "Force an update of the Docker images in Homelab project"
+        },
         "check-updates": {
           "mode": "both",
           "checkfile": "",
