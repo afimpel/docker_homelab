@@ -40,18 +40,22 @@ case "$subcommand" in
     docker_up_master
     ln
     www
-    if [ $OPEN_CODE_PROJECT_START == true ]; then
-      open "code"
-    fi
-    if [ $OPEN_FILEMANGER_PROJECT_START == true ]; then
-      open "filemanager"
-    fi
-    if [ $OPEN_TERMINAL_PROJECT_START == true ]; then
-      open "terminal"
-    fi
     if [ $OPEN_BROWSER_PROJECT_START == true ]; then
       open "browser" "mini"
     fi
+    ln
+    if [ $OPEN_CODE_PROJECT_START == true ]; then
+      open "code"
+    fi
+    ln
+    if [ $OPEN_FILEMANGER_PROJECT_START == true ]; then
+      open "filemanager"
+    fi
+    ln
+    if [ $OPEN_TERMINAL_PROJECT_START == true ]; then
+      open "terminal"
+    fi
+    ln
     footer
     send_notify "Startup containers" 'process-working-symbolic'
   ;;
