@@ -18,7 +18,7 @@ replace_mailhog() {
 
   # Rename si existe
   if [[ -f "mkcert.csv" ]]; then
-    mv -v "mkcert.csv" "mkcert_homelab.csv"
+    mv -v "mkcert.csv" "mkcert_${COMPOSE_PROJECT_NAME,,}.csv"
   fi
 
   local TS

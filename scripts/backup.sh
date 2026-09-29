@@ -19,7 +19,7 @@ backup () {
     ln
     CUSTOM_RIGHT $LIGHT_GRAY "FILES:" $WHITE "$OLDPWD" $WHITE "✔" "." "✔" 0
     get_hostfiles
-    tar --exclude='*/node_modules/*' --exclude='*/vendor/*' --exclude='*/storage/framework/*' --exclude='*/.git/logs/*' --exclude='*/.git/objects/*' --exclude='*.log' --exclude='*.tgz' -cvzf backup/${unix}-${COMPOSE_PROJECT_NAME,,}_backup.tgz web-dash/*.json www dumpSQL/*/*.sql dumpSQL/*.sql dumpSQL/*.md config DOCKER/.env ${COMPOSE_PROJECT_NAME,,}*.md hostsfile.conf mkcert_homelab.csv > logs/backups.log
+    tar --exclude='*/node_modules/*' --exclude='*/vendor/*' --exclude='*/storage/framework/*' --exclude='*/.git/logs/*' --exclude='*/.git/objects/*' --exclude='*.log' --exclude='*.tgz' -cvzf backup/${unix}-${COMPOSE_PROJECT_NAME,,}_backup.tgz web-dash/*.json www dumpSQL/*/*.sql dumpSQL/*.sql dumpSQL/*.md config DOCKER/.env ${COMPOSE_PROJECT_NAME,,}*.md hostsfile.conf mkcert_${COMPOSE_PROJECT_NAME,,}.csv > logs/backups.log
     lines=$(wc -l logs/backups.log | cut -d " " -f 1)
     echo " ✔  Compressed files: $lines."
     size=$(du -sh backup/${unix}-${COMPOSE_PROJECT_NAME,,}_backup.tgz | awk '{print $1}')
