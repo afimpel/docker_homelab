@@ -40,6 +40,7 @@ case "$subcommand" in
     docker_up_master
     ln
     www
+    ln
     if [ $OPEN_BROWSER_PROJECT_START == true ]; then
       open "browser" "mini"
     fi
@@ -55,7 +56,6 @@ case "$subcommand" in
     if [ $OPEN_TERMINAL_PROJECT_START == true ]; then
       open "terminal"
     fi
-    ln
     footer
     send_notify "Startup containers" 'process-working-symbolic'
   ;;
