@@ -8,15 +8,15 @@ recreate-ssl()
 {
    openCD $0
    echo -e "MKCERT\n" > logs/mkcert.log
-   echo -e "\n\t --- Recreating SSL Certificates ---\n" >> logs/mkcert.log
+   echo -e "--- Recreating SSL Certificates ---\n" >> logs/mkcert.log
    rightH1 $YELLOW "SSL Certificate Recreation" $LIGHT_GREEN '✔' "." 
    exist 'mkcert'
    input_file="mkcert_${COMPOSE_PROJECT_NAME,,}.csv"
    if [ -z $1 ]; then
-      echo -e "\t --- Using default input file: mkcert_${COMPOSE_PROJECT_NAME,,}.csv --- \n" >> logs/mkcert.log
-      sudo rm -v DOCKER/certs/*.pem >> logs/mkcert.log
+      echo -e "--- Using default input file: mkcert_${COMPOSE_PROJECT_NAME,,}.csv --- \n" >> logs/mkcert.log
+      sudo rm -v DOCKER/certs/*.pem > logs/Delete_mkcert.log
       touch mkcert_recreate.csv
-      rm -v mkcert_recreate.csv >> logs/mkcert.log
+      rm -v mkcert_recreate.csv >> logs/Delete_mkcert.log
    else
       input_file=$(grep -i "$1" mkcert_${COMPOSE_PROJECT_NAME,,}.csv)
    fi
@@ -38,17 +38,18 @@ recreate-ssl()
       echo -e "✔ fileConf: \t\t config/nginx-sites/${fileConf}.conf" >> logs/mkcert.log
       echo -e "✔ fileSSL_IN: \t\t $fileSSL" >> logs/mkcert.log
       echo -e "✔ fileSSL_OUT: \t\t $fileSSLcert" >> logs/mkcert.log
-      echo -e "\t --- --- --- ---" >> logs/mkcert.log
       ln
       rightH1 $LIGHT_PURPLE "${domain,,,}.local" $LIGHT_GREEN '⛁' "."
-      sudo cp -v $HOME/.local/share/mkcert/rootCA* DOCKER/certs/mkcert >> logs/mkcert.log
+      echo -e "\n✔ IN: " >> logs/mkcert.log
+      cat "config/nginx-sites/${fileConf}.conf" | grep "${fileSSL,,}" >> logs/mkcert.log
+      echo -e "\n✔ OUT: " >> logs/mkcert.log
       cd DOCKER/certs
       mkcert ${URLS,,}
       mv -v ${domain,,}.local*-key.pem ${fileSSLcert,,}-key.pem >>../../logs/mkcert.log
       mv -v ${domain,,}.local*.pem ${fileSSLcert,,}.pem >>../../logs/mkcert.log
       openCD $0
       sed -i "s/${fileSSL,,}/${fileSSLcert,,}/g" config/nginx-sites/${fileConf}.conf
-      cat "config/nginx-sites/${fileConf}.conf" | grep "${fileSSL}" >> logs/mkcert.log
+      cat "config/nginx-sites/${fileConf}.conf" | grep "${fileSSLcert,,}" >> logs/mkcert.log
       echo -e "\t --- --- --- --- \n" >> logs/mkcert.log
       if [ -z $1 ]; then
          echo -e "recreate;${URLS,,};${file};${domain};${fileConf,,};${fileSSLcert,,};${dateTime};recreate" >> mkcert_recreate.csv
@@ -56,6 +57,8 @@ recreate-ssl()
       fi
       leftH1 $LIGHT_CYAN " done ... (https://${domain}.local)" $WHITE "✔" "."
    done < "$input_file"
+   ln
+   sudo cp -v $HOME/.local/share/mkcert/rootCA* DOCKER/certs/mkcert >> logs/mkcert.log
    ln
    docker restart homelab-webserver
    mkcert -install >> logs/mkcert.log
