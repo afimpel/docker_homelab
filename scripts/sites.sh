@@ -280,22 +280,26 @@ www()
             first=0
             regex='\[([^]]+)\]\(([^)]+)\) :: (.+)$'
             if [[ $line1 =~ $regex ]]; then
+               exclude_domains=false
                title="${BASH_REMATCH[1]}"
                url="${BASH_REMATCH[2]}"
                type="${BASH_REMATCH[3]}"
                urlType2=$(echo "${url}" | sed 's/https\?:\/\///' | sed 's/\/$//' | cut -d'.' -f1)
-               if [[ $urlType2 == *api* ]] || [[ $urlType2 == *json* ]]; then
-                  urlType="api"
-               else
-                  urlType="www"
-               fi
-               haystack=$DOMAINS_EXCLUDE
                needle="$urlType2"
+               haystack=$SUBDOMAINS_EXCLUDE
+               if [[ "$haystack" == *",$needle,"* ]]; then
+                  exclude_domains=true
+               fi
                urlType3=$(echo "${url}" | sed 's/https\?:\/\///' | sed 's/\/$//')
+               haystack=$DOMAINS_EXCLUDE
                if is_excluded "$urlType3"; then
                   exclude_domains=true
+               fi
+               if [[ $urlType2 == *api* ]] || [[ $urlType2 == *json* ]]; then
+                  urlType="api"
+                  exclude_domains=true
                else
-                  exclude_domains=false
+                  urlType="www"
                fi
                write_message "domains ➤ URL: $url / $urlType3 / exclude: $haystack / type: $urlType / $exclude_domains" "website" 
                echo "{\"title\": \"${title}\", \"url\": \"${url}\", \"type\": \"${type,,}\", \"urlType\":\"${urlType,,}\", \"exclude\":${exclude_domains,,} }" >> TEMP/algo1.json
