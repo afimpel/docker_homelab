@@ -4,6 +4,7 @@
 # Docker functions                                         #
 ############################################################
 export imageMonth=$(date +%b%Y)
+export imageYear=$(date +%Y)
 
 docker_up () {
   clear
@@ -77,8 +78,8 @@ docker_updates () {
         "$COMPOSE_PROJECT_NAME:nginx-$imageMonth|nginx:alpine"
         "$COMPOSE_PROJECT_NAME:redisinsight-$imageMonth|redis/redisinsight:latest"
         "$COMPOSE_PROJECT_NAME:php-${phpVersion8}-$imageMonth|php:$phpVersion8"
-        "$COMPOSE_PROJECT_NAME:php-${phpVersion7}-$imageMonth|php:$phpVersion7"
-        "$COMPOSE_PROJECT_NAME:php-${phpVersion5}-$imageMonth|php:$phpVersion5"
+        "$COMPOSE_PROJECT_NAME:php-${phpVersion7}-$imageYear|php:$phpVersion7"
+        "$COMPOSE_PROJECT_NAME:php-${phpVersion5}-$imageYear|php:$phpVersion5"
         "$COMPOSE_PROJECT_NAME:adminer-$imageMonth|adminer:latest"
         "$COMPOSE_PROJECT_NAME:mariadb-$imageMonth|mariadb:latest"
         "$COMPOSE_PROJECT_NAME:valkey-$imageMonth|valkey/valkey:alpine"
@@ -91,7 +92,7 @@ docker_updates () {
         NOMBRE_COMP="$NOMBRE_item"
         IMAGEN=$(echo "$item" | cut -d'|' -f2)
         rightH1 $YELLOW "Update image: $IMAGEN" $WHITE '✔' "."
-        FECHA_ACTUAL=$(docker inspect --format='{{.Created}}' "$NOMBRE" 2>/dev/null)
+        FECHA_ACTUAL=$(docker inspect --format='{{.Created}}' "$NOMBRE_COMP" 2>/dev/null)
         docker rmi -f "$IMAGEN"
         docker pull "$IMAGEN"
         FECHA_NUEVA=$(docker inspect --format='{{.Created}}' "$IMAGEN" 2>/dev/null)

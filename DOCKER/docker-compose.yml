@@ -170,7 +170,7 @@ services:
       REDIS_PORT: ${REDIS_PORT}
       SMTP_PORT: ${SMTP_PORT}
     container_name: homelab-php5
-    image: ${COMPOSE_PROJECT_NAME}:php-${phpVersion5}-${imageMonth}
+    image: ${COMPOSE_PROJECT_NAME}:php-${phpVersion5}-${imageYear}
     working_dir: /var/www
     tty: true
     hostname: php5-${COMPOSE_PROJECT_NAME}
@@ -225,7 +225,7 @@ services:
       REDIS_PORT: ${REDIS_PORT}
       SMTP_PORT: ${SMTP_PORT}
     container_name: homelab-php7
-    image: ${COMPOSE_PROJECT_NAME}:php-${phpVersion7}-${imageMonth}
+    image: ${COMPOSE_PROJECT_NAME}:php-${phpVersion7}-${imageYear}
     working_dir: /var/www
     tty: true
     hostname: php7-${COMPOSE_PROJECT_NAME}
