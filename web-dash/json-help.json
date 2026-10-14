@@ -159,6 +159,11 @@
           "checkfile": "startup.pid",
           "description": "Start all containers"
         },
+        "up build": {
+          "mode": "off",
+          "checkfile": "startup.pid",
+          "description": "Start all containers & re build containers"
+        },
         "ps": {
           "mode": "on",
           "checkfile": "",

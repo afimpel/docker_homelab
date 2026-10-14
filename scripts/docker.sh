@@ -13,7 +13,12 @@ docker_up () {
   rightH1 $YELLOW 'Startup containers' $WHITE '✔' "."
   date +'%s' > logs/startup.pid
   cd DOCKER/
-  docker compose up -d
+  if [ "$#" -gt 0 ] && [ "$1" == "build" ]; then
+    docker compose up -d --build
+  else
+    docker compose up -d
+  fi
+
   if [ $? -ne 0 ]; then
     send_notify "Error: On start, docker compose up." "error" 16000 "critical"
     docker_down
