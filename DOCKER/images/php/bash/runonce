@@ -11,6 +11,8 @@ php -r "print_r(gd_info());" >> /var/log/php/$(hostname)_startup.log
 php -m >> /var/log/php/$(hostname)_startup.log
 echo "ENV __________________________________________" >> /var/log/php/$(hostname)_startup.log
 printenv >> /var/log/php/$(hostname)_startup.log
+echo "NET __________________________________________" >> /var/log/php/$(hostname)_startup.log
+ip -4 -o addr show scope global | awk '{print $2":", $4}' >> /var/log/php/$(hostname)_startup.log 2>&1
 echo "______________________________________________" >> /var/log/php/$(hostname)_startup.log
 echo -e "supervisord: $(supervisord -v)" >> /var/log/php/$(hostname)_startup.log
 cat /tmp/php_* > /var/log/php/$(hostname)_release.log 2>&1
