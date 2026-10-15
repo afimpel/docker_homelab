@@ -2,9 +2,11 @@ ARG phpVersion="8-fpm"
 FROM php:${phpVersion}
 WORKDIR /var/www
 COPY ./bash/* /usr/bin/
+
+RUN apt-get update && apt-get install -y ca-certificates
 RUN get-release
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get install -y \
     libmcrypt-dev \
     libxml2-dev \
     libssl-dev \
@@ -24,14 +26,20 @@ RUN apt-get update && apt-get install -y \
     libicu-dev \
     libzip-dev \
     libxslt-dev \
-    libmagickwand-dev \
+    libmagickwand-dev
+
+RUN apt-get install -y \
     unzip \
     ffmpeg \
     mc \
     nano \
     htop \
     sendmail \
-    supervisor
+    supervisor \
+    net-tools \
+    iputils-ping \
+    bash-completion \
+    iproute2
 
 RUN docker-php-ext-configure gd --with-jpeg --with-webp --with-freetype --with-xpm --with-avif
 RUN docker-php-ext-install mbstring mysqli pdo_mysql gd zip calendar gettext
@@ -50,7 +58,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 ARG user
 ARG uid
-RUN apt-get install net-tools iputils-ping bash-completion ca-certificates iproute2 -y
 
 # Create system user to run Composer and Artisan Commands
 RUN addgroup ${user}-1000

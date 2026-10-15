@@ -2,16 +2,17 @@ ARG phpVersion="7-fpm"
 FROM php:${phpVersion}
 WORKDIR /var/www
 COPY ./bash/* /usr/bin/
-RUN get-release
 
-# Configurar repositorios (sin security para evitar 404)
 RUN echo "deb http://deb.debian.org/debian bullseye main contrib non-free" > /etc/apt/sources.list && \
     echo "deb http://deb.debian.org/debian bullseye-updates main contrib non-free" >> /etc/apt/sources.list
 
-# Actualizar (con opciones robustas)
-RUN apt-get update -y --allow-releaseinfo-change -o Acquire::Check-Valid-Until=false
+RUN apt-get update -o Acquire::AllowInsecureRepositories=yes -o Acquire::AllowDowngradeToInsecureRepositories=yes && \
+    apt-get install -y --allow-unauthenticated debian-archive-keyring && \
+    apt-get update
 
-# Bloque 1: Paquetes base (con --fix-missing)
+RUN apt-get install -y ca-certificates
+RUN get-release
+
 RUN apt-get install -y --no-install-recommends --fix-missing \
     libxml2-dev \
     libssl-dev \
@@ -27,20 +28,21 @@ RUN apt-get install -y --no-install-recommends --fix-missing \
     libfreetype6-dev \
     libicu-dev \
     libzip-dev \
-    unzip
-# Bloque 2: Paquetes sospechosos (con --fix-missing)
-RUN apt-get install -y --no-install-recommends --fix-missing \
     libxpm-dev \
-    libargon2-dev \
-    ffmpeg 
+    libargon2-dev
 
-# Bloque 3: Utilidades y servicios (con --fix-missing y noninteractive)
-RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends --fix-missing \
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y --fix-missing \
     mc \
     nano \
     htop \
     sendmail \
-    supervisor 
+    supervisor \
+    ffmpeg \
+    unzip \
+    net-tools \
+    iputils-ping \
+    bash-completion \
+    iproute2
 
 RUN docker-php-ext-configure gd --with-jpeg --with-webp --with-freetype --with-xpm
 RUN docker-php-ext-install mbstring mysqli pdo_mysql gd zip calendar gettext
@@ -57,7 +59,6 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 ARG user
 ARG uid
-RUN apt-get install net-tools iputils-ping bash-completion ca-certificates iproute2 -y
 
 # Create system user to run Composer and Artisan Commands
 RUN addgroup ${user}-1000

@@ -37,7 +37,7 @@ case "$subcommand" in
     check_and_pull_updates
     refactor_fn
     docker_updates
-    docker_up_master
+    docker_up_master "$@"
     ln
     www
     ln

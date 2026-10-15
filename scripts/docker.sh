@@ -124,7 +124,7 @@ docker_updates () {
 docker_up_master () {
   directory_cli=$PWD
   colorize $WHITE "🗑 $LIGHT_RED$(rm -v DOCKER/docker-compose.override.yml)"
-  docker_up
+  docker_up "$@"
   generate-override
   docker_up
   CUSTOM_RIGHT $WHITE "docker image prune" $LIGHT_GRAY "360h" $WHITE "✔" "." "✔" 0
