@@ -105,6 +105,12 @@ services:
   homelab-webserver:
     container_name: homelab-webserver
     image: nginx:alpine
+    cap_add:
+      - SYS_RESOURCE
+    ulimits:
+      nofile:
+        soft: 1040000
+        hard: 1040000
     tty: true
     environment:
       TZ: ${TIMEZONE}
