@@ -7,10 +7,10 @@ RUN echo "deb http://deb.debian.org/debian bullseye main contrib non-free" > /et
     echo "deb http://deb.debian.org/debian bullseye-updates main contrib non-free" >> /etc/apt/sources.list
 
 RUN apt-get update -o Acquire::AllowInsecureRepositories=yes -o Acquire::AllowDowngradeToInsecureRepositories=yes && \
-    apt-get install -y --allow-unauthenticated debian-archive-keyring && \
+    apt-get install -y --allow-unauthenticated --fix-missing debian-archive-keyring && \
     apt-get update
 
-RUN apt-get install -y ca-certificates
+RUN apt-get install -y --fix-missing ca-certificates
 RUN get-release
 
 RUN apt-get install -y --no-install-recommends --fix-missing \
@@ -50,8 +50,7 @@ RUN docker-php-ext-install exif pcntl shmop soap sockets
 RUN docker-php-ext-install bcmath intl pdo
 RUN docker-php-ext-install sysvmsg sysvsem sysvshm xsl 
 
-RUN pecl install apcu igbinary redis
-RUN docker-php-ext-enable igbinary
+RUN pecl install redis
 RUN docker-php-ext-enable redis
 
 # Install Composer

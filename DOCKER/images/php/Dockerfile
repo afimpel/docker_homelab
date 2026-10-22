@@ -6,7 +6,7 @@ COPY ./bash/* /usr/bin/
 RUN apt-get update && apt-get install -y ca-certificates
 RUN get-release
 
-RUN apt-get install -y \
+RUN apt-get install -y --fix-missing\
     libmcrypt-dev \
     libxml2-dev \
     libssl-dev \
@@ -28,7 +28,7 @@ RUN apt-get install -y \
     libxslt-dev \
     libmagickwand-dev
 
-RUN apt-get install -y \
+RUN apt-get install -y --fix-missing\
     unzip \
     ffmpeg \
     mc \
