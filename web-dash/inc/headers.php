@@ -53,7 +53,12 @@ $objVersion = json_decode(file_get_contents('version.json'));
         .accordion-button:hover > * { color: var(--bs-info-text-emphasis) !important; }
         .bg-body-tertiary { --bs-bg-opacity: 0.85 !important; backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); }
     </style>
-    <script src="https://<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/files.js" crossorigin="anonymous"></script>
+    <script src="https://<?php echo strtolower(getenv('COMPOSE_PROJECT_NAME')); ?>.local/files.js?v=<?= date("u")?>" crossorigin="anonymous"></script>
+    <link rel="icon" type="image/png" href="/favicon/favicon-96x96.png?v=<?= date("u")?>" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon/favicon.svg?v=<?= date("u")?>" />
+    <link rel="shortcut icon" href="/favicon/favicon.ico?v=<?= date("u")?>" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png?v=<?= date("u")?>" />
+    <link rel="manifest" href="/favicon/site.webmanifest?v=<?= date("u")?>" />
 </head>
 
 <body style="padding-top: 96px;">

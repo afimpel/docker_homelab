@@ -1,4 +1,9 @@
 *
+!favicon/*.ico
+!favicon/*.png
+!favicon/*.svg
+!favicon/site.webmanifest
+!favicon
 !.gitignore
 !git-info.php
 !index.php
