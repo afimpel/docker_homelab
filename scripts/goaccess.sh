@@ -13,8 +13,8 @@ goaccess () {
     datesss=$(date)
     echo -e "[ 0\t ] GoAccess Sites \t --- $datesss ---" > logs/goaccess/lists-serverData.log
     datesss=$(date)
-    echo -e "\n[ 0\t ] \tDelete\t\t\t --- $datesss ---" >> logs/goaccess/lists-serverData.log
-    find logs/goaccess \( -type f -name "*.out" \) -delete -printf "[ 🗑  ]\tREMOVED:\t\t  %p\n" | sort >> logs/goaccess/lists-serverData.log 2>&1
+    echo -e "\n[ 0\t ] \tDelete\t\t\t --- $datesss ---" > logs/goaccess/delete-serverData.log
+    find logs/goaccess \( -type f -name "*.out" \) -delete -printf "[ 🗑  ]\tREMOVED:\t\t  %p\n" | sort >> logs/goaccess/delete-serverData.log 2>&1
     echo -e "\n[ 0\t ] \tSitios\t\t\t --- $datesss ---" >> logs/goaccess/lists-serverData.log
     cat TEMP/hostsfile_domains.conf >> logs/goaccess/lists-serverData.log
     counter00=-1
@@ -64,8 +64,8 @@ goaccess () {
     done
     sleep 4s
     datesss=$(date)
-    echo -e "\n[ 99 ] \tDelete\t\t\t --- $datesss ---" >> logs/goaccess/lists-serverData.log
-    find logs/goaccess \( -type f -name "*int.out" \) -delete -printf "[ 🗑  ]\tREMOVED:\t\t  %p\n" | sort >> logs/goaccess/lists-serverData.log 2>&1
+    echo -e "\n[ 99 ] \tDelete\t\t\t --- $datesss ---" >> logs/goaccess/delete-serverData.log
+    find logs/goaccess \( -type f -name "*int.out" \) -delete -printf "[ 🗑  ]\tREMOVED:\t\t  %p\n" | sort >> logs/goaccess/delete-serverData.log 2>&1
     ###rm -v logs/goaccess/site-*-int.out >> logs/goaccess/lists-serverData.log 2>&1
     sleep 2s
     datesss=$(date)

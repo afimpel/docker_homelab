@@ -1,5 +1,5 @@
 FROM alpine:latest
-RUN apk update && apk add --no-cache goaccess
+RUN apk update && apk upgrade && apk add --no-cache goaccess goaccess-lang goaccess-doc
 RUN mkdir -p /usr/share/nginx/html
 
 COPY get-release /usr/local/bin/get-release
