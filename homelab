@@ -8,6 +8,7 @@ source $(dirname $0)/scripts/open.sh
 source $(dirname $0)/scripts/supervisor.sh
 source $(dirname $0)/scripts/database.sh
 source $(dirname $0)/scripts/installer.sh
+source $(dirname $0)/scripts/preUP.sh
 source $(dirname $0)/scripts/docker.sh
 source $(dirname $0)/scripts/backup.sh
 source $(dirname $0)/scripts/goaccess.sh
@@ -34,6 +35,7 @@ case "$subcommand" in
     startExec0000=$(date +'%s')
     header
     ln
+    preUP_fn
     check_and_pull_updates
     refactor_fn
     docker_updates
