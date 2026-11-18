@@ -1,7 +1,7 @@
 <?php
 $dbs = ['error' => null, 'link' => null, 'database' => [], 'uptime' => null, 'counter' => null, 'server'=> [ 'server' => 'homelab-database', 'user' => getenv('DATABASE_USER'), 'password' => getenv('DATABASE_PASSWORD'), 'version' => null, 'name' => 'MariaDB', 'icon' => 'icon-mariadb', 'icon-alt' => 'icon-mysql-alt', 'client_info' => null ] ];
 try {
-    $mysqli = new mysqli("homelab-database", getenv('DATABASE_USER'), getenv('DATABASE_PASSWORD'), NULL, getenv('DATABASE_PORT'));
+    $mysqli = new mysqli("homelab-database", 'root', getenv('DATABASE_ROOT_PASSWORD'), NULL, getenv('DATABASE_PORT'));
 
     if ($mysqli->connect_error) {
         $dbs['error'] = $mysqli->connect_error;
