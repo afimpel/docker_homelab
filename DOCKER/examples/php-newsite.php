@@ -23,7 +23,7 @@ $out2 = str_replace("\n</p>\n</td>", "</p></td>", $out2);
 $out2 = str_replace("><th", ">\n\t\t<th", $out2);
 
 $out2 = str_replace("</div></body></html>", "\n</div><br />\n\t</body>\n</html>", $out2);
-$out2 = str_replace(" - phpinfo()", "", $out2);
+$out2 = str_replace("phpinfo()", "", $out2);
 $out2 = str_replace("</title>", " ➤ ".$_SERVER['HTTP_HOST']." | ⛁ COMPOSE_PROJECT_NAME</title>", $out2);
 $out1 =  explode("<hr />", $out2);
 $out3 = explode("<body>", $out1[0]);
