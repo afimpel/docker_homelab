@@ -58,7 +58,7 @@ generate_version() {
     dockerComposeVersion=${dockerComposeVersion//version v/:}
     dockerComposeVersion=$(echo $dockerComposeVersion | cut -d ":" -f 2)
     gitinfo=$(git log -1 --pretty=format:"%an: %s ( %h / %cr )" | tr -d '"')
-    git log -80 --pretty=format:'{%n  "commit": "%H",%n  "abbreviated_commit": "%h",%n  "parent": "%P",%n  "abbreviated_parent": "%p",%n  "subject": "%s",%n  "author": {%n    "name": "%aN",%n    "email": "%aE",%n    "date": "%aD"%n  },%n  "commiter": {%n    "name": "%cN",%n    "email": "%cE",%n    "date": "%cD"%n  },%n    "date_short": "%cr"%n},' | sed "$ s/,$//" | sed ':a;N;$!ba;s/\r\n\([^{]\)/\\n\1/g' | sed -E '/^  "subject": /{s/^  "subject": "(.*)",$/\1/; s/"//g; s/^/  "subject": "/; s/$/",/}' | awk 'BEGIN { print("[") } { print($0) } END { print("]") }' | jq . -c > TEMP/version-array.json
+    git log -80 --pretty=format:'{%n  "commit": "%H",%n  "abbreviated_commit": "%h",%n  "parent": "%P",%n  "abbreviated_parent": "%p",%n  "subject": "%s",%n  "author": {%n    "name": "%aN",%n    "date": "%aD"%n  },%n  "commiter": {%n    "name": "%cN",%n    "date": "%cD"%n  },%n    "date_short": "%cr"%n},' | sed "$ s/,$//" | sed ':a;N;$!ba;s/\r\n\([^{]\)/\\n\1/g' | sed -E '/^  "subject": /{s/^  "subject": "(.*)",$/\1/; s/"//g; s/^/  "subject": "/; s/$/",/}' | awk 'BEGIN { print("[") } { print($0) } END { print("]") }' | jq . -c > TEMP/version-array.json
     gitinfoArray=$(cat TEMP/version-array.json)
     startupFile=$(cat logs/startup.pid)
     startupDate=$(diffTime "$startupFile")
