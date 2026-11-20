@@ -5,6 +5,7 @@
 ############################################################
 export imageMonth=$(date +%b%Y)
 export imageYear=$(date +%Y)
+export COMPOSE_PROJECT_INT="build-local"
 
 docker_up () {
   clear
@@ -80,16 +81,16 @@ docker_updates () {
     daysDiff=$(( (currentDate - lastUpdate) / 86400 ))
     if [ $daysDiff -ge $AUTO_UPDATE_DAYS ]; then
       local CONTENEDORES=(
-        "$COMPOSE_PROJECT_NAME:nginx-$imageMonth|nginx:alpine"
-        "$COMPOSE_PROJECT_NAME:redisinsight-$imageMonth|redis/redisinsight:latest"
-        "$COMPOSE_PROJECT_NAME:php-${phpVersion8}-$imageMonth|php:$phpVersion8"
-        "$COMPOSE_PROJECT_NAME:php-${phpVersion7}-$imageYear|php:$phpVersion7"
-        "$COMPOSE_PROJECT_NAME:php-${phpVersion5}-$imageYear|php:$phpVersion5"
-        "$COMPOSE_PROJECT_NAME:adminer-$imageMonth|adminer:latest"
-        "$COMPOSE_PROJECT_NAME:mariadb-$imageMonth|mariadb:latest"
-        "$COMPOSE_PROJECT_NAME:valkey-$imageMonth|valkey/valkey:alpine"
-        "$COMPOSE_PROJECT_NAME:goaccess-$imageMonth|alpine:latest"
-        "$COMPOSE_PROJECT_NAME:mailpit-$imageMonth|axllent/mailpit:latest"
+        "$COMPOSE_PROJECT_INT:nginx-$imageMonth|nginx:alpine"
+        "$COMPOSE_PROJECT_INT:redisinsight-$imageMonth|redis/redisinsight:latest"
+        "$COMPOSE_PROJECT_INT:php-${phpVersion8}-$imageMonth|php:$phpVersion8"
+        "$COMPOSE_PROJECT_INT:php-${phpVersion7}-$imageYear|php:$phpVersion7"
+        "$COMPOSE_PROJECT_INT:php-${phpVersion5}-$imageYear|php:$phpVersion5"
+        "$COMPOSE_PROJECT_INT:adminer-$imageMonth|adminer:latest"
+        "$COMPOSE_PROJECT_INT:mariadb-$imageMonth|mariadb:latest"
+        "$COMPOSE_PROJECT_INT:valkey-$imageMonth|valkey/valkey:alpine"
+        "$COMPOSE_PROJECT_INT:goaccess-$imageMonth|alpine:latest"
+        "$COMPOSE_PROJECT_INT:mailpit-$imageMonth|axllent/mailpit:latest"
       )
       for item in "${CONTENEDORES[@]}"; do
         NOMBRE_item=$(echo "$item" | cut -d'|' -f1)

@@ -33,7 +33,7 @@ services:
       dockerfile: Dockerfile
       no_cache: true
     container_name: homelab-adminer
-    image: ${COMPOSE_PROJECT_NAME}:adminer-${imageMonth}
+    image: ${COMPOSE_PROJECT_INT}:adminer-${imageMonth}
     hostname: adminer-client
     ports:
       - 8080
@@ -176,7 +176,7 @@ services:
       REDIS_PORT: ${REDIS_PORT}
       SMTP_PORT: ${SMTP_PORT}
     container_name: homelab-php5
-    image: ${COMPOSE_PROJECT_NAME}:php-${phpVersion5}-${imageYear}
+    image: ${COMPOSE_PROJECT_INT}:php-${phpVersion5}-${imageYear}
     working_dir: /var/www
     tty: true
     hostname: php5-${COMPOSE_PROJECT_NAME}
@@ -231,7 +231,7 @@ services:
       REDIS_PORT: ${REDIS_PORT}
       SMTP_PORT: ${SMTP_PORT}
     container_name: homelab-php7
-    image: ${COMPOSE_PROJECT_NAME}:php-${phpVersion7}-${imageYear}
+    image: ${COMPOSE_PROJECT_INT}:php-${phpVersion7}-${imageYear}
     working_dir: /var/www
     tty: true
     hostname: php7-${COMPOSE_PROJECT_NAME}
@@ -287,7 +287,7 @@ services:
       REDIS_PORT: ${REDIS_PORT}
       SMTP_PORT: ${SMTP_PORT}
     container_name: homelab-php8
-    image: ${COMPOSE_PROJECT_NAME}:php-${phpVersion8}-${imageMonth}
+    image: ${COMPOSE_PROJECT_INT}:php-${phpVersion8}-${imageMonth}
     working_dir: /var/www
     hostname: php8-${COMPOSE_PROJECT_NAME}
     tty: true
@@ -333,7 +333,7 @@ services:
         uid: ${USER_UID}
     environment:
       COMPOSE_PROJECT_NAME: ${COMPOSE_PROJECT_NAME}
-    image: ${COMPOSE_PROJECT_NAME}:goaccess-${imageMonth}
+    image: ${COMPOSE_PROJECT_INT}:goaccess-${imageMonth}
     container_name: homelab-goaccess
     volumes:
       - goaccessVol:/usr/share/nginx/html:rw
