@@ -57,7 +57,7 @@ function filterObjectsByTag(array $objects, string $tagToFind, string $tagProper
                                                         <i class="bi bi-person-vcard me-3"></i> Author:
                                                     </td>
                                                     <td class="py-1 px-4">
-                                                        <?php echo $item->author->name . " ( " . $item->author->email . " )"; ?>
+                                                        <?php echo $item->author->name; ?>
                                                     </td>
                                                 </tr>
                                                 <tr>
