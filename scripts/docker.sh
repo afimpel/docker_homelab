@@ -127,7 +127,7 @@ docker_up_master () {
   colorize $WHITE "🗑 $LIGHT_RED$(rm -v DOCKER/docker-compose.override.yml)"
   docker_up "$@"
   generate-override
-  docker_up "$@"
+  docker_up
   ln
   generate_version
   CUSTOM_RIGHT $WHITE "docker image prune" $LIGHT_GRAY "360h" $WHITE "✔" "." "✔" 0
