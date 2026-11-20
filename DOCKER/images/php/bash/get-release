@@ -6,14 +6,15 @@ grep '^PRETTY_NAME' /etc/os-release | cut -d '"' -f 2 >> /tmp/php_$(hostname)_re
 uname -a >> /tmp/php_$(hostname)_release.log 2>&1
 echo "______________________________________________" >> /tmp/php_$(hostname)_release.log
 cat /etc/os-release >> /tmp/php_$(hostname)_release.log 2>&1
-echo "______________________________________________" >> /tmp/php_$(hostname)_release.log
-date >> /tmp/php_$(hostname)_release.log
 echo "SOURCE _______________________________________" >> /tmp/php_$(hostname)_release.log
 cat /etc/apt/sources.list >> /tmp/php_$(hostname)_release.log
 cat /etc/apt/sources.list.d/* >> /tmp/php_$(hostname)_release.log
 echo "PHP __________________________________________" >> /tmp/php_$(hostname)_release.log
 php -v >> /tmp/php_$(hostname)_release.log 2>&1
-php -r "print_r(gd_info());" >> /var/log/php/$(hostname)_release.log 2>&1
 php -m >> /var/log/php/$(hostname)_release.log 2>&1
-echo "______________________________________________" >> /tmp/php_$(hostname)_release.log
-date >> /tmp/php_$(hostname)_release.log
+echo "GD: " >> /var/log/php/$(hostname)_release.log 2>&1
+php -r "print_r(gd_info());" >> /var/log/php/$(hostname)_release.log 2>&1
+
+echo "Install Date _________________________________" > /tmp/php_$(hostname)_installDate.log
+date >> /tmp/php_$(hostname)_installDate.log
+echo "______________________________________________" >> /tmp/php_$(hostname)_installDate.log
