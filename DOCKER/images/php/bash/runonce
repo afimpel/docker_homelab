@@ -1,14 +1,14 @@
 #!/bin/bash
-echo "OS ___________________________________________" > /var/log/php/$(hostname)_startup.log
+date > /var/log/php/$(hostname)_startup.log
+echo "OS ___________________________________________" >> /var/log/php/$(hostname)_startup.log
 hostname >> /var/log/php/$(hostname)_startup.log
 grep '^PRETTY_NAME' /etc/os-release | cut -d '"' -f 2 >> /var/log/php/$(hostname)_startup.log 2>&1
 uname -a >> /var/log/php/$(hostname)_startup.log 2>&1
 echo " " >> /var/log/php/$(hostname)_startup.log
-echo "______________________________________________" >> /var/log/php/$(hostname)_startup.log
-date >> /var/log/php/$(hostname)_startup.log
+echo "___ Build ____________________________________" >> /var/log/php/$(hostname)_startup.log
+more /tmp/php_* >> /var/log/php/$(hostname)_startup.log 2>&1
 echo " " >> /var/log/php/$(hostname)_startup.log
-echo "PHP Build ____________________________________" >> /var/log/php/$(hostname)_startup.log
-cat /tmp/php_*_release.log >> /var/log/php/$(hostname)_startup.log 2>&1
+echo "Composer _____________________________________" >> /var/log/php/$(hostname)_startup.log
 composer -V >> /var/log/php/$(hostname)_startup.log 2>&1
 echo " " >> /var/log/php/$(hostname)_startup.log
 echo "ENV __________________________________________" >> /var/log/php/$(hostname)_startup.log
@@ -19,9 +19,14 @@ ip -4 -o addr show scope global | awk '{print $2":", $4}' >> /var/log/php/$(host
 echo " " >> /var/log/php/$(hostname)_startup.log
 echo "______________________________________________" >> /var/log/php/$(hostname)_startup.log
 echo -e "supervisord: $(supervisord -v)" >> /var/log/php/$(hostname)_startup.log
-echo " " >> /var/log/php/$(hostname)_startup.log
-cat /tmp/php_*_installDate.log >> /var/log/php/$(hostname)_startup.log 2>&1
 cat /tmp/php_*_installDate.log > /var/log/php/$(hostname)_installDate.log 2>&1
 cat /tmp/php_*_release.log > /var/log/php/$(hostname)_release.log 2>&1
-rm -v /tmp/php_*
+echo " " >> /var/log/php/$(hostname)_startup.log
+echo "______________________________________________" >> /var/log/php/$(hostname)_startup.log
+ls -lh /tmp/*.log >> /var/log/php/$(hostname)_startup.log 2>&1
+echo " " >> /var/log/php/$(hostname)_startup.log
+echo "______________________________________________" >> /var/log/php/$(hostname)_startup.log
+date >> /var/log/php/$(hostname)_startup.log
+
+## rm -v /tmp/php_*
 /usr/bin/supervisord -n -c /etc/supervisor/supervisord.conf
